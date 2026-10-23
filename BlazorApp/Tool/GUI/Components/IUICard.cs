@@ -1,0 +1,56 @@
+﻿using BlazorApp.Tool;
+using CommunityToolkit.Diagnostics;
+using System.Diagnostics;
+
+namespace BlazorApp.Tool.GUI.Components;
+
+/// <summary>
+/// A component that represents an empty card and <see cref="IUIElement"/> for the option value.
+/// </summary>
+public interface IUICard : IUIElement
+{
+    /// <summary>
+    /// Gets the <see cref="IUIElement"/> to display in the item.
+    /// </summary>
+    IUIElement UIElement { get; }
+}
+
+[DebuggerDisplay($"Id = {{{nameof(Id)}}}")]
+internal class UICard : UIElementWithChildren, IUICard
+{
+    internal UICard(string? id, IUIElement uiElement)
+        : base(id)
+    {
+        Guard.IsNotNull(uiElement);
+        UIElement = uiElement;
+    }
+
+    public IUIElement UIElement { get; }
+
+    protected override IEnumerable<IUIElement> GetChildren()
+    {
+        yield return UIElement;
+    }
+}
+
+public static partial class GUI
+{
+    /// <summary>
+    /// A component that represents an empty card and <see cref="IUIElement"/> for the option value.
+    /// </summary>
+    /// <param name="uiElement">The UI element to display.</param>
+    public static IUICard Card(IUIElement uiElement)
+    {
+        return Card(null, uiElement);
+    }
+
+    /// <summary>
+    /// A component that represents an empty card and <see cref="IUIElement"/> for the option value.
+    /// </summary>
+    /// <param name="id">An optional unique identifier for this UI element.</param>
+    /// <param name="uiElement">The UI element to display.</param>
+    public static IUICard Card(string? id, IUIElement uiElement)
+    {
+        return new UICard(id, uiElement);
+    }
+}

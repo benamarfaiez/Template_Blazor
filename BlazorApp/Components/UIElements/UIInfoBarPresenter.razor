@@ -1,0 +1,19 @@
+@namespace BlazorApp.Components.UIElements
+@inherits ComponentBase
+
+<InfoBar id="@UIInfoBar.Id"
+         IsVisible="@UIInfoBar.IsVisible"
+         IsEnabled="@UIInfoBar.IsEnabled"
+         HorizontalAlignment="@UIInfoBar.HorizontalAlignment"
+         VerticalAlignment="@UIInfoBar.VerticalAlignment"
+         IsOpened="@UIInfoBar.IsOpened"
+         IsClosable="@UIInfoBar.IsClosable"
+         IsIconVisible="@UIInfoBar.IsIconVisible"
+         Title="@UIInfoBar.Title"
+         Message="@UIInfoBar.Description"
+         ActionButtonText="@UIInfoBar.ActionButtonText"
+         IsActionButtonAccent="@UIInfoBar.IsActionButtonAccent"
+         Severity="@GetSeverity()"
+         Closed="@OnCloseAsync"
+         ActionButtonClicked="@OnActionButtonClickAsync">
+</InfoBar>

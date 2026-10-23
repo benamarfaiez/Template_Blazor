@@ -1,0 +1,14 @@
+@namespace BlazorApp.Components.UIElements
+@inherits ComponentBase
+
+<Card id="@UICard.Id"
+      Class="ui-card-presenter"
+      IsVisible="@UICard.IsVisible"
+      IsEnabled="@UICard.IsEnabled"
+      HorizontalAlignment="@UICard.HorizontalAlignment"
+      VerticalAlignment="@UICard.VerticalAlignment">
+    @if (UICard.UIElement is not null)
+    {
+        <UIElementPresenter UIElement="@UICard.UIElement" />
+    }
+</Card>

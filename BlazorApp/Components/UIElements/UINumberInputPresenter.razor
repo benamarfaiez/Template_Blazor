@@ -1,0 +1,15 @@
+@namespace BlazorApp.Components.UIElements
+@inherits StyledComponentBase
+
+<UITextInputWrapper @ref="_textInputWrapper" UITextInput="@UINumberInput">
+    <TextBox IsVisible="@UINumberInput.IsVisible"
+             IsEnabled="@(UINumberInput.IsEnabled && IsActuallyEnabled)"
+             Text="@UINumberInput.Text"
+             IsReadOnly="@UINumberInput.IsReadOnly"
+             TextChanged="@OnTextChanged"
+             Type="TextBoxTypes.Number"
+             Min="@UINumberInput.Min"
+             Max="@UINumberInput.Max"
+             Step="@UINumberInput.Step"
+             ParentComponent="_textInputWrapper" />
+</UITextInputWrapper>
