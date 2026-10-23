@@ -31,8 +31,6 @@ public partial class UIDiffTextInputPresenter : JSStyledComponentBase
 
         UIDiffTextInput.TextChanged += UIMultiLineTextInput_TextChanged;
         UIDiffTextInput.ModifiedTextChanged += UIDiffTextInput_RightTextChanged;
-        UIDiffTextInput.IsReadOnlyChanged += UIMultiLineTextInput_IsReadOnlyChanged;
-        UIDiffTextInput.InlineModeChanged += UIDiffTextInput_InlineModeChanged;
         UIDiffTextInput.IsVisibleChanged += UIDiffTextInput_IsVisibleChanged;
     }
 
@@ -40,8 +38,6 @@ public partial class UIDiffTextInputPresenter : JSStyledComponentBase
     {
         UIDiffTextInput.TextChanged -= UIMultiLineTextInput_TextChanged;
         UIDiffTextInput.ModifiedTextChanged -= UIDiffTextInput_RightTextChanged;
-        UIDiffTextInput.IsReadOnlyChanged -= UIMultiLineTextInput_IsReadOnlyChanged;
-        UIDiffTextInput.InlineModeChanged -= UIDiffTextInput_InlineModeChanged;
         UIDiffTextInput.IsVisibleChanged -= UIDiffTextInput_IsVisibleChanged;
         return base.DisposeAsync();
     }
@@ -55,32 +51,6 @@ public partial class UIDiffTextInputPresenter : JSStyledComponentBase
     {
         Guard.IsNotNull(_monacoEditor.ModifiedEditor);
         await _monacoEditor.ModifiedEditor.SetValueAsync(UIDiffTextInput.ModifiedText);
-    }
-
-    private async void UIMultiLineTextInput_IsReadOnlyChanged(object? sender, EventArgs e)
-    {
-        Guard.IsNotNull(_monacoEditor.ModifiedEditor);
-        await _monacoEditor.UpdateOptionsAsync(
-            new DiffEditorOptions
-            {
-                ReadOnly = UIDiffTextInput.IsReadOnly,
-                OriginalEditable = !UIDiffTextInput.IsReadOnly
-            });
-        await _monacoEditor.ModifiedEditor.UpdateOptionsAsync(
-            new EditorUpdateOptions
-            {
-                ReadOnly = UIDiffTextInput.IsReadOnly
-            });
-    }
-
-    private async void UIDiffTextInput_InlineModeChanged(object? sender, EventArgs e)
-    {
-        await _monacoEditor.UpdateOptionsAsync(
-            new DiffEditorOptions
-            {
-                EnableSplitViewResizing = !UIDiffTextInput.InlineMode,
-                RenderSideBySide = !UIDiffTextInput.InlineMode
-            });
     }
 
     private void UIDiffTextInput_IsVisibleChanged(object? sender, EventArgs e)

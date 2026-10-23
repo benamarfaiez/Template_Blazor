@@ -1,7 +1,7 @@
 ﻿using BlazorApp.Tool.GUI;
 using BlazorApp.Tool.GUI.Components;
 using BlazorApp.Tool.Metadata.Metadata;
-using CommunityToolkit.Diagnostics;
+
 using CommunityToolkit.Mvvm.ComponentModel;
 using System.Diagnostics;
 using System.Reflection;
@@ -144,8 +144,12 @@ public sealed partial class GuiToolInstance : ObservableObject, IDisposable
                     exception = ex;
                     LogGetToolViewFailed(ex, InternalComponentName);
                 }
+                var errorLabel = new UILabel("unable-load-tool-view")
+                {
+                    Text = $"Failed to load '{InternalComponentName}'. {exception?.Message}"
+                };
 
-                return new UIToolView(GUI.Label("unable-load-tool-view", $"Failed to load '{InternalComponentName}'. " + exception?.Message));
+                return new UIToolView(errorLabel);
             });
     }
 

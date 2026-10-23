@@ -1,4 +1,5 @@
 @namespace BlazorApp.Components.UIElements
+@using BlazorApp.Tool.GUI.Components
 @inherits ComponentBase
 
 @if (UIElement is not null)
@@ -27,14 +28,6 @@
 
         case IUIButton button:
             <UIButtonPresenter UIButton="@button" />
-            break;
-
-        case IUISettingGroup settingGroup:
-            <UISettingGroupPresenter UISettingGroup="@settingGroup" />
-            break;
-
-        case IUISetting setting:
-            <UISettingPresenter UISetting="@setting" />
             break;
 
         case IUISwitch @switch:

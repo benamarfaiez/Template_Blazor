@@ -19,22 +19,6 @@ namespace BlazorApp.Tool;
 [Export(typeof(GuiToolProvider))]
 public sealed partial class GuiToolProvider
 {
-    public static readonly GuiToolViewItem NoResultFoundItem
-        = new(
-            new GuiToolInstance(
-                new Lazy<IGuiTool, GuiToolMetadata>(
-                    GuiToolMetadata.Create(
-                        internalComponentName: "NoSearchResults",
-                        iconFontName: "FluentSystemIcons",
-                        iconGlyph: "\uF3E9",
-                        groupName: "N/A",
-                        shortDisplayTitleResourceName: "N/A",
-                        longDisplayTitleResourceName: nameof(MainWindow.SearchNoResultsFound),
-                        resourceManagerAssemblyIdentifier: nameof(DevToysLocalizationResourceManagerAssemblyIdentifier),
-                        resourceManagerBaseName: "DevToys.Localization.Strings.MainWindow.MainWindow")),
-                typeof(DevToysLocalizationResourceManagerAssemblyIdentifier).Assembly),
-            showLongDisplayTitle: true);
-
     private static readonly char[] WordSeparator = new char[] { ' ', '\t' };
 
     private readonly ILogger _logger;
@@ -184,9 +168,6 @@ public sealed partial class GuiToolProvider
     /// </summary>
     public void SetToolIsFavorite(GuiToolInstance guiToolInstance, bool isFavorite)
     {
-        SettingDefinition<bool> isFavoriteSettingDefinition = CreateIsToolFavoriteSettingDefinition(guiToolInstance);
-        _settingsProvider.SetSetting(isFavoriteSettingDefinition, isFavorite);
-
         // Update the list in the menu.
         if (_headerAndBodyToolViewItems is not null)
         {
@@ -250,16 +231,6 @@ public sealed partial class GuiToolProvider
     }
 
     /// <summary>
-    /// Gets whether the given tool is favorite or not.
-    /// </summary>
-    public bool GetToolIsFavorite(GuiToolInstance guiToolInstance)
-    {
-        Guard.IsNotNull(guiToolInstance);
-        SettingDefinition<bool> isFavoriteSettingDefinition = CreateIsToolFavoriteSettingDefinition(guiToolInstance);
-        return _settingsProvider.GetSetting(isFavoriteSettingDefinition);
-    }
-
-    /// <summary>
     /// Gets all the <see cref="GuiToolViewItem"/> the given <paramref name="guiToolInstance"/> appears in.
     /// </summary>
     public IEnumerable<GuiToolViewItem> GetViewItemFromTool(GuiToolInstance guiToolInstance)
@@ -320,70 +291,6 @@ public sealed partial class GuiToolProvider
                     action(subGuiToolViewItem);
                 }
             }
-        }
-    }
-
-    /// <summary>
-    /// Search the given <paramref name="searchQuery"/> in the list of known tools and update the given <paramref name="searchResultListToUpdate"/>
-    /// to reflect the result.
-    /// </summary>
-    public void SearchTools(string searchQuery, ObservableCollection<GuiToolViewItem> searchResultListToUpdate)
-    {
-        if (string.IsNullOrEmpty(searchQuery))
-        {
-            searchResultListToUpdate.Clear();
-            return;
-        }
-
-        string[] searchQueries = searchQuery.Split(WordSeparator, StringSplitOptions.RemoveEmptyEntries);
-
-        var weightedToolList = new List<(double weight, GuiToolViewItem tool)>();
-        for (int i = 0; i < AllTools.Count; i++)
-        {
-            GuiToolInstance tool = AllTools[i];
-
-            if (!tool.NotSearchable) // do not search tools marked as non-searchable
-            {
-                SearchTool(searchQueries, tool, out TextSpan[] matchedSpans, out double weight);
-
-                if (weight > 0)
-                {
-                    weightedToolList.Add(
-                        new(
-                            weight,
-                            new GuiToolViewItem(
-                                tool,
-                                showLongDisplayTitle: true,
-                                matchedSpans)));
-                }
-            }
-        }
-
-        searchResultListToUpdate.Clear();
-
-        if (weightedToolList.Count > 0)
-        {
-            // Order by weight.
-            var descOrderedWeightedToolList
-                = weightedToolList.OrderByDescending(i => i.weight)
-                .ToList();
-
-            // Calculate the dynamic threshold.
-            // We will only keep the tools that have a weight of at least 45% of the max weight.
-            double maxWeight = descOrderedWeightedToolList.First().weight;
-            double threshold = maxWeight * 0.45;
-
-            searchResultListToUpdate
-                .AddRange(
-                    descOrderedWeightedToolList
-                        .Take(5) // Take the 5 first items.
-                        .TakeWhile(i => i.weight >= threshold)
-                        .Select(i => i.tool));
-        }
-
-        if (searchResultListToUpdate.Count == 0)
-        {
-            searchResultListToUpdate.Add(NoResultFoundItem);
         }
     }
 
@@ -528,12 +435,6 @@ public sealed partial class GuiToolProvider
             yield return recentToolItem;
         }
 
-        // Favorites.
-        foreach (INotifyPropertyChanged favoriteToolItem in BuildFavoriteToolViewItems())
-        {
-            yield return favoriteToolItem;
-        }
-
         // All other tools
         foreach (INotifyPropertyChanged groupAndChildren in BuildAllToolsTreeViewItems())
         {
@@ -556,26 +457,6 @@ public sealed partial class GuiToolProvider
             // Separator.
             _separatorAfterRecentTools = new SeparatorViewItem();
             yield return _separatorAfterRecentTools;
-        }
-    }
-
-    private IEnumerable<INotifyPropertyChanged> BuildFavoriteToolViewItems()
-    {
-        var favoriteTools = new List<GuiToolViewItem>();
-        for (int i = 0; i < AllTools.Count; i++)
-        {
-            GuiToolInstance tool = AllTools[i];
-            bool isFavorite = GetToolIsFavorite(tool);
-            if (isFavorite)
-            {
-                favoriteTools.Add(new GuiToolViewItem(tool));
-            }
-        }
-
-        if (favoriteTools.Count > 0)
-        {
-            // Create favorite group.
-            yield return CreateFavoriteGroupViewItem(favoriteTools);
         }
     }
 
