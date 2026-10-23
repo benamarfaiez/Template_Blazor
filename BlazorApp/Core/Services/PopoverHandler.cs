@@ -100,7 +100,7 @@ internal sealed class PopoverHandler
                     return;
                 }
 
-                IsConnected = await _runtime.InvokeVoidWithErrorHandlingAsync("devtoys.Popover.connect", Id);
+                IsConnected = await _runtime.InvokeVoidWithErrorHandlingAsync("Popover.connect", Id);
             }
             finally
             {
@@ -118,7 +118,7 @@ internal sealed class PopoverHandler
 
                 if (IsConnected)
                 {
-                    await _runtime.InvokeVoidWithErrorHandlingAsync("devtoys.Popover.disconnect", Id);
+                    await _runtime.InvokeVoidWithErrorHandlingAsync("Popover.disconnect", Id);
                 }
             }
             finally

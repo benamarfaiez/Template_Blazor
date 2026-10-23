@@ -7,6 +7,7 @@ using BlazorApp.Tool.Extensions;
 using BlazorApp.Tool.GUI.Components;
 using BlazorApp.Tool.SmartDetection;
 using BlazorApp.Tool.Threading;
+using CommunityToolkit.Diagnostics;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
@@ -189,14 +190,7 @@ public partial class UITextInputWrapper : MefComponentBase
         string? clipboardString = await _clipboard.GetClipboardTextAsync();
         if (clipboardString is not null)
         {
-            if (_settingsProvider.GetSetting(PredefinedSettings.TextEditorPasteClearsText))
-            {
-                UITextInput.Text(clipboardString);
-            }
-            else
-            {
-                UITextInput.Text(UITextInput.Text + clipboardString);
-            }
+            UITextInput.Text(UITextInput.Text + clipboardString);
         }
 
         await FocusOnTextEditorAsync();
@@ -410,7 +404,7 @@ public partial class UITextInputWrapper : MefComponentBase
 
                         var noToolDetectedMenuItem = new SmartDetectionDropDownListItem
                         {
-                            Text = DevToys.Localization.Strings.UITextInputWrapper.UITextInputWrapper.NoToolSuggested,
+                            Text = "NoToolSuggested",
                             IsEnabled = false
                         };
 
@@ -440,19 +434,19 @@ public partial class UITextInputWrapper : MefComponentBase
             CollapsedDropDownListItems.Add(new DropDownListItem
             {
                 IconGlyph = '\uF2D5',
-                Text = DevToys.Localization.Strings.UITextInputWrapper.UITextInputWrapper.PasteButtonText,
+                Text = "PasteButtonText",
                 OnClick = EventCallback.Factory.Create<DropDownListItem>(this, OnPasteButtonClickAsync)
             });
             CollapsedDropDownListItems.Add(new DropDownListItem
             {
                 IconGlyph = '\uF378',
-                Text = DevToys.Localization.Strings.UITextInputWrapper.UITextInputWrapper.LoadFileButtonText,
+                Text = "LoadFileButtonText",
                 OnClick = EventCallback.Factory.Create<DropDownListItem>(this, OnLoadFileButtonClickAsync)
             });
             CollapsedDropDownListItems.Add(new DropDownListItem
             {
                 IconGlyph = '\uF369',
-                Text = DevToys.Localization.Strings.UITextInputWrapper.UITextInputWrapper.ClearButtonText,
+                Text = "ClearButtonText",
                 OnClick = EventCallback.Factory.Create<DropDownListItem>(this, OnClearButtonClickAsync)
             });
         }
@@ -462,13 +456,13 @@ public partial class UITextInputWrapper : MefComponentBase
             CollapsedDropDownListItems.Add(new DropDownListItem
             {
                 IconGlyph = '\uF67F',
-                Text = DevToys.Localization.Strings.UITextInputWrapper.UITextInputWrapper.SaveAsButtonText,
+                Text = "SaveAsButtonText",
                 OnClick = EventCallback.Factory.Create<DropDownListItem>(this, OnSaveAsButtonClickAsync)
             });
             CollapsedDropDownListItems.Add(new DropDownListItem
             {
                 IconGlyph = '\uF32B',
-                Text = DevToys.Localization.Strings.UITextInputWrapper.UITextInputWrapper.CopyButtonText,
+                Text = "CopyButtonText",
                 OnClick = EventCallback.Factory.Create<DropDownListItem>(this, OnCopyButtonClick)
             });
         }

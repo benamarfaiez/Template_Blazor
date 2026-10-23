@@ -55,15 +55,15 @@
                         <Button @onclick="@OnPasteButtonClickAsync">
                             <StackPanel>
                                 <FontIcon Glyph="@('\uF2D5')" />
-                                <TextBlock Text="@DevToys.Localization.Strings.UITextInputWrapper.UITextInputWrapper.PasteButtonText"
+                                <TextBlock Text="UITextInputWrapper.PasteButtonText"
                                            IsVisible="@(!_isToolBarShrink)" />
                             </StackPanel>
                         </Button>
-                        <Button ToolTip="@DevToys.Localization.Strings.UITextInputWrapper.UITextInputWrapper.LoadFileButtonText"
+                        <Button ToolTip="UITextInputWrapper.LoadFileButtonText"
                                 @onclick="@OnLoadFileButtonClickAsync">
                             <FontIcon Glyph="@('\uF378')" />
                         </Button>
-                        <Button ToolTip="@DevToys.Localization.Strings.UITextInputWrapper.UITextInputWrapper.ClearButtonText"
+                        <Button ToolTip="UITextInputWrapper.ClearButtonText"
                                 @onclick="@OnClearButtonClickAsync">
                             <FontIcon Glyph="@('\uF369')" />
                         </Button>
@@ -76,14 +76,14 @@
     
                     @if (UITextInput.IsReadOnly || UITextInput.CanCopyWhenEditable)
                     {
-                        <Button ToolTip="@DevToys.Localization.Strings.UITextInputWrapper.UITextInputWrapper.SaveAsButtonText"
+                        <Button ToolTip="UITextInputWrapper.SaveAsButtonText"
                                 @onclick="@OnSaveAsButtonClickAsync">
                             <FontIcon Glyph="@('\uF67F')" />
                         </Button>
                         <Button @onclick="@OnCopyButtonClick">
                             <StackPanel>
                                 <FontIcon Glyph="@('\uF32B')" />
-                                <TextBlock Text="@DevToys.Localization.Strings.UITextInputWrapper.UITextInputWrapper.CopyButtonText"
+                                <TextBlock Text="UITextInputWrapper.CopyButtonText"
                                            IsVisible="@(!_isToolBarShrink)" />
                             </StackPanel>
                         </Button>
@@ -91,7 +91,7 @@
                 }
                 else
                 {
-                    <DropDownButton ToolTip="@DevToys.Localization.Strings.UITextInputWrapper.UITextInputWrapper.MoreButtonToolTip"
+                    <DropDownButton ToolTip="UITextInputWrapper.MoreButtonToolTip"
                                     Items="@CollapsedDropDownListItems"
                                     AnchorOrigin="Origin.BottomRight"
                                     TransformOrigin="Origin.TopRight"
@@ -104,7 +104,7 @@
                 {
                     <div class="ui-text-input-wrapper-separator"></div>
                     <Button @ref=_toggleFullScreenButton
-                            ToolTip="@(_isInFullScreenMode ? DevToys.Localization.Strings.UITextInputWrapper.UITextInputWrapper.ShrinkButtonToolTip : DevToys.Localization.Strings.UITextInputWrapper.UITextInputWrapper.ExtendButtonToolTip)"
+                            ToolTip="@(_isInFullScreenMode ? "ShrinkButtonToolTip" : "ExtendButtonToolTip")"
                             @onclick="@OnToggleFullScreenButtonClickAsync">
                         <FontIcon Glyph="@(_isInFullScreenMode ? '\uF165' : '\uF15F')" />
                     </Button>
@@ -113,7 +113,7 @@
                 @if (UITextInput.IsReadOnly)
                 {
                     <div class="ui-text-input-wrapper-separator"></div>
-                    <DropDownButton ToolTip="@DevToys.Localization.Strings.UITextInputWrapper.UITextInputWrapper.SmartDetectionTooltip"
+                    <DropDownButton ToolTip="SmartDetectionTooltip"
                                     Items="@SmartDetectionDropDownItems"
                                     AnchorOrigin="Origin.BottomRight"
                                     TransformOrigin="Origin.TopRight">

@@ -1,4 +1,5 @@
 ﻿using BlazorApp.Tool;
+using CommunityToolkit.Diagnostics;
 using System.Diagnostics;
 
 namespace BlazorApp.Tool.GUI.Components;

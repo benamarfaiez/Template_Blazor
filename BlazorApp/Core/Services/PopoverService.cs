@@ -41,7 +41,7 @@ public sealed class PopoverService : IAsyncDisposable
                 {
                     if (!_isInitialized)
                     {
-                        await _jsRuntime.InvokeVoidWithErrorHandlingAsync("devtoys.Popover.initialize", "main-layout", 0);
+                        await _jsRuntime.InvokeVoidWithErrorHandlingAsync("Popover.initialize", "main-layout", 0);
                         _isInitialized = true;
                     }
                 }

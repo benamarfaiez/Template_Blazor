@@ -25,7 +25,7 @@ public partial class ToggleSwitch : JSStyledComponentBase, IFocusable
 
     public ValueTask<bool> FocusAsync()
     {
-        return JSRuntime.InvokeVoidWithErrorHandlingAsync("devtoys.DOM.setFocus", Element);
+        return JSRuntime.InvokeVoidWithErrorHandlingAsync("DOM.setFocus", Element);
     }
 
     private void OnChange(ChangeEventArgs ev)

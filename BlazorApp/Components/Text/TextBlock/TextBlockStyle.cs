@@ -1,4 +1,6 @@
-﻿namespace BlazorApp.Components.Text.TextBlock;
+﻿using CommunityToolkit.Diagnostics;
+
+namespace BlazorApp.Components.Text.TextBlock;
 
 public sealed class TextBlockAppearance
 {

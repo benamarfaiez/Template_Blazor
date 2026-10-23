@@ -58,7 +58,7 @@ public sealed class GuiToolMetadata : IOrderableMetadata
         Guard.IsNotNullOrWhiteSpace(InternalComponentName);
         Guard.IsNotNullOrWhiteSpace(IconFontName);
         Guard.IsNotNullOrWhiteSpace(ShortDisplayTitleResourceName);
-        if (MenuPlacement != Api.MenuPlacement.Footer)
+        if (MenuPlacement != Tool.MenuPlacement.Footer)
         {
             Guard.IsNotNullOrWhiteSpace(GroupName);
         }

@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using CommunityToolkit.Diagnostics;
+using System.Diagnostics;
 using System.Globalization;
 
 namespace BlazorApp.Tool.GUI.Components;

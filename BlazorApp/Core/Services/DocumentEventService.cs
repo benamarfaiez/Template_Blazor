@@ -27,7 +27,7 @@ public sealed class DocumentEventService : IDisposable
         {
             if (!_isInitialized)
             {
-                await _jsRuntime.InvokeVoidWithErrorHandlingAsync("devtoys.DOM.registerDocumentEventService", _reference);
+                await _jsRuntime.InvokeVoidWithErrorHandlingAsync("DOM.registerDocumentEventService", _reference);
                 _isInitialized = true;
             }
         }
@@ -36,7 +36,7 @@ public sealed class DocumentEventService : IDisposable
 
         if (firstTimeRegistered)
         {
-            await _jsRuntime.InvokeVoidWithErrorHandlingAsync("devtoys.DOM.subscribeDocumentEvent", eventName);
+            await _jsRuntime.InvokeVoidWithErrorHandlingAsync("DOM.subscribeDocumentEvent", eventName);
         }
 
         return eventSubscription;
@@ -67,7 +67,7 @@ public sealed class DocumentEventService : IDisposable
                     _callbackResolver.Remove(listener.EventName);
                     try
                     {
-                        await _jsRuntime.InvokeVoidWithErrorHandlingAsync("devtoys.DOM.unsubscribeDocumentEvent", listener.EventName);
+                        await _jsRuntime.InvokeVoidWithErrorHandlingAsync("DOM.unsubscribeDocumentEvent", listener.EventName);
                     }
                     catch (Exception)
                     {

@@ -41,17 +41,11 @@
             <StackPanel IsVisible="@(IsImageDisplayed)"
                         Wrap="false"
                         Spacing="6">
-                <Button @onclick="@OnViewImageButtonClickAsync">
-                    <StackPanel>
-                        <FontIcon Glyph="@('\uE5F2')" />
-                        <TextBlock Text="@DevToys.Localization.Strings.UIImageViewer.UIImageViewer.ViewButtonText" />
-                    </StackPanel>
-                </Button>
-                <Button ToolTip="@DevToys.Localization.Strings.UIImageViewer.UIImageViewer.CopyButtonTooltip"
+                <Button ToolTip="CopyButtonTooltip"
                         @onclick="@OnCopyImageButtonClickAsync">
                     <FontIcon Glyph="@('\uF32B')" />
                 </Button>
-                <Button ToolTip="@DevToys.Localization.Strings.UIImageViewer.UIImageViewer.SaveAsButtonTooltip"
+                <Button ToolTip="SaveAsButtonTooltip"
                         @onclick="@OnSaveImageAsButtonClickAsync">
                     <FontIcon Glyph="@('\uF67F')" />
                 </Button>

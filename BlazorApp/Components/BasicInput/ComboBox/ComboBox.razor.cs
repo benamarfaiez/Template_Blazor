@@ -33,7 +33,7 @@ public partial class ComboBox<TElement> : SelectBase<TElement> where TElement : 
 
         if (_isOpen && _listBox is not null)
         {
-            await JSRuntime.InvokeVoidWithErrorHandlingAsync("devtoys.DOM.setFocus", _listBox.Value);
+            await JSRuntime.InvokeVoidWithErrorHandlingAsync("DOM.setFocus", _listBox.Value);
         }
     }
 
@@ -85,7 +85,7 @@ public partial class ComboBox<TElement> : SelectBase<TElement> where TElement : 
 
         if (_button?.Element is not null)
         {
-            _ = JSRuntime.InvokeVoidWithErrorHandlingAsync("devtoys.DOM.setFocus", _button.Element.Value);
+            _ = JSRuntime.InvokeVoidWithErrorHandlingAsync("DOM.setFocus", _button.Element.Value);
         }
     }
 

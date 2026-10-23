@@ -70,7 +70,7 @@ public partial class DataGrid<TRow, TCell, TRowDetail> : JSStyledComponentBase, 
 
     public ValueTask<bool> FocusAsync()
     {
-        return JSRuntime.InvokeVoidWithErrorHandlingAsync("devtoys.DOM.setFocus", Element);
+        return JSRuntime.InvokeVoidWithErrorHandlingAsync("DOM.setFocus", Element);
     }
 
     internal void AddColumn(DataGridColumnHeader<TRow, TCell, TRowDetail> dataGridColumnHeader)

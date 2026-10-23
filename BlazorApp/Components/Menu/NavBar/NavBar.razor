@@ -35,8 +35,8 @@
                                 MarginLeft="5"
                                 IsEnabled="@CanGoBack"
                                 IsVisible="@(!WindowService.IsCompactOverlayMode)"
-                                title="@MainWindow.Back"
-                                aria-label="@MainWindow.Back"
+                                title="Back"
+                                aria-label="Back"
                                 @onclick="OnBackButtonClicked">
                             <FontIcon Glyph="@('\uF15B')" />
                         </Button>
@@ -49,8 +49,7 @@
                                 MarginBottom="0"
                                 MarginLeft="0"
                                 IsVisible="@(_sidebarState.IsHidden && !WindowService.IsCompactOverlayMode)"
-                                title="@MainWindow.ToggleNavigation"
-                                aria-label="@MainWindow.ToggleNavigation"
+                                title="ToggleNavigation"
                                 aria-controls="@NavId"
                                 aria-expanded="@_sidebarState.IsCollapsed"
                                 @onclick="OnToggleSidebarClick">
@@ -81,8 +80,8 @@
                         MarginBottom="0"
                         MarginLeft="5"
                         IsVisible="@(!_sidebarState.IsHidden)"
-                        title="@MainWindow.ToggleNavigation"
-                        aria-label="@MainWindow.ToggleNavigation"
+                        title="ToggleNavigation"
+                        aria-label="ToggleNavigation"
                         aria-controls="@NavId"
                         aria-expanded="@_sidebarState.IsCollapsed"
                         @onclick="OnToggleSidebarClick">
@@ -99,8 +98,8 @@
                         MarginBottom="8"
                         MarginLeft="5"
                         IsVisible="@_sidebarState.IsCollapsed"
-                        title="@MainWindow.SearchButtonTootip"
-                        aria-label="@MainWindow.SearchButtonAccessibleName"
+                        title="SearchButtonTootip"
+                        aria-label="SearchButtonAccessibleName"
                         @onclick="OnSearchButtonClick">
                     <FontIcon Glyph="@('\uF68F')" />
                 </Button>

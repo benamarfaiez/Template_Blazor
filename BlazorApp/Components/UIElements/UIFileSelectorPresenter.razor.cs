@@ -2,6 +2,7 @@
 using BlazorApp.Tool;
 using BlazorApp.Tool.Extensions;
 using BlazorApp.Tool.GUI.Components;
+using CommunityToolkit.Diagnostics;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using SixLabors.ImageSharp;
@@ -204,11 +205,11 @@ public partial class UIFileSelectorPresenter : MefComponentBase
         {
             if (UIFileSelector.CanSelectManyFiles)
             {
-                DragDropInstructions = DevToys.Localization.Strings.UIFileSelectorPresenter.UIFileSelectorPresenter.FileSelectorDragDropAnyFiles;
+                DragDropInstructions = "FileSelectorDragDropAnyFiles";
             }
             else
             {
-                DragDropInstructions = DevToys.Localization.Strings.UIFileSelectorPresenter.UIFileSelectorPresenter.FileSelectorDragDropAnyFile;
+                DragDropInstructions = "FileSelectorDragDropAnyFile";
             }
         }
         else if (allowedFileExtensions.Length == 1)
@@ -222,20 +223,13 @@ public partial class UIFileSelectorPresenter : MefComponentBase
             {
                 DragDropInstructions
                     = string.Format(
-                        DevToys.Localization.Strings.UIFileSelectorPresenter.UIFileSelectorPresenter.FileSelectorDragDropAnySpecificFiles,
-                        extensionsString);
-            }
-            else
-            {
-                DragDropInstructions
-                    = string.Format(
-                        DevToys.Localization.Strings.UIFileSelectorPresenter.UIFileSelectorPresenter.FileSelectorDragDropAnySpecificFile,
+                        "FileSelectorDragDropAnySpecificFiles",
                         extensionsString);
             }
 
             HasInvalidFilesSelectedIndication
                     = string.Format(
-                        DevToys.Localization.Strings.UIFileSelectorPresenter.UIFileSelectorPresenter.FileSelectorInvalidSelectedFiles,
+                        "FileSelectorInvalidSelectedFiles",
                         extensionsString);
         }
         else
@@ -249,20 +243,20 @@ public partial class UIFileSelectorPresenter : MefComponentBase
             {
                 DragDropInstructions
                     = string.Format(
-                        DevToys.Localization.Strings.UIFileSelectorPresenter.UIFileSelectorPresenter.FileSelectorDragDropAnySpecificFiles,
+                        "FileSelectorDragDropAnySpecificFiles",
                         extensionsString);
             }
             else
             {
                 DragDropInstructions
                     = string.Format(
-                        DevToys.Localization.Strings.UIFileSelectorPresenter.UIFileSelectorPresenter.FileSelectorDragDropAnySpecificFile,
+                        "FileSelectorDragDropAnySpecificFile",
                         extensionsString);
             }
 
             HasInvalidFilesSelectedIndication
                     = string.Format(
-                        DevToys.Localization.Strings.UIFileSelectorPresenter.UIFileSelectorPresenter.FileSelectorInvalidSelectedFiles,
+                        "FileSelectorInvalidSelectedFiles",
                         extensionsString);
         }
     }
@@ -283,7 +277,7 @@ public partial class UIFileSelectorPresenter : MefComponentBase
         {
             SelectedFilesDescription
                 = string.Format(
-                    DevToys.Localization.Strings.UIFileSelectorPresenter.UIFileSelectorPresenter.FileSelectorMultipleFilesSelected,
+                    "FileSelectorMultipleFilesSelected",
                     UIFileSelector.SelectedFiles.Length);
             HasFilesSelected = true;
         }

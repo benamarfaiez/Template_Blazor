@@ -53,7 +53,7 @@
                 @if (UIDataGrid.IsExtendableToFullScreen)
                 {
                     <Button @ref=_toggleFullScreenButton
-                            ToolTip="@(_isInFullScreenMode ? DevToys.Localization.Strings.UIDataGrid.UIDataGrid.ShrinkButtonToolTip : DevToys.Localization.Strings.UIDataGrid.UIDataGrid.ExtendButtonToolTip)"
+                            ToolTip="@(_isInFullScreenMode ? ShrinkButtonToolTip : ExtendButtonToolTip)"
                             @onclick="@OnToggleFullScreenButtonClickAsync">
                         <FontIcon Glyph="@(_isInFullScreenMode ? '\uF165' : '\uF15F')" />
                     </Button>

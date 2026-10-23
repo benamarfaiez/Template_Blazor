@@ -5,7 +5,7 @@ export function dispose(rootElement) {
     rootElement.removeEventListener("keydown", onKeyDown);
 }
 function onKeyDown(e) {
-    const focusableElements = window.devtoys.DOM.getFocusableElements(e.currentTarget);
+    const focusableElements = window.DOM.getFocusableElements(e.currentTarget);
     if (focusableElements.length > 0) {
         const firstFocusableElement = focusableElements[0];
         const lastFocusableElement = focusableElements[focusableElements.length - 1];

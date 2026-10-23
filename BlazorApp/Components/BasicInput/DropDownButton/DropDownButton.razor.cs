@@ -8,7 +8,8 @@ using Microsoft.AspNetCore.Components.Web;
 
 namespace BlazorApp.Components.BasicInput.DropDownButton;
 
-public partial class DropDownButton<TItem> : StyledComponentBase, IDisposable where TItem : DropDownListItem
+public partial class DropDownButton<TItem> : StyledComponentBase, IDisposable
+    where TItem : DropDownListItem
 {
     private bool _isOpen;
     private ListBox<TItem>? _listBox;
@@ -51,6 +52,8 @@ public partial class DropDownButton<TItem> : StyledComponentBase, IDisposable wh
     [Parameter]
     public ICollection<TItem>? Items { get; set; }
 
+    private TItem? SelectedItem => _listBox?.SelectedItem;
+
     public void Dispose()
     {
         if (Items is INotifyCollectionChanged notifyCollection)
@@ -63,12 +66,9 @@ public partial class DropDownButton<TItem> : StyledComponentBase, IDisposable wh
     {
         await base.OnAfterRenderAsync(firstRender);
 
-        if (firstRender)
+        if (firstRender && Items is INotifyCollectionChanged notifyCollection)
         {
-            if (Items is INotifyCollectionChanged notifyCollection)
-            {
-                notifyCollection.CollectionChanged += OnItemsChanged;
-            }
+            notifyCollection.CollectionChanged += OnItemsChanged;
         }
 
         if (_isOpen && _listBox is not null)
@@ -122,7 +122,9 @@ public partial class DropDownButton<TItem> : StyledComponentBase, IDisposable wh
 
     private void OnDropDowlListItemSelected(int _)
     {
-        if (_listBox is not null && _listBox.SelectedItem is not null && _listBox.SelectedItem.IsEnabled)
+        if (_listBox is not null &&
+            _listBox.SelectedItem is not null &&
+            _listBox.SelectedItem.IsEnabled)
         {
             CloseDropDown(null);
             _listBox.SelectedItem.OnClick.InvokeAsync(_listBox.SelectedItem).Forget();

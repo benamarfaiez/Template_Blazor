@@ -57,7 +57,7 @@ public sealed partial class FontService
         double loadDuration = (DateTime.Now - startTime).TotalMilliseconds;
         startTime = DateTime.Now;
 
-        await _jsRuntime.InvokeVoidWithErrorHandlingAsync("devtoys.DOM.addFontToDocument", allFontCss.ToString());
+        await _jsRuntime.InvokeVoidWithErrorHandlingAsync("DOM.addFontToDocument", allFontCss.ToString());
 
         LogImportThirdPartyFontsAsync(fonts.Length, loadDuration, (DateTime.Now - startTime).TotalMilliseconds);
     }

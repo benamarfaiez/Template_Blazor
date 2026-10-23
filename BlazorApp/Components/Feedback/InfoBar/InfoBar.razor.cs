@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using BlazorApp.Tool.GUI.Components;
+using Microsoft.AspNetCore.Components;
 
 namespace BlazorApp.Components.Feedback.InfoBar;
 

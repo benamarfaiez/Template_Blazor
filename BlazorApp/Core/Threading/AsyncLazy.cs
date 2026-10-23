@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using CommunityToolkit.Diagnostics;
+using System.Diagnostics;
 
 namespace BlazorApp.Tool.Threading;
 

@@ -13,6 +13,6 @@ public partial class ListBox<TElement> : SelectBase<TElement>, IFocusable where 
 
     public ValueTask<bool> FocusAsync()
     {
-        return JSRuntime.InvokeVoidWithErrorHandlingAsync("devtoys.DOM.setFocus", Element);
+        return JSRuntime.InvokeVoidWithErrorHandlingAsync("DOM.setFocus", Element);
     }
 }

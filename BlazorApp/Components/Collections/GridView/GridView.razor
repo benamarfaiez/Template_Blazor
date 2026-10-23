@@ -32,8 +32,6 @@
 
                 @if (ItemsSource is not null)
                 {
-                    Guard.IsNotNull(ItemTemplate);
-
                     foreach (IGrouping<TKey, TElement> group in ItemsSource)
                     {
                         <section class="grid-view-group">

@@ -41,6 +41,6 @@ public partial class Button : JSStyledComponentBase, IFocusable
 
     public ValueTask<bool> FocusAsync()
     {
-        return JSRuntime.InvokeVoidWithErrorHandlingAsync("devtoys.DOM.setFocus", Element);
+        return JSRuntime.InvokeVoidWithErrorHandlingAsync("DOM.setFocus", Element);
     }
 }

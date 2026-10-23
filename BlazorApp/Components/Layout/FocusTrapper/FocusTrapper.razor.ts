@@ -7,7 +7,7 @@ export function dispose(rootElement: HTMLElement): void {
 }
 
 function onKeyDown(e: KeyboardEvent): void {
-    const focusableElements = (window as any).devtoys.DOM.getFocusableElements(e.currentTarget as HTMLElement) as NodeListOf<Element>;
+    const focusableElements = (window as any).DOM.getFocusableElements(e.currentTarget as HTMLElement) as NodeListOf<Element>;
 
     if (focusableElements.length > 0) {
         const firstFocusableElement = focusableElements[0] as HTMLElement;

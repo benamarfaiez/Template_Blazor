@@ -27,7 +27,7 @@
 
         <TextBlock HorizontalAlignment="UIHorizontalAlignment.Center"
                    NoWrap="true"
-                   Text="@DevToys.Localization.Strings.UIFileSelectorPresenter.UIFileSelectorPresenter.Or" />
+                   Text="UIFileSelectorPresenter" />
 
         <StackPanel HorizontalAlignment="UIHorizontalAlignment.Center"
                     Spacing="6"
@@ -35,7 +35,7 @@
             <Button VerticalAlignment="UIVerticalAlignment.Center"
                     Appearance="ButtonAppearance.Hyperlink"
                     @onclick="@OnBrowseFilesButtonClickAsync">
-                <TextBlock Text="@DevToys.Localization.Strings.UIFileSelectorPresenter.UIFileSelectorPresenter.BrowseFiles" />
+                <TextBlock Text="BrowseFiles" />
             </Button>
 
             @if (@UIFileSelector.CanSelectManyFiles)
@@ -45,7 +45,7 @@
                 <Button VerticalAlignment="UIVerticalAlignment.Center"
                         Appearance="ButtonAppearance.Hyperlink"
                         @onclick="@OnBrowseFoldersButtonClickAsync">
-                    <TextBlock Text="@DevToys.Localization.Strings.UIFileSelectorPresenter.UIFileSelectorPresenter.BrowserFolders" />
+                    <TextBlock Text="BrowserFolders" />
                 </Button>
             }
 
@@ -54,7 +54,7 @@
             <Button VerticalAlignment="UIVerticalAlignment.Center"
                     Appearance="ButtonAppearance.Hyperlink"
                     @onclick="@OnPasteButtonClickAsync">
-                <TextBlock Text="@DevToys.Localization.Strings.UIFileSelectorPresenter.UIFileSelectorPresenter.Paste" />
+                <TextBlock Text="Paste" />
             </Button>
         </StackPanel>
 

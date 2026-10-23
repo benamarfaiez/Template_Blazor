@@ -1,4 +1,6 @@
-﻿namespace BlazorApp.Components;
+﻿using CommunityToolkit.Diagnostics;
+
+namespace BlazorApp.Components;
 
 public sealed class InfoBarSeverity
 {

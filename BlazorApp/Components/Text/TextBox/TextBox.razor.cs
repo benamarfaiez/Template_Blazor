@@ -1,10 +1,12 @@
 ﻿using System.Collections.ObjectModel;
 using System.Composition;
+using System.Globalization;
 using BlazorApp.Components.BasicInput.DropDownButton;
 using BlazorApp.Components.Menu.ContextMenu;
 using BlazorApp.Tool;
 using BlazorApp.Tool.Extensions;
 using BlazorApp.Tool.Threading;
+using CommunityToolkit.Diagnostics;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 
@@ -16,27 +18,27 @@ public partial class TextBox : MefComponentBase, IFocusable
         = new()
         {
             IconGlyph = '\uF33A',
-            Text = DevToys.Localization.Strings.TextBox.TextBox.Cut,
+            Text = "Cut",
             KeyboardShortcut = "Ctrl+X"
         };
     private static readonly ContextMenuItem CopyContextMenuItem
         = new()
         {
             IconGlyph = '\uF32B',
-            Text = DevToys.Localization.Strings.TextBox.TextBox.Copy,
+            Text = "Copy",
             KeyboardShortcut = "Ctrl+C"
         };
     private static readonly ContextMenuItem PasteContextMenuItem
         = new()
         {
             IconGlyph = '\uF2D5',
-            Text = DevToys.Localization.Strings.TextBox.TextBox.Paste,
+            Text = "Paste",
             KeyboardShortcut = "Ctrl+V"
         };
     private static readonly ContextMenuItem SelectAllContextMenuItem
         = new()
         {
-            Text = DevToys.Localization.Strings.TextBox.TextBox.SelectAll,
+            Text = "Select All",
             KeyboardShortcut = "Ctrl+A"
         };
 
@@ -99,8 +101,6 @@ public partial class TextBox : MefComponentBase, IFocusable
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        FontFamily = _settingsProvider.GetSetting(PredefinedSettings.TextEditorFont);
-        _settingsProvider.SettingChanged += SettingsProvider_SettingChanged;
     }
 
     protected override void OnParametersSet()
@@ -114,16 +114,11 @@ public partial class TextBox : MefComponentBase, IFocusable
     {
         Guard.IsNotNull(_input);
         Guard.IsNotNull(_input.Element);
-        return JSRuntime.InvokeVoidWithErrorHandlingAsync("devtoys.DOM.setFocus", _input.Element);
+        return JSRuntime.InvokeVoidWithErrorHandlingAsync("DOM.setFocus", _input.Element);
     }
 
     public override async ValueTask DisposeAsync()
     {
-        if (_settingsProvider is not null)
-        {
-            _settingsProvider.SettingChanged -= SettingsProvider_SettingChanged;
-        }
-
         try
         {
             await (await JSModule).InvokeVoidWithErrorHandlingAsync("dispose", Element);

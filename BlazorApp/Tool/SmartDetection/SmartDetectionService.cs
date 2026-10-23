@@ -15,16 +15,13 @@ public sealed partial class SmartDetectionService
 
     [ImportingConstructor]
     public SmartDetectionService(
-        [ImportMany] IEnumerable<Lazy<IDataTypeDetector, DataTypeDetectorMetadata>> dataTypeDetectors,
-        GuiToolProvider guiToolProvider)
+        [ImportMany] IEnumerable<Lazy<IDataTypeDetector, DataTypeDetectorMetadata>> dataTypeDetectors)
     {
         _logger = this.Log();
 
         // Build a hierarchy of detectors based on their indicated base data type name.
         _detectorHierarchy = BuildDetectorNodeHierarchy(dataTypeDetectors);
 
-        // Create a map of data types to tools.
-        _dataTypeToToolInstanceMap = BuildDataTypeToToolInstanceMap(guiToolProvider, dataTypeDetectors);
     }
 
     /// <summary>
@@ -206,13 +203,7 @@ public sealed partial class SmartDetectionService
 
             foreach (KeyValuePair<string, DetectorNode> node in lookup)
             {
-                // Check if the current detector is supported by the current operating system
-                if (!OSHelper.IsOsSupported(node.Value.Detector.Metadata.TargetPlatforms))
-                {
-                    // If not supported, ignore it.
-                    Debug.WriteLine($"Ignoring '{node.Value.Detector.Metadata.DataTypeName}' data type detector as it isn't supported by the current OS.");
-                }
-                else if (string.IsNullOrEmpty(node.Value.Detector.Metadata.DataTypeBaseName))
+                if (string.IsNullOrEmpty(node.Value.Detector.Metadata.DataTypeBaseName))
                 {
                     // If the current detector does not have a base data type name, add it to the result list as a root node
                     result.Add(node.Value);
@@ -241,45 +232,6 @@ public sealed partial class SmartDetectionService
     /// <param name="guiToolProvider">The GUI tool provider.</param>
     /// <param name="detectors">The collection of detectors.</param>
     /// <returns>A dictionary that maps data types to a list of GUI tool instances that accept them.</returns>
-    private Dictionary<string, List<GuiToolInstance>> BuildDataTypeToToolInstanceMap(
-        GuiToolProvider guiToolProvider,
-        IEnumerable<Lazy<IDataTypeDetector, DataTypeDetectorMetadata>> dataTypeDetectors)
-    {
-        // Create a new dictionary with case-insensitive string keys
-        var dataTypeToToolInstanceMap = new Dictionary<string, List<GuiToolInstance>>(StringComparer.OrdinalIgnoreCase);
-
-        // Iterate over all tools provided by the GUI tool provider
-        for (int i = 0; i < guiToolProvider.AllTools.Count; i++)
-        {
-            GuiToolInstance tool = guiToolProvider.AllTools[i];
-
-            // Iterate over all data types accepted by the current tool
-            for (int j = 0; j < tool.AcceptedDataTypeNames.Count; j++)
-            {
-                string dataType = tool.AcceptedDataTypeNames[j];
-
-                if (!string.IsNullOrWhiteSpace(dataType))
-                {
-                    if (dataTypeDetectors.Any(detector => string.Equals(detector.Metadata.DataTypeName, dataType, StringComparison.CurrentCultureIgnoreCase)))
-                    {
-                        if (!dataTypeToToolInstanceMap.TryGetValue(dataType, out List<GuiToolInstance>? toolList))
-                        {
-                            toolList = new();
-                            dataTypeToToolInstanceMap[dataType] = toolList;
-                        }
-
-                        toolList.Add(tool);
-                    }
-                    else
-                    {
-                        LogDataDetectorNotFound(tool.InternalComponentName, dataType);
-                    }
-                }
-            }
-        }
-
-        return dataTypeToToolInstanceMap;
-    }
 
     [LoggerMessage(0, LogLevel.Error, $"Error while running Smart Detection.")]
     partial void LogDetectAsyncError(Exception ex);

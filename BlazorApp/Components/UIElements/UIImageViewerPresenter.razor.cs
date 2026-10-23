@@ -1,6 +1,7 @@
 ﻿using BlazorApp.Tool;
 using BlazorApp.Tool.GUI.Components;
 using BlazorApp.Tool.Threading;
+using CommunityToolkit.Diagnostics;
 using Microsoft.AspNetCore.Components;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Formats.Png;
@@ -61,34 +62,6 @@ public partial class UIImageViewerPresenter : MefComponentBase
     private void UIImageViewer_ImageSourceChanged(object? sender, EventArgs e)
     {
         DisplayImage();
-    }
-
-    private Task OnViewImageButtonClickAsync()
-    {
-        Guard.IsNotNull(UIImageViewer.ImageSource);
-
-        return UIImageViewer.ImageSource.Value.Match(
-            (FileInfo imageFileInfo) =>
-            {
-                OSHelper.OpenFileInShell(imageFileInfo.FullName);
-                return Task.CompletedTask;
-            },
-            async (Image image) =>
-            {
-                string? fileExtension = image.Metadata.DecodedImageFormat?.FileExtensions.FirstOrDefault() ?? "png";
-                FileInfo tempFile = _fileStorage.CreateSelfDestroyingTempFile(fileExtension);
-                await image.SaveAsync(tempFile.FullName);
-                OSHelper.OpenFileInShell(tempFile.FullName);
-            },
-            async (SandboxedFileReader imagePickedFile) =>
-            {
-                FileInfo tempFile = _fileStorage.CreateSelfDestroyingTempFile(Path.GetExtension(imagePickedFile.FileName));
-                using (FileStream tempFileStream = tempFile.OpenWrite())
-                {
-                    await imagePickedFile.CopyFileContentToAsync(tempFileStream, CancellationToken.None);
-                }
-                OSHelper.OpenFileInShell(tempFile.FullName);
-            });
     }
 
     private Task OnCopyImageButtonClickAsync()
@@ -205,7 +178,7 @@ public partial class UIImageViewerPresenter : MefComponentBase
                     (Image image) =>
                     {
                         ImageSourceHtml = GetBase64FromImage(image);
-                        ImageName = Localization.Strings.UIImageViewer.UIImageViewer.UnknownImage;
+                        ImageName = "UnknownImage";
                         IsImageDisplayed = true;
                         return Task.CompletedTask;
                     },

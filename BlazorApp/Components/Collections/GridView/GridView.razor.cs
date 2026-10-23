@@ -70,7 +70,7 @@ public partial class GridView<TKey, TElement> : JSStyledComponentBase, IFocusabl
     public ValueTask<bool> FocusAsync()
     {
         Guard.IsNotNull(_scrollViewer);
-        return JSRuntime.InvokeVoidWithErrorHandlingAsync("devtoys.DOM.setFocus", _scrollViewer.Element);
+        return JSRuntime.InvokeVoidWithErrorHandlingAsync("DOM.setFocus", _scrollViewer.Element);
     }
 
     private Task OnItemClickAsync(TElement item)

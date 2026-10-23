@@ -18,14 +18,16 @@
                    PaddingBottom="@PaddingBottom"
                    IsEnabled="@IsActuallyEnabled"
                    IsVisible="@IsVisible">
-            <div id=@Id
+            <div id="@Id"
                  class="drop-down-list-with-header @(FinalCssClasses)"
                  style="@(Style)"
                  @attributes="AdditionalAttributes">
 
                 @if (!string.IsNullOrWhiteSpace(Header))
                 {
-                    <TextBlock Appearance="TextBlockAppearance.Body" Class="drop-down-list-header" Text="@Header" />
+                    <TextBlock Appearance="TextBlockAppearance.Body"
+                               Class="drop-down-list-header"
+                               Text="@Header" />
                 }
 
                 <Button Class="@($"drop-down-list-button {FinalCssClasses}")"
@@ -36,10 +38,13 @@
                         ToolTip="@ToolTip"
                         @onclick="@ToggleDropDown">
                     @ChildContent
+
                     @if (DisplayArrow)
                     {
                         <div class="arrow-down-icon">
-                            <FontIcon Glyph="@('\uf2a6')" Height="12" Width="12" />
+                            <FontIcon Glyph="@('\uf2a6')"
+                                      Height="12"
+                                      Width="12" />
                         </div>
                     }
 
@@ -55,7 +60,6 @@
                                           @onfocusout="OnEscapeKeyPressed">
                                 <ListBox @ref="_listBox"
                                          Items="Items"
-                                         Context="item"
                                          Role="menu"
                                          OverrideDefaultItemTemplate="true"
                                          Virtualize="true"
@@ -64,18 +68,21 @@
                                          UseNativeScrollBar="true"
                                          Class="context-menu-list-box"
                                          Style="max-height: 400px">
-                                    <ItemTemplate>
+
+                                    <ItemTemplate Context="item">
                                         <li role="menuitem"
-                                            class="@($"context-menu-item {(_listBox!.SelectedItem == item ? "selected" : string.Empty)} {(item.IsEnabled ? string.Empty : "disabled")}")"
+                                            class="@($"context-menu-item {(SelectedItem == item ? "selected" : string.Empty)} {(item.IsEnabled ? string.Empty : "disabled")}")"
                                             aria-disabled="@(item.IsEnabled ? string.Empty : "true")">
                                             <div class="icon-container">
-                                                <FontIcon Glyph="@item.IconGlyph" FontFamily="@item.IconFontFamily" />
+                                                <FontIcon Glyph="@item.IconGlyph"
+                                                          FontFamily="@item.IconFontFamily" />
                                             </div>
                                             <TextBlock Class="text"
                                                        NoWrap="true"
                                                        Text="@item.Text" />
                                         </li>
                                     </ItemTemplate>
+
                                 </ListBox>
                             </FocusTrapper>
                         </CascadingValue>

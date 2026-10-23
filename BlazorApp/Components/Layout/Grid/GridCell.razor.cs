@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Components;
 using System.ComponentModel.DataAnnotations;
 
-namespace BlazorApp.Components.Layout.Grid;
+namespace BlazorApp.Components.Layout;
 
 public partial class GridCell : StyledComponentBase
 {

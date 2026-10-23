@@ -1,4 +1,6 @@
-﻿namespace BlazorApp.Tool;
+﻿using CommunityToolkit.Diagnostics;
+
+namespace BlazorApp.Tool;
 
 /// <summary>
 /// Represents a font definition.
