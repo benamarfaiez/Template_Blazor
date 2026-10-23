@@ -1,5 +1,5 @@
 ﻿using BlazorApp.Tool.Extensions;
-using BlazorApp.Tool.Services;
+using BlazorApp.Core.Services;
 using Microsoft.AspNetCore.Components;
 
 namespace BlazorApp.Components.Layout.Dialog;

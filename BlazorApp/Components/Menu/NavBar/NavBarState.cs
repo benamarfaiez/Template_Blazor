@@ -1,4 +1,7 @@
-﻿namespace BlazorApp.Components.Menu.NavBar;
+﻿using BlazorApp.Tool.Helpers;
+using CommunityToolkit.Diagnostics;
+
+namespace BlazorApp.Components.Menu.NavBar;
 
 internal sealed class NavBarState
 {

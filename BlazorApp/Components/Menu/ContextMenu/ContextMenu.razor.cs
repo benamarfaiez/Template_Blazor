@@ -1,6 +1,6 @@
 ﻿using BlazorApp.Components.Collections.ListBox;
 using BlazorApp.Core.Extensions;
-using BlazorApp.Tool.Services;
+using BlazorApp.Core.Services;
 using BlazorApp.Tool.Threading;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;

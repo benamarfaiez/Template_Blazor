@@ -1,6 +1,6 @@
 ﻿using System.Collections.Specialized;
 using BlazorApp.Tool.Extensions;
-using BlazorApp.Tool.Services;
+using BlazorApp.Core.Services;
 using CommunityToolkit.Diagnostics;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;

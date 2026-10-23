@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Diagnostics;
 using System.Diagnostics;
 
-namespace BlazorApp.Tool.Services;
+namespace BlazorApp.Core.Services;
 
 public sealed class ContextMenuService
 {

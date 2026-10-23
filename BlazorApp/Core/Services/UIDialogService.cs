@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 
-namespace BlazorApp.Tool.Services;
+namespace BlazorApp.Core.Services;
 
 public sealed class UIDialogService
 {

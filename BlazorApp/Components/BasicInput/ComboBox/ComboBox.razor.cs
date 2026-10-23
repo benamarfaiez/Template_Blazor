@@ -1,6 +1,6 @@
 ﻿using BlazorApp.Components.Layout.ScrollViewer;
 using BlazorApp.Tool.Extensions;
-using BlazorApp.Tool.Services;
+using BlazorApp.Core.Services;
 
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;

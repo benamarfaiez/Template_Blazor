@@ -4,7 +4,7 @@ using CommunityToolkit.Diagnostics;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
-namespace BlazorApp.Tool.Services;
+namespace BlazorApp.Core.Services;
 
 public sealed class PopoverService : IAsyncDisposable
 {

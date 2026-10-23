@@ -1,4 +1,5 @@
-﻿using BlazorApp.Tool.Extensions;
+﻿using BlazorApp.Tool;
+using BlazorApp.Tool.Extensions;
 using BlazorApp.Tool.Metadata.Metadata;
 using BlazorApp.Tool.Threading;
 using Microsoft.AspNetCore.Components;
@@ -6,7 +7,7 @@ using Microsoft.JSInterop;
 using System.Composition;
 using System.Text;
 
-namespace BlazorApp.Tool.Services;
+namespace BlazorApp.Core.Services;
 
 public sealed partial class FontService
 {

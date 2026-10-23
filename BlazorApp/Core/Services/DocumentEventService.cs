@@ -3,7 +3,7 @@ using BlazorApp.Tool.Threading;
 using CommunityToolkit.Diagnostics;
 using Microsoft.JSInterop;
 
-namespace BlazorApp.Tool.Services;
+namespace BlazorApp.Core.Services;
 
 public sealed class DocumentEventService : IDisposable
 {

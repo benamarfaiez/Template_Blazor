@@ -1,5 +1,5 @@
 ﻿using System.Text.Json;
-using BlazorApp.Tool.Services;
+using BlazorApp.Core.Services;
 using Microsoft.AspNetCore.Components.Web;
 
 namespace BlazorApp.Components.Collections.DataGrid;

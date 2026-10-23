@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using BlazorApp.Components.Collections.ListBox;
 using BlazorApp.Components.Text.AutoSuggestBox;
+using BlazorApp.Core.Services;
 using BlazorApp.Tool.Extensions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
@@ -140,7 +141,7 @@ public partial class NavBar<TElement, TSearchElement>
     }
 
     [Inject]
-    internal Tool.Services.IWindowService WindowService { get; set; } = default!;
+    internal IWindowService WindowService { get; set; } = default!;
 
     public NavBar()
     {

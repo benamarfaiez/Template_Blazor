@@ -1,4 +1,4 @@
-﻿namespace BlazorApp.Tool.Services;
+﻿namespace BlazorApp.Core.Services;
 
 public interface IWindowService
 {

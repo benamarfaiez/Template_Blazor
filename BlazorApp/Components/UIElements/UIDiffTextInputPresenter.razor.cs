@@ -45,45 +45,6 @@ public partial class UIDiffTextInputPresenter : JSStyledComponentBase
         UIDiffTextInput.IsVisibleChanged -= UIDiffTextInput_IsVisibleChanged;
         return base.DisposeAsync();
     }
-
-    private async Task OnMonacoTextModelInitializationRequestedAsync()
-    {
-        // Get or create the original model
-        TextModel original_model = await MonacoEditorHelper.GetModelAsync(JSRuntime, uri: _originalModelName);
-        original_model
-                ??= await MonacoEditorHelper.CreateModelAsync(
-                    JSRuntime,
-                    UIDiffTextInput.Text,
-                    language: null,
-                    uri: _originalModelName);
-
-        // Get or create the modified model
-        TextModel modified_model = await MonacoEditorHelper.GetModelAsync(JSRuntime, uri: _modifiedModelName);
-        modified_model
-                ??= await MonacoEditorHelper.CreateModelAsync(
-                    JSRuntime,
-                    UIDiffTextInput.ModifiedText,
-                    language: null,
-                    uri: _modifiedModelName);
-
-        // Set the editor model
-        await _monacoEditor.SetModelAsync(new DiffEditorModel
-        {
-            Original = original_model,
-            Modified = modified_model
-        });
-    }
-
-    private async Task OnMonacoEditorInitializedAsync()
-    {
-        Guard.IsNotNull(_monacoEditor.ModifiedEditor);
-        await _monacoEditor.ModifiedEditor.UpdateOptionsAsync(
-            new EditorUpdateOptions
-            {
-                ReadOnly = UIDiffTextInput.IsReadOnly
-            });
-    }
-
     private async void UIMultiLineTextInput_TextChanged(object? sender, EventArgs e)
     {
         Guard.IsNotNull(_monacoEditor.OriginalEditor);

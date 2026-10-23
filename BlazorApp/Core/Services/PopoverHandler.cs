@@ -1,5 +1,4 @@
-﻿
-using BlazorApp.Components;
+﻿using BlazorApp.Components;
 using BlazorApp.Components.Layout.Popover;
 using BlazorApp.Tool.Extensions;
 using BlazorApp.Tool.Threading;
@@ -7,7 +6,7 @@ using CommunityToolkit.Diagnostics;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
-namespace BlazorApp.Tool.Services;
+namespace BlazorApp.Core.Services;
 
 internal sealed class PopoverHandler
 {
