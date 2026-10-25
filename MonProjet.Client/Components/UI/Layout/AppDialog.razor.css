@@ -1,0 +1,20 @@
+.app-dialog-overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+    display: flex; align-items: center; justify-content: center; z-index: 1000;
+}
+.app-dialog {
+    background: #fff; border-radius: 8px; box-shadow: var(--shadow-lg);
+    min-width: 400px; max-width: 90vw; max-height: 90vh; overflow: auto;
+}
+.app-dialog-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: var(--spacing-md) var(--spacing-lg); border-bottom: 1px solid var(--color-border);
+}
+.app-dialog-header h3 { margin: 0; }
+.app-dialog-close {
+    background: none; border: none; cursor: pointer; font-size: 18px; color: var(--color-text-muted);
+    padding: 4px 8px; border-radius: 4px;
+}
+.app-dialog-close:hover { background: var(--color-bg-alt); }
+.app-dialog-body { padding: var(--spacing-lg); }
+.app-dialog-footer { padding: var(--spacing-md) var(--spacing-lg); border-top: 1px solid var(--color-border); }

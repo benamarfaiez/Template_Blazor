@@ -1,0 +1,4 @@
+.app-fullscreen {
+    position: fixed; inset: 0; background: var(--color-bg);
+    z-index: 900; overflow: auto; padding: var(--spacing-lg);
+}

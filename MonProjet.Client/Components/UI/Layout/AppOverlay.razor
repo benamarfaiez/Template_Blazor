@@ -1,0 +1,14 @@
+@inherits AppComponentBase
+
+@if (Visible)
+{
+    <div class="app-overlay" @onclick="() => VisibleChanged.InvokeAsync(false)">
+        <div class="app-overlay-content" @onclick:stopPropagation="true">@ChildContent</div>
+    </div>
+}
+
+@code {
+    [Parameter] public bool Visible { get; set; }
+    [Parameter] public EventCallback<bool> VisibleChanged { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+}

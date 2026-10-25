@@ -1,0 +1,20 @@
+@typeparam TItem
+@inherits AppComponentBase
+
+<ul class="app-listbox">
+    @foreach (var item in (Items ?? Enumerable.Empty<TItem>()))
+    {
+        <li class="app-listbox-item @(Equals(item, SelectedItem) ? "selected" : "")"
+            @onclick="() => Select(item)">
+            @(LabelSelector(item))
+        </li>
+    }
+</ul>
+
+@code {
+    [Parameter] public IEnumerable<TItem>? Items { get; set; }
+    [Parameter] public TItem? SelectedItem { get; set; }
+    [Parameter] public EventCallback<TItem?> SelectedItemChanged { get; set; }
+    [Parameter] public Func<TItem, string> LabelSelector { get; set; } = i => i?.ToString() ?? "";
+    private Task Select(TItem item) => SelectedItemChanged.InvokeAsync(item);
+}

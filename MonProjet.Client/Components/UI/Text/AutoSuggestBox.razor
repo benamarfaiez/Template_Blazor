@@ -1,0 +1,32 @@
+@inherits AppComponentBase
+
+<div class="app-autosuggest">
+    <input type="text" class="app-autosuggest-input" value="@Value"
+           @oninput="OnInput" @onfocus="() => _open = true" @onblur="OnBlur"
+           placeholder="@Placeholder" />
+    @if (_open && Filtered.Count > 0)
+    {
+        <ul class="app-autosuggest-list">
+            @foreach (var s in Filtered)
+            {
+                <li @onmousedown="() => Select(s)">@s</li>
+            }
+        </ul>
+    }
+</div>
+
+@code {
+    [Parameter] public string Value { get; set; } = string.Empty;
+    [Parameter] public EventCallback<string> ValueChanged { get; set; }
+    [Parameter] public string Placeholder { get; set; } = string.Empty;
+    [Parameter] public IEnumerable<string> Suggestions { get; set; } = Enumerable.Empty<string>();
+
+    private bool _open;
+    private List<string> Filtered => string.IsNullOrWhiteSpace(Value)
+        ? Suggestions.Take(10).ToList()
+        : Suggestions.Where(s => s.Contains(Value, StringComparison.OrdinalIgnoreCase)).Take(10).ToList();
+
+    private Task OnInput(ChangeEventArgs e) { _open = true; return ValueChanged.InvokeAsync(e.Value?.ToString() ?? ""); }
+    private Task OnBlur() { _open = false; return Task.CompletedTask; }
+    private async Task Select(string s) { _open = false; await ValueChanged.InvokeAsync(s); }
+}

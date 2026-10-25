@@ -1,0 +1,9 @@
+@inherits AppComponentBase
+
+<span class="@ClassNames("text-block", $"text-block-{Variant.ToString().ToLowerInvariant()}")">@Text</span>
+
+@code {
+    [Parameter] public string Text { get; set; } = string.Empty;
+    [Parameter] public TextVariant Variant { get; set; } = TextVariant.Normal;
+    public enum TextVariant { Normal, Muted, Bold, Small }
+}

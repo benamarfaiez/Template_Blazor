@@ -1,0 +1,30 @@
+@page "/"
+@using MonProjet.Client.Models.Home
+@using MonProjet.Client.View.Home
+@inherits OwningComponentBase
+@implements IHomeView
+@implements IDisposable
+
+<PageTitle>Tableau de bord</PageTitle>
+
+<h1>@Presenter.ViewModel.Title</h1>
+
+<AppStackPanel Orientation="AppStackPanel.StackOrientation.Horizontal" Gap="8">
+    <!-- La recherche met à jour SearchTerm à chaque frappe -->
+    <AppTextBox @bind-Value="SearchTerm" Placeholder="Rechercher un projet..." />
+    <AppButton Text="Rafraîchir" OnClick="RequestRefresh" Loading="Presenter.ViewModel.IsLoading" />
+</AppStackPanel>
+
+@if (Presenter.ViewModel.IsLoading && string.IsNullOrEmpty(SearchTerm))
+{
+    <AppProgressRing Visible="true" />
+}
+else
+{
+    <AppDataGrid TItem="HomeItem" Items="Presenter.ViewModel.Items" Columns="_columns" />
+}
+
+<InfoBar Visible="@(Presenter.ViewModel.ErrorMessage is not null)"
+         Severity="InfoBar.InfoSeverity.Error"
+         Message="@Presenter.ViewModel.ErrorMessage"
+         OnDismiss="() => Presenter.ViewModel.ErrorMessage = null" />

@@ -1,0 +1,18 @@
+@typeparam TItem
+@inherits AppComponentBase
+
+<div class="app-gridview" style="grid-template-columns: repeat(@Columns, 1fr);">
+    @if (Items is not null)
+    {
+        @foreach (var item in Items)
+        {
+            <div class="app-gridview-item">@ItemTemplate(item)</div>
+        }
+    }
+</div>
+
+@code {
+    [Parameter] public IEnumerable<TItem>? Items { get; set; }
+    [Parameter] public RenderFragment<TItem> ItemTemplate { get; set; } = _ => builder => { };
+    [Parameter] public int Columns { get; set; } = 3;
+}

@@ -1,0 +1,27 @@
+﻿@page "/users"
+@using MonProjet.Client.Models.User
+@using MonProjet.Client.View.User
+@inherits OwningComponentBase
+@implements IUserView
+
+<PageTitle>Utilisateurs</PageTitle>
+
+<h1>@Presenter.ViewModel.Title</h1>
+
+<AppStackPanel Orientation="AppStackPanel.StackOrientation.Horizontal" Gap="8">
+    <AppButton Text="Recharger la liste" OnClick="Presenter.LoadUsersAsync" Loading="Presenter.ViewModel.IsLoading" />
+</AppStackPanel>
+
+@if (Presenter.ViewModel.IsLoading)
+{
+    <AppProgressRing Visible="true" />
+}
+else
+{
+    <AppDataGrid TItem="UserDto" Items="Presenter.ViewModel.Users" Columns="_columns" />
+}
+
+<InfoBar Visible="@(Presenter.ViewModel.ErrorMessage is not null)"
+         Severity="InfoBar.InfoSeverity.Error"
+         Message="@Presenter.ViewModel.ErrorMessage"
+         OnDismiss="() => Presenter.ViewModel.ErrorMessage = null" />

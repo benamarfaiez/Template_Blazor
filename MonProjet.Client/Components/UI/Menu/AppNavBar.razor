@@ -1,0 +1,25 @@
+@inherits AppComponentBase
+
+<nav class="app-navbar">
+    <div class="app-navbar-brand">@Brand</div>
+    <ul class="app-navbar-links">
+        @foreach (var link in Links)
+        {
+            <li><NavLink href="@link.Href" Match="NavLinkMatch.Prefix">@link.Label</NavLink></li>
+        }
+    </ul>
+</nav>
+
+@code {
+    [Parameter] public string Brand { get; set; } = "App";
+    [Parameter] public List<NavLinkItem> Links { get; set; } = new()
+    {
+        new() { Href = "/", Label = "Accueil" },
+    };
+
+    public class NavLinkItem
+    {
+        public string Href { get; set; } = "/";
+        public string Label { get; set; } = string.Empty;
+    }
+}

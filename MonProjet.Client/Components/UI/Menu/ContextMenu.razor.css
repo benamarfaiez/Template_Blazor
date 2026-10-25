@@ -1,0 +1,11 @@
+.context-menu-wrapper { position: relative; }
+.context-menu {
+    position: fixed; background: #fff; border: 1px solid var(--color-border);
+    border-radius: var(--radius); box-shadow: var(--shadow-md); padding: 4px; z-index: 1000;
+    display: flex; flex-direction: column; min-width: 160px;
+}
+.context-menu-item {
+    background: none; border: none; text-align: left; padding: 8px 12px;
+    border-radius: 4px; cursor: pointer;
+}
+.context-menu-item:hover { background: var(--color-bg-alt); }

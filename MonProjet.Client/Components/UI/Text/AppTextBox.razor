@@ -1,0 +1,22 @@
+@inherits AppComponentBase
+
+<input type="@InputType"
+       class="@ClassNames("app-textbox", AdditionalAttributes?["class"]?.ToString())"
+       value="@Value"
+       @oninput="OnInput"
+       placeholder="@Placeholder"
+       disabled="@Disabled" />
+
+@code {
+    [Parameter] public string Value { get; set; } = string.Empty;
+    [Parameter] public EventCallback<string> ValueChanged { get; set; }
+    [Parameter] public string Placeholder { get; set; } = string.Empty;
+    [Parameter] public string InputType { get; set; } = "text";
+    [Parameter] public bool Disabled { get; set; }
+
+    private Task OnInput(ChangeEventArgs e)
+    {
+        Value = e.Value?.ToString() ?? string.Empty;
+        return ValueChanged.InvokeAsync(Value);
+    }
+}

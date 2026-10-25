@@ -1,0 +1,41 @@
+@using MonProjet.Client.Components.UI.Collections.Column
+@using MonProjet.Client.Components.UI.Collections.State
+@typeparam TItem
+@inherits AppComponentBase
+
+<thead>
+    <tr>
+        @foreach (var col in Columns)
+        {
+            var sortable = col.Sort.IsSortable;
+            var isSorted = SortState.SortColumnKey == col.SortKey;
+
+            <th class="@ClassNames(col.Options.AlignClass, col.Options.HeaderClass, sortable ? "sortable" : null)"
+                style="@(col.Options.Width is not null ? $"width: {col.Options.Width};" : null)"
+                @onclick="() => HandleSortClick(col)">
+                @col.Header
+                @if (sortable)
+                {
+                    <span class="sort-indicator">
+                        @(isSorted ? (SortState.SortAscending ? "▲" : "▼") : "⇅")
+                    </span>
+                }
+            </th>
+        }
+    </tr>
+</thead>
+
+@code {
+    [Parameter] public List<GridColumn<TItem>> Columns { get; set; } = new();
+    [Parameter] public GridSortState<TItem> SortState { get; set; } = default!;
+    [Parameter] public EventCallback<GridColumn<TItem>> OnSortRequested { get; set; }
+
+    // Méthode privée qui gère le clic et vérifie si la colonne est triable
+    private async Task HandleSortClick(GridColumn<TItem> column)
+    {
+        if (column.Sort.IsSortable)
+        {
+            await OnSortRequested.InvokeAsync(column);
+        }
+    }
+}

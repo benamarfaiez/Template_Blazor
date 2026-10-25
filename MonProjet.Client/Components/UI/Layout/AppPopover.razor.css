@@ -1,0 +1,5 @@
+.app-popover-wrapper { position: relative; display: inline-block; }
+.app-popover {
+    min-width: 200px; background: #fff; border: 1px solid var(--color-border);
+    border-radius: var(--radius); box-shadow: var(--shadow-md); padding: var(--spacing-md);
+}

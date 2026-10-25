@@ -1,0 +1,50 @@
+@using MonProjet.Client.Components.UI.Collections.Column
+@using MonProjet.Client.Components.UI.Collections.State
+@typeparam TItem
+@inherits AppComponentBase
+
+@if (Items is null || !Items.Any())
+{
+    @if (EmptyTemplate is not null)
+    {
+        @EmptyTemplate
+    }
+    else
+    {
+        <p class="app-datagrid-empty">Aucune donnée disponible.</p>
+    }
+}
+else
+{
+    <div class="app-datagrid-wrapper">
+        <table class="app-datagrid">
+            
+            <AppDataGridHeader TItem="TItem" 
+                               Columns="Columns" 
+                               SortState="_sortState" 
+                               OnSortRequested="HandleSortRequested" />
+
+            <AppDataGridBody TItem="TItem" 
+                             Items="SortedItems" 
+                             Columns="Columns" />
+                             
+        </table>
+    </div>
+}
+
+@code {
+    [Parameter] public IEnumerable<TItem>? Items { get; set; }
+    [Parameter] public List<GridColumn<TItem>> Columns { get; set; } = new();
+    [Parameter] public RenderFragment? EmptyTemplate { get; set; }
+
+    // Le composant possède l'état, mais délègue la logique algorithmique à GridSortState
+    private readonly GridSortState<TItem> _sortState = new();
+
+    private IEnumerable<TItem> SortedItems => _sortState.Apply(Items ?? Enumerable.Empty<TItem>(), Columns);
+
+    private void HandleSortRequested(GridColumn<TItem> column)
+    {
+        _sortState.ToggleSort(column);
+        StateHasChanged();
+    }
+}

@@ -1,0 +1,45 @@
+@inherits AppComponentBase
+@implements IAsyncDisposable
+
+<div class="app-monaco-editor" @ref="_container"></div>
+
+@code {
+    [Parameter] public string Value { get; set; } = string.Empty;
+    [Parameter] public EventCallback<string> ValueChanged { get; set; }
+    [Parameter] public string Language { get; set; } = "csharp";
+    [Parameter] public string Height { get; set; } = "400px";
+
+    private ElementReference _container;
+    private IJSObjectReference? _module;
+    private DotNetObjectReference<MonacoEditor>? _dotNetRef;
+    private bool _initialized;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _module = await JSRuntime.InvokeAsync<IJSObjectReference>(
+                "import", "./_content/MonProjet.Client/js/monacoEditor.js");
+            _dotNetRef = DotNetObjectReference.Create(this);
+            await _module.InvokeVoidAsync("init", _container, _dotNetRef, Value, Language, Height);
+            _initialized = true;
+        }
+    }
+
+    [JSInvokable]
+    public async Task OnEditorChanged(string newValue)
+    {
+        Value = newValue;
+        await ValueChanged.InvokeAsync(newValue);
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (_initialized && _module is not null)
+        {
+            try { await _module.InvokeVoidAsync("dispose", _container); } catch { }
+            await _module.DisposeAsync();
+        }
+        _dotNetRef?.Dispose();
+    }
+}

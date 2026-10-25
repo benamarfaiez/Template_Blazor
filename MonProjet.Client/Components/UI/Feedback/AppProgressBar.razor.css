@@ -1,0 +1,6 @@
+.app-progressbar { width: 100%; height: 8px; background: var(--color-bg-alt); border-radius: 4px; overflow: hidden; }
+.app-progressbar-fill {
+    height: 100%; background: var(--color-primary); transition: width 0.3s ease;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }

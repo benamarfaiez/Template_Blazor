@@ -1,0 +1,4 @@
+.text-block-normal { color: var(--color-text); }
+.text-block-muted  { color: var(--color-text-muted); }
+.text-block-bold   { font-weight: 600; }
+.text-block-small  { font-size: 12px; }

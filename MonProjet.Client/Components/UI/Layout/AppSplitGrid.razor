@@ -1,0 +1,14 @@
+@inherits AppComponentBase
+
+<div class="app-splitgrid" style="@StyleForGrid()">
+    <div class="app-splitgrid-left">@Left</div>
+    <div class="app-splitgrid-right">@Right</div>
+</div>
+
+@code {
+    [Parameter] public RenderFragment? Left { get; set; }
+    [Parameter] public RenderFragment? Right { get; set; }
+    [Parameter] public string SplitRatio { get; set; } = "1fr 2fr";
+    [Parameter] public string Gap { get; set; } = "16px";
+    private string StyleForGrid() => $"display: grid; grid-template-columns: {SplitRatio}; gap: {Gap};";
+}

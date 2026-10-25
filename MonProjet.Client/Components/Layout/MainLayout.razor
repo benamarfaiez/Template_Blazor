@@ -1,0 +1,35 @@
+@inherits LayoutComponentBase
+
+<div class="layout">
+    <AppNavBar Brand="MonProjet" Links="_navLinks" />
+
+    <main class="layout-content">
+        <ErrorBoundary @ref="_errorBoundary">
+            <ChildContent>@Body</ChildContent>
+            <ErrorContent Context="ex">
+                <AppCard class="error-card">
+                    <h2>Une erreur est survenue</h2>
+                    <p>@ex.Message</p>
+                    <AppButton Text="Réessayer" OnClick="Recover" />
+                </AppCard>
+            </ErrorContent>
+        </ErrorBoundary>
+    </main>
+
+    <footer class="layout-footer">
+        <TextBlock Text="© 2026 MonProjet" Variant="TextBlock.TextVariant.Muted" />
+    </footer>
+</div>
+
+@code {
+    private ErrorBoundary? _errorBoundary;
+    private void Recover() => _errorBoundary?.Recover();
+
+    // Définition des liens de navigation
+    private List<AppNavBar.NavLinkItem> _navLinks = new()
+    {
+        new() { Href = "/", Label = "Tableau de bord" },
+        new() { Href = "/gallery", Label = "Galerie UI" },
+        new() { Href = "/users", Label = "Utilisateurs" }
+    };
+}

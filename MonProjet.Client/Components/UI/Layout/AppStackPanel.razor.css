@@ -1,0 +1,3 @@
+.app-stackpanel { display: flex; }
+.app-stackpanel-vertical   { flex-direction: column; }
+.app-stackpanel-horizontal { flex-direction: row; align-items: center; }

@@ -1,0 +1,240 @@
+﻿@page "/gallery"
+@using MonProjet.Client.Components.UI.Collections
+@using MonProjet.Client.Components.UI.Collections.Column
+@using MonProjet.Client.Components.UI.Collections.Helpers
+@using MonProjet.Client.Models.Gallery
+@using MonProjet.Client.Presenters.Gallery
+@inherits OwningComponentBase
+@implements IGalleryView
+
+<PageTitle>Galerie de Composants</PageTitle>
+
+<h1 style="margin-bottom: 32px;">Galerie de Composants UI</h1>
+
+<AppGrid Columns="2" Gap="24px">
+
+    <!-- SECTION : BASIC INPUT -->
+    <AppCard>
+        <h3>Basic Input</h3>
+        <AppStackPanel Orientation="AppStackPanel.StackOrientation.Vertical" Gap="16">
+            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                <AppButton Text="Primaire" Variant="AppButton.ButtonVariant.Primary" />
+                <AppButton Text="Secondaire" Variant="AppButton.ButtonVariant.Secondary" />
+                <AppButton Text="Danger" Variant="AppButton.ButtonVariant.Danger" />
+                <AppButton Text="Chargement" Loading="true" />
+            </div>
+
+            <AppCheckBox @bind-Value="_isChecked" Label="Case à cocher (CheckBox)" />
+            <AppToggleSwitch @bind-Value="_isToggled" Label="Interrupteur (ToggleSwitch)" />
+
+            <div style="display: flex; gap: 16px;">
+                <AppRadioButton GroupName="demo" Value="1" @bind-CurrentValue="_radioValue" Label="Option 1" />
+                <AppRadioButton GroupName="demo" Value="2" @bind-CurrentValue="_radioValue" Label="Option 2" />
+            </div>
+
+            <AppComboBox TItem="string" Items="Presenter.ViewModel.Suggestions"
+                         @bind-SelectedItem="_selectedCombo" Placeholder="Sélectionnez un langage..." />
+
+            <AppDropDownButton Text="Menu Déroulant">
+                <div style="padding: 8px;">Contenu du menu</div>
+            </AppDropDownButton>
+        </AppStackPanel>
+    </AppCard>
+
+    <!-- SECTION : TEXT -->
+    <AppCard>
+        <h3>Text</h3>
+        <AppStackPanel Orientation="AppStackPanel.StackOrientation.Vertical" Gap="16">
+            <AppTextBox @bind-Value="_textValue" Placeholder="Saisissez du texte..." />
+            <AutoSuggestBox @bind-Value="_suggestValue" Suggestions="Presenter.ViewModel.Suggestions" Placeholder="Auto-suggestion..." />
+
+            <TextBlock Text="Texte normal" Variant="TextBlock.TextVariant.Normal" />
+            <TextBlock Text="Texte discret (Muted)" Variant="TextBlock.TextVariant.Muted" />
+            <TextBlock Text="Texte en gras" Variant="TextBlock.TextVariant.Bold" />
+            <TextBlock Text="Petit texte" Variant="TextBlock.TextVariant.Small" />
+
+            <!-- Monaco Editor (peut prendre un moment à charger depuis le CDN) -->
+            <div style="margin-top: 16px;">
+                <TextBlock Text="Monaco Editor :" Variant="TextBlock.TextVariant.Bold" />
+                <MonacoEditor @bind-Value="_codeValue" Height="150px" Language="csharp" />
+            </div>
+        </AppStackPanel>
+    </AppCard>
+
+    <!-- SECTION : FEEDBACK -->
+    <AppCard>
+        <h3>Feedback</h3>
+        <AppStackPanel Orientation="AppStackPanel.StackOrientation.Vertical" Gap="16">
+            <InfoBar Visible="true" Message="Ceci est une information." Severity="InfoBar.InfoSeverity.Info" />
+            <InfoBar Visible="true" Message="Opération réussie !" Severity="InfoBar.InfoSeverity.Success" />
+            <InfoBar Visible="true" Message="Attention, risque d'erreur." Severity="InfoBar.InfoSeverity.Warning" />
+            <InfoBar Visible="true" Message="Une erreur est survenue." Severity="InfoBar.InfoSeverity.Error" />
+
+            <div style="display: flex; gap: 16px; align-items: center;">
+                <AppProgressRing Visible="true" />
+                <FontIcon Icon="★" Size="24px" />
+                <FontIcon Icon="⚙" Size="24px" />
+                <FontIcon Icon="❤" Size="24px" />
+            </div>
+
+            <AppProgressBar Value="65" />
+            <AppProgressBar Indeterminate="true" />
+        </AppStackPanel>
+    </AppCard>
+
+    <!-- SECTION : LAYOUT & MENU -->
+    <AppCard>
+        <h3>Layout & Menu</h3>
+        <AppStackPanel Orientation="AppStackPanel.StackOrientation.Vertical" Gap="16">
+
+            <AppExpander Header="Cliquez pour déplier (Expander)" OpenOnStart="true">
+                <p>Voici le contenu caché de l'expander.</p>
+            </AppExpander>
+
+            <div style="display: flex; gap: 8px;">
+                <AppButton Text="Ouvrir Dialog" OnClick="() => _showDialog = true" />
+                <AppButton Text="Ouvrir Overlay" OnClick="() => _showOverlay = true" Variant="AppButton.ButtonVariant.Secondary" />
+                <AppButton Text="Ouvrir FullScreen" OnClick="() => _showFullScreen = true" Variant="AppButton.ButtonVariant.Ghost" />
+            </div>
+
+            <AppPopover Position="bottom">
+                <Anchor>
+                    <AppButton Text="Survolez-moi (Popover)" Variant="AppButton.ButtonVariant.Secondary" />
+                </Anchor>
+                <Content>
+                    <p style="margin: 0;">Contenu du popover !</p>
+                </Content>
+            </AppPopover>
+
+            <ContextMenu Items="_contextMenuItems">
+                <div style="padding: 16px; border: 2px dashed var(--color-border); text-align: center; color: var(--color-text-muted);">
+                    Clic droit ici (ContextMenu)
+                </div>
+            </ContextMenu>
+
+            <AppScrollViewer MaxHeight="100px" Direction="AppScrollViewer.ScrollDirection.Vertical">
+                <div style="height: 300px; background: linear-gradient(to bottom, #f1f5f9, #e2e8f0);">
+                    Contenu long pour tester le défilement (ScrollViewer).
+                </div>
+            </AppScrollViewer>
+        </AppStackPanel>
+    </AppCard>
+
+    <!-- SECTION : COLLECTIONS (Pleine largeur) -->
+    <div style="grid-column: span 2;">
+        <AppCard>
+            <h3>Collections</h3>
+            <AppGrid Columns="2" Gap="24px">
+
+                <AppStackPanel Orientation="AppStackPanel.StackOrientation.Vertical" Gap="8">
+                    <TextBlock Text="ListBox" Variant="TextBlock.TextVariant.Bold" />
+                    <AppListBox TItem="string" Items="Presenter.ViewModel.Suggestions" @bind-SelectedItem="_listBoxValue" />
+                </AppStackPanel>
+
+                <AppStackPanel Orientation="AppStackPanel.StackOrientation.Vertical" Gap="8">
+                    <TextBlock Text="GridView" Variant="TextBlock.TextVariant.Bold" />
+                    <AppGridView TItem="string" Items="Presenter.ViewModel.Suggestions" Columns="2">
+                        <ItemTemplate Context="item">
+                            <span style="font-weight: 500;">@item</span>
+                        </ItemTemplate>
+                    </AppGridView>
+                </AppStackPanel>
+
+            </AppGrid>
+
+            <div style="margin-top: 24px;">
+                <TextBlock Text="DataGrid" Variant="TextBlock.TextVariant.Bold" />
+                <AppDataGrid TItem="DemoItem" Items="Presenter.ViewModel.Items" Columns="_dataGridColumns" />
+            </div>
+        </AppCard>
+    </div>
+
+</AppGrid>
+
+<!-- MODALES ET OVERLAYS -->
+<AppDialog @bind-Visible="_showDialog" Title="Boîte de dialogue (Dialog)">
+    <ChildContent>
+        <p>Ceci est une boîte de dialogue native avec focus trap.</p>
+        <AppTextBox @bind-Value="_dialogInput" Placeholder="Tapez quelque chose..." />
+    </ChildContent>
+    <Footer>
+        <div style="display: flex; justify-content: flex-end; gap: 8px;">
+            <AppButton Text="Annuler" Variant="AppButton.ButtonVariant.Secondary" OnClick="() => _showDialog = false" />
+            <AppButton Text="Confirmer" OnClick="() => _showDialog = false" />
+        </div>
+    </Footer>
+</AppDialog>
+
+<AppOverlay @bind-Visible="_showOverlay">
+    <h3>Overlay (Clic à l'extérieur pour fermer)</h3>
+    <p>Contenu superposé.</p>
+</AppOverlay>
+
+@if (_showFullScreen)
+{
+    <AppFullScreenContainer>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 24px;">
+            <h2>Mode Plein Écran</h2>
+            <AppButton Text="Fermer" Variant="AppButton.ButtonVariant.Danger" OnClick="() => _showFullScreen = false" />
+        </div>
+        <p>Ce contenu prend tout l'écran.</p>
+    </AppFullScreenContainer>
+}
+
+@code {
+    private IGalleryPresenter Presenter => ScopedServices.GetRequiredService<IGalleryPresenter>();
+
+    // États pour les composants interactifs
+    private bool _isChecked = true;
+    private bool _isToggled = false;
+    private string _radioValue = "1";
+    private string? _selectedCombo;
+    private string _textValue = "";
+    private string _suggestValue = "";
+    private string _codeValue = "public class Hello { }";
+    private string? _listBoxValue;
+    private string _dialogInput = "";
+
+    // États pour les fenêtres modales
+    private bool _showDialog = false;
+    private bool _showOverlay = false;
+    private bool _showFullScreen = false;
+
+    // Configuration du ContextMenu
+    private List<ContextMenu.ContextMenuItem> _contextMenuItems = new()
+    {
+        new() { Label = "Option 1 (Fictive)" },
+        new() { Label = "Option 2 (Fictive)" }
+    };
+
+    // Configuration du DataGrid
+    private readonly List<GridColumn<DemoItem>> _dataGridColumns;
+
+    public GalleryView()
+    {
+        _dataGridColumns = new List<GridColumn<DemoItem>>
+        {
+            GridColumn.Text<DemoItem>("ID", i => i.Id, comparer: (a,b) => a.Id.CompareTo(b.Id)),
+            GridColumn.Text<DemoItem>("Nom", i => i.Name),
+            GridColumn.Template<DemoItem>("Statut", item => builder =>
+            {
+                var color = item.Status == "Actif" ? "#166534" : "#92400e";
+                var bg = item.Status == "Actif" ? "#dcfce7" : "#fef3c7";
+                builder.OpenElement(0, "span");
+                builder.AddAttribute(1, "style", $"background:{bg}; color:{color}; padding:2px 8px; border-radius:12px; font-size:12px;");
+                builder.AddContent(2, item.Status);
+                builder.CloseElement();
+            }),
+            GridColumn.Text<DemoItem>("Quantité", i => i.Count, formatter: raw => $"{raw} unités")
+        };
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Presenter.SetView(this);
+        await Presenter.InitializeAsync();
+    }
+
+    public void ShowError(string message) => StateHasChanged();
+    public void ShowLoading(bool isLoading) => StateHasChanged();
+}

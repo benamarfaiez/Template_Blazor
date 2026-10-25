@@ -1,0 +1,33 @@
+@inherits AppComponentBase
+
+<div class="context-menu-wrapper" @oncontextmenu="ShowMenu" @oncontextmenu:preventDefault="true">
+    @ChildContent
+    @if (_open)
+    {
+        <div class="context-menu" style="left: @(_x)px; top: @(_y)px;" @onclick="Close">
+            @foreach (var item in Items)
+            {
+                <button class="context-menu-item" @onclick="() => item.OnClick.InvokeAsync()">
+                    @item.Label
+                </button>
+            }
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public List<ContextMenuItem> Items { get; set; } = new();
+
+    private bool _open;
+    private double _x, _y;
+
+    private void ShowMenu(MouseEventArgs e) { _x = e.ClientX; _y = e.ClientY; _open = true; }
+    private void Close() => _open = false;
+
+    public class ContextMenuItem
+    {
+        public string Label { get; set; } = string.Empty;
+        public EventCallback OnClick { get; set; }
+    }
+}

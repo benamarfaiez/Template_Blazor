@@ -1,0 +1,18 @@
+@inherits AppComponentBase
+
+<div class="app-expander">
+    <button class="app-expander-header" @onclick="Toggle">
+        <span>@Header</span>
+        <span class="app-expander-icon">@(_open ? "âˆ’" : "+")</span>
+    </button>
+    @if (_open) { <div class="app-expander-body">@ChildContent</div> }
+</div>
+
+@code {
+    [Parameter] public string Header { get; set; } = string.Empty;
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public bool OpenOnStart { get; set; }
+    private bool _open;
+    protected override void OnInitialized() => _open = OpenOnStart;
+    private void Toggle() => _open = !_open;
+}

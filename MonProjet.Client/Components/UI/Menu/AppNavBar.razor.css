@@ -1,0 +1,10 @@
+.app-navbar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px 24px; background: #fff; border-bottom: 1px solid var(--color-border);
+    box-shadow: var(--shadow-sm);
+}
+.app-navbar-brand { font-weight: 700; font-size: 1.15rem; color: var(--color-primary); }
+.app-navbar-links { list-style: none; display: flex; gap: 16px; margin: 0; padding: 0; }
+.app-navbar-links a { color: var(--color-text); padding: 6px 10px; border-radius: var(--radius); }
+.app-navbar-links a:hover { background: var(--color-bg-alt); text-decoration: none; }
+.app-navbar-links a.active { color: var(--color-primary); font-weight: 600; }

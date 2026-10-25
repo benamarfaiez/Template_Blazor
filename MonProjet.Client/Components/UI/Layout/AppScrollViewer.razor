@@ -1,0 +1,18 @@
+@inherits AppComponentBase
+
+<div class="app-scrollviewer" style="@($"max-height: {MaxHeight}; {DirectionStyle()}")">@ChildContent</div>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string MaxHeight { get; set; } = "400px";
+    [Parameter] public ScrollDirection Direction { get; set; } = ScrollDirection.Vertical;
+
+    public enum ScrollDirection { Vertical, Horizontal, Both }
+
+    private string DirectionStyle() => Direction switch
+    {
+        ScrollDirection.Horizontal => "overflow-x: auto; overflow-y: hidden;",
+        ScrollDirection.Both       => "overflow: auto;",
+        _                          => "overflow-y: auto; overflow-x: hidden;"
+    };
+}

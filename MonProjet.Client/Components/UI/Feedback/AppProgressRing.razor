@@ -1,0 +1,10 @@
+@inherits AppComponentBase
+
+@if (Visible)
+{
+    <div class="app-progressring"></div>
+}
+
+@code {
+    [Parameter] public bool Visible { get; set; }
+}

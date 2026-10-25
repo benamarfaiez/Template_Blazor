@@ -1,0 +1,57 @@
+.app-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: 1px solid transparent;
+    font-weight: 500;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    line-height: 1.25;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); /* Légère ombre */
+}
+
+    .app-button:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        box-shadow: none;
+    }
+
+.app-button-primary {
+    background-color: var(--color-primary);
+    color: #ffffff;
+}
+
+    .app-button-primary:hover:not(:disabled) {
+        background-color: var(--color-primary-hover);
+        box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2);
+    }
+
+.app-button-spinner {
+    width: 14px;
+    height: 14px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top-color: #ffffff;
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.app-button-secondary { background: #fff; color: var(--color-text); border-color: var(--color-border); }
+.app-button-secondary:hover:not(:disabled) { background: var(--color-bg-alt); }
+.app-button-danger { background: var(--color-danger); color: #fff; }
+.app-button-danger:hover:not(:disabled) { background: #b91c1c; }
+.app-button-ghost { background: transparent; color: var(--color-text); }
+.app-button-ghost:hover:not(:disabled) { background: var(--color-bg-alt); }
+.app-button-spinner {
+    width: 14px; height: 14px; border: 2px solid rgba(255,255,255,0.3);
+    border-top-color: currentColor; border-radius: 50%; animation: spin 0.6s linear infinite;
+}

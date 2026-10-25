@@ -1,0 +1,11 @@
+@inherits AppComponentBase
+
+<div class="@ClassNames("app-container", $"app-container-{MaxWidth.ToString().ToLowerInvariant()}")">
+    @ChildContent
+</div>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public MaxWidthOption MaxWidth { get; set; } = MaxWidthOption.Large;
+    public enum MaxWidthOption { Small, Medium, Large, Full }
+}

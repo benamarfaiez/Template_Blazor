@@ -1,0 +1,2 @@
+.app-splitgrid { width: 100%; }
+.app-splitgrid-left, .app-splitgrid-right { min-width: 0; overflow: auto; }

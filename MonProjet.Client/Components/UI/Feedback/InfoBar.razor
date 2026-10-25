@@ -1,0 +1,27 @@
+@inherits AppComponentBase
+
+@if (Visible)
+{
+    <div class="infobar infobar-@Severity.ToString().ToLowerInvariant()">
+        <span>@Message</span>
+        @if (OnDismiss.HasDelegate)
+        {
+            <button class="infobar-dismiss" @onclick="Dismiss">âœ•</button>
+        }
+    </div>
+}
+
+@code {
+    [Parameter] public bool Visible { get; set; }
+    [Parameter] public string Message { get; set; } = string.Empty;
+    [Parameter] public InfoSeverity Severity { get; set; } = InfoSeverity.Info;
+    [Parameter] public EventCallback OnDismiss { get; set; }
+
+    private async Task Dismiss()
+    {
+        Visible = false;
+        await OnDismiss.InvokeAsync();
+    }
+
+    public enum InfoSeverity { Info, Success, Warning, Error }
+}

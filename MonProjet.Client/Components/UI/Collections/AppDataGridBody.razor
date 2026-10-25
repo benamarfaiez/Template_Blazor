@@ -1,0 +1,22 @@
+﻿@using MonProjet.Client.Components.UI.Collections.Column
+@typeparam TItem
+@inherits AppComponentBase
+
+<tbody>
+    @foreach (var item in Items)
+    {
+        <tr>
+            @foreach (var col in Columns)
+            {
+                <td class="@ClassNames(col.Options.AlignClass, col.Options.CellClass)">
+                    @col.Content.Render(item)
+                </td>
+            }
+        </tr>
+    }
+</tbody>
+
+@code {
+    [Parameter] public IEnumerable<TItem> Items { get; set; } = Enumerable.Empty<TItem>();
+    [Parameter] public List<GridColumn<TItem>> Columns { get; set; } = new();
+}

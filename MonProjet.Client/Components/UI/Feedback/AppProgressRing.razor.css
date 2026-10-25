@@ -1,0 +1,6 @@
+.app-progressring {
+    width: 32px; height: 32px; border: 3px solid var(--color-bg-alt);
+    border-top-color: var(--color-primary); border-radius: 50%;
+    animation: spin 0.8s linear infinite; margin: var(--spacing-md) auto;
+}
+@keyframes spin { to { transform: rotate(360deg); } }

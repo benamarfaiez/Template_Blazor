@@ -1,0 +1,8 @@
+@inherits AppComponentBase
+
+<span class="fonticon" style="font-size: @Size;">@Icon</span>
+
+@code {
+    [Parameter] public string Icon { get; set; } = string.Empty;
+    [Parameter] public string Size { get; set; } = "1em";
+}

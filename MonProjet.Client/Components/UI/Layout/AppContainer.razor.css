@@ -1,0 +1,5 @@
+.app-container { margin: 0 auto; padding: 0 var(--spacing-md); }
+.app-container-small  { max-width: 640px; }
+.app-container-medium { max-width: 960px; }
+.app-container-large  { max-width: 1200px; }
+.app-container-full   { max-width: 100%; }

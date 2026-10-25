@@ -1,0 +1,16 @@
+@inherits AppComponentBase
+
+<div class="app-dropdown">
+    <AppButton Text="@Text" OnClick="Toggle" />
+    @if (_open)
+    {
+        <div class="app-dropdown-menu">@ChildContent</div>
+    }
+</div>
+
+@code {
+    [Parameter] public string Text { get; set; } = string.Empty;
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    private bool _open;
+    private void Toggle() => _open = !_open;
+}

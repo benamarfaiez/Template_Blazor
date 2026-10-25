@@ -1,0 +1,10 @@
+.infobar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px 16px; border-radius: var(--radius); margin: var(--spacing-md) 0;
+    border-left: 4px solid;
+}
+.infobar-info    { background: #eff6ff; border-left-color: #3b82f6; color: #1e40af; }
+.infobar-success { background: #f0fdf4; border-left-color: #22c55e; color: #166534; }
+.infobar-warning { background: #fffbeb; border-left-color: #f59e0b; color: #92400e; }
+.infobar-error   { background: #fef2f2; border-left-color: #ef4444; color: #991b1b; }
+.infobar-dismiss { background: none; border: none; cursor: pointer; font-size: 16px; color: inherit; }
