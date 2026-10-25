@@ -19,7 +19,7 @@
         if (firstRender)
         {
             _module = await JSRuntime.InvokeAsync<IJSObjectReference>(
-                "import", "./_content/MonProjet.Client/js/monacoEditor.js");
+                "import", "./js/monacoEditor.js");
             _dotNetRef = DotNetObjectReference.Create(this);
             await _module.InvokeVoidAsync("init", _container, _dotNetRef, Value, Language, Height);
             _initialized = true;

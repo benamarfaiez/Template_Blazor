@@ -15,7 +15,7 @@
         if (firstRender && Active)
         {
             _module = await JSRuntime.InvokeAsync<IJSObjectReference>(
-                "import", "./_content/MonProjet.Client/js/focusTrap.js");
+                "import", "./js/focusTrap.js");
             await _module.InvokeVoidAsync("trap", _container);
         }
     }

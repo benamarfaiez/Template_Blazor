@@ -35,7 +35,7 @@
         if (Visible && !_focusTrapActive)
         {
             _module ??= await JSRuntime.InvokeAsync<IJSObjectReference>(
-                "import", "./_content/MonProjet.Client/js/focusTrap.js");
+                "import", "./js/focusTrap.js");
             await _module.InvokeVoidAsync("trap", _dialogRef);
             _focusTrapActive = true;
         }
