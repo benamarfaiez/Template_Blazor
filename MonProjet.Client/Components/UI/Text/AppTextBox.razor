@@ -1,11 +1,19 @@
 @inherits AppComponentBase
 
-<input type="@InputType"
-       class="@ClassNames("app-textbox", AdditionalAttributes?["class"]?.ToString())"
-       value="@Value"
-       @oninput="OnInput"
-       placeholder="@Placeholder"
-       disabled="@Disabled" />
+<AppContainer Width="@Width" Height="@Height"
+              MarginLeft="@MarginLeft" MarginRight="@MarginRight" MarginTop="@MarginTop" MarginBottom="@MarginBottom"
+              PaddingLeft="@PaddingLeft" PaddingRight="@PaddingRight" PaddingTop="@PaddingTop" PaddingBottom="@PaddingBottom"
+              HorizontalAlignment="stretch" VerticalAlignment="center"
+              IsEnabled="@(!Disabled)" IsVisible="@IsVisible">
+
+    <input type="@InputType"
+           class="@ClassNames("app-textbox", AdditionalAttributes?["class"]?.ToString())"
+           value="@Value"
+           @oninput="OnInput"
+           placeholder="@Placeholder"
+           disabled="@Disabled" />
+
+</AppContainer>
 
 @code {
     [Parameter] public string Value { get; set; } = string.Empty;

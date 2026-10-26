@@ -1,8 +1,19 @@
 @inherits AppComponentBase
 
-<div class="@ClassNames("app-card", AdditionalAttributes?["class"]?.ToString())">
-    @if (ChildContent is not null) { @ChildContent }
-</div>
+<AppContainer Width="@Width" Height="@Height"
+              MarginLeft="@MarginLeft" MarginRight="@MarginRight" MarginTop="@MarginTop" MarginBottom="@MarginBottom"
+              PaddingLeft="@PaddingLeft" PaddingRight="@PaddingRight" PaddingTop="@PaddingTop" PaddingBottom="@PaddingBottom"
+              HorizontalAlignment="stretch" VerticalAlignment="stretch"
+              IsEnabled="@true" IsVisible="@IsVisible">
+
+    <div class="@ClassNames("app-card", AdditionalAttributes?["class"]?.ToString())">
+        @if (ChildContent is not null)
+        {
+            @ChildContent
+        }
+    </div>
+
+</AppContainer>
 
 @code {
     [Parameter] public RenderFragment? ChildContent { get; set; }

@@ -10,9 +10,16 @@
 <h1>@Presenter.ViewModel.Title</h1>
 
 <AppStackPanel Orientation="AppStackPanel.StackOrientation.Horizontal" Gap="8">
-    <!-- La recherche met à jour SearchTerm à chaque frappe -->
-    <AppTextBox @bind-Value="SearchTerm" Placeholder="Rechercher un projet..." />
-    <AppButton Text="Rafraîchir" OnClick="RequestRefresh" Loading="Presenter.ViewModel.IsLoading" />
+
+    <AppTextBox @bind-Value="SearchTerm" Width="100%" PaddingLeft="0px" Placeholder="Rechercher..." />
+
+    <AppButton Text="Rafraîchir" 
+        PaddingLeft="24px" 
+        PaddingRight="24px" 
+        Width="150px" 
+        OnClick="RequestRefresh" 
+        Loading="Presenter.ViewModel.IsLoading" />
+
 </AppStackPanel>
 
 @if (Presenter.ViewModel.IsLoading && string.IsNullOrEmpty(SearchTerm))

@@ -1,12 +1,23 @@
 @inherits AppComponentBase
 
-<button type="button"
-        class="@ClassNames("app-button", VariantClass, AdditionalAttributes?["class"]?.ToString())"
-        @onclick="HandleClick"
-        disabled="@(Disabled || Loading)">
-    @if (Loading) { <span class="app-button-spinner"></span> }
-    @Text
-</button>
+<AppContainer Width="@Width" Height="@Height"
+              MarginLeft="@MarginLeft" MarginRight="@MarginRight" MarginTop="@MarginTop" MarginBottom="@MarginBottom"
+              PaddingLeft="@PaddingLeft" PaddingRight="@PaddingRight" PaddingTop="@PaddingTop" PaddingBottom="@PaddingBottom"
+              HorizontalAlignment="start" VerticalAlignment="center"
+              IsEnabled="@(!Disabled && !Loading)" IsVisible="@IsVisible">
+
+    <button type="button"
+            class="@ClassNames("app-button", VariantClass, AdditionalAttributes?["class"]?.ToString())"
+            @onclick="HandleClick"
+            disabled="@(Disabled || Loading)">
+        @if (Loading)
+        {
+            <span class="app-button-spinner"></span>
+        }
+        @Text
+    </button>
+
+</AppContainer>
 
 @code {
     [Parameter] public string Text { get; set; } = string.Empty;

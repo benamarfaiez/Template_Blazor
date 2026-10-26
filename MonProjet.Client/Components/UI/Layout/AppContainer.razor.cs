@@ -8,27 +8,11 @@ public partial class AppContainer : AppComponentBase
     [Parameter] public string HorizontalAlignment { get; set; } = "stretch";
     [Parameter] public string VerticalAlignment { get; set; } = "stretch";
 
-    [Parameter] public string? Width { get; set; }
-    [Parameter] public string? Height { get; set; }
-
-    [Parameter] public string? MarginLeft { get; set; }
-    [Parameter] public string? MarginRight { get; set; }
-    [Parameter] public string? MarginTop { get; set; }
-    [Parameter] public string? MarginBottom { get; set; }
-
-    [Parameter] public string? PaddingLeft { get; set; }
-    [Parameter] public string? PaddingRight { get; set; }
-    [Parameter] public string? PaddingTop { get; set; }
-    [Parameter] public string? PaddingBottom { get; set; }
-
     [Parameter] public bool IsEnabled { get; set; } = true;
-    [Parameter] public bool IsVisible { get; set; } = true;
-
     [Parameter] public RenderFragment? ChildContent { get; set; }
 
     public string FinalStyles { get; private set; } = string.Empty;
-    public string FinalInnerStyles { get; private set; } = string.Empty;
-    public string FinalCssClasses { get; private set; } = string.Empty;
+    public string? FinalCssClasses { get; private set; } = string.Empty;
 
     public bool IsActuallyEnabled => IsEnabled && IsVisible;
 
@@ -74,34 +58,30 @@ public partial class AppContainer : AppComponentBase
 
         FinalStyles = string.Join("; ", outerStyles) + ";";
 
-        // 3. Styles du conteneur intérieur (Paddings)
-        var innerStyles = new List<string>
-        {
-            "width: 100%",
-            "height: 100%",
-            "box-sizing: border-box"
-        };
+        var innerStyles = new List<string>();
 
         if (!string.IsNullOrEmpty(PaddingLeft)) innerStyles.Add($"padding-left: {PaddingLeft}");
         if (!string.IsNullOrEmpty(PaddingRight)) innerStyles.Add($"padding-right: {PaddingRight}");
         if (!string.IsNullOrEmpty(PaddingTop)) innerStyles.Add($"padding-top: {PaddingTop}");
         if (!string.IsNullOrEmpty(PaddingBottom)) innerStyles.Add($"padding-bottom: {PaddingBottom}");
 
-        FinalInnerStyles = string.Join("; ", innerStyles) + ";";
-
+        FinalStyles += string.Join("; ", innerStyles) + ";";
         // 4. Classes CSS
         FinalCssClasses = ClassNames("app-container", AdditionalAttributes?["class"]?.ToString());
     }
 
-    private string MapAlignment(string align, string defaultVal) => align?.ToLowerInvariant() switch
+    private static string MapAlignment(string align, string defaultVal)
     {
-        "start" or "left" or "top" => "flex-start",
-        "center" => "center",
-        "end" or "right" or "bottom" => "flex-end",
-        "stretch" => "stretch",
-        "space-between" => "space-between",
-        "space-around" => "space-around",
-        "space-evenly" => "space-evenly",
-        _ => defaultVal
-    };
+        return align?.ToLowerInvariant() switch
+        {
+            "start" or "left" or "top" => "flex-start",
+            "center" => "center",
+            "end" or "right" or "bottom" => "flex-end",
+            "stretch" => "stretch",
+            "space-between" => "space-between",
+            "space-around" => "space-around",
+            "space-evenly" => "space-evenly",
+            _ => defaultVal
+        };
+    }
 }

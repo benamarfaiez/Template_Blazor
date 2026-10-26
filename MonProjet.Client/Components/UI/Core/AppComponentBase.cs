@@ -11,6 +11,18 @@ public abstract class AppComponentBase : ComponentBase
     /// </summary>
     [Inject] protected IJSRuntime JSRuntime { get; set; } = default!;
 
+    [Parameter] public string? Width { get; set; }
+    [Parameter] public string? Height { get; set; }
+    [Parameter] public string? MarginLeft { get; set; }
+    [Parameter] public string? MarginRight { get; set; }
+    [Parameter] public string? MarginTop { get; set; }
+    [Parameter] public string? MarginBottom { get; set; }
+    [Parameter] public string? PaddingLeft { get; set; }
+    [Parameter] public string? PaddingRight { get; set; }
+    [Parameter] public string? PaddingTop { get; set; }
+    [Parameter] public string? PaddingBottom { get; set; }
+    [Parameter] public bool IsVisible { get; set; } = true;
+
     [Parameter(CaptureUnmatchedValues = true)]
     public Dictionary<string, object>? AdditionalAttributes { get; set; }
 
