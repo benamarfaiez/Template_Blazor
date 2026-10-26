@@ -16,7 +16,7 @@
     <!-- SECTION : BASIC INPUT -->
     <AppCard>
         <h3>Basic Input</h3>
-        <AppStackPanel Orientation="AppStackPanel.StackOrientation.Vertical" Gap="16">
+        <AppStackPanel Orientation="StackOrientation.Vertical" Gap="16">
             <div style="display: flex; gap: 8px; flex-wrap: wrap;">
                 <AppButton Text="Primaire" Variant="AppButton.ButtonVariant.Primary" />
                 <AppButton Text="Secondaire" Variant="AppButton.ButtonVariant.Secondary" />
@@ -44,7 +44,7 @@
     <!-- SECTION : TEXT -->
     <AppCard>
         <h3>Text</h3>
-        <AppStackPanel Orientation="AppStackPanel.StackOrientation.Vertical" Gap="16">
+        <AppStackPanel Orientation="StackOrientation.Vertical" Gap="16">
             <AppTextBox @bind-Value="_textValue" Placeholder="Saisissez du texte..." />
             <AutoSuggestBox @bind-Value="_suggestValue" Suggestions="Presenter.ViewModel.Suggestions" Placeholder="Auto-suggestion..." />
 
@@ -64,7 +64,7 @@
     <!-- SECTION : FEEDBACK -->
     <AppCard>
         <h3>Feedback</h3>
-        <AppStackPanel Orientation="AppStackPanel.StackOrientation.Vertical" Gap="16">
+        <AppStackPanel Orientation="StackOrientation.Vertical" Gap="16">
             <InfoBar Visible="true" Message="Ceci est une information." Severity="InfoBar.InfoSeverity.Info" />
             <InfoBar Visible="true" Message="Opération réussie !" Severity="InfoBar.InfoSeverity.Success" />
             <InfoBar Visible="true" Message="Attention, risque d'erreur." Severity="InfoBar.InfoSeverity.Warning" />
@@ -85,7 +85,7 @@
     <!-- SECTION : LAYOUT & MENU -->
     <AppCard>
         <h3>Layout & Menu</h3>
-        <AppStackPanel Orientation="AppStackPanel.StackOrientation.Vertical" Gap="16">
+        <AppStackPanel Orientation="StackOrientation.Vertical" Gap="16">
 
             <AppExpander Header="Cliquez pour déplier (Expander)" OpenOnStart="true">
                 <p>Voici le contenu caché de l'expander.</p>
@@ -126,12 +126,12 @@
             <h3>Collections</h3>
             <AppGrid Columns="2" Gap="24px">
 
-                <AppStackPanel Orientation="AppStackPanel.StackOrientation.Vertical" Gap="8">
+                <AppStackPanel Orientation="StackOrientation.Vertical" Gap="8">
                     <TextBlock Text="ListBox" Variant="TextBlock.TextVariant.Bold" />
                     <AppListBox TItem="string" Items="Presenter.ViewModel.Suggestions" @bind-SelectedItem="_listBoxValue" />
                 </AppStackPanel>
 
-                <AppStackPanel Orientation="AppStackPanel.StackOrientation.Vertical" Gap="8">
+                <AppStackPanel Orientation="StackOrientation.Vertical" Gap="8">
                     <TextBlock Text="GridView" Variant="TextBlock.TextVariant.Bold" />
                     <AppGridView TItem="string" Items="Presenter.ViewModel.Suggestions" Columns="2">
                         <ItemTemplate Context="item">
