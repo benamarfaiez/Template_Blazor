@@ -7,11 +7,14 @@
               IsEnabled="@(!Disabled)" IsVisible="@IsVisible">
 
     <input type="@InputType"
+           id="@CalculatedId"
+           name="@Name"
            class="@ClassNames("app-textbox", AdditionalAttributes?["class"]?.ToString())"
            value="@Value"
            @oninput="OnInput"
            placeholder="@Placeholder"
-           disabled="@Disabled" />
+           disabled="@Disabled"
+           @attributes="AdditionalAttributes" />
 
 </AppContainer>
 
@@ -21,6 +24,12 @@
     [Parameter] public string Placeholder { get; set; } = string.Empty;
     [Parameter] public string InputType { get; set; } = "text";
     [Parameter] public bool Disabled { get; set; }
+
+    [Parameter] public string? Id { get; set; }
+    [Parameter] public string? Name { get; set; }
+
+    // Si aucun ID n'est fourni, on en génère un unique pour éviter les avertissements
+    private string CalculatedId => Id ?? $"app-input-{Guid.NewGuid():N}";
 
     private Task OnInput(ChangeEventArgs e)
     {

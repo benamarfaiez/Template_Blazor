@@ -1,12 +1,13 @@
 @inherits AppComponentBase
 
-<div class="@ClassNames("app-stackpanel", $"app-stackpanel-{Orientation.ToString().ToLowerInvariant()}")" style="@($"gap: {Gap}px;")">
-    @ChildContent
-</div>
+<AppContainer Width="@Width" Height="@Height"
+              MarginLeft="@MarginLeft" MarginRight="@MarginRight" MarginTop="@MarginTop" MarginBottom="@MarginBottom"
+              PaddingLeft="@PaddingLeft" PaddingRight="@PaddingRight" PaddingTop="@PaddingTop" PaddingBottom="@PaddingBottom"
+              HorizontalAlignment="stretch" VerticalAlignment="stretch"
+              IsVisible="@IsVisible">
 
-@code {
-    [Parameter] public RenderFragment? ChildContent { get; set; }
-    [Parameter] public StackOrientation Orientation { get; set; } = StackOrientation.Vertical;
-    [Parameter] public int Gap { get; set; } = 8;
-    public enum StackOrientation { Vertical, Horizontal }
-}
+    <div style="@FinalFlexStyles" class="@ClassNames("app-stackpanel", AdditionalAttributes?["class"]?.ToString())">
+        @ChildContent
+    </div>
+
+</AppContainer>
