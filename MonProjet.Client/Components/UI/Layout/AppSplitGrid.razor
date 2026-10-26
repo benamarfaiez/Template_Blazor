@@ -1,14 +1,17 @@
 @inherits AppComponentBase
 
-<div class="app-splitgrid" style="@StyleForGrid()">
-    <div class="app-splitgrid-left">@Left</div>
-    <div class="app-splitgrid-right">@Right</div>
-</div>
+<AppContainer Width="@Width" Height="@Height"
+              MarginLeft="@MarginLeft" MarginRight="@MarginRight" MarginTop="@MarginTop" MarginBottom="@MarginBottom"
+              PaddingLeft="@PaddingLeft" PaddingRight="@PaddingRight" PaddingTop="@PaddingTop" PaddingBottom="@PaddingBottom"
+              HorizontalAlignment="stretch" VerticalAlignment="stretch"
+              IsVisible="@IsVisible">
 
-@code {
-    [Parameter] public RenderFragment? Left { get; set; }
-    [Parameter] public RenderFragment? Right { get; set; }
-    [Parameter] public string SplitRatio { get; set; } = "1fr 2fr";
-    [Parameter] public string Gap { get; set; } = "16px";
-    private string StyleForGrid() => $"display: grid; grid-template-columns: {SplitRatio}; gap: {Gap};";
-}
+    <div class="@ClassNames("app-splitgrid", AdditionalAttributes?["class"]?.ToString())"
+         style="@_finalGridStyles">
+
+        <div class="app-splitgrid-left">@Left</div>
+        <div class="app-splitgrid-right">@Right</div>
+
+    </div>
+
+</AppContainer>

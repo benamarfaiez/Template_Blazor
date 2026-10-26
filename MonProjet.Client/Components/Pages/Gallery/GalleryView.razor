@@ -2,10 +2,14 @@
 @using MonProjet.Client.Components.UI.Collections
 @using MonProjet.Client.Components.UI.Collections.Column
 @using MonProjet.Client.Components.UI.Collections.Helpers
+@using MonProjet.Client.Components.UI.Layout
+@using MonProjet.Client.Components.UI.Layout.Enums
+@using MonProjet.Client.Components.UI.Layout.Helpers
 @using MonProjet.Client.Models.Gallery
 @using MonProjet.Client.Presenters.Gallery
 @inherits OwningComponentBase
 @implements IGalleryView
+@implements IDisposable
 
 <PageTitle>Galerie de Composants</PageTitle>
 
@@ -53,7 +57,6 @@
             <TextBlock Text="Texte en gras" Variant="TextBlock.TextVariant.Bold" />
             <TextBlock Text="Petit texte" Variant="TextBlock.TextVariant.Small" />
 
-            <!-- Monaco Editor (peut prendre un moment à charger depuis le CDN) -->
             <div style="margin-top: 16px;">
                 <TextBlock Text="Monaco Editor :" Variant="TextBlock.TextVariant.Bold" />
                 <MonacoEditor @bind-Value="_codeValue" Height="150px" Language="csharp" />
@@ -87,6 +90,40 @@
         <h3>Layout & Menu</h3>
         <AppStackPanel Orientation="StackOrientation.Vertical" Gap="16">
 
+            <!-- ✅ AppSplitGrid Integration -->
+            <div style="margin-bottom: 8px;">
+                <TextBlock Text="SplitGrid (Ratio 1:2)" Variant="TextBlock.TextVariant.Bold" />
+                <AppSplitGrid Ratio="SplitRatio.OneToTwo" Gap="8px" Height="80px">
+                    <Left>
+                        <div style="background: #dbeafe; color: #1e40af; height: 100%; display: flex; align-items: center; justify-content: center; border-radius: 4px;">
+                            Gauche (1fr)
+                        </div>
+                    </Left>
+                    <Right>
+                        <div style="background: #dcfce7; color: #166534; height: 100%; display: flex; align-items: center; justify-content: center; border-radius: 4px;">
+                            Droite (2fr)
+                        </div>
+                    </Right>
+                </AppSplitGrid>
+            </div>
+
+            <div style="margin-bottom: 8px;">
+                <TextBlock Text="SplitGrid (Ratio Custom : 300px / 1fr)" Variant="TextBlock.TextVariant.Bold" />
+                <AppSplitGrid Ratio="SplitRatio.LeftFixed" Gap="8px" Height="80px">
+                    <Left>
+                        <div style="background: #fef3c7; color: #92400e; height: 100%; display: flex; align-items: center; justify-content: center; border-radius: 4px;">
+                            Gauche (300px fixe)
+                        </div>
+                    </Left>
+                    <Right>
+                        <div style="background: #f1f5f9; color: #475569; height: 100%; display: flex; align-items: center; justify-content: center; border-radius: 4px;">
+                            Droite (Prend le reste)
+                        </div>
+                    </Right>
+                </AppSplitGrid>
+            </div>
+            <!-- Fin AppSplitGrid -->
+
             <AppExpander Header="Cliquez pour déplier (Expander)" OpenOnStart="true">
                 <p>Voici le contenu caché de l'expander.</p>
             </AppExpander>
@@ -94,7 +131,7 @@
             <div style="display: flex; gap: 8px;">
                 <AppButton Text="Ouvrir Dialog" OnClick="() => _showDialog = true" />
                 <AppButton Text="Ouvrir Overlay" OnClick="() => _showOverlay = true" Variant="AppButton.ButtonVariant.Secondary" />
-                <AppButton Text="Ouvrir FullScreen" OnClick="() => _showFullScreen = true" Variant="AppButton.ButtonVariant.Ghost" />
+                <AppButton Text="Plein Écran" OnClick="() => _showFullScreen = true" Variant="AppButton.ButtonVariant.Ghost" />
             </div>
 
             <AppPopover Position="bottom">
@@ -182,9 +219,10 @@
 }
 
 @code {
+    // 1. Résolution du présentateur
     private IGalleryPresenter Presenter => ScopedServices.GetRequiredService<IGalleryPresenter>();
 
-    // États pour les composants interactifs
+    // 2. États pour les composants interactifs
     private bool _isChecked = true;
     private bool _isToggled = false;
     private string _radioValue = "1";
@@ -195,19 +233,19 @@
     private string? _listBoxValue;
     private string _dialogInput = "";
 
-    // États pour les fenêtres modales
+    // 3. États pour les fenêtres modales
     private bool _showDialog = false;
     private bool _showOverlay = false;
     private bool _showFullScreen = false;
 
-    // Configuration du ContextMenu
+    // 4. Configuration du ContextMenu
     private List<ContextMenu.ContextMenuItem> _contextMenuItems = new()
     {
         new() { Label = "Option 1 (Fictive)" },
         new() { Label = "Option 2 (Fictive)" }
     };
 
-    // Configuration du DataGrid
+    // 5. Configuration du DataGrid
     private readonly List<GridColumn<DemoItem>> _dataGridColumns;
 
     public GalleryView()
@@ -221,7 +259,7 @@
                 var color = item.Status == "Actif" ? "#166534" : "#92400e";
                 var bg = item.Status == "Actif" ? "#dcfce7" : "#fef3c7";
                 builder.OpenElement(0, "span");
-                builder.AddAttribute(1, "style", $"background:{bg}; color:{color}; padding:2px 8px; border-radius:12px; font-size:12px;");
+                builder.AddAttribute(1, "style", $"background:{bg}; color:{color}; padding:2px 8px; border-radius:12px; font-size:12px; font-weight:600;");
                 builder.AddContent(2, item.Status);
                 builder.CloseElement();
             }),
@@ -229,6 +267,7 @@
         };
     }
 
+    // 6. Cycle de vie
     protected override async Task OnInitializedAsync()
     {
         Presenter.SetView(this);
@@ -237,4 +276,10 @@
 
     public void ShowError(string message) => StateHasChanged();
     public void ShowLoading(bool isLoading) => StateHasChanged();
+
+    // 7. Libération propre
+    public void Dispose()
+    {
+        GC.SuppressFinalize(this);
+    }
 }
