@@ -1,4 +1,4 @@
-# 🚀 MonProjet.Blazor - Template Modulaire MVP (.NET 10)
+# Template Modulaire MVP (.NET 10)
 
 Un template frontend Blazor moderne, hautement modulaire et strictement typé, conçu pour des applications d'entreprise évolutives.
 
