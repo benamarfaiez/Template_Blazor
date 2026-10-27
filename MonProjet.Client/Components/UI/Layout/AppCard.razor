@@ -6,7 +6,7 @@
               HorizontalAlignment="stretch" VerticalAlignment="stretch"
               IsEnabled="@true" IsVisible="@IsVisible">
 
-    <div class="@ClassNames("app-card", AdditionalAttributes?["class"]?.ToString())">
+    <div class="app-card" @attributes="AdditionalAttributes">
         @if (ChildContent is not null)
         {
             @ChildContent
@@ -14,7 +14,3 @@
     </div>
 
 </AppContainer>
-
-@code {
-    [Parameter] public RenderFragment? ChildContent { get; set; }
-}
