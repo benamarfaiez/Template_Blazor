@@ -7,6 +7,7 @@ using MonProjet.Client.Services;
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 
 builder.Services.AddScoped<IExceptionHandler, ExceptionHandler>();
+builder.Services.AddScoped<IFocusTrapService, FocusTrapService>();
 builder.Services.AddScoped<IHomePresenter, HomePresenter>();
 builder.Services.AddScoped<IUserPresenter, UserPresenter>();
 builder.Services.AddScoped<IGalleryPresenter, GalleryPresenter>();

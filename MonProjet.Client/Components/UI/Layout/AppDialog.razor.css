@@ -1,20 +1,86 @@
 .app-dialog-overlay {
-    position: fixed; inset: 0; background: rgba(0,0,0,0.5);
-    display: flex; align-items: center; justify-content: center; z-index: 1000;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    animation: fadeIn 0.2s ease-out;
 }
+
 .app-dialog {
-    background: #fff; border-radius: 8px; box-shadow: var(--shadow-lg);
-    min-width: 400px; max-width: 90vw; max-height: 90vh; overflow: auto;
+    background: #fff;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-lg);
+    min-width: 400px;
+    max-width: 90vw;
+    max-height: 90vh;
+    overflow: auto;
+    animation: slideUp 0.2s ease-out;
+    display: flex;
+    flex-direction: column;
 }
+
 .app-dialog-header {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: var(--spacing-md) var(--spacing-lg); border-bottom: 1px solid var(--color-border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--spacing-md) var(--spacing-lg);
+    border-bottom: 1px solid var(--color-border);
 }
-.app-dialog-header h3 { margin: 0; }
+
+    .app-dialog-header h3 {
+        margin: 0;
+    }
+
 .app-dialog-close {
-    background: none; border: none; cursor: pointer; font-size: 18px; color: var(--color-text-muted);
-    padding: 4px 8px; border-radius: 4px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.25rem;
+    color: var(--color-text-muted);
+    padding: 4px 8px;
+    border-radius: 4px;
+    line-height: 1;
 }
-.app-dialog-close:hover { background: var(--color-bg-alt); }
-.app-dialog-body { padding: var(--spacing-lg); }
-.app-dialog-footer { padding: var(--spacing-md) var(--spacing-lg); border-top: 1px solid var(--color-border); }
+
+    .app-dialog-close:hover {
+        background: var(--color-bg-alt);
+        color: var(--color-text);
+    }
+
+.app-dialog-body {
+    padding: var(--spacing-lg);
+    flex: 1;
+}
+
+.app-dialog-footer {
+    padding: var(--spacing-md) var(--spacing-lg);
+    border-top: 1px solid var(--color-border);
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(10px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}

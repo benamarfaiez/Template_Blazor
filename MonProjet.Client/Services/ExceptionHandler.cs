@@ -2,10 +2,9 @@ using Microsoft.Extensions.Logging;
 
 namespace MonProjet.Client.Services;
 
-public class ExceptionHandler : IExceptionHandler
+public class ExceptionHandler(ILogger<ExceptionHandler> logger) : IExceptionHandler
 {
-    private readonly ILogger<ExceptionHandler> _logger;
-    public ExceptionHandler(ILogger<ExceptionHandler> logger) => _logger = logger;
+    private readonly ILogger<ExceptionHandler> _logger = logger;
 
     public Task HandleAsync(Exception ex, string? userMessage = null)
     {

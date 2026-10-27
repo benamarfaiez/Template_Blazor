@@ -14,6 +14,7 @@ builder.Services.AddScoped<IHomePresenter, HomePresenter>();
 builder.Services.AddScoped<IUserPresenter, UserPresenter>();
 builder.Services.AddScoped<IGalleryPresenter, GalleryPresenter>();
 builder.Services.AddScoped<IExceptionHandler, ExceptionHandler>();
+builder.Services.AddScoped<IFocusTrapService, FocusTrapService>();
 
 var app = builder.Build();
 
