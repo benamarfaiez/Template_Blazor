@@ -1,7 +1,50 @@
-.app-expander { border: 1px solid var(--color-border); border-radius: var(--radius); }
-.app-expander-header {
-    width: 100%; display: flex; justify-content: space-between; align-items: center;
-    padding: 12px 16px; background: var(--color-bg-alt); border: none;
-    cursor: pointer; font-weight: 600; text-align: left;
+.app-expander {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    background: #fff;
+    overflow: hidden;
 }
-.app-expander-body { padding: var(--spacing-md); }
+
+.app-expander-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    background: var(--color-bg-alt);
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    text-align: left;
+    color: var(--color-text);
+    transition: background-color 0.15s ease;
+}
+
+    .app-expander-header:hover {
+        background: #e2e8f0;
+    }
+
+.app-expander-icon {
+    font-size: 1.25rem;
+    line-height: 1;
+    font-weight: bold;
+    color: var(--color-text-muted);
+}
+
+.app-expander-body {
+    padding: var(--spacing-md);
+    border-top: 1px solid var(--color-border);
+    animation: fadeIn 0.2s ease-out; /* Animation d'apparition */
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

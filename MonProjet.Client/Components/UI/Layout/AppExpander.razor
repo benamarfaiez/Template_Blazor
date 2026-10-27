@@ -1,18 +1,30 @@
 @inherits AppComponentBase
 
-<div class="app-expander">
-    <button class="app-expander-header" @onclick="Toggle">
-        <span>@Header</span>
-        <span class="app-expander-icon">@(_open ? "âˆ’" : "+")</span>
-    </button>
-    @if (_open) { <div class="app-expander-body">@ChildContent</div> }
-</div>
+<AppContainer Width="@Width" Height="@Height"
+              MarginLeft="@MarginLeft" MarginRight="@MarginRight" MarginTop="@MarginTop" MarginBottom="@MarginBottom"
+              PaddingLeft="@PaddingLeft" PaddingRight="@PaddingRight" PaddingTop="@PaddingTop" PaddingBottom="@PaddingBottom"
+              HorizontalAlignment="@ContainerAlignment.Stretch" VerticalAlignment="@ContainerAlignment.Stretch"
+              IsVisible="@IsVisible">
 
-@code {
-    [Parameter] public string Header { get; set; } = string.Empty;
-    [Parameter] public RenderFragment? ChildContent { get; set; }
-    [Parameter] public bool OpenOnStart { get; set; }
-    private bool _open;
-    protected override void OnInitialized() => _open = OpenOnStart;
-    private void Toggle() => _open = !_open;
-}
+    <div class="app-expander" @attributes="AdditionalAttributes">
+        <!-- type="button" évite de soumettre un formulaire si l'expander est dedans -->
+        <button type="button"
+                class="app-expander-header"
+                @onclick="Toggle"
+                aria-expanded="@_open.ToString().ToLowerInvariant()">
+
+            <span>@Header</span>
+            <!-- Encodage corrigé : signe moins unicode et plus -->
+            <span class="app-expander-icon">@(_open ? "−" : "+")</span>
+
+        </button>
+
+        @if (_open)
+        {
+            <div class="app-expander-body">
+                @ChildContent
+            </div>
+        }
+    </div>
+
+</AppContainer>
