@@ -1,9 +1,9 @@
 @inherits AppComponentBase
 
 <CascadingValue Name="ParentIsEnabled" Value="@IsActuallyEnabled">
-    <div class="@FinalCssClasses"
-         style="@FinalStyles"
-         @attributes="AdditionalAttributes">
+    <div class="app-container" style="@FinalOuterStyles" @attributes="AdditionalAttributes">
+        <div style="@FinalInnerStyles">
             @ChildContent
+        </div>
     </div>
 </CascadingValue>
