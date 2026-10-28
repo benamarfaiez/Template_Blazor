@@ -28,7 +28,7 @@
                 <AppButton Text="Chargement" Loading="true" />
             </div>
 
-            <AppCheckBox @bind-Value="_isChecked" Label="Case à cocher (CheckBox)" />
+            <AppCheckBox @bind-Value="_isChecked" Label="Case à cocher (CheckBox)" id="checkbox1" />
             <AppToggleSwitch @bind-Value="_isToggled" Label="Interrupteur (ToggleSwitch)" />
 
             <div style="display: flex; gap: 16px;">
@@ -36,7 +36,7 @@
                 <AppRadioButton GroupName="demo" Value="2" @bind-CurrentValue="_radioValue" Label="Option 2" />
             </div>
 
-            <AppComboBox TItem="string" Items="Presenter.ViewModel.Suggestions"
+            <AppComboBox TItem="string" Items="Presenter.ViewModel.Suggestions" id="combobox1"
                          @bind-SelectedItem="_selectedCombo" Placeholder="Sélectionnez un langage..." />
 
             <AppDropDownButton Text="Menu Déroulant">

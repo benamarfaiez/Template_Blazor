@@ -1,2 +1,94 @@
-.app-checkbox { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; }
-.app-checkbox input { width: 16px; height: 16px; cursor: pointer; }
+.app-checkbox {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+}
+
+/* 
+  On cache l'input natif, mais on le garde dans le DOM 
+  pour l'accessibilité (lecteurs d'écran) et le clavier.
+*/
+    .app-checkbox input[type="checkbox"] {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+        height: 0;
+        width: 0;
+    }
+
+/* La boîte personnalisée */
+.app-checkbox-box {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #cbd5e1; /* Gris clair par défaut */
+    border-radius: 4px;
+    background-color: #ffffff;
+    transition: all 0.2s ease;
+    position: relative;
+    flex-shrink: 0; /* Empêche la boîte de s'écraser dans un flex container */
+}
+
+/* Effet au survol (si non désactivé) */
+.app-checkbox:hover input:not(:disabled) ~ .app-checkbox-box {
+    border-color: var(--color-primary, #2563eb);
+}
+
+/* État coché */
+.app-checkbox input:checked ~ .app-checkbox-box {
+    background-color: var(--color-primary, #2563eb);
+    border-color: var(--color-primary, #2563eb);
+}
+
+/* Création du checkmark (✓) en CSS */
+.app-checkbox-box::after {
+    content: "";
+    position: absolute;
+    display: none;
+    left: 6px;
+    top: 2px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg); /* Le fameux virage à 45° */
+}
+
+/* Afficher le checkmark quand coché */
+.app-checkbox input:checked ~ .app-checkbox-box::after {
+    display: block;
+}
+
+/* Accessibilité : Anneau de focus au clavier */
+.app-checkbox input:focus-visible ~ .app-checkbox-box {
+    outline: 2px solid var(--color-primary, #2563eb);
+    outline-offset: 2px;
+}
+
+/* État désactivé */
+.app-checkbox input:disabled ~ .app-checkbox-box {
+    background-color: #f1f5f9;
+    border-color: #e2e8f0;
+    cursor: not-allowed;
+}
+
+/* État désactivé ET coché */
+.app-checkbox input:disabled:checked ~ .app-checkbox-box {
+    background-color: #94a3b8;
+    border-color: #94a3b8;
+}
+
+/* Texte du label */
+.app-checkbox-label {
+    font-size: 0.875rem;
+    color: var(--color-text, #0f172a);
+    font-weight: 500;
+}
+
+/* Texte désactivé */
+.app-checkbox input:disabled ~ .app-checkbox-label {
+    color: #94a3b8;
+    cursor: not-allowed;
+}

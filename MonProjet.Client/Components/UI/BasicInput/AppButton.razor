@@ -10,7 +10,7 @@
             @onclick="HandleClick"
             disabled="@(Disabled || Loading)"
             aria-busy="@Loading.ToString().ToLowerInvariant()"
-            @attributes="AdditionalAttributes">
+            @attributes="SafeAttributes">
             
         @if (Loading)
         {
