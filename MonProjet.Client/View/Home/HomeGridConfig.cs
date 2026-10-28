@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components.Rendering;
 using MonProjet.Client.Components.UI.Collections;
 using MonProjet.Client.Components.UI.Collections.Column;
-using MonProjet.Client.Components.UI.Collections.Helpers;
+using MonProjet.Client.Components.UI.Helpers;
 using MonProjet.Client.Models.Home;
 using MonProjet.Client.Models.Style;
 

@@ -1,6 +1,6 @@
 ﻿using MonProjet.Client.Components.UI.Collections.Column;
 
-namespace MonProjet.Client.Components.UI.Collections.Helpers;
+namespace MonProjet.Client.Components.UI.Helpers;
 
 public static class GridColumn
 {

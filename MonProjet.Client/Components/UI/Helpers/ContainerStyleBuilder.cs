@@ -1,6 +1,6 @@
-﻿using MonProjet.Client.Components.UI.Layout.Enums;
+﻿using MonProjet.Client.Components.UI.Enums;
 
-namespace MonProjet.Client.Components.UI.Layout.Helpers;
+namespace MonProjet.Client.Components.UI.Helpers;
 
 public static class ContainerStyleBuilder
 {

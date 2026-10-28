@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components;
 using MonProjet.Client.Components.UI.Core;
-using MonProjet.Client.Components.UI.Layout.Helpers;
+using MonProjet.Client.Components.UI.Helpers;
 
 namespace MonProjet.Client.Components.UI.Layout;
 

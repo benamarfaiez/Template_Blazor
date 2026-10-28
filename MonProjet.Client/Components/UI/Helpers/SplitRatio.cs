@@ -1,4 +1,4 @@
-﻿namespace MonProjet.Client.Components.UI.Layout.Helpers;
+﻿namespace MonProjet.Client.Components.UI.Helpers;
 
 public sealed class SplitRatio
 {

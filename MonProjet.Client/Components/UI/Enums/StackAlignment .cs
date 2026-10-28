@@ -1,4 +1,4 @@
-﻿namespace MonProjet.Client.Components.UI.Layout.Enums;
+﻿namespace MonProjet.Client.Components.UI.Enums;
 public enum StackAlignment
 {
     Start,
