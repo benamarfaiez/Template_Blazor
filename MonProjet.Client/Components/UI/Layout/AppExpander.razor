@@ -6,8 +6,7 @@
               HorizontalAlignment="@ContainerAlignment.Stretch" VerticalAlignment="@ContainerAlignment.Stretch"
               IsVisible="@IsVisible">
 
-    <div class="app-expander" @attributes="AdditionalAttributes">
-        <!-- type="button" évite de soumettre un formulaire si l'expander est dedans -->
+    <div class="app-expander" @attributes="SafeAttributes">
         <button type="button"
                 class="app-expander-header"
                 @onclick="Toggle"

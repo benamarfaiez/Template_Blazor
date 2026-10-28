@@ -5,29 +5,18 @@
               PaddingLeft="@PaddingLeft" PaddingRight="@PaddingRight" PaddingTop="@PaddingTop" PaddingBottom="@PaddingBottom"
               HorizontalAlignment="@ContainerAlignment.Start" VerticalAlignment="@ContainerAlignment.Center"
               IsEnabled="@(!Disabled && !Loading)" IsVisible="@IsVisible">
-
     <button type="button"
-            class="@ClassNames("app-button", VariantClass, AdditionalAttributes?["class"]?.ToString())"
+            class="app-button @VariantClass"
             @onclick="HandleClick"
-            disabled="@(Disabled || Loading)">
+            disabled="@(Disabled || Loading)"
+            aria-busy="@Loading.ToString().ToLowerInvariant()"
+            @attributes="AdditionalAttributes">
+            
         @if (Loading)
         {
-            <span class="app-button-spinner"></span>
+            <span class="app-button-spinner" aria-hidden="true"></span>
         }
         @Text
     </button>
 
 </AppContainer>
-
-@code {
-    [Parameter] public string Text { get; set; } = string.Empty;
-    [Parameter] public EventCallback OnClick { get; set; }
-    [Parameter] public bool Disabled { get; set; }
-    [Parameter] public bool Loading { get; set; }
-    [Parameter] public ButtonVariant Variant { get; set; } = ButtonVariant.Primary;
-
-    private string VariantClass => $"app-button-{Variant.ToString().ToLowerInvariant()}";
-    private Task HandleClick() => (Disabled || Loading) ? Task.CompletedTask : OnClick.InvokeAsync();
-
-    public enum ButtonVariant { Primary, Secondary, Danger, Ghost }
-}

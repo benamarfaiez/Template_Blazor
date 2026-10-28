@@ -5,10 +5,6 @@ namespace MonProjet.Client.Components.UI.Core;
 
 public abstract class AppComponentBase : ComponentBase
 {
-    /// <summary>
-    /// Instance JSInterop injectée, disponible dans tous les composants dérivés.
-    /// Permet l'import de modules JS (IJSObjectReference) via JSRuntime.InvokeAsync.
-    /// </summary>
     [Inject] protected IJSRuntime JSRuntime { get; set; } = default!;
 
     [Parameter] public string? Width { get; set; }
@@ -27,7 +23,21 @@ public abstract class AppComponentBase : ComponentBase
     public Dictionary<string, object>? AdditionalAttributes { get; set; }
 
     protected static string? ClassNames(params string?[] classes)
+        => string.Join(' ', classes.Where(c => !string.IsNullOrWhiteSpace(c)));
+
+    /// <summary>
+    /// Filtre les attributs générés par l'isolation CSS (qui commencent par 'b-')
+    /// pour éviter l'erreur RZ10007.
+    /// </summary>
+    protected Dictionary<string, object> SafeAttributes
     {
-        return string.Join(' ', classes.Where(c => !string.IsNullOrWhiteSpace(c)));
+        get
+        {
+            if (AdditionalAttributes == null) return [];
+
+            return AdditionalAttributes
+                .Where(a => !a.Key.StartsWith("b-", StringComparison.OrdinalIgnoreCase))
+                .ToDictionary(a => a.Key, a => a.Value);
+        }
     }
 }

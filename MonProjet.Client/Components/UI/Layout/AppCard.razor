@@ -6,7 +6,7 @@
               HorizontalAlignment="@ContainerAlignment.Stretch" VerticalAlignment="@ContainerAlignment.Stretch"
               IsEnabled="@true" IsVisible="@IsVisible">
 
-    <div class="app-card" @attributes="AdditionalAttributes">
+    <div class="app-card" @attributes="SafeAttributes">
         @if (ChildContent is not null)
         {
             @ChildContent
