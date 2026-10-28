@@ -1,15 +1,34 @@
 @inherits AppComponentBase
 
-<label class="app-toggle">
-    <input type="checkbox" checked="@Value" @onchange="OnChanged" disabled="@Disabled" />
-    <span class="app-toggle-slider"></span>
-    <span class="app-toggle-label">@Label</span>
-</label>
+<AppContainer Width="@Width" Height="@Height"
+              MarginLeft="@MarginLeft" MarginRight="@MarginRight" MarginTop="@MarginTop" MarginBottom="@MarginBottom"
+              PaddingLeft="@PaddingLeft" PaddingRight="@PaddingRight" PaddingTop="@PaddingTop" PaddingBottom="@PaddingBottom"
+              HorizontalAlignment="@ContainerAlignment.Start" VerticalAlignment="@ContainerAlignment.Center"
+              IsEnabled="@(!Disabled)" IsVisible="@IsVisible">
 
-@code {
-    [Parameter] public bool Value { get; set; }
-    [Parameter] public EventCallback<bool> ValueChanged { get; set; }
-    [Parameter] public string Label { get; set; } = string.Empty;
-    [Parameter] public bool Disabled { get; set; }
-    private Task OnChanged(ChangeEventArgs e) => ValueChanged.InvokeAsync(e.Value is true);
-}
+    <label class="app-toggle" for="@_inputId">
+
+        @if (Position == LabelPlacement.Before && !string.IsNullOrWhiteSpace(Label))
+        {
+            <span class="app-toggle-label">@Label</span>
+        }
+
+        <input type="checkbox"
+               id="@_inputId"
+               role="switch"
+               aria-checked="@Value.ToString().ToLowerInvariant()"
+               checked="@Value"
+               @onchange="OnChanged"
+               disabled="@Disabled"
+               @attributes="SafeAttributes" />
+
+        <span class="app-toggle-slider"></span>
+
+        @if (Position == LabelPlacement.After && !string.IsNullOrWhiteSpace(Label))
+        {
+            <span class="app-toggle-label">@Label</span>
+        }
+
+    </label>
+
+</AppContainer>
