@@ -1,16 +1,25 @@
 @inherits AppComponentBase
 
-<div class="app-dropdown">
-    <AppButton Text="@Text" OnClick="Toggle" />
-    @if (_open)
-    {
-        <div class="app-dropdown-menu">@ChildContent</div>
-    }
-</div>
+<AppContainer Width="@Width" Height="@Height"
+              MarginLeft="@MarginLeft" MarginRight="@MarginRight" MarginTop="@MarginTop" MarginBottom="@MarginBottom"
+              PaddingLeft="@PaddingLeft" PaddingRight="@PaddingRight" PaddingTop="@PaddingTop" PaddingBottom="@PaddingBottom"
+              HorizontalAlignment="@ContainerAlignment.Start" VerticalAlignment="@ContainerAlignment.Center"
+              IsVisible="@IsVisible">
 
-@code {
-    [Parameter] public string Text { get; set; } = string.Empty;
-    [Parameter] public RenderFragment? ChildContent { get; set; }
-    private bool _open;
-    private void Toggle() => _open = !_open;
-}
+    <div class="app-dropdown"
+         tabindex="-1"
+         @onfocusout="HandleFocusOut"
+         @attributes="SafeAttributes">
+
+        <AppButton Text="@Text" OnClick="Toggle" />
+
+        @if (_open)
+        {
+            <div class="app-dropdown-menu">
+                @ChildContent
+            </div>
+        }
+
+    </div>
+
+</AppContainer>

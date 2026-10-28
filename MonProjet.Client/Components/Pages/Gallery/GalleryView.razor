@@ -31,16 +31,35 @@
             <AppCheckBox @bind-Value="_isChecked" Label="Case à cocher (CheckBox)" id="checkbox1" />
             <AppToggleSwitch @bind-Value="_isToggled" Label="Interrupteur (ToggleSwitch)" />
 
-            <div style="display: flex; gap: 16px;">
-                <AppRadioButton GroupName="demo" Value="1" @bind-CurrentValue="_radioValue" Label="Option 1" />
-                <AppRadioButton GroupName="demo" Value="2" @bind-CurrentValue="_radioValue" Label="Option 2" />
-            </div>
+            <AppStackPanel Orientation="StackOrientation.Vertical" Gap="8">
+                <TextBlock Text="Choisissez votre plan :" Variant="TextBlock.TextVariant.Bold" MarginBottom="8px" />
+
+                <AppRadioButton GroupName="plans"
+                                Value="basic"
+                                @bind-CurrentValue="_radioValue"
+                                Label="Plan Basique (Gratuit)" />
+
+                <AppRadioButton GroupName="plans"
+                                Value="pro"
+                                @bind-CurrentValue="_radioValue"
+                                Label="Plan Pro (9.99$/mois)" />
+
+                <AppRadioButton GroupName="plans"
+                                Value="enterprise"
+                                @bind-CurrentValue="_radioValue"
+                                Label="Plan Entreprise (Sur devis)" />
+            </AppStackPanel>
 
             <AppComboBox TItem="string" Items="Presenter.ViewModel.Suggestions" id="select-langage"
                          @bind-SelectedItem="_selectedCombo" Placeholder="Sélectionnez un langage..." />
 
-            <AppDropDownButton Text="Menu Déroulant">
-                <div style="padding: 8px;">Contenu du menu</div>
+            <AppDropDownButton Text="Options du projet" MarginTop="16px">
+                <!-- Le contenu du menu -->
+                <div style="display: flex; flex-direction: column; gap: 2px;">
+                    <button @onclick="() => EditProject()">✏️ Modifier</button>
+                    <button @onclick="() => DuplicateProject()">📄 Dupliquer</button>
+                    <button style="color: #dc2626 !important;" @onclick="() => DeleteProject()">🗑️ Supprimer</button>
+                </div>
             </AppDropDownButton>
         </AppStackPanel>
     </AppCard>
@@ -244,6 +263,10 @@
         new() { Label = "Option 1 (Fictive)" },
         new() { Label = "Option 2 (Fictive)" }
     };
+
+    private void EditProject() { /* Logique */ }
+    private void DuplicateProject() { /* Logique */ }
+    private void DeleteProject() { /* Logique */ }
 
     // 5. Configuration du DataGrid
     private readonly List<GridColumn<DemoItem>> _dataGridColumns;

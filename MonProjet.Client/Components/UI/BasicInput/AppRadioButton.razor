@@ -1,17 +1,28 @@
 @inherits AppComponentBase
 
-<label class="app-radio">
-    <input type="radio" name="@GroupName" value="@Value" checked="@(Value == CurrentValue)"
-           @onchange="OnChanged" disabled="@Disabled" />
-    <span>@Label</span>
-</label>
+<AppContainer Width="@Width" Height="@Height"
+              MarginLeft="@MarginLeft" MarginRight="@MarginRight" MarginTop="@MarginTop" MarginBottom="@MarginBottom"
+              PaddingLeft="@PaddingLeft" PaddingRight="@PaddingRight" PaddingTop="@PaddingTop" PaddingBottom="@PaddingBottom"
+              HorizontalAlignment="@ContainerAlignment.Start" VerticalAlignment="@ContainerAlignment.Center"
+              IsEnabled="@(!Disabled)" IsVisible="@IsVisible">
 
-@code {
-    [Parameter] public string GroupName { get; set; } = "radio-group";
-    [Parameter] public string Value { get; set; } = string.Empty;
-    [Parameter] public string? CurrentValue { get; set; }
-    [Parameter] public EventCallback<string> CurrentValueChanged { get; set; }
-    [Parameter] public string Label { get; set; } = string.Empty;
-    [Parameter] public bool Disabled { get; set; }
-    private Task OnChanged() => CurrentValueChanged.InvokeAsync(Value);
-}
+    <label class="app-radio">
+
+        <input type="radio"
+               name="@GroupName"
+               value="@Value"
+               checked="@(Value == CurrentValue)"
+               @onchange="OnChanged"
+               disabled="@Disabled"
+               @attributes="SafeAttributes" />
+
+        <span class="app-radio-circle"></span>
+
+        @if (!string.IsNullOrWhiteSpace(Label))
+        {
+            <span class="app-radio-label">@Label</span>
+        }
+
+    </label>
+
+</AppContainer>

@@ -1,1 +1,88 @@
-.app-radio { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; }
+.app-radio {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+}
+
+    /* Cache l'input natif mais le garde dans le DOM pour l'accessibilité */
+    .app-radio input[type="radio"] {
+        position: absolute;
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+/* Le cercle extérieur */
+.app-radio-circle {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #cbd5e1; /* Gris clair */
+    border-radius: 50%;
+    background-color: #ffffff;
+    position: relative;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+}
+
+/* Effet au survol */
+.app-radio:hover input:not(:disabled) ~ .app-radio-circle {
+    border-color: var(--color-primary, #2563eb);
+}
+
+/* Le point central (caché par défaut) */
+.app-radio-circle::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0); /* Rétréci à 0 */
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: var(--color-primary, #2563eb);
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Effet ressort */
+}
+
+/* État sélectionné */
+.app-radio input:checked ~ .app-radio-circle {
+    border-color: var(--color-primary, #2563eb);
+}
+
+    /* On fait grossir le point central quand sélectionné */
+    .app-radio input:checked ~ .app-radio-circle::after {
+        transform: translate(-50%, -50%) scale(1);
+    }
+
+/* Accessibilité : Anneau de focus au clavier */
+.app-radio input:focus-visible ~ .app-radio-circle {
+    outline: 2px solid var(--color-primary, #2563eb);
+    outline-offset: 2px;
+}
+
+/* État désactivé */
+.app-radio input:disabled ~ .app-radio-circle {
+    background-color: #f1f5f9;
+    border-color: #e2e8f0;
+    cursor: not-allowed;
+}
+
+/* État désactivé ET sélectionné */
+.app-radio input:disabled:checked ~ .app-radio-circle::after {
+    background-color: #94a3b8;
+}
+
+/* Texte du label */
+.app-radio-label {
+    font-size: 0.875rem;
+    color: var(--color-text, #0f172a);
+    font-weight: 500;
+}
+
+/* Texte désactivé */
+.app-radio input:disabled ~ .app-radio-label {
+    color: #94a3b8;
+    cursor: not-allowed;
+}
