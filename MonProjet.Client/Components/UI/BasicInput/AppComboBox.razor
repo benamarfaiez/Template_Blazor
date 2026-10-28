@@ -1,33 +1,28 @@
 @typeparam TItem
 @inherits AppComponentBase
 
-<select class="app-combobox" value="@GetValue(SelectedItem)" @onchange="OnChanged" disabled="@Disabled">
-    @if (!string.IsNullOrEmpty(Placeholder))
-    {
-        <option value="">@Placeholder</option>
-    }
-    @foreach (var item in Items)
-    {
-        <option value="@GetValue(item)">@GetLabel(item)</option>
-    }
-</select>
+<AppContainer Width="@Width" Height="@Height"
+              MarginLeft="@MarginLeft" MarginRight="@MarginRight" MarginTop="@MarginTop" MarginBottom="@MarginBottom"
+              PaddingLeft="@PaddingLeft" PaddingRight="@PaddingRight" PaddingTop="@PaddingTop" PaddingBottom="@PaddingBottom"
+              HorizontalAlignment="@ContainerAlignment.Stretch" VerticalAlignment="@ContainerAlignment.Center"
+              IsEnabled="@(!Disabled)" IsVisible="@IsVisible">
 
-@code {
-    [Parameter] public IEnumerable<TItem> Items { get; set; } = Enumerable.Empty<TItem>();
-    [Parameter] public TItem? SelectedItem { get; set; }
-    [Parameter] public EventCallback<TItem?> SelectedItemChanged { get; set; }
-    [Parameter] public Func<TItem, string> ValueSelector { get; set; } = i => i?.ToString() ?? "";
-    [Parameter] public Func<TItem, string> LabelSelector { get; set; } = i => i?.ToString() ?? "";
-    [Parameter] public string Placeholder { get; set; } = string.Empty;
-    [Parameter] public bool Disabled { get; set; }
+    <select class="app-combobox"
+            value="@GetValue(SelectedItem)"
+            @onchange="OnChanged"
+            disabled="@Disabled"
+            @attributes="SafeAttributes">
 
-    private string GetValue(TItem? item) => item is null ? "" : ValueSelector(item);
-    private string GetLabel(TItem item) => LabelSelector(item);
+        @if (!string.IsNullOrEmpty(Placeholder))
+        {
+            <option value="">@Placeholder</option>
+        }
 
-    private Task OnChanged(ChangeEventArgs e)
-    {
-        var val = e.Value?.ToString();
-        var match = Items.FirstOrDefault(i => ValueSelector(i) == val);
-        return SelectedItemChanged.InvokeAsync(match);
-    }
-}
+        @foreach (var item in Items)
+        {
+            <option value="@GetValue(item)">@GetLabel(item)</option>
+        }
+
+    </select>
+
+</AppContainer>
