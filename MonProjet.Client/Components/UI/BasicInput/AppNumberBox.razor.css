@@ -1,0 +1,88 @@
+.app-numberbox {
+    display: flex;
+    align-items: stretch;
+    border: 1px solid var(--color-border, #e2e8f0);
+    border-radius: var(--radius, 6px);
+    background-color: #ffffff;
+    overflow: hidden; /* Empêche les coins carrés de dépasser */
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+    /* Effet de focus global sur le conteneur */
+    .app-numberbox:focus-within {
+        border-color: var(--color-primary, #2563eb);
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+
+.app-numberbox-input {
+    flex: 1;
+    width: 100%;
+    border: none;
+    padding: 8px 12px;
+    text-align: center;
+    font-size: 0.875rem;
+    color: var(--color-text, #0f172a);
+    background: transparent;
+    outline: none;
+    font-weight: 500;
+    font-size: 16px;
+}
+
+    /* ✅ Cacher les flèches natives (spinners) du navigateur */
+    .app-numberbox-input::-webkit-outer-spin-button,
+    .app-numberbox-input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    .app-numberbox-input[type=number] {
+        -moz-appearance: textfield;
+    }
+
+/* Les boutons plus et moins */
+.app-numberbox-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    background-color: var(--color-bg-alt, #f8fafc);
+    border: none;
+    color: var(--color-text, #0f172a);
+    font-size: 1.25rem;
+    cursor: pointer;
+    transition: background-color 0.15s ease, color 0.15s ease;
+    user-select: none;
+}
+
+    /* Séparation visuelle */
+    .app-numberbox-btn:first-child {
+        border-right: 1px solid var(--color-border, #e2e8f0);
+    }
+
+    .app-numberbox-btn:last-child {
+        border-left: 1px solid var(--color-border, #e2e8f0);
+    }
+
+    /* Survol des boutons */
+    .app-numberbox-btn:hover:not(:disabled) {
+        background-color: #e2e8f0;
+        color: var(--color-primary, #2563eb);
+    }
+
+    /* Boutons désactivés (si on atteint Min ou Max) */
+    .app-numberbox-btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        background-color: var(--color-bg-alt, #f1f5f9);
+    }
+
+/* État désactivé global */
+.app-numberbox:has(.app-numberbox-input:disabled) {
+    background-color: var(--color-bg-alt, #f1f5f9);
+    opacity: 0.7;
+}
+
+.app-numberbox-input:disabled {
+    cursor: not-allowed;
+    color: #94a3b8;
+}

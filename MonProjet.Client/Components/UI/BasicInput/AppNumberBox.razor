@@ -1,0 +1,31 @@
+﻿@typeparam TValue
+@inherits AppComponentBase
+
+<AppContainer Width="@Width" Height="@Height"
+              MarginLeft="@MarginLeft" MarginRight="@MarginRight" MarginTop="@MarginTop" MarginBottom="@MarginBottom"
+              PaddingLeft="@PaddingLeft" PaddingRight="@PaddingRight" PaddingTop="@PaddingTop" PaddingBottom="@PaddingBottom"
+              HorizontalAlignment="@ContainerAlignment.Stretch" VerticalAlignment="@ContainerAlignment.Center"
+              IsEnabled="@(!Disabled)" IsVisible="@IsVisible">
+
+    <div class="app-numberbox" role="group">
+
+        <button type="button" class="app-numberbox-btn" @onclick="Decrement" disabled="@(!CanDecrement)" aria-label="Diminuer">
+            &minus;
+        </button>
+
+        <input type="text"
+               inputmode="decimal"
+               class="app-numberbox-input"
+               value="@GetFormattedValue()"
+               @onchange="HandleInput"
+               placeholder="@Placeholder"
+               disabled="@Disabled"
+               @attributes="SafeAttributes" />
+
+        <button type="button" class="app-numberbox-btn" @onclick="Increment" disabled="@(!CanIncrement)" aria-label="Augmenter">
+            &plus;
+        </button>
+
+    </div>
+
+</AppContainer>

@@ -60,6 +60,15 @@
                     <button style="color: #dc2626 !important;" @onclick="() => DeleteProject()">🗑️ Supprimer</button>
                 </div>
             </AppDropDownButton>
+
+            <AppNumberBox TValue="int" @bind-Value="_quantite" Min="1" Max="10" />
+            <AppNumberBox
+                @bind-Value="_prix"
+                id="age-input"
+                TValue="decimal"
+                Step="0.5m" 
+                Min="0m" 
+                Placeholder="Prix en €" />
         </AppStackPanel>
     </AppCard>
 
@@ -262,6 +271,9 @@
         new() { Label = "Option 1 (Fictive)" },
         new() { Label = "Option 2 (Fictive)" }
     };
+
+    private int _quantite = 1;
+    private decimal _prix = 0m;
 
     private void EditProject() { /* Logique */ }
     private void DuplicateProject() { /* Logique */ }
