@@ -69,6 +69,12 @@
                 Step="0.5m" 
                 Min="0m" 
                 Placeholder="Prix en €" />
+
+            <div style="max-width: 400px; margin-top: 20px;">
+                <TextBlock Text="Volume : " Variant="TextBlock.TextVariant.Bold" MarginBottom="8px" /> @_volume %
+                <AppRangeSlider TValue="int" @bind-Value="_volume" Min="0" Max="100" />
+            </div>
+
         </AppStackPanel>
     </AppCard>
 
@@ -274,6 +280,7 @@
 
     private int _quantite = 1;
     private decimal _prix = 0m;
+    private int _volume = 50;
 
     private void EditProject() { /* Logique */ }
     private void DuplicateProject() { /* Logique */ }

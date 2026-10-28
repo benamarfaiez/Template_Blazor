@@ -1,0 +1,81 @@
+.app-range-slider {
+    /* Variables de thème */
+    --track-bg: var(--color-bg-alt, #e2e8f0);
+    --track-fill: var(--color-primary, #2563eb);
+    --thumb-bg: #ffffff;
+    --thumb-size: 20px;
+    --track-height: 6px;
+    -webkit-appearance: none; /* Désactive le style par défaut */
+    appearance: none;
+    width: 100%;
+    height: var(--thumb-size); /* Doit être plus haut que le track pour que le thumb ne soit pas coupé */
+    background: transparent;
+    cursor: pointer;
+    outline: none;
+}
+
+    /* --- STYLE DU TRACK (La ligne de fond) --- */
+    /* Pour Chrome, Edge, Safari (WebKit) */
+    .app-range-slider::-webkit-slider-runnable-track {
+        width: 100%;
+        height: var(--track-height);
+        border-radius: calc(var(--track-height) / 2);
+        /* Le dégradé coloré utilise la variable --fill-percent injectée par Blazor */
+        background: linear-gradient( to right, var(--track-fill) 0%, var(--track-fill) var(--fill-percent), var(--track-bg) var(--fill-percent), var(--track-bg) 100% );
+        transition: background 0.1s ease;
+    }
+
+    .app-range-slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: var(--thumb-size);
+        height: var(--thumb-size);
+        border-radius: 50%;
+        background: var(--thumb-bg);
+        border: 2px solid var(--track-fill);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+        /* Centre le curseur sur la ligne */
+        margin-top: calc((var(--track-height) - var(--thumb-size)) / 2);
+        transition: transform 0.1s ease, box-shadow 0.1s ease;
+    }
+
+    /* Pour Firefox (Mozilla) */
+    .app-range-slider::-moz-range-thumb {
+        width: var(--thumb-size);
+        height: var(--thumb-size);
+        border-radius: 50%;
+        background: var(--thumb-bg);
+        border: 2px solid var(--track-fill);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+        transition: transform 0.1s ease, box-shadow 0.1s ease;
+    }
+
+    /* --- ÉTATS --- */
+    /* Survol et Focus */
+    .app-range-slider:hover::-webkit-slider-thumb,
+    .app-range-slider:focus-visible::-webkit-slider-thumb {
+        transform: scale(1.15);
+        box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.15), 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .app-range-slider:hover::-moz-range-thumb,
+    .app-range-slider:focus-visible::-moz-range-thumb {
+        transform: scale(1.15);
+        box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.15), 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Désactivé */
+    .app-range-slider:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+
+        .app-range-slider:disabled::-webkit-slider-runnable-track {
+            background: var(--color-bg-alt, #e2e8f0);
+        }
+
+        .app-range-slider:disabled::-webkit-slider-thumb {
+            border-color: #94a3b8;
+            transform: none;
+            box-shadow: none;
+        }
