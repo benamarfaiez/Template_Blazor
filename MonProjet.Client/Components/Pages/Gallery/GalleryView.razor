@@ -127,12 +127,21 @@
             <InfoBar Visible="true" Message="Attention, risque d'erreur." Severity="InfoBar.InfoSeverity.Warning" />
             <InfoBar Visible="true" Message="Une erreur est survenue." Severity="InfoBar.InfoSeverity.Error" />
 
-            <div style="display: flex; gap: 16px; align-items: center;">
-                <AppProgressRing Visible="true" />
-                <FontIcon Icon="★" Size="24px" />
-                <FontIcon Icon="⚙" Size="24px" />
-                <FontIcon Icon="❤" Size="24px" />
-            </div>
+            <AppStackPanel Orientation="StackOrientation.Horizontal"
+                           CrossAxisAlignment="StackAlignment.Center"
+                           Gap="32"
+                           MarginBottom="16px">
+                <AppProgressRing />
+                <AppProgressRing Size="20px" Thickness="2px" />
+                <AppProgressRing Size="48px" Thickness="5px" />
+                <AppProgressRing Variant="ProgressRingVariant.Success" />
+                <AppProgressRing Variant="ProgressRingVariant.Danger" />
+                <AppProgressRing IsVisible="false" />
+            </AppStackPanel>
+
+            <FontIcon Icon="★" Size="24px" />
+            <FontIcon Icon="⚙" Size="24px" />
+            <FontIcon Icon="❤" Size="24px" />
 
             <AppProgressBar Value="65" BarHeight="4px" />
             <AppProgressBar Value="75" BarHeight="16px" Variant="ProgressVariant.Success" />

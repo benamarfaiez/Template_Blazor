@@ -1,10 +1,30 @@
 @inherits AppComponentBase
 
-@if (Visible)
-{
-    <div class="app-progressring"></div>
-}
+<AppContainer Width="@Width" Height="@Height"
+              MarginLeft="@MarginLeft" MarginRight="@MarginRight" MarginTop="@MarginTop" MarginBottom="@MarginBottom"
+              PaddingLeft="@PaddingLeft" PaddingRight="@PaddingRight" PaddingTop="@PaddingTop" PaddingBottom="@PaddingBottom"
+              HorizontalAlignment="@ContainerAlignment.Center" VerticalAlignment="@ContainerAlignment.Center"
+              IsVisible="@IsVisible">
 
-@code {
-    [Parameter] public bool Visible { get; set; }
-}
+    <svg class="app-progressring @VariantClass"
+         viewBox="0 0 50 50"
+         role="status"
+         aria-label="Chargement en cours..."
+         style="width: @Size; height: @Size; --ring-thickness: @Thickness;"
+         @attributes="SafeAttributes">
+
+        <circle class="app-progressring-track"
+                cx="25" cy="25" r="20"
+                fill="none"
+                stroke-width="var(--ring-thickness)">
+        </circle>
+
+        <circle class="app-progressring-fill"
+                cx="25" cy="25" r="20"
+                fill="none"
+                stroke-width="var(--ring-thickness)"
+                stroke-linecap="round">
+        </circle>
+    </svg>
+
+</AppContainer>
