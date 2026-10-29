@@ -80,6 +80,22 @@
                             @bind-SelectedItems="_selectedTags"
                             Placeholder="Choisissez des tags..." />
 
+            <AppDatePicker @bind-Value="_dateNaissance" 
+                           Placeholder="JJ/MM/AAAA"
+                           MarginTop="24px"
+                           MarginBottom="16px" />
+
+            <AppStackPanel Orientation="StackOrientation.Vertical" Gap="16">
+                <div>
+                    <TextBlock Text="Date de naissance" Variant="TextBlock.TextVariant.Bold" MarginBottom="8px" />
+                    <AppDatePicker @bind-Value="_dateNaissance" Placeholder="Sélectionnez votre date de naissance..." />
+                </div>
+
+                <InfoBar Visible="@(_dateNaissance.HasValue)"
+                         Severity="InfoBar.InfoSeverity.Success"
+                         Message="@($"Date sélectionnée : {_dateNaissance:dd/MM/yyyy}")" />
+            </AppStackPanel>
+
         </AppStackPanel>
     </AppCard>
 
@@ -288,6 +304,7 @@
     private int _volume = 50;
     private List<string> _allTags = new() { "C#", "Blazor", ".NET", "WASM", "SOLID" };
     private IEnumerable<string> _selectedTags = new List<string> { "Blazor" };
+    private DateTime? _dateNaissance;
 
     private void EditProject() { /* Logique */ }
     private void DuplicateProject() { /* Logique */ }

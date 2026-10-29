@@ -1,0 +1,78 @@
+﻿@using System.Globalization
+@inherits AppComponentBase
+
+<AppContainer Width="@Width" Height="@Height"
+              MarginLeft="@MarginLeft" MarginRight="@MarginRight" MarginTop="@MarginTop" MarginBottom="@MarginBottom"
+              PaddingLeft="@PaddingLeft" PaddingRight="@PaddingRight" PaddingTop="@PaddingTop" PaddingBottom="@PaddingBottom"
+              HorizontalAlignment="@ContainerAlignment.Stretch" VerticalAlignment="@ContainerAlignment.Center"
+              IsEnabled="@(!Disabled)" IsVisible="@IsVisible">
+
+    <div class="app-datepicker-container" tabindex="-1" @onfocusout="HandleFocusOut" @attributes="SafeAttributes">
+
+        <div class="app-datepicker-input @(_isOpen ? "is-open" : "")"
+             @onclick="ToggleCalendar"
+             tabindex="0"
+             role="combobox"
+             aria-haspopup="dialog"
+             aria-expanded="@_isOpen.ToString().ToLowerInvariant()">
+
+            <span class="app-datepicker-text @(Value.HasValue ? "" : "placeholder")">
+                @(Value.HasValue ? DisplayValue : Placeholder)
+            </span>
+            <span class="app-datepicker-icon" aria-hidden="true">📅</span>
+        </div>
+
+        <!-- Le popup du calendrier -->
+        @if (_isOpen)
+        {
+            <div class="app-datepicker-popup" role="dialog" aria-label="Sélectionner une date">
+
+                <div class="app-datepicker-header">
+                    <button type="button" class="app-datepicker-nav-btn" @onmousedown="PreviousMonth" @onmousedown:preventDefault="true" aria-label="Mois précédent">
+                        &#10094;
+                    </button>
+                    <span class="app-datepicker-month-label">@_viewDate.ToString("MMMM yyyy", CultureInfo.CurrentCulture)</span>
+                    <button type="button" class="app-datepicker-nav-btn" @onmousedown="NextMonth" @onmousedown:preventDefault="true" aria-label="Mois suivant">
+                        &#10095;
+                    </button>
+                </div>
+
+                <div class="app-datepicker-grid app-datepicker-weekdays" aria-hidden="true">
+                    @foreach (var day in _dayNames)
+                    {
+                        <div class="app-datepicker-weekday">@day</div>
+                    }
+                </div>
+
+                <div class="app-datepicker-grid app-datepicker-days" role="grid">
+                    @foreach (var date in GetDaysInMonth())
+                    {
+                        if (date is null)
+                        {
+                            <div class="app-datepicker-day empty" role="gridcell"></div>
+                        }
+                        else
+                        {
+                            var isDisabled = IsDisabled(date.Value);
+                            var isSelected = IsSelected(date.Value);
+                            var isToday = IsToday(date.Value);
+
+                            <button type="button"
+                                    class="app-datepicker-day @(isSelected ? "selected" : "") @(isToday ? "today" : "")"
+                                    disabled="@isDisabled"
+                                    @onmousedown="() => SelectDate(date.Value)"
+                                    @onmousedown:preventDefault="true"
+                                    role="gridcell"
+                                    aria-selected="@isSelected.ToString().ToLowerInvariant()">
+                                @date.Value.Day
+                            </button>
+                        }
+                    }
+                </div>
+
+            </div>
+        }
+
+    </div>
+
+</AppContainer>

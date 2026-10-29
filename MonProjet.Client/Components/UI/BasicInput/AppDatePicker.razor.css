@@ -1,0 +1,176 @@
+.app-datepicker-container {
+    position: relative;
+    width: 100%;
+    outline: none;
+}
+
+/* --- LE CHAMP DE SAISIE --- */
+.app-datepicker-input {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 12px;
+    background: #ffffff;
+    border: 1px solid var(--color-border, #e2e8f0);
+    border-radius: var(--radius, 6px);
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+    .app-datepicker-input:hover {
+        border-color: #cbd5e1;
+    }
+
+    .app-datepicker-input.is-open,
+    .app-datepicker-input:focus-visible {
+        border-color: var(--color-primary, #2563eb);
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        outline: none;
+    }
+
+.app-datepicker-text {
+    font-size: 0.875rem;
+    color: var(--color-text, #0f172a);
+}
+
+    .app-datepicker-text.placeholder {
+        color: #94a3b8;
+    }
+
+.app-datepicker-icon {
+    font-size: 1rem;
+    color: #64748b;
+}
+
+/* --- LE POPUP DU CALENDRIER --- */
+.app-datepicker-popup {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    width: 300px;
+    background: #ffffff;
+    border: 1px solid var(--color-border, #e2e8f0);
+    border-radius: 8px;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+    padding: 16px;
+    animation: slideDown 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* En-tête */
+.app-datepicker-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+
+.app-datepicker-month-label {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--color-text, #0f172a);
+    text-transform: capitalize;
+}
+
+.app-datepicker-nav-btn {
+    background: transparent;
+    border: none;
+    color: #64748b;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: background 0.15s;
+    font-size: 0.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+}
+
+    .app-datepicker-nav-btn:hover {
+        background: var(--color-bg-alt, #f1f5f9);
+        color: var(--color-primary, #2563eb);
+    }
+
+/* Grille commune */
+.app-datepicker-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+}
+
+/* Jours de la semaine */
+.app-datepicker-weekdays {
+    margin-bottom: 8px;
+}
+
+.app-datepicker-weekday {
+    text-align: center;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #94a3b8;
+    text-transform: uppercase;
+}
+
+/* Boutons des jours */
+.app-datepicker-day {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 36px;
+    width: 100%;
+    border: 1px solid transparent;
+    background: transparent;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    color: var(--color-text, #0f172a);
+    cursor: pointer;
+    transition: all 0.15s ease;
+    padding: 0;
+}
+
+    .app-datepicker-day:hover:not(:disabled) {
+        background: var(--color-bg-alt, #f1f5f9);
+    }
+
+    .app-datepicker-day:focus-visible {
+        outline: none;
+        border-color: var(--color-primary, #2563eb);
+    }
+
+    /* Aujourd'hui (Bordure) */
+    .app-datepicker-day.today:not(.selected) {
+        border: 1px solid var(--color-primary, #2563eb);
+        color: var(--color-primary, #2563eb);
+        font-weight: 600;
+    }
+
+    /* Jour sélectionné */
+    .app-datepicker-day.selected {
+        background: var(--color-primary, #2563eb);
+        color: #ffffff;
+        font-weight: 600;
+        box-shadow: 0 2px 4px rgba(37, 99, 235, 0.3);
+    }
+
+    /* Jours désactivés */
+    .app-datepicker-day:disabled {
+        color: #cbd5e1;
+        cursor: not-allowed;
+        background: transparent;
+        border-color: transparent;
+    }
+
+/* Animation d'apparition */
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-8px) scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
