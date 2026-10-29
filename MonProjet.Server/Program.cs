@@ -1,3 +1,4 @@
+using MonProjet.Client.Presenters.Employee;
 using MonProjet.Client.Presenters.Gallery;
 using MonProjet.Client.Presenters.Home;
 using MonProjet.Client.Presenters.Users;
@@ -10,11 +11,13 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents()
     .AddInteractiveWebAssemblyComponents();
 
+builder.Services.AddScoped<IExceptionHandler, ExceptionHandler>();
+builder.Services.AddScoped<IFocusTrapService, FocusTrapService>();
+
 builder.Services.AddScoped<IHomePresenter, HomePresenter>();
 builder.Services.AddScoped<IUserPresenter, UserPresenter>();
 builder.Services.AddScoped<IGalleryPresenter, GalleryPresenter>();
-builder.Services.AddScoped<IExceptionHandler, ExceptionHandler>();
-builder.Services.AddScoped<IFocusTrapService, FocusTrapService>();
+builder.Services.AddScoped<IEmployeePresenter, EmployeePresenter>();
 
 var app = builder.Build();
 

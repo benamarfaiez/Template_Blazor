@@ -1,41 +1,35 @@
-@using MonProjet.Client.Components.UI.Collections.Column
-@using MonProjet.Client.Components.UI.Collections.State
 @typeparam TItem
 @inherits AppComponentBase
 
-<thead>
+<thead @attributes="SafeAttributes">
     <tr>
         @foreach (var col in Columns)
         {
             var sortable = col.Sort.IsSortable;
-            var isSorted = SortState.SortColumnKey == col.SortKey;
 
             <th class="@ClassNames(col.Options.AlignClass, col.Options.HeaderClass, sortable ? "sortable" : null)"
                 style="@(col.Options.Width is not null ? $"width: {col.Options.Width};" : null)"
-                @onclick="() => HandleSortClick(col)">
-                @col.Header
-                @if (sortable)
-                {
-                    <span class="sort-indicator">
-                        @(isSorted ? (SortState.SortAscending ? "▲" : "▼") : "⇅")
-                    </span>
-                }
+                @key="col"
+                role="columnheader"
+                aria-sort="@GetAriaSort(col)"
+                tabindex="@(sortable ? "0" : "-1")"
+                @onclick="() => HandleSortClickAsync(col)"
+                @onkeydown="(e) => HandleKeyDownAsync(e, col)">
+
+                <div class="th-content">
+                    <span>@col.Header</span>
+
+                    @if (sortable)
+                    {
+                        <!-- ✅ Icône de tri avec classes CSS pour l'animation -->
+                        <span class="@GetSortIconClass(col)" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M7 15l5 5 5-5M7 9l5-5 5 5"></path>
+                            </svg>
+                        </span>
+                    }
+                </div>
             </th>
         }
     </tr>
 </thead>
-
-@code {
-    [Parameter] public List<GridColumn<TItem>> Columns { get; set; } = new();
-    [Parameter] public GridSortState<TItem> SortState { get; set; } = default!;
-    [Parameter] public EventCallback<GridColumn<TItem>> OnSortRequested { get; set; }
-
-    // Méthode privée qui gère le clic et vérifie si la colonne est triable
-    private async Task HandleSortClick(GridColumn<TItem> column)
-    {
-        if (column.Sort.IsSortable)
-        {
-            await OnSortRequested.InvokeAsync(column);
-        }
-    }
-}

@@ -1,50 +1,46 @@
-@using MonProjet.Client.Components.UI.Collections.Column
-@using MonProjet.Client.Components.UI.Collections.State
 @typeparam TItem
 @inherits AppComponentBase
 
-@if (Items is null || !Items.Any())
-{
-    @if (EmptyTemplate is not null)
+<AppContainer Width="@Width" Height="@Height"
+              MarginLeft="@MarginLeft" MarginRight="@MarginRight" MarginTop="@MarginTop" MarginBottom="@MarginBottom"
+              PaddingLeft="@PaddingLeft" PaddingRight="@PaddingRight" PaddingTop="@PaddingTop" PaddingBottom="@PaddingBottom"
+              HorizontalAlignment="@ContainerAlignment.Stretch" VerticalAlignment="@ContainerAlignment.Stretch"
+              IsVisible="@IsVisible">
+
+    @if (_sortedItems.Count == 0)
     {
-        @EmptyTemplate
+        <div class="app-datagrid-empty-state" @attributes="SafeAttributes">
+            @if (EmptyTemplate is not null)
+            {
+                @EmptyTemplate
+            }
+            else
+            {
+                <div class="app-datagrid-empty-content">
+                    <span class="app-datagrid-empty-icon">📂</span>
+                    <span class="app-datagrid-empty-text">Aucune donnée disponible.</span>
+                </div>
+            }
+        </div>
     }
     else
     {
-        <p class="app-datagrid-empty">Aucune donnée disponible.</p>
+        <div class="app-datagrid-wrapper" @attributes="SafeAttributes">
+            <table class="app-datagrid">
+
+                <AppDataGridHeader TItem="TItem"
+                                   Columns="Columns"
+                                   SortState="_sortState"
+                                   OnSortRequested="HandleSortRequested" />
+
+                <AppDataGridBody TItem="TItem"
+                                 Items="_sortedItems"
+                                 Columns="Columns"
+                                 RowClassSelector="RowClassSelector"
+                                 OnRowClick="OnRowClick" />
+
+            </table>
+        </div>
     }
-}
-else
-{
-    <div class="app-datagrid-wrapper" @attributes="SafeAttributes">
-        <table class="app-datagrid">
-            
-            <AppDataGridHeader TItem="TItem" 
-                               Columns="Columns" 
-                               SortState="_sortState" 
-                               OnSortRequested="HandleSortRequested" />
 
-            <AppDataGridBody TItem="TItem" 
-                             Items="SortedItems" 
-                             Columns="Columns" />
-                             
-        </table>
-    </div>
-}
-
-@code {
-    [Parameter] public IEnumerable<TItem>? Items { get; set; }
-    [Parameter] public List<GridColumn<TItem>> Columns { get; set; } = new();
-    [Parameter] public RenderFragment? EmptyTemplate { get; set; }
-
-    // Le composant possède l'état, mais délègue la logique algorithmique à GridSortState
-    private readonly GridSortState<TItem> _sortState = new();
-
-    private IEnumerable<TItem> SortedItems => _sortState.Apply(Items ?? Enumerable.Empty<TItem>(), Columns);
-
-    private void HandleSortRequested(GridColumn<TItem> column)
-    {
-        _sortState.ToggleSort(column);
-        StateHasChanged();
-    }
-}
+</AppContainer>

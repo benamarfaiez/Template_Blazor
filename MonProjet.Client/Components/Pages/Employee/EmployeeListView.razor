@@ -1,0 +1,43 @@
+﻿@page "/employees"
+@using MonProjet.Client.Models.Employee
+@using MonProjet.Client.View.Employee
+@inherits OwningComponentBase
+@implements IEmployeeView
+@implements IDisposable
+
+<PageTitle>Employés</PageTitle>
+
+<h1>@Presenter.ViewModel.Title</h1>
+
+<AppStackPanel Orientation="StackOrientation.Horizontal" Gap="8" MarginBottom="16px">
+    <AppButton Text="Recharger" OnClick="Presenter.LoadEmployeesAsync" Loading="Presenter.ViewModel.IsLoading" />
+</AppStackPanel>
+
+@if (!string.IsNullOrEmpty(_selectedEmployeeName))
+{
+    <InfoBar Visible="true"
+             Severity="InfoBar.InfoSeverity.Success"
+             Message="@($"Employé sélectionné : {_selectedEmployeeName}")"
+             OnDismiss="() => _selectedEmployeeName = string.Empty"
+             MarginBottom="16px" />
+}
+
+@if (Presenter.ViewModel.IsLoading)
+{
+    <AppProgressRing Visible="true" />
+}
+else
+{
+    <!-- ✅ Le DataGrid branché sur le ViewModel du Présentateur -->
+    <AppDataGrid TItem="EmployeeDto"
+                 Items="Presenter.ViewModel.Employees"
+                 Columns="_columns"
+                 RowClassSelector="GetRowClass"
+                 OnRowClick="HandleRowClick"
+                 Height="400px" />
+}
+
+<InfoBar Visible="@(Presenter.ViewModel.ErrorMessage is not null)"
+         Severity="InfoBar.InfoSeverity.Error"
+         Message="@Presenter.ViewModel.ErrorMessage"
+         OnDismiss="() => Presenter.ViewModel.ErrorMessage = null" />

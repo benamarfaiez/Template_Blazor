@@ -1,0 +1,24 @@
+/* Animation fluide au survol de la souris */
+tbody tr {
+    transition: background-color 0.15s ease;
+}
+
+    /* Survol standard */
+    tbody tr:hover {
+        background-color: #f8fafc; /* Gris très clair (Tailwind slate-50) */
+    }
+
+    /* ✅ Si la ligne est cliquable */
+    tbody tr.clickable {
+        cursor: pointer;
+    }
+
+        /* Effet de clic plus prononcé si la ligne est interactive */
+        tbody tr.clickable:active {
+            background-color: #f1f5f9; /* Gris un peu plus soutenu */
+        }
+
+    /* Retirer la bordure de la dernière ligne du tableau (si géré ici) */
+    tbody tr:last-child td {
+        border-bottom: none;
+    }

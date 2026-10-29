@@ -1,0 +1,14 @@
+/* 
+  On utilise ::deep pour cibler les lignes à l'intérieur du composant AppDataGridBody.
+  L'isolation CSS empêche normalement de styliser les composants enfants autrement.
+*/
+::deep .row-inactive td {
+    color: #94a3b8 !important;
+    background-color: #f8fafc;
+    opacity: 0.8;
+}
+
+/* On empêche de cliquer sur les employés inactifs */
+::deep .row-inactive {
+    pointer-events: none;
+}

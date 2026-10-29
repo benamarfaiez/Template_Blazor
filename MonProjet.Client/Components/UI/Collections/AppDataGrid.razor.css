@@ -1,86 +1,84 @@
+/* --- CONTENEUR PRINCIPAL --- */
 .app-datagrid-wrapper {
     overflow-x: auto;
-    border: 1px solid #e2e8f0;
-    border-radius: 8px;
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-    background-color: #ffffff;
+    background: #ffffff;
+    border: 1px solid var(--color-border, #e2e8f0);
+    border-radius: var(--radius, 8px);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    max-height: 100%; /* Permet le scroll si défini via Width/Height sur AppContainer */
 }
 
+/* --- LE TABLEAU --- */
 .app-datagrid {
     width: 100%;
     border-collapse: collapse;
     text-align: left;
 }
 
+    /* --- EN-TÊTES (STICKY) --- */
     .app-datagrid th {
-        padding: 14px 16px;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        padding: 12px 16px;
         background-color: #f8fafc;
         color: #64748b;
         font-weight: 600;
         font-size: 0.75rem;
         text-transform: uppercase;
         letter-spacing: 0.05em;
-        border-bottom: 1px solid #e2e8f0;
+        border-bottom: 1px solid var(--color-border, #e2e8f0);
         white-space: nowrap;
     }
 
-    /* Lignes du tableau */
+    /* --- LIGNES ET CELLULES --- */
     .app-datagrid td {
-        padding: 14px 16px;
-        border-bottom: 1px solid #e2e8f0;
-        color: #0f172a;
+        padding: 12px 16px;
+        border-bottom: 1px solid var(--color-border, #f1f5f9);
+        color: var(--color-text, #0f172a);
         font-size: 0.875rem;
         vertical-align: middle;
-        transition: background-color 0.15s ease;
     }
 
     /* Survol de ligne */
-    .app-datagrid tbody tr:hover td {
-        background-color: #f1f5f9;
+    .app-datagrid tbody tr {
+        transition: background-color 0.15s ease;
     }
 
-    /* Retirer la bordure de la dernière ligne */
-    .app-datagrid tbody tr:last-child td {
-        border-bottom: none;
-    }
-
-    /* Styles pour le tri */
-    .app-datagrid th.sortable {
-        cursor: pointer;
-        user-select: none;
-    }
-
-        .app-datagrid th.sortable:hover {
-            background-color: #f1f5f9;
+        .app-datagrid tbody tr:hover {
+            background-color: #f8fafc;
         }
 
-.sort-indicator {
-    display: inline-block;
-    margin-left: 6px;
-    font-size: 0.65rem;
-    color: #94a3b8;
-    vertical-align: middle;
-}
+        /* Enlever la bordure de la dernière ligne */
+        .app-datagrid tbody tr:last-child td {
+            border-bottom: none;
+        }
 
-/* Alignements (appliqués aux th ET aux td) */
-.app-datagrid .align-left {
-    text-align: left;
-}
-
-.app-datagrid .align-center {
-    text-align: center;
-}
-
-.app-datagrid .align-right {
-    text-align: right;
-}
-
-/* Style pour la ligne vide */
-.app-datagrid-empty {
-    padding: 32px;
-    text-align: center;
+/* --- ÉTAT VIDE (EMPTY STATE) --- */
+.app-datagrid-empty-state {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 24px;
+    background: #ffffff;
+    border: 1px dashed var(--color-border, #cbd5e1);
+    border-radius: var(--radius, 8px);
     color: #64748b;
-    font-style: italic;
-    background-color: #f8fafc;
-    border-radius: 8px;
+}
+
+.app-datagrid-empty-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.app-datagrid-empty-icon {
+    font-size: 2rem;
+    opacity: 0.5;
+}
+
+.app-datagrid-empty-text {
+    font-size: 0.875rem;
+    font-weight: 500;
 }

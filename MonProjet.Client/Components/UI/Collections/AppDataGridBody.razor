@@ -1,22 +1,27 @@
-﻿@using MonProjet.Client.Components.UI.Collections.Column
-@typeparam TItem
+﻿@typeparam TItem
 @inherits AppComponentBase
 
-<tbody>
+<tbody @attributes="SafeAttributes">
     @foreach (var item in Items)
     {
-        <tr>
+        <!--
+            ✅ CORRECTION MAJEURE : L'attribut @key permet à Blazor de savoir
+            quelle ligne correspond à quel objet, optimisant ainsi le rendu (Diffing).
+        -->
+        <tr @key="item"
+            class="@ClassNames(RowClassSelector?.Invoke(item), OnRowClick.HasDelegate ? "clickable" : null)"
+            @onclick="() => HandleRowClickAsync(item)"
+            role="@(OnRowClick.HasDelegate ? "button" : "row")"
+            tabindex="@(OnRowClick.HasDelegate ? "0" : "-1")"
+            @onkeydown="@(e => HandleKeyDown(e, item))">
+
             @foreach (var col in Columns)
             {
                 <td class="@ClassNames(col.Options.AlignClass, col.Options.CellClass)">
                     @col.Content.Render(item)
                 </td>
             }
+
         </tr>
     }
 </tbody>
-
-@code {
-    [Parameter] public IEnumerable<TItem> Items { get; set; } = Enumerable.Empty<TItem>();
-    [Parameter] public List<GridColumn<TItem>> Columns { get; set; } = new();
-}
