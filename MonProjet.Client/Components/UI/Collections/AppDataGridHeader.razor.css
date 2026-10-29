@@ -6,7 +6,7 @@ th {
     position: sticky;
     top: 0;
     z-index: 10;
-    padding: 0; /* Le padding est géré par le th-content pour le clic */
+    padding: 0;
     border-bottom: 1px solid var(--color-border, #e2e8f0);
     color: #64748b;
     font-weight: 600;
@@ -18,7 +18,6 @@ th {
     transition: background-color 0.15s ease;
 }
 
-/* Rendre toute la zone cliquable */
 .th-content {
     display: flex;
     align-items: center;
@@ -29,7 +28,6 @@ th {
     box-sizing: border-box;
 }
 
-/* Styles spécifiques aux colonnes triables */
 th.sortable {
     cursor: pointer;
     user-select: none;
@@ -40,14 +38,12 @@ th.sortable {
         color: var(--color-text, #0f172a);
     }
 
-    /* ✅ Accessibilité : Contour de focus au clavier */
     th.sortable:focus-visible {
         outline: 2px solid var(--color-primary, #2563eb);
         outline-offset: -2px;
         background-color: #f1f5f9;
     }
 
-/* --- ICÔNES DE TRI --- */
 .sort-icon {
     display: flex;
     align-items: center;
@@ -56,7 +52,6 @@ th.sortable {
     transition: all 0.2s ease;
 }
 
-    /* État neutre (pas trié) */
     .sort-icon.neutral svg {
         opacity: 0.5;
         transform: scale(0.8);
@@ -67,29 +62,24 @@ th.sortable:hover .sort-icon.neutral {
     opacity: 1;
 }
 
-/* État Ascendant */
 .sort-icon.asc {
     color: var(--color-primary, #2563eb);
 }
 
     .sort-icon.asc svg {
-        /* Cache la flèche du bas, garde celle du haut */
         clip-path: polygon(0 0, 100% 0, 100% 50%, 0 50%);
         transform: translateY(-2px);
     }
 
-/* État Descendant */
 .sort-icon.desc {
     color: var(--color-primary, #2563eb);
 }
 
     .sort-icon.desc svg {
-        /* Cache la flèche du haut, garde celle du bas */
         clip-path: polygon(0 50%, 100% 50%, 100% 100%, 0 100%);
         transform: translateY(2px);
     }
 
-/* Alignement du contenu selon la colonne */
 .align-center .th-content {
     justify-content: center;
 }

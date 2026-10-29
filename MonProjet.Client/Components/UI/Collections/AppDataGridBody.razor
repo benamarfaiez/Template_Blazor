@@ -4,10 +4,6 @@
 <tbody @attributes="SafeAttributes">
     @foreach (var item in Items)
     {
-        <!--
-            ✅ CORRECTION MAJEURE : L'attribut @key permet à Blazor de savoir
-            quelle ligne correspond à quel objet, optimisant ainsi le rendu (Diffing).
-        -->
         <tr @key="item"
             class="@ClassNames(RowClassSelector?.Invoke(item), OnRowClick.HasDelegate ? "clickable" : null)"
             @onclick="() => HandleRowClickAsync(item)"

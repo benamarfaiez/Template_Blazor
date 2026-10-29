@@ -1,18 +1,42 @@
 @typeparam TItem
 @inherits AppComponentBase
 
-<div class="app-gridview" style="grid-template-columns: repeat(@Columns, 1fr);">
-    @if (Items is not null)
-    {
-        @foreach (var item in Items)
-        {
-            <div class="app-gridview-item">@ItemTemplate(item)</div>
-        }
-    }
-</div>
+<AppContainer Width="@Width" Height="@Height"
+              MarginLeft="@MarginLeft" MarginRight="@MarginRight" MarginTop="@MarginTop" MarginBottom="@MarginBottom"
+              PaddingLeft="@PaddingLeft" PaddingRight="@PaddingRight" PaddingTop="@PaddingTop" PaddingBottom="@PaddingBottom"
+              HorizontalAlignment="@ContainerAlignment.Stretch" VerticalAlignment="@ContainerAlignment.Stretch"
+              IsVisible="@IsVisible">
 
-@code {
-    [Parameter] public IEnumerable<TItem>? Items { get; set; }
-    [Parameter] public RenderFragment<TItem> ItemTemplate { get; set; } = _ => builder => { };
-    [Parameter] public int Columns { get; set; } = 3;
-}
+    @if (Items is null || !Items.Any())
+    {
+        <!-- Gestion de l'état vide -->
+        <div class="app-gridview-empty" @attributes="SafeAttributes">
+            @if (EmptyTemplate is not null)
+            {
+                @EmptyTemplate
+            }
+            else
+            {
+                <div class="app-gridview-empty-content">
+                    <span class="app-gridview-empty-icon">📭</span>
+                    <span class="app-gridview-empty-text">Aucun élément à afficher.</span>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="app-gridview" style="@GridStyles" @attributes="SafeAttributes">
+            @foreach (var item in Items)
+            {
+                <div class="app-gridview-item" @key="item">
+                    @if (ItemTemplate is not null)
+                    {
+                        @ItemTemplate(item)
+                    }
+                </div>
+            }
+        </div>
+    }
+
+</AppContainer>

@@ -20,7 +20,6 @@ public partial class AppDataGridHeader<TItem> : AppComponentBase
         }
     }
 
-    // ✅ Accessibilité : Permet de trier avec les touches Entrée ou Espace
     private async Task HandleKeyDownAsync(KeyboardEventArgs e, GridColumn<TItem> column)
     {
         if (!column.Sort.IsSortable) return;
@@ -31,7 +30,6 @@ public partial class AppDataGridHeader<TItem> : AppComponentBase
         }
     }
 
-    // ✅ Accessibilité : Indique au lecteur d'écran l'état du tri
     private string GetAriaSort(GridColumn<TItem> column)
     {
         if (!column.Sort.IsSortable) return "none";
@@ -40,7 +38,6 @@ public partial class AppDataGridHeader<TItem> : AppComponentBase
         return SortState.SortAscending ? "ascending" : "descending";
     }
 
-    // ✅ Optimisation : Détermine la classe CSS pour l'icône de tri
     private string GetSortIconClass(GridColumn<TItem> column)
     {
         if (SortState.SortColumnKey != column.SortKey) return "sort-icon neutral";

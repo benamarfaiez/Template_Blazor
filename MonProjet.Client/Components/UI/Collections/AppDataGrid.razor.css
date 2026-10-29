@@ -1,11 +1,10 @@
-/* --- CONTENEUR PRINCIPAL --- */
 .app-datagrid-wrapper {
     overflow-x: auto;
     background: #ffffff;
     border: 1px solid var(--color-border, #e2e8f0);
     border-radius: var(--radius, 8px);
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-    max-height: 100%; /* Permet le scroll si défini via Width/Height sur AppContainer */
+    max-height: 100%;
 }
 
 /* --- LE TABLEAU --- */
@@ -40,7 +39,6 @@
         vertical-align: middle;
     }
 
-    /* Survol de ligne */
     .app-datagrid tbody tr {
         transition: background-color 0.15s ease;
     }
@@ -49,7 +47,6 @@
             background-color: #f8fafc;
         }
 
-        /* Enlever la bordure de la dernière ligne */
         .app-datagrid tbody tr:last-child td {
             border-bottom: none;
         }
