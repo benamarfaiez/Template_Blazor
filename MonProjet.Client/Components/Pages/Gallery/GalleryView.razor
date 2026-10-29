@@ -75,6 +75,11 @@
                 <AppRangeSlider TValue="int" @bind-Value="_volume" Min="0" Max="100" />
             </div>
 
+            <AppMultiSelect TItem="string"
+                            Items="_allTags"
+                            @bind-SelectedItems="_selectedTags"
+                            Placeholder="Choisissez des tags..." />
+
         </AppStackPanel>
     </AppCard>
 
@@ -281,6 +286,8 @@
     private int _quantite = 1;
     private decimal _prix = 0m;
     private int _volume = 50;
+    private List<string> _allTags = new() { "C#", "Blazor", ".NET", "WASM", "SOLID" };
+    private IEnumerable<string> _selectedTags = new List<string> { "Blazor" };
 
     private void EditProject() { /* Logique */ }
     private void DuplicateProject() { /* Logique */ }

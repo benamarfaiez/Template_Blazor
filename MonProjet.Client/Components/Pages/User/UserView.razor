@@ -7,21 +7,31 @@
 <PageTitle>Utilisateurs</PageTitle>
 
 <h1>@Presenter.ViewModel.Title</h1>
+<AppCard>
+    <AppStackPanel Orientation="StackOrientation.Horizontal" Gap="8">
+        <AppButton Text="Recharger la liste" OnClick="Presenter.LoadUsersAsync" Loading="Presenter.ViewModel.IsLoading" />
+    </AppStackPanel>
 
-<AppStackPanel Orientation="StackOrientation.Horizontal" Gap="8">
-    <AppButton Text="Recharger la liste" OnClick="Presenter.LoadUsersAsync" Loading="Presenter.ViewModel.IsLoading" />
-</AppStackPanel>
+    @if (Presenter.ViewModel.IsLoading)
+    {
+        <AppProgressRing Visible="true" />
+    }
+    else
+    {
+        <AppDataGrid TItem="UserDto" Items="Presenter.ViewModel.Users" Columns="_columns" />
+    }
 
-@if (Presenter.ViewModel.IsLoading)
-{
-    <AppProgressRing Visible="true" />
-}
-else
-{
-    <AppDataGrid TItem="UserDto" Items="Presenter.ViewModel.Users" Columns="_columns" />
-}
+    <InfoBar Visible="@(Presenter.ViewModel.ErrorMessage is not null)"
+             Severity="InfoBar.InfoSeverity.Error"
+             Message="@Presenter.ViewModel.ErrorMessage"
+             OnDismiss="() => Presenter.ViewModel.ErrorMessage = null" />
 
-<InfoBar Visible="@(Presenter.ViewModel.ErrorMessage is not null)"
-         Severity="InfoBar.InfoSeverity.Error"
-         Message="@Presenter.ViewModel.ErrorMessage"
-         OnDismiss="() => Presenter.ViewModel.ErrorMessage = null" />
+    <AppMultiSelect TItem="UserDto"
+                    Items="_users"
+                    MarginTop="16px"
+                    @bind-SelectedItems="_selectedUsers"
+                    ValueSelector="u => u.Id.ToString()"
+                    LabelSelector="u => u.Name"
+                    Placeholder="Assigner à des utilisateurs..." />
+</AppCard>
+

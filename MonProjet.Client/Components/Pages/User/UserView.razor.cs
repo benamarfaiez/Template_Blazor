@@ -14,10 +14,13 @@ public partial class UserView : OwningComponentBase, IUserView, IDisposable
     // 2. Configuration de la grille (déléguée)
     private List<GridColumn<UserDto>> _columns = null!;
 
+    private List<UserDto> _users = [];
+    private IEnumerable<UserDto> _selectedUsers = [];
     protected override void OnInitialized()
     {
         // Initialisation des colonnes
         _columns = UserGridConfig.CreateColumns();
+        _users = UserGridConfig.GetSampleUsers();
     }
 
     protected override async Task OnInitializedAsync()

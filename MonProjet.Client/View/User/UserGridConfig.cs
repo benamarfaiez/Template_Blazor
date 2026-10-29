@@ -46,6 +46,17 @@ public static class UserGridConfig
         return columns;
     }
 
+    public static List<UserDto> GetSampleUsers()
+    {
+        return
+            [
+                new UserDto(1, "Alice", "alice@example.com", "Admin"),
+                new UserDto(2, "Bob", "bob@example.com", "Éditeur"),
+                new UserDto(3, "Charlie", "charlie@example.com", "Utilisateur"),
+                new UserDto(4, "Diana", "diana@example.com", "Admin"),
+                new UserDto(5, "Eve", "eve@example.com", "Éditeur")
+            ];
+    }
     // Extraction de la logique de rendu (RenderTreeBuilder) pour alléger la déclaration
     private static void RenderRoleBadge(RenderTreeBuilder builder, string role)
     {

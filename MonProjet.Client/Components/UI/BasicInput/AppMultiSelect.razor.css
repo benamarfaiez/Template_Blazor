@@ -1,0 +1,166 @@
+.app-multiselect {
+    position: relative;
+    width: 100%;
+    outline: none;
+}
+
+/* La boîte qui ressemble à un input */
+.app-multiselect-control {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 42px;
+    padding: 4px 12px;
+    background: #ffffff;
+    border: 1px solid var(--color-border, #e2e8f0);
+    border-radius: var(--radius, 6px);
+    cursor: pointer;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+    .app-multiselect-control:hover {
+        border-color: #cbd5e1;
+    }
+
+    .app-multiselect-control.is-open {
+        border-color: var(--color-primary, #2563eb);
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+
+/* La zone des tags */
+.app-multiselect-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    flex: 1;
+    padding: 4px 0;
+}
+
+.app-multiselect-placeholder {
+    color: #94a3b8;
+    font-size: 0.875rem;
+}
+
+/* Les badges (Tags) */
+.app-multiselect-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background-color: #eff6ff;
+    color: #1e40af;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.app-multiselect-tag-close {
+    background: none;
+    border: none;
+    color: #1e40af;
+    font-size: 1rem;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0;
+    opacity: 0.6;
+    transition: opacity 0.15s ease;
+}
+
+    .app-multiselect-tag-close:hover {
+        opacity: 1;
+        color: #dc2626;
+    }
+
+.app-multiselect-arrow {
+    font-size: 0.65rem;
+    color: #64748b;
+    transition: transform 0.2s ease;
+}
+
+.app-multiselect-control.is-open .app-multiselect-arrow {
+    transform: rotate(180deg);
+}
+
+/* Le menu déroulant */
+.app-multiselect-menu {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    width: 100%;
+    max-height: 250px;
+    overflow-y: auto;
+    background: #ffffff;
+    border: 1px solid var(--color-border, #e2e8f0);
+    border-radius: var(--radius, 6px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+    padding: 4px;
+    animation: slideDown 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Les éléments du menu */
+.app-multiselect-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.15s ease;
+}
+
+    .app-multiselect-item:hover {
+        background-color: var(--color-bg-alt, #f8fafc);
+    }
+
+    .app-multiselect-item.selected {
+        background-color: #eff6ff;
+    }
+
+.app-multiselect-label {
+    font-size: 0.875rem;
+    color: var(--color-text, #0f172a);
+}
+
+/* Fausse Checkbox personnalisée */
+.app-multiselect-checkbox {
+    width: 18px;
+    height: 18px;
+    border: 2px solid #cbd5e1;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    transition: all 0.2s ease;
+}
+
+    .app-multiselect-checkbox.checked {
+        background-color: var(--color-primary, #2563eb);
+        border-color: var(--color-primary, #2563eb);
+    }
+
+.checkmark {
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.app-multiselect-empty {
+    padding: 12px;
+    text-align: center;
+    font-size: 0.875rem;
+    color: #94a3b8;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

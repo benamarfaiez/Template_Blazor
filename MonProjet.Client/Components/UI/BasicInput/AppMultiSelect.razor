@@ -1,0 +1,66 @@
+﻿@typeparam TItem
+@inherits AppComponentBase
+
+<AppContainer Width="@Width" Height="@Height"
+              MarginLeft="@MarginLeft" MarginRight="@MarginRight" MarginTop="@MarginTop" MarginBottom="@MarginBottom"
+              PaddingLeft="@PaddingLeft" PaddingRight="@PaddingRight" PaddingTop="@PaddingTop" PaddingBottom="@PaddingBottom"
+              HorizontalAlignment="@ContainerAlignment.Stretch" VerticalAlignment="@ContainerAlignment.Center"
+              IsEnabled="@(!Disabled)" IsVisible="@IsVisible">
+
+    <div class="app-multiselect" tabindex="-1" @onfocusout="HandleFocusOut" @attributes="SafeAttributes">
+
+        <div class="app-multiselect-control @(_isOpen ? "is-open" : "")" @onclick="ToggleDropdown">
+            <div class="app-multiselect-tags">
+                @if (!_internalSelection.Any())
+                {
+                    <span class="app-multiselect-placeholder">@Placeholder</span>
+                }
+                else
+                {
+                    @foreach (var item in _internalSelection)
+                    {
+                        <span class="app-multiselect-tag">
+                            @LabelSelector(item)
+
+                            <button type="button"
+                                    class="app-multiselect-tag-close"
+                                    @onclick="() => RemoveItem(item)"
+                                    @onclick:stopPropagation="true">
+                                &times;
+                            </button>
+                        </span>
+                    }
+                }
+            </div>
+            <span class="app-multiselect-arrow">▼</span>
+        </div>
+
+        @if (_isOpen)
+        {
+            <div class="app-multiselect-menu">
+                @if (!Items.Any())
+                {
+                    <div class="app-multiselect-empty">Aucune option disponible</div>
+                }
+                else
+                {
+                    @foreach (var item in Items)
+                    {
+                        var isSelected = IsSelected(item);
+                        <div class="app-multiselect-item @(isSelected ? "selected" : "")" @onclick="() => ToggleItem(item)">
+                            <div class="app-multiselect-checkbox @(isSelected ? "checked" : "")">
+                                @if (isSelected)
+                                {
+                                    <span class="checkmark">✓</span>
+                                }
+                            </div>
+                            <span class="app-multiselect-label">@LabelSelector(item)</span>
+                        </div>
+                    }
+                }
+            </div>
+        }
+
+    </div>
+
+</AppContainer>
