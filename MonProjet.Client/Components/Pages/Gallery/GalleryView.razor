@@ -219,7 +219,15 @@
 
                 <AppStackPanel Orientation="StackOrientation.Vertical" Gap="8">
                     <TextBlock Text="ListBox" Variant="TextBlock.TextVariant.Bold" />
-                    <AppListBox TItem="string" Items="Presenter.ViewModel.Suggestions" @bind-SelectedItem="_listBoxValue" />
+
+                    <AppListBox TItem="string"
+                                Items="Presenter.ViewModel.SuggestionsLangue"
+                                @bind-SelectedItem="_selectedLanguage"
+                                Height="200px" />
+
+                    <TextBlock Text="@($"Langue sélectionnée : {_selectedLanguage}")"
+                               Variant="TextBlock.TextVariant.Bold"
+                               MarginTop="8px" />
                 </AppStackPanel>
 
                 <AppStackPanel Orientation="StackOrientation.Vertical" Gap="8">
@@ -232,13 +240,13 @@
                 </AppStackPanel>
 
             </AppGrid>
+        </AppCard>
 
-            <div style="margin-top: 24px;">
-                <TextBlock Text="DataGrid" Variant="TextBlock.TextVariant.Bold" />
-                <AppDataGrid TItem="DemoItem" 
-                             Items="Presenter.ViewModel.Items"
-                             Columns="_dataGridColumns" />
-            </div>
+        <AppCard MarginTop="24px" PaddingBottom="24px">
+            <TextBlock Text="DataGrid" Variant="TextBlock.TextVariant.Bold" />
+            <AppDataGrid TItem="DemoItem"
+                         Items="Presenter.ViewModel.Items"
+                         Columns="_dataGridColumns" />
         </AppCard>
     </div>
 
@@ -286,7 +294,6 @@
     private string _textValue = "";
     private string _suggestValue = "";
     private string _codeValue = "public class Hello { }";
-    private string? _listBoxValue;
     private string _dialogInput = "";
 
     // 3. États pour les fenêtres modales
@@ -307,6 +314,7 @@
     private List<string> _allTags = new() { "C#", "Blazor", ".NET", "WASM", "SOLID" };
     private IEnumerable<string> _selectedTags = new List<string> { "Blazor" };
     private DateTime? _dateNaissance;
+    private string _selectedLanguage = "";
 
     private void EditProject() { /* Logique */ }
     private void DuplicateProject() { /* Logique */ }

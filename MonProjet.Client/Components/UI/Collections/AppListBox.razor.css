@@ -1,4 +1,75 @@
-.app-listbox { list-style: none; padding: 4px; margin: 0; border: 1px solid var(--color-border); border-radius: var(--radius); max-height: 300px; overflow-y: auto; }
-.app-listbox-item { padding: 8px 12px; cursor: pointer; border-radius: 4px; }
-.app-listbox-item:hover { background: var(--color-bg-alt); }
-.app-listbox-item.selected { background: var(--color-primary); color: #fff; }
+.app-listbox {
+    list-style: none;
+    padding: 6px;
+    margin: 0;
+    background: #ffffff;
+    border: 1px solid var(--color-border, #e2e8f0);
+    border-radius: var(--radius, 8px);
+    height: 100%;
+    box-sizing: border-box;
+    overflow-y: auto;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    outline: none;
+}
+    .app-listbox:focus-visible {
+        border-color: var(--color-primary, #2563eb);
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+
+/* Élément de la liste */
+.app-listbox-item {
+    padding: 10px 12px;
+    cursor: pointer;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    color: var(--color-text, #0f172a);
+    transition: all 0.15s ease;
+    user-select: none;
+    margin-bottom: 2px;
+}
+
+    /* Effet de survol */
+    .app-listbox-item:hover:not(.selected) {
+        background-color: var(--color-bg-alt, #f1f5f9);
+    }
+
+    /* Élément sélectionné */
+    .app-listbox-item.selected {
+        background-color: var(--color-primary, #2563eb);
+        color: #ffffff;
+        font-weight: 500;
+        box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2);
+    }
+
+/* Scrollbar personnalisée (WebKit - Chrome/Edge/Safari) */
+.app-listbox::-webkit-scrollbar {
+    width: 6px;
+}
+
+.app-listbox::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.app-listbox::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 3px;
+}
+
+    .app-listbox::-webkit-scrollbar-thumb:hover {
+        background: #94a3b8;
+    }
+
+/* --- ÉTAT VIDE --- */
+.app-listbox-empty {
+    padding: 24px;
+    text-align: center;
+    background: var(--color-bg-alt, #f8fafc);
+    border: 1px dashed var(--color-border, #cbd5e1);
+    border-radius: var(--radius, 8px);
+    color: #64748b;
+}
+
+.app-listbox-empty-text {
+    font-size: 0.875rem;
+    font-style: italic;
+}

@@ -1,20 +1,42 @@
 @typeparam TItem
 @inherits AppComponentBase
 
-<ul class="app-listbox">
-    @foreach (var item in (Items ?? Enumerable.Empty<TItem>()))
-    {
-        <li class="app-listbox-item @(Equals(item, SelectedItem) ? "selected" : "")"
-            @onclick="() => Select(item)">
-            @(LabelSelector(item))
-        </li>
-    }
-</ul>
+<AppContainer Width="@Width" Height="@Height"
+              MarginLeft="@MarginLeft" MarginRight="@MarginRight" MarginTop="@MarginTop" MarginBottom="@MarginBottom"
+              PaddingLeft="@PaddingLeft" PaddingRight="@PaddingRight" PaddingTop="@PaddingTop" PaddingBottom="@PaddingBottom"
+              HorizontalAlignment="@ContainerAlignment.Stretch" VerticalAlignment="@ContainerAlignment.Stretch"
+              IsVisible="@IsVisible">
 
-@code {
-    [Parameter] public IEnumerable<TItem>? Items { get; set; }
-    [Parameter] public TItem? SelectedItem { get; set; }
-    [Parameter] public EventCallback<TItem?> SelectedItemChanged { get; set; }
-    [Parameter] public Func<TItem, string> LabelSelector { get; set; } = i => i?.ToString() ?? "";
-    private Task Select(TItem item) => SelectedItemChanged.InvokeAsync(item);
-}
+    @if (Items is null || !Items.Any())
+    {
+        <!-- ✅ État vide -->
+        <div class="app-listbox-empty" @attributes="SafeAttributes">
+            @if (EmptyTemplate is not null)
+            {
+                @EmptyTemplate
+            }
+            else
+            {
+                <span class="app-listbox-empty-text">Aucun élément disponible.</span>
+            }
+        </div>
+    }
+    else
+    {
+        <ul class="app-listbox" role="listbox" tabindex="0" @attributes="SafeAttributes">
+            @foreach (var item in Items)
+            {
+                var isSelected = Equals(item, SelectedItem);
+
+                <li @key="item"
+                    class="app-listbox-item @(isSelected ? "selected" : "")"
+                    role="option"
+                    aria-selected="@isSelected.ToString().ToLowerInvariant()"
+                    @onclick="() => SelectItemAsync(item)">
+                    @LabelSelector(item)
+                </li>
+            }
+        </ul>
+    }
+
+</AppContainer>

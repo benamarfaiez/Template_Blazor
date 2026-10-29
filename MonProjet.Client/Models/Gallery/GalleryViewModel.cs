@@ -7,6 +7,11 @@ public class GalleryViewModel
         "Blazor", "C#", ".NET 10", "ASP.NET Core", "WebAssembly", "MVP"
     ];
 
+    public List<string> SuggestionsLangue { get; set; } =
+    [
+        "Français", "Anglais", "Espagnol", "Italien", "Portugais", "Néerlandais"
+    ];
+
     public List<DemoItem> Items { get; set; } =
     [
         new(1, "Composant A", "Actif", 120),
