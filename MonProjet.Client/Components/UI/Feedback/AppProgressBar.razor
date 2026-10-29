@@ -1,10 +1,24 @@
 @inherits AppComponentBase
 
-<div class="app-progressbar">
-    <div class="app-progressbar-fill" style="width: @(Indeterminate ? "100%" : $"{Value}%")"></div>
-</div>
+<!-- Le Height global est toujours géré par AppContainer -->
+<AppContainer Width="@Width" Height="@Height"
+              MarginLeft="@MarginLeft" MarginRight="@MarginRight" MarginTop="@MarginTop" MarginBottom="@MarginBottom"
+              PaddingLeft="@PaddingLeft" PaddingRight="@PaddingRight" PaddingTop="@PaddingTop" PaddingBottom="@PaddingBottom"
+              HorizontalAlignment="@ContainerAlignment.Stretch" VerticalAlignment="@ContainerAlignment.Center"
+              IsVisible="@IsVisible">
 
-@code {
-    [Parameter] public double Value { get; set; }
-    [Parameter] public bool Indeterminate { get; set; }
-}
+    <div class="app-progressbar @(Indeterminate ? "is-indeterminate" : "")"
+         role="progressbar"
+         aria-valuemin="0"
+         aria-valuemax="100"
+         aria-valuenow="@(Indeterminate ? null : AriaValue)"
+         style="--progress-bar-height: @BarHeight;"
+         @attributes="SafeAttributes">
+
+        <div class="app-progressbar-fill @VariantClass"
+             style="width: @(Indeterminate ? "100%" : $"{ClampedValue.ToString(System.Globalization.CultureInfo.InvariantCulture)}%");">
+        </div>
+
+    </div>
+
+</AppContainer>
