@@ -1,8 +1,11 @@
 @inherits AppComponentBase
 
-<span class="fonticon" style="font-size: @Size;">@Icon</span>
+@if (!IsVisible) { return; }
 
-@code {
-    [Parameter] public string Icon { get; set; } = string.Empty;
-    [Parameter] public string Size { get; set; } = "1em";
-}
+<span class="app-fonticon @VariantClass"
+      style="@FinalStyles"
+      role="@(IsDecorative ? "presentation" : "img")"
+      aria-hidden="@IsDecorative.ToString().ToLowerInvariant()"
+      @attributes="SafeAttributes">
+    @Icon
+</span>

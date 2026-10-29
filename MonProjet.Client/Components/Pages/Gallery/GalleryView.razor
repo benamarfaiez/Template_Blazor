@@ -139,9 +139,64 @@
                 <AppProgressRing IsVisible="false" />
             </AppStackPanel>
 
-            <FontIcon Icon="★" Size="24px" />
-            <FontIcon Icon="⚙" Size="24px" />
-            <FontIcon Icon="❤" Size="24px" />
+            <AppStackPanel Orientation="StackOrientation.Horizontal"
+                           CrossAxisAlignment="StackAlignment.Center"
+                           Gap="32">
+
+                <!-- 1. Solde / Portefeuille -->
+                <AppStackPanel Orientation="StackOrientation.Horizontal" CrossAxisAlignment="StackAlignment.Center" Gap="8">
+                    <FontIcon Icon="💰" Size="20px" Variant="IconVariant.Success" />
+                    <TextBlock Text="Solde" Variant="TextBlock.TextVariant.Bold" />
+                </AppStackPanel>
+
+                <!-- 2. Investissement / Croissance -->
+                <AppStackPanel Orientation="StackOrientation.Horizontal" CrossAxisAlignment="StackAlignment.Center" Gap="8">
+                    <FontIcon Icon="📈" Size="20px" Variant="IconVariant.Success" />
+                    <TextBlock Text="Investissements" Variant="TextBlock.TextVariant.Bold" />
+                </AppStackPanel>
+
+                <!-- 3. Dépenses / Perte -->
+                <AppStackPanel Orientation="StackOrientation.Horizontal" CrossAxisAlignment="StackAlignment.Center" Gap="8">
+                    <FontIcon Icon="📉" Size="20px" Variant="IconVariant.Danger" />
+                    <TextBlock Text="Dépenses" Variant="TextBlock.TextVariant.Bold" />
+                </AppStackPanel>
+
+                <!-- 4. Carte de paiement / Transactions -->
+                <AppStackPanel Orientation="StackOrientation.Horizontal" CrossAxisAlignment="StackAlignment.Center" Gap="8">
+                    <FontIcon Icon="💳" Size="20px" Variant="IconVariant.Primary" />
+                    <TextBlock Text="Transactions" Variant="TextBlock.TextVariant.Bold" />
+                </AppStackPanel>
+
+            </AppStackPanel>
+
+            <AppStackPanel Orientation="StackOrientation.Horizontal"
+                               CrossAxisAlignment="StackAlignment.Center"
+                               Gap="32">
+                <!-- 5. Compte Bancaire -->
+                <AppStackPanel Orientation="StackOrientation.Horizontal" CrossAxisAlignment="StackAlignment.Center" Gap="8">
+                    <FontIcon Icon="🏦" Size="20px" />
+                    <TextBlock Text="Banques" Variant="TextBlock.TextVariant.Normal" />
+                </AppStackPanel>
+
+                <!-- 6. Facturation -->
+                <AppStackPanel Orientation="StackOrientation.Horizontal" CrossAxisAlignment="StackAlignment.Center" Gap="8">
+                    <FontIcon Icon="🧾" Size="20px" />
+                    <TextBlock Text="Factures" Variant="TextBlock.TextVariant.Normal" />
+                </AppStackPanel>
+
+                <!-- 7. Alerte de découvert / Risque -->
+                <AppStackPanel Orientation="StackOrientation.Horizontal" CrossAxisAlignment="StackAlignment.Center" Gap="8">
+                    <FontIcon Icon="⚠️" Size="20px" Variant="IconVariant.Warning" />
+                    <TextBlock Text="Alertes" Variant="TextBlock.TextVariant.Bold" />
+                </AppStackPanel>
+
+                <!-- 8. Sécurité / Crypto -->
+                <AppStackPanel Orientation="StackOrientation.Horizontal" CrossAxisAlignment="StackAlignment.Center" Gap="8">
+                    <FontIcon Icon="🔒" Size="20px" Variant="IconVariant.Muted" />
+                    <TextBlock Text="Sécurité" Variant="TextBlock.TextVariant.Muted" />
+                </AppStackPanel>
+
+            </AppStackPanel>
 
             <AppProgressBar Value="65" BarHeight="4px" />
             <AppProgressBar Value="75" BarHeight="16px" Variant="ProgressVariant.Success" />
