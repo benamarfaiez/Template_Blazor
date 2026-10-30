@@ -1,7 +1,48 @@
 @inherits AppComponentBase
 
-<div class="app-fullscreen">@ChildContent</div>
+@if (IsVisible)
+{
+    <!--
+        role="dialog" et aria-modal="true" pour l'accessibilité.
+        tabindex="0" permet de capturer l'événement clavier (ex: Echap) si besoin plus tard.
+    -->
+    <div class="app-fullscreen-container"
+         role="dialog"
+         aria-modal="true"
+         aria-labelledby="fullscreen-title"
+         @attributes="SafeAttributes">
 
-@code {
-    [Parameter] public RenderFragment? ChildContent { get; set; }
+        <!-- En-tête fixe en haut -->
+        <header class="app-fullscreen-header">
+            <div class="app-fullscreen-title-area">
+                @if (ShowCloseButton)
+                {
+                    <button type="button" class="app-fullscreen-close" @onclick="CloseAsync" aria-label="Fermer le mode plein écran">
+                        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </button>
+                }
+
+                @if (!string.IsNullOrWhiteSpace(Title))
+                {
+                    <h2 id="fullscreen-title">@Title</h2>
+                }
+            </div>
+
+            @if (HeaderActions is not null)
+            {
+                <div class="app-fullscreen-actions">
+                    @HeaderActions
+                </div>
+            }
+        </header>
+
+        <!-- Corps de page scrollable -->
+        <main class="app-fullscreen-body">
+            @ChildContent
+        </main>
+
+    </div>
 }

@@ -1,10 +1,13 @@
 @inherits AppComponentBase
 
-<div class="app-grid" style="@StyleForGrid()">@ChildContent</div>
+<AppContainer Width="@Width" Height="@Height"
+              MarginLeft="@MarginLeft" MarginRight="@MarginRight" MarginTop="@MarginTop" MarginBottom="@MarginBottom"
+              PaddingLeft="@PaddingLeft" PaddingRight="@PaddingRight" PaddingTop="@PaddingTop" PaddingBottom="@PaddingBottom"
+              HorizontalAlignment="@ContainerAlignment.Stretch" VerticalAlignment="@ContainerAlignment.Stretch"
+              IsVisible="@IsVisible">
 
-@code {
-    [Parameter] public RenderFragment? ChildContent { get; set; }
-    [Parameter] public int Columns { get; set; } = 2;
-    [Parameter] public string Gap { get; set; } = "16px";
-    private string StyleForGrid() => $"display: grid; grid-template-columns: repeat({Columns}, 1fr); gap: {Gap};";
-}
+    <div class="app-grid" style="@GridVariables" @attributes="SafeAttributes">
+        @ChildContent
+    </div>
+
+</AppContainer>

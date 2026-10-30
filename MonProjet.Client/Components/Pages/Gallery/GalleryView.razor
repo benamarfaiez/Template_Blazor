@@ -270,6 +270,22 @@
                     Contenu long pour tester le défilement (ScrollViewer).
                 </div>
             </AppScrollViewer>
+
+            <AppButton Text="Ouvrir l'éditeur plein écran" OnClick="() => _isEditorOpen = true" />
+
+            <!-- ✅ Le composant gère sa propre fermeture via @bind-IsVisible -->
+            <AppFullScreenContainer @bind-IsVisible="_isEditorOpen" Title="Éditeur de code">
+
+                <HeaderActions>
+                    <AppButton Text="Enregistrer" Variant="AppButton.ButtonVariant.Primary" />
+                </HeaderActions>
+
+                <ChildContent>
+                    <MonacoEditor Height="100%" />
+                </ChildContent>
+
+            </AppFullScreenContainer>
+
         </AppStackPanel>
     </AppCard>
 
@@ -363,7 +379,7 @@
     private string _textValue = "";
     private string _suggestValue = "";
     private string _codeValue = "public class Hello { }";
-
+    private bool _isEditorOpen = false;
     // 3. États pour les fenêtres modales
     private bool _showDialog = false;
     private bool _showOverlay = false;

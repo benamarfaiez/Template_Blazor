@@ -1,0 +1,21 @@
+.app-grid {
+    display: grid;
+    width: 100%;
+    grid-template-columns: repeat(var(--grid-columns, 2), minmax(0, 1fr));
+    gap: var(--grid-gap, 16px);
+    align-items: var(--grid-align, stretch);
+}
+
+/* ✅ RESPONSIVE : Forcer 2 colonnes maximum sur tablette */
+@media (max-width: 1024px) {
+    .app-grid {
+        grid-template-columns: repeat(min(var(--grid-columns, 2), 2), minmax(0, 1fr));
+    }
+}
+
+/* ✅ RESPONSIVE : Forcer 1 colonne sur mobile */
+@media (max-width: 768px) {
+    .app-grid {
+        grid-template-columns: 1fr !important;
+    }
+}

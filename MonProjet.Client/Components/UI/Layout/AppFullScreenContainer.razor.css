@@ -1,4 +1,90 @@
-.app-fullscreen {
-    position: fixed; inset: 0; background: var(--color-bg);
-    z-index: 900; overflow: auto; padding: var(--spacing-lg);
+.app-fullscreen-container {
+    position: fixed;
+    inset: 0; /* Prend tout l'écran (top, right, bottom, left = 0) */
+    z-index: 2000; /* Au-dessus des modales et popups standards */
+    background-color: var(--color-bg, #ffffff);
+    display: flex;
+    flex-direction: column;
+    /* ✅ Animation d'apparition (glissement depuis le bas) */
+    animation: slideUpFullScreen 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* --- EN-TÊTE --- */
+.app-fullscreen-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 24px;
+    background: #ffffff;
+    border-bottom: 1px solid var(--color-border, #e2e8f0);
+    flex-shrink: 0; /* Empêche l'en-tête de rétrécir */
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.app-fullscreen-title-area {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+    .app-fullscreen-title-area h2 {
+        margin: 0;
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: var(--color-text, #0f172a);
+    }
+
+.app-fullscreen-close {
+    background: transparent;
+    border: none;
+    color: #64748b;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+    .app-fullscreen-close:hover {
+        background: var(--color-bg-alt, #f1f5f9);
+        color: var(--color-text, #0f172a);
+    }
+
+.app-fullscreen-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* --- CORPS SCROLLABLE --- */
+.app-fullscreen-body {
+    flex: 1; /* Prend tout l'espace restant */
+    overflow-y: auto; /* ✅ CORRECTION : Le scroll se fait ICI et non sur la page */
+    padding: 24px;
+    -webkit-overflow-scrolling: touch; /* Scroll fluide sur iOS */
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 768px) {
+    .app-fullscreen-header {
+        padding: 12px 16px;
+    }
+
+    .app-fullscreen-body {
+        padding: 16px;
+    }
+}
+
+@keyframes slideUpFullScreen {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
 }
