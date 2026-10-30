@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Components;
 using MonProjet.Client.Components.UI.Core;
+using MonProjet.Client.Components.UI.Enums;
 
 namespace MonProjet.Client.Components.UI.BasicInput;
 
@@ -19,5 +20,4 @@ public partial class AppButton : AppComponentBase
         return (Disabled || Loading) ? Task.CompletedTask : OnClick.InvokeAsync();
     }
 
-    public enum ButtonVariant { Primary, Secondary, Danger, Ghost }
 }

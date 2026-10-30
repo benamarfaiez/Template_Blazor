@@ -21,9 +21,9 @@
         <h3>Basic Input</h3>
         <AppStackPanel Orientation="StackOrientation.Vertical" Gap="16">
             <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-                <AppButton Text="Primaire" Variant="AppButton.ButtonVariant.Primary" />
-                <AppButton Text="Secondaire" Variant="AppButton.ButtonVariant.Secondary" />
-                <AppButton Text="Danger" Variant="AppButton.ButtonVariant.Danger" />
+                <AppButton Text="Primaire" Variant="ButtonVariant.Primary" />
+                <AppButton Text="Secondaire" Variant="ButtonVariant.Secondary" />
+                <AppButton Text="Danger" Variant="ButtonVariant.Danger" />
                 <AppButton Text="Chargement" Loading="true" />
             </div>
 
@@ -246,13 +246,13 @@
 
             <div style="display: flex; gap: 8px;">
                 <AppButton Text="Ouvrir Dialog" OnClick="() => _showDialog = true" />
-                <AppButton Text="Ouvrir Overlay" OnClick="() => _showOverlay = true" Variant="AppButton.ButtonVariant.Secondary" />
-                <AppButton Text="Plein Écran" OnClick="() => _showFullScreen = true" Variant="AppButton.ButtonVariant.Ghost" />
+                <AppButton Text="Ouvrir Overlay" OnClick="() => _showOverlay = true" Variant="ButtonVariant.Secondary" />
+                <AppButton Text="Plein Écran" OnClick="() => _showFullScreen = true" Variant="ButtonVariant.Ghost" />
             </div>
 
             <AppPopover Position="bottom">
                 <Anchor>
-                    <AppButton Text="Survolez-moi (Popover)" Variant="AppButton.ButtonVariant.Secondary" />
+                    <AppButton Text="Survolez-moi (Popover)" Variant="ButtonVariant.Secondary" />
                 </Anchor>
                 <Content>
                     <p style="margin: 0;">Contenu du popover !</p>
@@ -277,7 +277,7 @@
             <AppFullScreenContainer @bind-IsVisible="_isEditorOpen" Title="Éditeur de code">
 
                 <HeaderActions>
-                    <AppButton Text="Enregistrer" Variant="AppButton.ButtonVariant.Primary" />
+                    <AppButton Text="Enregistrer" Variant="ButtonVariant.Primary" />
                 </HeaderActions>
 
                 <ChildContent>
@@ -341,11 +341,11 @@
 
     <Footer>
         <AppButton Text="Annuler"
-                   Variant="AppButton.ButtonVariant.Secondary"
+                   Variant="ButtonVariant.Secondary"
                    OnClick="() => _showDialog = false" />
 
         <AppButton Text="Supprimer"
-                   Variant="AppButton.ButtonVariant.Danger"
+                   Variant="ButtonVariant.Danger"
                    OnClick="DeleteEmployee" />
     </Footer>
 
@@ -369,7 +369,7 @@
     <AppFullScreenContainer>
         <div style="display: flex; justify-content: space-between; margin-bottom: 24px;">
             <h2>Mode Plein Écran</h2>
-            <AppButton Text="Fermer" Variant="AppButton.ButtonVariant.Danger" OnClick="() => _showFullScreen = false" />
+            <AppButton Text="Fermer" Variant="ButtonVariant.Danger" OnClick="() => _showFullScreen = false" />
         </div>
         <p>Ce contenu prend tout l'écran.</p>
     </AppFullScreenContainer>
