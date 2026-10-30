@@ -1,0 +1,25 @@
+﻿@inherits AppComponentBase
+
+<footer class="app-footer" @attributes="SafeAttributes">
+    <AppContainer HorizontalAlignment="@ContainerAlignment.SpaceBetween"
+                  VerticalAlignment="@ContainerAlignment.Center"
+                  Width="100%"
+                  MaxWidth="1200px"
+                  PaddingLeft="24px"
+                  PaddingRight="24px"
+                  PaddingTop="16px"
+                  PaddingBottom="16px">
+
+        <!-- Texte de Copyright -->
+        <TextBlock Text="@($"© {CurrentYear} {BrandName}")" Variant="TextBlock.TextVariant.Muted" />
+
+        <!-- Contenu optionnel (ex: Liens) -->
+        @if (ChildContent is not null)
+        {
+            <div class="app-footer-content">
+                @ChildContent
+            </div>
+        }
+
+    </AppContainer>
+</footer>

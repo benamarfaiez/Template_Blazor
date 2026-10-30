@@ -13,7 +13,8 @@
 
             @foreach (var col in Columns)
             {
-                <td class="@ClassNames(col.Options.AlignClass, col.Options.CellClass)">
+                <td class="@ClassNames(col.Options.AlignClass, col.Options.CellClass)"
+                    style="padding-right: 10px;">
                     @col.Content.Render(item)
                 </td>
             }

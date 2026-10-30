@@ -1,42 +1,38 @@
 @inherits LayoutComponentBase
+@using MonProjet.Client.Components.UI.Menu
 
 <div class="layout">
+
     <AppNavBar Brand="MonProjet" Links="_navLinks" />
 
-    <AppContainer HorizontalAlignment="@ContainerAlignment.Center"
-                  Width="100%" 
-                  PaddingLeft="24px" 
-                  PaddingRight="24px" 
-                  PaddingTop="24px">
-            <main class="layout-content">
-                <ErrorBoundary @ref="_errorBoundary">
-                    <ChildContent>@Body</ChildContent>
-                    <ErrorContent Context="ex">
-                        <AppCard class="error-card">
-                            <h2>Une erreur est survenue</h2>
-                            <p>@ex.Message</p>
+    <main class="layout-main">
+        <AppContainer HorizontalAlignment="@ContainerAlignment.Center"
+                      Width="100%"
+                      MaxWidth="1200px"
+                      PaddingLeft="24px"
+                      PaddingRight="24px"
+                      PaddingTop="32px"
+                      PaddingBottom="32px">
+
+            <ErrorBoundary @ref="_errorBoundary">
+                <ChildContent>@Body</ChildContent>
+                <ErrorContent Context="ex">
+                    <div class="error-container">
+                        <AppCard>
+                            <h2>Oups ! Une erreur est survenue</h2>
+                            <p class="error-message">@ex.Message</p>
                             <AppButton Text="Réessayer" OnClick="Recover" />
                         </AppCard>
-                    </ErrorContent>
-                </ErrorBoundary>
-            </main>
+                    </div>
+                </ErrorContent>
+            </ErrorBoundary>
         </AppContainer>
+    </main>
 
-    <footer class="layout-footer">
-        <TextBlock Text="© 2026 MonProjet" Variant="TextBlock.TextVariant.Muted" />
-    </footer>
+    <AppFooter BrandName="MonProjet">
+        <a href="/mentions-legales" class="footer-link">Mentions légales</a>
+        <a href="/cgu" class="footer-link">CGU</a>
+        <a href="/contact" class="footer-link">Contact</a>
+    </AppFooter>
+
 </div>
-
-@code {
-    private ErrorBoundary? _errorBoundary;
-    private void Recover() => _errorBoundary?.Recover();
-
-    // Définition des liens de navigation
-    private List<AppNavBar.NavLinkItem> _navLinks = new()
-    {
-        new() { Href = "/", Label = "Tableau de bord" },
-        new() { Href = "/gallery", Label = "Galerie UI" },
-        new() { Href = "/users", Label = "Utilisateurs" },
-        new() { Href = "/employees", Label = "Employés" }
-    };
-}
