@@ -80,19 +80,15 @@
                             @bind-SelectedItems="_selectedTags"
                             Placeholder="Choisissez des tags..." />
 
-            <AppDatePicker @bind-Value="_dateNaissance" 
-                           Placeholder="JJ/MM/AAAA"
-                           MarginTop="24px"
-                           MarginBottom="16px" />
-
             <AppStackPanel Orientation="StackOrientation.Vertical" Gap="16">
                 <div>
                     <TextBlock Text="Date de naissance" Variant="TextBlock.TextVariant.Bold" MarginBottom="8px" />
-                    <AppDatePicker @bind-Value="_dateNaissance" Placeholder="Sélectionnez votre date de naissance..." />
+                    <AppDatePicker @bind-Value="_dateNaissance"
+                                   Placeholder="Sélectionnez votre date de naissance..." />
                 </div>
 
-                <InfoBar Visible="@(_dateNaissance.HasValue)"
-                         Severity="InfoBar.InfoSeverity.Success"
+                <InfoBar IsVisible="@(_dateNaissance.HasValue)"
+                         Severity="InfoSeverity.Success"
                          Message="@($"Date sélectionnée : {_dateNaissance:dd/MM/yyyy}")" />
             </AppStackPanel>
 
@@ -122,10 +118,10 @@
     <AppCard>
         <h3>Feedback</h3>
         <AppStackPanel Orientation="StackOrientation.Vertical" Gap="16">
-            <InfoBar Visible="true" Message="Ceci est une information." Severity="InfoBar.InfoSeverity.Info" />
-            <InfoBar Visible="true" Message="Opération réussie !" Severity="InfoBar.InfoSeverity.Success" />
-            <InfoBar Visible="true" Message="Attention, risque d'erreur." Severity="InfoBar.InfoSeverity.Warning" />
-            <InfoBar Visible="true" Message="Une erreur est survenue." Severity="InfoBar.InfoSeverity.Error" />
+            <InfoBar IsVisible="true" Message="Ceci est une information." Severity="InfoSeverity.Info" />
+            <InfoBar IsVisible="true" Message="Opération réussie !" Severity="InfoSeverity.Success" />
+            <InfoBar IsVisible="true" Message="Attention, risque d'erreur." Severity="InfoSeverity.Warning" />
+            <InfoBar IsVisible="true" Message="Une erreur est survenue." Severity="InfoSeverity.Error" />
 
             <AppStackPanel Orientation="StackOrientation.Horizontal"
                            CrossAxisAlignment="StackAlignment.Center"

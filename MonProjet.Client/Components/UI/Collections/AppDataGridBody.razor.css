@@ -1,7 +1,9 @@
 /* Animation fluide au survol de la souris */
 tbody tr {
     transition: background-color 0.15s ease;
+    border-bottom: 1px solid var(--color-border, #f1f5f9);
 }
+
     tbody tr:hover {
         background-color: #f8fafc;
     }
@@ -15,5 +17,9 @@ tbody tr {
         }
 
     tbody tr:last-child td {
+        border-bottom: none;
+    }
+
+    tbody tr:last-child {
         border-bottom: none;
     }

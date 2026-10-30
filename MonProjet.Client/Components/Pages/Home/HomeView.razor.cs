@@ -38,6 +38,7 @@ public partial class HomeView : OwningComponentBase, IHomeView, IDisposable
     {
         Presenter.SetView(this);
         await Presenter.InitializeAsync();
+        Presenter.ViewModel.ErrorMessage = "Impossible de contacter le serveur. Vérifiez votre connexion.";
     }
 
     private void RequestRefresh()

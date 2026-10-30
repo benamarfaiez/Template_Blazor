@@ -1,27 +1,24 @@
 @inherits AppComponentBase
 
-@if (Visible)
-{
-    <div class="infobar infobar-@Severity.ToString().ToLowerInvariant()">
-        <span>@Message</span>
+<AppContainer Width="@Width" Height="@Height"
+              MarginLeft="@MarginLeft" MarginRight="@MarginRight" MarginTop="@MarginTop" MarginBottom="@MarginBottom"
+              PaddingLeft="@PaddingLeft" PaddingRight="@PaddingRight" PaddingTop="@PaddingTop" PaddingBottom="@PaddingBottom"
+              HorizontalAlignment="@ContainerAlignment.Stretch" VerticalAlignment="@ContainerAlignment.Center"
+              IsVisible="@IsVisible">
+
+    <div class="app-infobar @SeverityClass" role="alert" @attributes="SafeAttributes">
+
+        <span class="app-infobar-icon" aria-hidden="true">@DisplayIcon</span>
+
+        <span class="app-infobar-message">@Message</span>
+
         @if (OnDismiss.HasDelegate)
         {
-            <button class="infobar-dismiss" @onclick="Dismiss">âœ•</button>
+            <button type="button" class="app-infobar-dismiss" @onclick="DismissAsync" aria-label="Fermer l'alerte">
+                ✕
+            </button>
         }
+
     </div>
-}
 
-@code {
-    [Parameter] public bool Visible { get; set; }
-    [Parameter] public string Message { get; set; } = string.Empty;
-    [Parameter] public InfoSeverity Severity { get; set; } = InfoSeverity.Info;
-    [Parameter] public EventCallback OnDismiss { get; set; }
-
-    private async Task Dismiss()
-    {
-        Visible = false;
-        await OnDismiss.InvokeAsync();
-    }
-
-    public enum InfoSeverity { Info, Success, Warning, Error }
-}
+</AppContainer>

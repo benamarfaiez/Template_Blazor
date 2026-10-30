@@ -30,7 +30,8 @@ else
     <AppDataGrid TItem="HomeItem" Items="Presenter.ViewModel.Items" Columns="_columns" />
 }
 
-<InfoBar Visible="@(Presenter.ViewModel.ErrorMessage is not null)"
-         Severity="InfoBar.InfoSeverity.Error"
+<InfoBar IsVisible="@(!string.IsNullOrWhiteSpace(Presenter.ViewModel.ErrorMessage))"
+         Severity="InfoSeverity.Error"
          Message="@Presenter.ViewModel.ErrorMessage"
+         MarginTop="16px"
          OnDismiss="() => Presenter.ViewModel.ErrorMessage = null" />

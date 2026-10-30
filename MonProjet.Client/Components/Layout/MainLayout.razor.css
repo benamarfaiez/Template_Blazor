@@ -1,0 +1,9 @@
+/* CSS for MainLayout component */
+.layout-footer {
+    padding: 24px; /* Ajoute de l'espace autour */
+    text-align: center; /* Centre le texte */
+    border-top: 1px solid var(--color-border, #e2e8f0);
+    margin-top: 32px; /* Sépare le footer du contenu du tableau */
+    color: var(--color-text-muted, #64748b);
+    font-size: 0.875rem;
+}

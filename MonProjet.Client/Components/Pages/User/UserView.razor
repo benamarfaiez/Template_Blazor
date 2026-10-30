@@ -8,7 +8,7 @@
 
 <h1>@Presenter.ViewModel.Title</h1>
 <AppCard>
-    <AppStackPanel Orientation="StackOrientation.Horizontal" Gap="8">
+    <AppStackPanel Orientation="StackOrientation.Horizontal" Gap="8" MarginBottom="16px">
         <AppButton Text="Recharger la liste" OnClick="Presenter.LoadUsersAsync" Loading="Presenter.ViewModel.IsLoading" />
     </AppStackPanel>
 
@@ -21,8 +21,9 @@
         <AppDataGrid TItem="UserDto" Items="Presenter.ViewModel.Users" Columns="_columns" />
     }
 
-    <InfoBar Visible="@(Presenter.ViewModel.ErrorMessage is not null)"
-             Severity="InfoBar.InfoSeverity.Error"
+    <InfoBar IsVisible="@(!string.IsNullOrWhiteSpace(Presenter.ViewModel.ErrorMessage))"
+             MarginTop="16px"
+             Severity="InfoSeverity.Error"
              Message="@Presenter.ViewModel.ErrorMessage"
              OnDismiss="() => Presenter.ViewModel.ErrorMessage = null" />
 

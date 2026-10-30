@@ -4,8 +4,6 @@ public class UserViewModel
 {
     public string Title { get; set; } = "Gestion des Utilisateurs";
     public bool IsLoading { get; set; }
-    public string? ErrorMessage { get; set; }
+    public string? ErrorMessage { get; set; } = null;
     public List<UserDto> Users { get; set; } = [];
 }
-
-public record UserDto(int Id, string Name, string Email, string Role);

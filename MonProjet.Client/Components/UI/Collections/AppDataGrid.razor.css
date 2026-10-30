@@ -79,3 +79,23 @@
     font-size: 0.875rem;
     font-weight: 500;
 }
+/* Permet de cibler les cellules et en-têtes des composants enfants */
+::deep .align-left {
+    text-align: left;
+    justify-content: flex-start;
+}
+
+::deep .align-center {
+    text-align: center;
+    justify-content: center;
+}
+
+::deep .align-right {
+    text-align: right;
+    justify-content: flex-end;
+}
+
+/* S'assurer que le contenu de la cellule respecte l'alignement */
+::deep td {
+    vertical-align: middle;
+}

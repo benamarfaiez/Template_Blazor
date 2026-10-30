@@ -27,6 +27,7 @@ public partial class UserView : OwningComponentBase, IUserView, IDisposable
     {
         Presenter.SetView(this);
         await Presenter.InitializeAsync();
+        Presenter.ViewModel.ErrorMessage = "Impossible de contacter le serveur. Vérifiez votre connexion.";
     }
 
     // 3. Implémentation de IView

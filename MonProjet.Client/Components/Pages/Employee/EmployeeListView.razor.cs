@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Components;
-using MonProjet.Client.Components.UI.Collections;
 using MonProjet.Client.Components.UI.Collections.Column;
 using MonProjet.Client.Models.Employee;
 using MonProjet.Client.Presenters.Employee;
@@ -23,6 +22,7 @@ public partial class EmployeeListView : OwningComponentBase, IEmployeeView, IDis
     {
         Presenter.SetView(this);
         await Presenter.InitializeAsync();
+        Presenter.ViewModel.ErrorMessage = "Impossible de contacter le serveur. Vérifiez votre connexion."; ;
     }
 
     public void ShowError(string message)
