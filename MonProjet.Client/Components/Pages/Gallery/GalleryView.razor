@@ -351,9 +351,17 @@
 
 </AppDialog>
 
-<AppOverlay @bind-Visible="_showOverlay">
-    <h3>Overlay (Clic à l'extérieur pour fermer)</h3>
-    <p>Contenu superposé.</p>
+<AppButton Text="Afficher les détails" OnClick="() => _showOverlay = true" />
+
+<AppOverlay @bind-IsVisible="_showOverlay">
+    <div style="padding: 24px; width: 400px;">
+        <h3>Détails du projet</h3>
+        <p>Voici le contenu de l'overlay. Le clic à l'extérieur le fermera.</p>
+
+        <div style="display: flex; justify-content: flex-end; margin-top: 16px;">
+            <AppButton Text="Fermer" OnClick="() => _showOverlay = false" />
+        </div>
+    </div>
 </AppOverlay>
 
 @if (_showFullScreen)

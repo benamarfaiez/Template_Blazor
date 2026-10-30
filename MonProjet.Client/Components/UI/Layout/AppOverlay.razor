@@ -1,14 +1,21 @@
 @inherits AppComponentBase
 
-@if (Visible)
+@if (IsVisible)
 {
-    <div class="app-overlay" @onclick="() => VisibleChanged.InvokeAsync(false)">
-        <div class="app-overlay-content" @onclick:stopPropagation="true">@ChildContent</div>
-    </div>
-}
+    <div class="app-overlay-backdrop" @onclick="OnOverlayClickAsync">
 
-@code {
-    [Parameter] public bool Visible { get; set; }
-    [Parameter] public EventCallback<bool> VisibleChanged { get; set; }
-    [Parameter] public RenderFragment? ChildContent { get; set; }
+        <AppFocusTrapper Active="TrapFocus && IsVisible">
+
+            <div class="app-overlay-content"
+                 role="dialog"
+                 aria-modal="true"
+                 @onclick:stopPropagation="true"
+                 @attributes="SafeAttributes">
+
+                @ChildContent
+
+            </div>
+
+        </AppFocusTrapper>
+    </div>
 }

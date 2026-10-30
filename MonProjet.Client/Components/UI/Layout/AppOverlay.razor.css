@@ -1,5 +1,56 @@
-.app-overlay {
-    position: fixed; inset: 0; background: rgba(0,0,0,0.5);
-    display: flex; align-items: center; justify-content: center; z-index: 1000;
+.app-overlay-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    /* Fond semi-transparent avec effet de flou */
+    background-color: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px; /* Marge de sécurité sur mobile */
+
+    animation: fadeIn 0.2s ease-out;
 }
-.app-overlay-content { background: #fff; border-radius: var(--radius); padding: var(--spacing-lg); max-width: 90vw; }
+
+.app-overlay-content {
+    background: #ffffff;
+    border-radius: var(--radius, 8px);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    max-width: 100%;
+    max-height: calc(100vh - 48px); /* Ne dépasse jamais la hauteur de l'écran */
+    overflow-y: auto; /* Permet le défilement interne si le contenu est grand */
+    /* Animation d'apparition */
+    animation: scaleIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* --- RESPONSIVE (Mobile) --- */
+@media (max-width: 768px) {
+    .app-overlay-backdrop {
+        padding: 16px;
+    }
+}
+
+/* --- ANIMATIONS --- */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95) translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
