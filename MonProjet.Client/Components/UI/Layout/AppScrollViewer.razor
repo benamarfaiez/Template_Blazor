@@ -1,18 +1,17 @@
 @inherits AppComponentBase
 
-<div class="app-scrollviewer" style="@($"max-height: {MaxHeight}; {DirectionStyle()}")">@ChildContent</div>
+<AppContainer Width="@Width" Height="@Height"
+              MarginLeft="@MarginLeft" MarginRight="@MarginRight" MarginTop="@MarginTop" MarginBottom="@MarginBottom"
+              PaddingLeft="@PaddingLeft" PaddingRight="@PaddingRight" PaddingTop="@PaddingTop" PaddingBottom="@PaddingBottom"
+              HorizontalAlignment="@ContainerAlignment.Stretch" VerticalAlignment="@ContainerAlignment.Stretch"
+              IsVisible="@IsVisible">
 
-@code {
-    [Parameter] public RenderFragment? ChildContent { get; set; }
-    [Parameter] public string MaxHeight { get; set; } = "400px";
-    [Parameter] public ScrollDirection Direction { get; set; } = ScrollDirection.Vertical;
+    <div class="@ClassNames("app-scrollviewer", SmoothClass)"
+         style="@FinalStyles"
+         @attributes="SafeAttributes">
 
-    public enum ScrollDirection { Vertical, Horizontal, Both }
+        @ChildContent
 
-    private string DirectionStyle() => Direction switch
-    {
-        ScrollDirection.Horizontal => "overflow-x: auto; overflow-y: hidden;",
-        ScrollDirection.Both       => "overflow: auto;",
-        _                          => "overflow-y: auto; overflow-x: hidden;"
-    };
-}
+    </div>
+
+</AppContainer>

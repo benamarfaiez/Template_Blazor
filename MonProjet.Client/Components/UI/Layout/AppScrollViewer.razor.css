@@ -1,0 +1,38 @@
+/* CSS for AppScrollViewer component */
+.app-scrollviewer {
+    max-height: var(--scroll-max-height, 400px);
+    width: 100%;
+    position: relative;
+    box-sizing: border-box;
+}
+    .app-scrollviewer.is-smooth {
+        scroll-behavior: smooth;
+    }
+
+    .app-scrollviewer::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+    }
+
+    .app-scrollviewer::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    .app-scrollviewer::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 10px;
+    }
+
+        .app-scrollviewer::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+.app-scrollviewer {
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e1 transparent;
+}
+
+    .app-scrollviewer.fade-bottom {
+        mask-image: linear-gradient(to bottom, black 90%, transparent 100%);
+        -webkit-mask-image: linear-gradient(to bottom, black 90%, transparent 100%);
+    }
