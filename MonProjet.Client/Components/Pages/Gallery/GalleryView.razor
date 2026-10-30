@@ -315,17 +315,24 @@
 </AppGrid>
 
 <!-- MODALES ET OVERLAYS -->
-<AppDialog @bind-Visible="_showDialog" Title="Boîte de dialogue (Dialog)">
+<AppDialog @bind-IsVisible="_showDialog"
+           Title="Confirmer la suppression"
+           MaxWidth="400px">
+
     <ChildContent>
-        <p>Ceci est une boîte de dialogue native avec focus trap.</p>
-        <AppTextBox @bind-Value="_dialogInput" Placeholder="Tapez quelque chose..." />
+        <p>Êtes-vous sûr de vouloir supprimer cet employé ? Cette action est irréversible.</p>
     </ChildContent>
+
     <Footer>
-        <div style="display: flex; justify-content: flex-end; gap: 8px;">
-            <AppButton Text="Annuler" Variant="AppButton.ButtonVariant.Secondary" OnClick="() => _showDialog = false" />
-            <AppButton Text="Confirmer" OnClick="() => _showDialog = false" />
-        </div>
+        <AppButton Text="Annuler"
+                   Variant="AppButton.ButtonVariant.Secondary"
+                   OnClick="() => _showDialog = false" />
+
+        <AppButton Text="Supprimer"
+                   Variant="AppButton.ButtonVariant.Danger"
+                   OnClick="DeleteEmployee" />
     </Footer>
+
 </AppDialog>
 
 <AppOverlay @bind-Visible="_showOverlay">
@@ -356,7 +363,6 @@
     private string _textValue = "";
     private string _suggestValue = "";
     private string _codeValue = "public class Hello { }";
-    private string _dialogInput = "";
 
     // 3. États pour les fenêtres modales
     private bool _showDialog = false;
@@ -382,6 +388,11 @@
     private void DuplicateProject() { /* Logique */ }
     private void DeleteProject() { /* Logique */ }
 
+    private void DeleteEmployee()
+    {
+        // Logique de suppression...
+        _showDialog = false; // Ferme la modale
+    }
     // 5. Configuration du DataGrid
     private readonly List<GridColumn<DemoItem>> _dataGridColumns;
 

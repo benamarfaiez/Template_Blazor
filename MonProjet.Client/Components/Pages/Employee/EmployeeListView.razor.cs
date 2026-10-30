@@ -37,7 +37,6 @@ public partial class EmployeeListView : OwningComponentBase, IEmployeeView, IDis
         StateHasChanged();
     }
 
-    // ✅ Interaction avec le DataGrid
     private static string GetRowClass(EmployeeDto emp)
     {
         return emp.IsActive ? "" : "row-inactive";

@@ -1,41 +1,30 @@
 using Microsoft.AspNetCore.Components;
 using MonProjet.Client.Components.UI.Core;
-using MonProjet.Client.Services;
 
 namespace MonProjet.Client.Components.UI.Layout;
 
 public partial class AppDialog : AppComponentBase
 {
-    [Inject] private IFocusTrapService FocusTrapService { get; set; } = default!;
+    [Parameter] public EventCallback<bool> IsVisibleChanged { get; set; }
 
-    [Parameter] public bool Visible { get; set; }
-    [Parameter] public EventCallback<bool> VisibleChanged { get; set; }
     [Parameter] public string Title { get; set; } = string.Empty;
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public RenderFragment? Footer { get; set; }
+
     [Parameter] public bool CloseOnOverlay { get; set; } = true;
+    [Parameter] public string MaxWidth { get; set; } = "600px";
 
-    private ElementReference _dialogRef;
-    private bool _focusTrapActive;
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    private async Task CloseAsync()
     {
-        if (Visible && !_focusTrapActive)
-        {
-            await FocusTrapService.TrapAsync(_dialogRef);
-            _focusTrapActive = true;
-        }
-        else if (!Visible && _focusTrapActive)
-        {
-            await FocusTrapService.ReleaseAsync(_dialogRef);
-            _focusTrapActive = false;
-        }
+        IsVisible = false;
+        await IsVisibleChanged.InvokeAsync(false);
     }
 
-    private async Task OnOverlayClick()
+    private async Task OnOverlayClickAsync()
     {
-        if (CloseOnOverlay) await Close();
+        if (CloseOnOverlay)
+        {
+            await CloseAsync();
+        }
     }
-
-    private async Task Close() => await VisibleChanged.InvokeAsync(false);
 }

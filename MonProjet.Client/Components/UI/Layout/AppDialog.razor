@@ -1,31 +1,41 @@
 @inherits AppComponentBase
 
-@if (Visible)
+@if (IsVisible)
 {
-    <div class="app-dialog-overlay" @onclick="OnOverlayClick">
-        <div class="app-dialog"
-             role="dialog"
-             aria-modal="true"
-             @ref="_dialogRef"
-             @onclick:stopPropagation="true"
-             @attributes="SafeAttributes">
+    <div class="app-dialog-overlay" @onclick="OnOverlayClickAsync">
 
-            <div class="app-dialog-header">
-                <h3>@Title</h3>
-                <button class="app-dialog-close" @onclick="Close" aria-label="Fermer">✕</button>
-            </div>
+        <AppFocusTrapper Active="IsVisible">
+            <div class="app-dialog"
+                 role="dialog"
+                 aria-modal="true"
+                 aria-labelledby="dialog-title"
+                 @onclick:stopPropagation="true"
+                 style="--dialog-max-width: @MaxWidth;"
+                 @attributes="SafeAttributes">
 
-            <div class="app-dialog-body">
-                @ChildContent
-            </div>
-
-            @if (Footer is not null)
-            {
-                <div class="app-dialog-footer">
-                    @Footer
+                <!-- En-tête -->
+                <div class="app-dialog-header">
+                    <h3 id="dialog-title">@Title</h3>
+                    <button type="button" class="app-dialog-close" @onclick="CloseAsync" aria-label="Fermer la fenêtre">
+                        ✕
+                    </button>
                 </div>
-            }
 
-        </div>
+                <!-- Corps -->
+                <div class="app-dialog-body">
+                    @ChildContent
+                </div>
+
+                <!-- Pied de page (Optionnel) -->
+                @if (Footer is not null)
+                {
+                    <div class="app-dialog-footer">
+                        @Footer
+                    </div>
+                }
+
+            </div>
+        </AppFocusTrapper>
+
     </div>
 }

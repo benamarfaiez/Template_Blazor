@@ -1,0 +1,6 @@
+.app-focus-trapper {
+    /* ✅ MODERNE : display: contents fait que cette div n'existe pas 
+       dans l'arbre de mise en page (layout tree). 
+       Elle est purement logique et n'affecte pas le CSS parent. */
+    display: contents;
+}

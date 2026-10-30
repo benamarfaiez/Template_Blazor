@@ -27,7 +27,7 @@ public class EmployeePresenter(IExceptionHandler exceptions) : IEmployeePresente
         try
         {
             // Simulation d'un appel API
-            await Task.Delay(600);
+            await Task.Delay(200);
 
             ViewModel.Employees =
             [
