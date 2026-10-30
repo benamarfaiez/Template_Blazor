@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using MonProjet.Client.Components.UI.Menu;
+using MonProjet.Client.Models.NavBar;
 
 namespace MonProjet.Client.Components.Layout;
 
@@ -9,7 +10,7 @@ public partial class MainLayout : LayoutComponentBase
     private ErrorBoundary? _errorBoundary;
 
     // Définition des liens de navigation
-    private readonly List<AppNavBar.NavLinkItem> _navLinks =
+    private readonly List<NavLinkItem> _navLinks =
     [
         new() { Href = "/", Label = "Tableau de bord" },
         new() { Href = "/gallery", Label = "Galerie UI" },

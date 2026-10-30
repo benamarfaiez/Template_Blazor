@@ -1,10 +1,384 @@
-.app-navbar {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 12px 24px; background: #fff; border-bottom: 1px solid var(--color-border);
-    box-shadow: var(--shadow-sm);
+/* ============================================================
+   WRAPPER & CONTAINER PRINCIPAL
+   ============================================================ */
+.app-navbar-wrapper {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    width: 100%;
+    outline: none;
+    background-color: #f8fafc;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s ease;
 }
-.app-navbar-brand { font-weight: 700; font-size: 1.15rem; color: var(--color-primary); }
-.app-navbar-links { list-style: none; display: flex; gap: 16px; margin: 0; padding: 0; }
-.app-navbar-links a { color: var(--color-text); padding: 6px 10px; border-radius: var(--radius); }
-.app-navbar-links a:hover { background: var(--color-bg-alt); text-decoration: none; }
-.app-navbar-links a.active { color: var(--color-primary); font-weight: 600; }
+
+    .app-navbar-wrapper:focus-within .app-navbar,
+    .app-navbar-wrapper:hover .app-navbar {
+        border-bottom-color: #e2e8f0;
+    }
+
+.app-navbar {
+    width: 100%;
+}
+
+.app-navbar-container {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 32px;
+    height: 72px;
+}
+
+/* ============================================================
+   LOGO / MARQUE
+   ============================================================ */
+.app-navbar-brand {
+    justify-self: start;
+    font-family: 'Times New Roman', serif;
+    font-weight: 800;
+    font-size: 1.75rem;
+    color: #0f172a;
+    text-decoration: none;
+    font-style: italic;
+    display: flex;
+    align-items: center;
+}
+
+/* ============================================================
+   LIENS PRINCIPAUX
+   ============================================================ */
+.app-navbar-links {
+    justify-self: center;
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: 4px;
+    height: 100%;
+}
+
+.app-navbar-item {
+    display: flex;
+    align-items: center;
+}
+
+.app-navbar-link {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background: transparent;
+    border: none;
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #475569;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    position: relative;
+    height: 100%;
+}
+
+    .app-navbar-link:hover {
+        color: #0f172a;
+        background-color: #f1f5f9;
+    }
+
+    .app-navbar-link.active {
+        color: #0f172a;
+        font-weight: 600;
+        background-color: transparent;
+    }
+
+        .app-navbar-link.active::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 12px;
+            right: 12px;
+            height: 3px;
+            background-color: #fcd34d;
+            border-radius: 3px 3px 0 0;
+        }
+
+.chevron {
+    transition: transform 0.2s ease;
+    color: #64748b;
+}
+
+.app-navbar-link.active .chevron {
+    transform: rotate(180deg);
+    color: #0f172a;
+}
+
+/* ============================================================
+   ACTIONS À DROITE
+   ============================================================ */
+.app-navbar-right {
+    justify-self: end;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+/* ============================================================
+   LE MÉGA-MENU
+   ============================================================ */
+.app-megamenu {
+    position: absolute;
+    top: 72px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 95%;
+    max-width: 1200px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(0,0,0,0.05);
+    z-index: 1000;
+    margin-top: 4px;
+    animation: megaSlideDown 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.app-megamenu-content {
+    padding: 24px 32px;
+}
+
+.app-megamenu-banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #fef3c7;
+    padding: 12px 16px;
+    border-radius: 8px;
+    margin-bottom: 24px;
+    font-size: 0.875rem;
+    color: #92400e;
+}
+
+    .app-megamenu-banner a {
+        font-weight: 600;
+        color: #92400e;
+        text-decoration: none;
+        white-space: nowrap;
+    }
+
+        .app-megamenu-banner a:hover {
+            text-decoration: underline;
+        }
+
+.app-megamenu-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 32px 24px;
+}
+
+.app-megamenu-group {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.group-title {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #0f172a;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+    .group-title .dot {
+        width: 6px;
+        height: 6px;
+        background-color: #3b82f6;
+        border-radius: 50%;
+    }
+
+.group-items {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.mega-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    text-decoration: none;
+    padding: 8px;
+    border-radius: 8px;
+    transition: background 0.15s ease;
+}
+
+    .mega-item:hover {
+        background-color: #f8fafc;
+    }
+
+.mega-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background-color: #f1f5f9;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+}
+
+.mega-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.mega-title {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #0f172a;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.mega-desc {
+    font-size: 0.8rem;
+    color: #64748b;
+    margin-top: 2px;
+    line-height: 1.4;
+}
+
+.mega-badge {
+    font-size: 0.65rem;
+    background-color: #dbeafe;
+    color: #1e40af;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+/* ============================================================
+   BOUTON HAMBURGER & ANIMATIONS
+   ============================================================ */
+.app-navbar-hamburger {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    flex-direction: column;
+    gap: 5px;
+    padding: 8px;
+    z-index: 1001;
+    justify-self: end;
+}
+
+.hamburger-line {
+    width: 24px;
+    height: 2px;
+    background: #0f172a;
+    transition: all 0.3s ease;
+    border-radius: 2px;
+}
+
+.app-navbar-hamburger.is-active .hamburger-line:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+}
+
+.app-navbar-hamburger.is-active .hamburger-line:nth-child(2) {
+    opacity: 0;
+}
+
+.app-navbar-hamburger.is-active .hamburger-line:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+}
+
+/* ============================================================
+   RESPONSIVE (Correction du menu mobile)
+   ============================================================ */
+@media (max-width: 768px) {
+    .app-navbar-hamburger {
+        display: flex;
+    }
+
+    .app-navbar-right {
+        display: none;
+    }
+
+    .app-navbar-container {
+        display: flex;
+        justify-content: space-between;
+        padding: 0 16px;
+    }
+
+    .app-navbar-links {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 72px;
+        left: 0;
+        width: 100%;
+        background: #ffffff;
+        padding: 16px;
+        box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+        border-bottom: 1px solid #e2e8f0;
+        gap: 8px;
+        height: auto;
+    }
+
+        .app-navbar-links.is-open {
+            display: flex;
+            animation: slideDownMenu 0.2s ease-out;
+        }
+
+    .app-navbar-link {
+        width: 100%;
+        justify-content: space-between;
+        padding: 12px 16px;
+    }
+
+        .app-navbar-link.active::after {
+            display: none;
+        }
+
+        .app-navbar-link.active {
+            background-color: #f1f5f9;
+        }
+
+    .app-megamenu {
+        display: none !important;
+    }
+}
+
+@keyframes megaSlideDown {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+}
+
+@keyframes slideDownMenu {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

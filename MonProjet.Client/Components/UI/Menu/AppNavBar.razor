@@ -1,25 +1,109 @@
 @inherits AppComponentBase
 
-<nav class="app-navbar">
-    <div class="app-navbar-brand">@Brand</div>
-    <ul class="app-navbar-links">
-        @foreach (var link in Links)
+@if (IsVisible)
+{
+    <div class="app-navbar-wrapper">
+
+        <nav class="app-navbar" @attributes="SafeAttributes">
+            <div class="app-navbar-container">
+
+                <!-- 1. LOGO -->
+                <a href="/" class="app-navbar-brand" @onclick="CloseAll">
+                    @if (BrandTemplate is not null)
+                    {
+                        @BrandTemplate
+                    }
+                    else
+                    {
+
+                        @Brand
+                    }
+                </a>
+
+                <!-- 2. LIENS & MÉGA-MENUS -->
+                <ul class="app-navbar-links @(_isMobileMenuOpen ? "is-open" : "")">
+                    @foreach (var link in Links)
+                    {
+                        <li class="app-navbar-item">
+                            @if (link.HasDropdown)
+                            {
+                                <button type="button"
+                                        class="app-navbar-link @(_activeDropdown == link ? "active" : "")"
+                                        @onclick="() => ToggleDropdown(link)">
+                                    @link.Label
+                                    <svg class="chevron" viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                                </button>
+                            }
+                            else
+                            {
+                                <a href="@link.Href" class="app-navbar-link" @onclick="CloseAll">@link.Label</a>
+                            }
+                        </li>
+                    }
+                </ul>
+
+                <!-- 3. ACTIONS À DROITE -->
+                <div class="app-navbar-right">
+                    @RightContent
+                </div>
+
+                <button class="app-navbar-hamburger @(_isMobileMenuOpen ? "is-active" : "")"
+                        @onclick="ToggleMobileMenu"
+                        @onclick:stopPropagation="true"
+                        aria-label="Menu">
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                </button>
+
+            </div>
+        </nav>
+
+        <!-- 4. LE MÉGA-MENU (Masqué sur mobile via CSS) -->
+        @foreach (var link in Links.Where(l => l.HasDropdown))
         {
-            <li><NavLink href="@link.Href" Match="NavLinkMatch.Prefix">@link.Label</NavLink></li>
+            @if (_activeDropdown == link)
+            {
+                <div class="app-megamenu">
+                    <div class="app-megamenu-content">
+                        @if (!string.IsNullOrWhiteSpace(link.BannerText))
+                        {
+                            <div class="app-megamenu-banner">
+                                <span>@link.BannerText</span>
+                                <a href="#">Explore &rarr;</a>
+                            </div>
+                        }
+                        <div class="app-megamenu-grid">
+                            @foreach (var group in link.Groups!)
+                            {
+                                <div class="app-megamenu-group">
+                                    <h4 class="group-title"><span class="dot"></span> @group.Title</h4>
+                                    <ul class="group-items">
+                                        @foreach (var item in group.Items)
+                                        {
+                                            <li>
+                                                <a href="@item.Href" class="mega-item">
+                                                    <div class="mega-icon">@item.Icon</div>
+                                                    <div class="mega-text">
+                                                        <div class="mega-title">
+                                                            @item.Title
+                                                            @if (!string.IsNullOrEmpty(item.Badge))
+                                                            {
+                                                                <span class="mega-badge">@item.Badge</span>
+                                                            }
+                                                        </div>
+                                                        <div class="mega-desc">@item.Description</div>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
         }
-    </ul>
-</nav>
-
-@code {
-    [Parameter] public string Brand { get; set; } = "App";
-    [Parameter] public List<NavLinkItem> Links { get; set; } = new()
-    {
-        new() { Href = "/", Label = "Accueil" },
-    };
-
-    public class NavLinkItem
-    {
-        public string Href { get; set; } = "/";
-        public string Label { get; set; } = string.Empty;
-    }
+    </div>
 }

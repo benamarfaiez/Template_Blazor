@@ -2,24 +2,61 @@
     background-color: #ffffff;
     border-top: 1px solid var(--color-border, #e2e8f0);
     width: 100%;
+    margin-top: auto; /* Pousse le footer vers le bas si utilisé dans un flex container */
 }
 
+/* Conteneur des liens et du copyright */
 .app-footer-content {
     display: flex;
-    gap: 16px;
+    gap: 24px;
     align-items: center;
 }
 
-/* Responsive : sur mobile, on passe en colonne */
+/* ============================================================
+   STYLISATION DES LIENS (Passés via ChildContent)
+   ============================================================ */
+/* ✅ Le ::deep est crucial car les liens sont définis dans le MainLayout */
+::deep .app-footer-content a {
+    color: var(--color-text-muted, #64748b);
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: color 0.2s ease;
+    position: relative;
+}
+
+    ::deep .app-footer-content a:hover {
+        color: var(--color-primary, #2563eb);
+    }
+
+    /* Optionnel : Ajoute un petit point de séparation entre les liens */
+    ::deep .app-footer-content a:not(:last-child)::after {
+        content: "•";
+        position: absolute;
+        right: -14px;
+        color: #cbd5e1;
+        pointer-events: none;
+    }
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
 @media (max-width: 768px) {
+    /* Sur mobile, on empile le copyright et les liens au centre */
     .app-footer ::deep .app-container {
-        flex-direction: column;
-        justify-content: center;
-        gap: 12px;
+        flex-direction: column !important;
+        justify-content: center !important;
+        gap: 16px;
     }
 
     .app-footer-content {
         flex-wrap: wrap;
         justify-content: center;
+        gap: 16px;
+    }
+
+    /* Cache le séparateur sur mobile quand les liens passent à la ligne */
+    ::deep .app-footer-content a:not(:last-child)::after {
+        display: none;
     }
 }

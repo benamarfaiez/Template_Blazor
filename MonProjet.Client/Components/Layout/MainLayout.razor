@@ -3,7 +3,21 @@
 
 <div class="layout">
 
-    <AppNavBar Brand="MonProjet" Links="_navLinks" />
+    <AppNavBar Brand="MonProjet" Links="_navLinks">
+
+        <RightContent>
+            <AppStackPanel Orientation="StackOrientation.Horizontal" CrossAxisAlignment="StackAlignment.Center" Gap="16">
+                <span style="font-size: 0.875rem; font-weight: 500; color: #475569; cursor: pointer;">GB EN ▾</span>
+
+                <AppButton Text="Contact us" Variant="ButtonVariant.Secondary" />
+
+                <AppButton Text="Explore the platform"
+                           Variant="ButtonVariant.Primary"
+                           style="background-color: #fcd34d; color: #0f172a; border: none; font-weight: 600;" />
+            </AppStackPanel>
+        </RightContent>
+
+    </AppNavBar>
 
     <main class="layout-main">
         <AppContainer HorizontalAlignment="@ContainerAlignment.Center"
