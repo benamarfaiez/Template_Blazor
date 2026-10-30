@@ -1,5 +1,152 @@
-.app-popover-wrapper { position: relative; display: inline-block; }
-.app-popover {
-    min-width: 200px; background: #fff; border: 1px solid var(--color-border);
-    border-radius: var(--radius); box-shadow: var(--shadow-md); padding: var(--spacing-md);
+/* --- WRAPPER & ANCHOR --- */
+.app-popover-wrapper {
+    position: relative;
+    display: inline-block;
+    outline: none;
+}
+
+.app-popover-anchor {
+    display: inline-flex;
+    cursor: pointer;
+    user-select: none;
+    outline: none;
+}
+
+/* --- CONTENEUR DU POPOVER --- */
+.app-popover-content {
+    position: absolute;
+    z-index: 1000;
+    background: #ffffff;
+    border: 1px solid var(--color-border, #e2e8f0);
+    border-radius: var(--radius, 8px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+    min-width: 200px;
+    max-width: calc(100vw - 32px);
+    padding: 16px;
+    color: var(--color-text, #0f172a);
+    font-size: 0.875rem;
+    line-height: 1.5;
+    animation-duration: 0.2s;
+    animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+    animation-fill-mode: forwards;
+}
+    .app-popover-content::before {
+        content: "";
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        background: inherit;
+        z-index: -1;
+    }
+
+    /* 1. EN BAS */
+    .app-popover-content.pos-bottom {
+        top: 100%;
+        left: 50%;
+        margin-top: 10px;
+        animation-name: slideDown;
+    }
+
+.pos-bottom::before {
+    top: -6px;
+    left: 50%;
+    transform: translateX(-50%) rotate(45deg);
+    border-top: 1px solid var(--color-border, #e2e8f0);
+    border-left: 1px solid var(--color-border, #e2e8f0);
+}
+
+/* 2. EN HAUT */
+.app-popover-content.pos-top {
+    bottom: 100%;
+    left: 50%;
+    margin-bottom: 10px;
+    animation-name: slideUp;
+}
+
+.pos-top::before {
+    bottom: -6px;
+    left: 50%;
+    transform: translateX(-50%) rotate(45deg);
+    border-bottom: 1px solid var(--color-border, #e2e8f0);
+    border-right: 1px solid var(--color-border, #e2e8f0);
+}
+
+/* 3. À DROITE */
+.app-popover-content.pos-right {
+    left: 100%;
+    top: 50%;
+    margin-left: 10px;
+    animation-name: slideLeft;
+}
+
+.pos-right::before {
+    left: -6px;
+    top: 50%;
+    transform: translateY(-50%) rotate(45deg);
+    border-bottom: 1px solid var(--color-border, #e2e8f0);
+    border-left: 1px solid var(--color-border, #e2e8f0);
+}
+
+/* 4. À GAUCHE */
+.app-popover-content.pos-left {
+    right: 100%;
+    top: 50%;
+    margin-right: 10px;
+    animation-name: slideRight;
+}
+
+.pos-left::before {
+    right: -6px;
+    top: 50%;
+    transform: translateY(-50%) rotate(45deg);
+    border-top: 1px solid var(--color-border, #e2e8f0);
+    border-right: 1px solid var(--color-border, #e2e8f0);
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translate(-50%, 10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+}
+
+@keyframes slideLeft {
+    from {
+        opacity: 0;
+        transform: translate(10px, -50%);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate(0, -50%);
+    }
+}
+
+@keyframes slideRight {
+    from {
+        opacity: 0;
+        transform: translate(-10px, -50%);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate(0, -50%);
+    }
 }

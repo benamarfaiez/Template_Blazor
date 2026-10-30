@@ -250,12 +250,22 @@
                 <AppButton Text="Plein Écran" OnClick="() => _showFullScreen = true" Variant="ButtonVariant.Ghost" />
             </div>
 
-            <AppPopover Position="bottom">
+            <AppPopover Position="PopoverPosition.Bottom">
                 <Anchor>
-                    <AppButton Text="Survolez-moi (Popover)" Variant="ButtonVariant.Secondary" />
+                    <AppButton Text="Afficher les détails" Variant="ButtonVariant.Secondary" />
                 </Anchor>
                 <Content>
-                    <p style="margin: 0;">Contenu du popover !</p>
+                    <h4>Détails du projet</h4>
+                    <p>Ceci est un popover qui se ferme si vous cliquez ailleurs.</p>
+                </Content>
+            </AppPopover>
+
+            <AppPopover Position="PopoverPosition.Top" TriggerOnHover="true">
+                <Anchor>
+                    <TextBlock Text="Qu'est-ce que c'est ?" Variant="TextBlock.TextVariant.Bold" />
+                </Anchor>
+                <Content>
+                    <span style="font-size: 0.875rem;">Ceci est un texte d'aide contextuel.</span>
                 </Content>
             </AppPopover>
 

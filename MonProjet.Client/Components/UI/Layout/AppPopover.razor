@@ -1,30 +1,30 @@
 @inherits AppComponentBase
 
-<div class="app-popover-wrapper">
-    <div class="app-popover-anchor">@Anchor</div>
-    @if (_open)
-    {
-        <div class="app-popover" style="@PositionStyle()">@Content</div>
-    }
-</div>
+@if (IsVisible)
+{
+    <div class="app-popover-wrapper"
+         tabindex="-1"
+         @onfocusout="HandleFocusOutAsync"
+         @attributes="SafeAttributes">
 
-@code {
-    [Parameter] public RenderFragment? Anchor { get; set; }
-    [Parameter] public RenderFragment? Content { get; set; }
-    [Parameter] public string Position { get; set; } = "bottom";
-    private bool _open;
+        <div class="app-popover-anchor"
+             @onclick="ToggleAsync"
+             @onmouseenter="OnMouseEnterAsync"
+             @onmouseleave="OnMouseLeaveAsync"
+             role="button"
+             tabindex="0"
+             aria-haspopup="dialog"
+             aria-expanded="@IsOpen.ToString().ToLowerInvariant()">
+            @Anchor
+        </div>
 
-    public void Toggle() { _open = !_open; StateHasChanged(); }
-
-    private string PositionStyle()
-    {
-        var (top, left) = Position switch
+        @if (IsOpen)
         {
-            "top"   => ("auto", "0"),
-            "right" => ("100%", "100%"),
-            "left"  => ("100%", "auto"),
-            _       => ("100%", "0")
-        };
-        return $"position: absolute; top: {top}; left: {left}; margin-top: 4px; z-index: 200;";
-    }
+            <div class="app-popover-content pos-@Position.ToString().ToLowerInvariant()"
+                 role="dialog"
+                 @onclick:stopPropagation="true">
+                @Content
+            </div>
+        }
+    </div>
 }
