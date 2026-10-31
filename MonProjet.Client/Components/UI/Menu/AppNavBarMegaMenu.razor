@@ -1,0 +1,30 @@
+﻿@using MonProjet.Client.Models.NavBar
+@inherits AppComponentBase
+
+@if (ActiveLink is not null)
+{
+    <div class="app-megamenu" @attributes="SafeAttributes">
+        <div class="app-megamenu-content">
+            
+            @if (!string.IsNullOrWhiteSpace(ActiveLink.BannerText))
+            {
+                <div class="app-megamenu-banner">
+                    <span>@ActiveLink.BannerText</span>
+                    <a href="#">Explore &rarr;</a>
+                </div>
+            }
+
+            <div class="app-megamenu-grid">
+                @foreach (var group in ActiveLink.Groups!)
+                {
+                    <AppNavBarMegaMenuGroup Group="group" />
+                }
+            </div>
+            
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter] public NavLinkItem? ActiveLink { get; set; }
+}

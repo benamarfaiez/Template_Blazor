@@ -1,0 +1,18 @@
+﻿@inherits AppComponentBase
+
+<a href="/" class="app-navbar-brand" @onclick="() => OnClick.InvokeAsync()" @attributes="SafeAttributes">
+    @if (BrandTemplate is not null)
+    {
+        @BrandTemplate
+    }
+    else
+    {
+        @Brand
+    }
+</a>
+
+@code {
+    [Parameter] public string Brand { get; set; } = "MonProjet";
+    [Parameter] public RenderFragment? BrandTemplate { get; set; }
+    [Parameter] public EventCallback OnClick { get; set; }
+}

@@ -1,0 +1,20 @@
+﻿@using MonProjet.Client.Models.NavBar
+@inherits AppComponentBase
+
+<a href="@Item.Href" class="mega-item" @attributes="SafeAttributes">
+    <div class="mega-icon">@Item.Icon</div>
+    <div class="mega-text">
+        <div class="mega-title">
+            @Item.Title
+            @if (!string.IsNullOrEmpty(Item.Badge))
+            {
+                <span class="mega-badge">@Item.Badge</span>
+            }
+        </div>
+        <div class="mega-desc">@Item.Description</div>
+    </div>
+</a>
+
+@code {
+    [Parameter] public MegaMenuItem Item { get; set; } = default!;
+}

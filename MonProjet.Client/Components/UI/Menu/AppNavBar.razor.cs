@@ -14,19 +14,6 @@ public partial class AppNavBar : AppComponentBase
     private NavLinkItem? _activeDropdown;
     private bool _isMobileMenuOpen;
 
-    private void OnMouseEnter(NavLinkItem link)
-    {
-        if (link.HasDropdown)
-        {
-            _activeDropdown = link;
-        }
-    }
-
-    private void OnMouseLeave()
-    {
-        _activeDropdown = null;
-    }
-
     private void ToggleDropdown(NavLinkItem link)
     {
         if (!link.HasDropdown) return;
