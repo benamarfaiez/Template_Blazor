@@ -81,6 +81,6 @@ public class HomePresenter(IExceptionHandler exceptions) : IHomePresenter
     [
         new(1, "Projet Alpha", "Actif", DateTime.UtcNow.AddDays(-3)),
         new(2, "Projet Beta", "En attente", DateTime.UtcNow.AddDays(-1)),
-        new(3, "Projet Gamma", "TerminÃ©", DateTime.UtcNow.AddDays(-10)),
+        new(3, "Projet Gamma", "Terminé", DateTime.UtcNow.AddDays(-10)),
     ];
 }

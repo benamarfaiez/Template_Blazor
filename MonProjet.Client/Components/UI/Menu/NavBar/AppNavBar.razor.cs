@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Components;
 using MonProjet.Client.Components.UI.Core;
 using MonProjet.Client.Models.NavBar;
 
-namespace MonProjet.Client.Components.UI.Menu;
+namespace MonProjet.Client.Components.UI.Menu.NavBar;
 
 public partial class AppNavBar : AppComponentBase
 {

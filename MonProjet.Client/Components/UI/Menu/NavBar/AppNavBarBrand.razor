@@ -1,0 +1,23 @@
+﻿@inherits AppComponentBase
+
+@if (IsVisible)
+{
+    <a href="@Href"
+       class="app-navbar-brand"
+       @onclick="HandleClickAsync"
+       target="@Target"
+       rel="@(Target == "_blank" ? "noopener noreferrer" : null)"
+       aria-label="@(!string.IsNullOrEmpty(AriaLabel) ? AriaLabel : Brand)"
+       @attributes="SafeAttributes">
+
+        @if (BrandTemplate is not null)
+        {
+            @BrandTemplate
+        }
+        else
+        {
+            @Brand
+        }
+
+    </a>
+}

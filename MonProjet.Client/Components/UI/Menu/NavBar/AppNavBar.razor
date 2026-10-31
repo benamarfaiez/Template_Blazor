@@ -6,10 +6,10 @@
         <nav class="app-navbar" @attributes="SafeAttributes">
             <div class="app-navbar-container">
 
-                <!-- ✅ 1. Composant Logo -->
+                <!-- Composant Logo -->
                 <AppNavBarBrand Brand="Brand" BrandTemplate="BrandTemplate" OnClick="CloseAll" />
 
-                <!-- ✅ 2. Composant Liens Principaux -->
+                <!-- Composant Liens Principaux -->
                 <AppNavBarLinks Links="Links" 
                                 IsMobileMenuOpen="_isMobileMenuOpen" 
                                 ActiveDropdown="_activeDropdown"
@@ -31,7 +31,6 @@
             </div>
         </nav>
 
-        <!-- ✅ 3. Composant Méga-Menu -->
         @if (_activeDropdown is not null)
         {
             <AppNavBarMegaMenu ActiveLink="_activeDropdown" />

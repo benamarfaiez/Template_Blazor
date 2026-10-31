@@ -1,0 +1,33 @@
+.app-navbar-brand {
+    justify-content: center;
+    font-family: 'Times New Roman', serif;
+    font-weight: 800;
+    font-size: 1.75rem;
+    font-style: italic;
+    color: #0f172a;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    outline: none;
+}
+
+    .app-navbar-brand:hover {
+        opacity: 0.85;
+    }
+
+    .app-navbar-brand:active {
+        transform: scale(0.98);
+    }
+
+    .app-navbar-brand:focus-visible {
+        outline: 2px solid var(--color-primary, #2563eb);
+        outline-offset: 4px;
+        border-radius: 4px;
+    }
+
+    .app-navbar-brand ::deep img,
+    .app-navbar-brand ::deep svg {
+        max-height: 40px;
+        width: auto;
+        object-fit: contain;
+    }
