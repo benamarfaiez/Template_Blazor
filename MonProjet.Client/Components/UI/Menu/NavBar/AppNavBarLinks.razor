@@ -1,31 +1,31 @@
-﻿@using MonProjet.Client.Models.NavBar
-@inherits AppComponentBase
+﻿@inherits AppComponentBase
 
 <ul class="app-navbar-links @(IsMobileMenuOpen ? "is-open" : "")" @attributes="SafeAttributes">
     @foreach (var link in Links)
     {
-        <li class="app-navbar-item">
+        <li class="app-navbar-item" @key="link">
+
             @if (link.HasDropdown)
             {
                 <button type="button"
-                        class="app-navbar-link @(ActiveDropdown == link ? "active" : "")"
+                        class="app-navbar-link @(IsDropdownActive(link) ? "active" : "")"
                         @onclick="() => OnDropdownToggle.InvokeAsync(link)">
                     @link.Label
-                    <svg class="chevron" viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    <svg class="chevron" viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
                 </button>
             }
             else
             {
-                <a href="@link.Href" class="app-navbar-link" @onclick="() => OnLinkClick.InvokeAsync()">@link.Label</a>
+                <NavLink href="@link.Href"
+                         Match="NavLinkMatch.Prefix"
+                         class="app-navbar-link"
+                         @onclick="() => OnLinkClick.InvokeAsync()">
+                    @link.Label
+                </NavLink>
             }
+
         </li>
     }
 </ul>
-
-@code {
-    [Parameter] public List<NavLinkItem> Links { get; set; } = new();
-    [Parameter] public bool IsMobileMenuOpen { get; set; }
-    [Parameter] public NavLinkItem? ActiveDropdown { get; set; }
-    [Parameter] public EventCallback OnLinkClick { get; set; }
-    [Parameter] public EventCallback<NavLinkItem> OnDropdownToggle { get; set; }
-}
