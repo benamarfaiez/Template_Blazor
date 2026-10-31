@@ -1,7 +1,10 @@
-/* CSS for AppNavBarLinks component */
+/* ============================================================
+   NAVBAR LINKS (DESKTOP)
+   ============================================================ */
 .app-navbar-links {
     justify-self: center;
     display: flex;
+    align-items: center;
     list-style: none;
     margin: 0;
     padding: 0;
@@ -12,34 +15,37 @@
 .app-navbar-item {
     display: flex;
     align-items: center;
+    height: 100%;
 }
 
-.app-navbar-link {
+.app-navbar-link,
+::deep .app-navbar-link {
     display: flex;
     align-items: center;
-    gap: 4px;
+    gap: 6px;
     background: transparent;
     border: none;
     font-family: inherit;
     font-size: 0.95rem;
     font-weight: 500;
-    color: #475569;
-    padding: 8px 12px;
+    color: #475569 !important;
+    text-decoration: none !important;
+    padding: 8px 16px;
     border-radius: 6px;
     cursor: pointer;
-    text-decoration: none;
     transition: all 0.2s ease;
-    position: relative;
     height: 100%;
 }
 
-    .app-navbar-link:hover {
-        color: #0f172a;
+    .app-navbar-link:hover,
+    ::deep .app-navbar-link:hover {
+        color: #0f172a !important;
         background-color: #f1f5f9;
     }
 
-    .app-navbar-link.active {
-        color: #0f172a;
+    .app-navbar-link.active,
+    ::deep .app-navbar-link.active {
+        color: #0f172a !important;
         font-weight: 600;
         background-color: transparent;
     }
@@ -48,8 +54,8 @@
             content: "";
             position: absolute;
             bottom: 0;
-            left: 12px;
-            right: 12px;
+            left: 16px;
+            right: 16px;
             height: 3px;
             background-color: #fcd34d;
             border-radius: 3px 3px 0 0;
@@ -65,51 +71,58 @@
     color: #0f172a;
 }
 
-/* Responsive */
+/* ============================================================
+   ✅ CORRECTION MOBILE : Plein écran & Scroll
+   ============================================================ */
 @media (max-width: 768px) {
     .app-navbar-links {
         display: none;
         flex-direction: column;
-        position: absolute;
-        top: 72px;
-        left: 0;
-        width: 100%;
+        /* ✅ LE SECRET EST ICI : Position fixe plein écran */
+        position: fixed;
+        inset: 72px 0 0 0; /* Top: 72px, Droite: 0, Bas: 0, Gauche: 0 */
+        width: 100vw;
+        height: calc(100vh - 72px);
+        overflow-y: auto; /* Permet le scroll */
+
         background: #ffffff;
         padding: 16px;
-        box-shadow: 0 10px 15px rgba(0,0,0,0.1);
-        border-bottom: 1px solid #e2e8f0;
-        gap: 8px;
-        height: auto;
+        z-index: 9999; /* Passe au-dessus de tout */
+        align-items: stretch;
+        gap: 4px;
+        margin: 0;
+        border-top: 1px solid #e2e8f0;
     }
 
         .app-navbar-links.is-open {
             display: flex;
-            animation: slideDownMenu 0.2s ease-out;
         }
 
-    .app-navbar-link {
+    .app-navbar-item {
         width: 100%;
-        justify-content: space-between;
-        padding: 12px 16px;
+        flex-direction: column;
+        align-items: flex-start;
+        height: auto;
     }
 
+    .app-navbar-link,
+    ::deep .app-navbar-link {
+        width: 100%;
+        justify-content: space-between;
+        padding: 16px;
+        font-size: 1.05rem;
+        height: auto;
+        border-bottom: 1px solid #f1f5f9; /* Séparateur subtil */
+    }
+
+        /* On désactive le trait jaune sur mobile */
         .app-navbar-link.active::after {
             display: none;
         }
 
-        .app-navbar-link.active {
-            background-color: #f1f5f9;
+        /* Fond gris quand actif sur mobile */
+        .app-navbar-link.active,
+        ::deep .app-navbar-link.active {
+            background-color: #f8fafc;
         }
-}
-
-@keyframes slideDownMenu {
-    from {
-        opacity: 0;
-        transform: translateY(-10px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
 }

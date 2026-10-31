@@ -6,34 +6,30 @@
         <nav class="app-navbar" @attributes="SafeAttributes">
             <div class="app-navbar-container">
 
-                <!-- Composant Logo -->
+                <!-- 1. LOGO -->
                 <AppNavBarBrand Brand="Brand" BrandTemplate="BrandTemplate" OnClick="CloseAll" />
 
-                <!-- Composant Liens Principaux -->
-                <AppNavBarLinks Links="Links" 
-                                IsMobileMenuOpen="_isMobileMenuOpen" 
+                <!-- 2. LIENS & MÉGA-MENUS (Le méga-menu est géré à l'intérieur) -->
+                <AppNavBarLinks Links="Links"
+                                IsMobileMenuOpen="_isMobileMenuOpen"
                                 ActiveDropdown="_activeDropdown"
                                 OnLinkClick="CloseAll"
                                 OnDropdownToggle="ToggleDropdown" />
 
-                <!-- Actions de droite -->
+                <!-- 3. ACTIONS À DROITE -->
                 <div class="app-navbar-right">
                     @RightContent
                 </div>
 
-                <!-- Bouton Hamburger -->
+                <!-- 4. BOUTON HAMBURGER -->
                 <button class="app-navbar-hamburger @(_isMobileMenuOpen ? "is-active" : "")"
                         @onclick="ToggleMobileMenu" @onclick:stopPropagation="true" aria-label="Menu">
                     <span class="hamburger-line"></span>
                     <span class="hamburger-line"></span>
                     <span class="hamburger-line"></span>
                 </button>
+
             </div>
         </nav>
-
-        @if (_activeDropdown is not null)
-        {
-            <AppNavBarMegaMenu ActiveLink="_activeDropdown" />
-        }
     </div>
 }

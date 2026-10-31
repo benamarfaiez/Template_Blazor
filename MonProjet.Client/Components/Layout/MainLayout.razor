@@ -1,42 +1,48 @@
-@inherits LayoutComponentBase
 @using MonProjet.Client.Components.UI.Menu.NavBar
+@inherits LayoutComponentBase
 
 <div class="layout">
-
-    <AppNavBar Brand="MonProjet" Links="_navLinks">
-
+    
+    <!-- 1. LA BARRE DE NAVIGATION PRINCIPALE -->
+    <AppNavBar Links="_navLinks" Href="/">
+        
+        <!-- Le logo personnalisé (optionnel, sinon le texte "MonProjet" s'affiche) -->
         <BrandTemplate>
-            <img src="/images/logo.svg" alt="Logo" />
+            <span style="font-style: italic; font-weight: 800; font-size: 1.75rem; color: #0f172a;">
+                Flowic
+            </span>
         </BrandTemplate>
 
+        <!-- Les boutons à droite (Contact, Connexion, etc.) -->
         <RightContent>
-            <AppStackPanel Orientation="StackOrientation.Horizontal" CrossAxisAlignment="StackAlignment.Center" Gap="16">
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <span style="font-size: 0.875rem; font-weight: 500; color: #475569;">GB EN ▾</span>
                 <AppButton Text="Contact us" Variant="ButtonVariant.Secondary" />
-
-                <AppButton Text="Explore the platform"
-                           Variant="ButtonVariant.Primary" />
-            </AppStackPanel>
+                <AppButton Text="Explore the platform" 
+                           Variant="ButtonVariant.Primary" 
+                           style="background-color: #fcd34d; color: #0f172a; border: none; font-weight: 600;" />
+            </div>
         </RightContent>
-
     </AppNavBar>
 
+    <!-- 2. LE CONTENU DES PAGES -->
     <main class="layout-main">
         <AppContainer HorizontalAlignment="@ContainerAlignment.Center"
-                      Width="100%"
-                      MaxWidth="1200px"
-                      PaddingLeft="24px"
-                      PaddingRight="24px"
+                      Width="100%" 
+                      MaxWidth="1400px" 
+                      PaddingLeft="32px" 
+                      PaddingRight="32px" 
                       PaddingTop="32px"
                       PaddingBottom="32px">
-
+                      
             <ErrorBoundary @ref="_errorBoundary">
                 <ChildContent>@Body</ChildContent>
                 <ErrorContent Context="ex">
-                    <div class="error-container">
-                        <AppCard>
+                    <div style="display: flex; justify-content: center; margin-top: 48px;">
+                        <AppCard style="max-width: 500px; text-align: center; border-top: 4px solid #dc2626;">
                             <h2>Oups ! Une erreur est survenue</h2>
-                            <p class="error-message">@ex.Message</p>
-                            <AppButton Text="Réessayer" OnClick="Recover" />
+                            <p style="color: #64748b;">@ex.Message</p>
+                            <AppButton Text="Réessayer" OnClick="Recover" MarginTop="16px" />
                         </AppCard>
                     </div>
                 </ErrorContent>
@@ -44,10 +50,11 @@
         </AppContainer>
     </main>
 
-    <AppFooter BrandName="MonProjet">
-        <a href="/mentions-legales" class="footer-link">Mentions légales</a>
-        <a href="/cgu" class="footer-link">CGU</a>
-        <a href="/contact" class="footer-link">Contact</a>
+    <!-- 3. LE FOOTER -->
+    <AppFooter BrandName="Flowic">
+        <a href="/mentions-legales">Mentions légales</a>
+        <a href="/cgu">CGU</a>
+        <a href="/contact">Contact</a>
     </AppFooter>
-
+    
 </div>
