@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components;
 using MonProjet.Client.Components.UI.Core;
-using MonProjet.Client.Models.NavBar;
+using MonProjet.Client.Models.UI.Menu.NavBar;
 
 namespace MonProjet.Client.Components.UI.Menu.NavBar;
 

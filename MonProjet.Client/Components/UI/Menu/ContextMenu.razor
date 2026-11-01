@@ -1,33 +1,46 @@
 @inherits AppComponentBase
 
-<div class="context-menu-wrapper" @oncontextmenu="ShowMenu" @oncontextmenu:preventDefault="true">
+<div class="app-context-menu-wrapper"
+     @oncontextmenu="ShowMenuAsync"
+     @oncontextmenu:preventDefault="true"
+     @attributes="SafeAttributes">
     @ChildContent
-    @if (_open)
-    {
-        <div class="context-menu" style="left: @(_x)px; top: @(_y)px;" @onclick="Close">
-            @foreach (var item in Items)
-            {
-                <button class="context-menu-item" @onclick="() => item.OnClick.InvokeAsync()">
-                    @item.Label
-                </button>
-            }
-        </div>
-    }
 </div>
 
-@code {
-    [Parameter] public RenderFragment? ChildContent { get; set; }
-    [Parameter] public List<ContextMenuItem> Items { get; set; } = new();
+@if (_isOpen)
+{
+    <div class="app-context-menu-backdrop" @onclick="CloseMenu" @oncontextmenu="CloseMenu" @oncontextmenu:preventDefault="true"></div>
 
-    private bool _open;
-    private double _x, _y;
+    <div class="app-context-menu"
+         style="@MenuPositionStyle"
+         @ref="_menuRef"
+         role="menu"
+         tabindex="-1"
+         @onkeydown="HandleKeyDown"
+         @onclick:stopPropagation="true">
 
-    private void ShowMenu(MouseEventArgs e) { _x = e.ClientX; _y = e.ClientY; _open = true; }
-    private void Close() => _open = false;
+        @foreach (var item in Items)
+        {
+            if (item.IsSeparator)
+            {
+                <div class="app-context-menu-separator" role="separator"></div>
+            }
+            else
+            {
+                <button type="button"
+                        class="app-context-menu-item"
+                        role="menuitem"
+                        disabled="@item.IsDisabled"
+                        @onclick="() => HandleItemClickAsync(item)">
 
-    public class ContextMenuItem
-    {
-        public string Label { get; set; } = string.Empty;
-        public EventCallback OnClick { get; set; }
-    }
+                    <span class="item-icon">@item.Icon</span>
+                    <span class="item-label">@item.Label</span>
+                    @if (!string.IsNullOrEmpty(item.Shortcut))
+                    {
+                        <span class="item-shortcut">@item.Shortcut</span>
+                    }
+                </button>
+            }
+        }
+    </div>
 }

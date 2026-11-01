@@ -1,8 +1,8 @@
 ﻿using MonProjet.Client.Components.UI.Collections;
 using MonProjet.Client.Components.UI.Collections.Column;
 using MonProjet.Client.Components.UI.Helpers;
-using MonProjet.Client.Models.Employee;
-using MonProjet.Client.Models.Style;
+using MonProjet.Client.Models.Pages.Employee;
+using MonProjet.Client.Models.UI.Style;
 
 namespace MonProjet.Client.View.Employee;
 

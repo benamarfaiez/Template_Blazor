@@ -1,4 +1,4 @@
-using MonProjet.Client.Models.Home;
+using MonProjet.Client.Models.Pages.Home;
 using MonProjet.Client.Services;
 using MonProjet.Client.View.Home;
 

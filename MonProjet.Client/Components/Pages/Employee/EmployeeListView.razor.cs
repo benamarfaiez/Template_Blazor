@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components;
 using MonProjet.Client.Components.UI.Collections.Column;
-using MonProjet.Client.Models.Employee;
+using MonProjet.Client.Models.Pages.Employee;
 using MonProjet.Client.Presenters.Employee;
 using MonProjet.Client.View.Employee;
 

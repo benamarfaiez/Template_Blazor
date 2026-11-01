@@ -1,4 +1,4 @@
-﻿namespace MonProjet.Client.Models.Employee;
+﻿namespace MonProjet.Client.Models.Pages.Employee;
 
 public class EmployeeDto
 {

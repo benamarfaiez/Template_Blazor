@@ -1,4 +1,4 @@
-﻿namespace MonProjet.Client.Models.Gallery;
+﻿namespace MonProjet.Client.Models.Pages.Gallery;
 
 public class GalleryViewModel
 {

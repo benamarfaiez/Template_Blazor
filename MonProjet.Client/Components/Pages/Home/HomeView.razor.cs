@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components;
 using MonProjet.Client.Components.UI.Collections.Column;
-using MonProjet.Client.Models.Home;
+using MonProjet.Client.Models.Pages.Home;
 using MonProjet.Client.Presenters.Home;
 using MonProjet.Client.View.Home;
 

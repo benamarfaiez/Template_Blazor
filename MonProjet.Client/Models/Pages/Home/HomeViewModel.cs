@@ -1,4 +1,4 @@
-namespace MonProjet.Client.Models.Home;
+namespace MonProjet.Client.Models.Pages.Home;
 
 public class HomeViewModel
 {

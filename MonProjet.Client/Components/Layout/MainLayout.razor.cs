@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
-using MonProjet.Client.Models.NavBar;
+using MonProjet.Client.Models.UI.Menu.NavBar;
 
 namespace MonProjet.Client.Components.Layout;
 
@@ -10,7 +10,6 @@ public partial class MainLayout : LayoutComponentBase
 
     private void Recover() => _errorBoundary?.Recover();
 
-    // ✅ Configuration complète du Menu
     private readonly List<NavLinkItem> _navLinks =
     [
         new()
@@ -65,10 +64,8 @@ public partial class MainLayout : LayoutComponentBase
                 }
             ]
         },
-        // Un lien simple sans méga-menu
-        new() { Label = "Pricing", Href = "/pricing" }, 
-        
-        // Un autre avec méga-menu (vide pour l'exemple)
-        new() { Label = "Resources", BannerText = "Documentation and guides", Groups = [] }
+        new() { Label = "Utilisateurs", Href = "/users" },
+        new() { Label = "Gallery", Href = "/gallery" },
+        new() { Label = "Employés", Href = "/employees" },
     ];
 }

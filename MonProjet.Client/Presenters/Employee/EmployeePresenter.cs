@@ -1,4 +1,4 @@
-﻿using MonProjet.Client.Models.Employee;
+﻿using MonProjet.Client.Models.Pages.Employee;
 using MonProjet.Client.Services;
 using MonProjet.Client.View.Employee;
 

@@ -1,4 +1,4 @@
-﻿namespace MonProjet.Client.Models.NavBar;
+﻿namespace MonProjet.Client.Models.UI.Menu.NavBar;
 
 public class MegaMenuItem
 {

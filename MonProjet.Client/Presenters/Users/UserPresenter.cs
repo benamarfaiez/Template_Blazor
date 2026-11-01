@@ -1,4 +1,4 @@
-﻿using MonProjet.Client.Models.User;
+﻿using MonProjet.Client.Models.Pages.User;
 using MonProjet.Client.Services;
 using MonProjet.Client.View.User;
 

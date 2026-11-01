@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Components.Rendering;
 using MonProjet.Client.Components.UI.Collections.Column;
 using MonProjet.Client.Components.UI.Helpers;
-using MonProjet.Client.Models.Style;
-using MonProjet.Client.Models.User;
+using MonProjet.Client.Models.Pages.User;
+using MonProjet.Client.Models.UI.Style;
 
 namespace MonProjet.Client.View.User;
 

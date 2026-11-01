@@ -2,8 +2,8 @@
 using MonProjet.Client.Components.UI.Collections;
 using MonProjet.Client.Components.UI.Collections.Column;
 using MonProjet.Client.Components.UI.Helpers;
-using MonProjet.Client.Models.Home;
-using MonProjet.Client.Models.Style;
+using MonProjet.Client.Models.Pages.Home;
+using MonProjet.Client.Models.UI.Style;
 
 namespace MonProjet.Client.View.Home;
 

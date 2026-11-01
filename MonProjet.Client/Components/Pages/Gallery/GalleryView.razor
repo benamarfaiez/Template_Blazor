@@ -1,10 +1,11 @@
 ﻿@page "/gallery"
 @using MonProjet.Client.Components.UI.Collections
 @using MonProjet.Client.Components.UI.Collections.Column
+@using MonProjet.Client.Components.UI.Enums
 @using MonProjet.Client.Components.UI.Helpers
 @using MonProjet.Client.Components.UI.Layout
-@using MonProjet.Client.Components.UI.Enums
-@using MonProjet.Client.Models.Gallery
+@using MonProjet.Client.Models.Pages.Gallery
+@using MonProjet.Client.Models.UI.Menu
 @using MonProjet.Client.Presenters.Gallery
 @inherits OwningComponentBase
 @implements IGalleryView
@@ -276,8 +277,9 @@
             </AppPopover>
 
             <ContextMenu Items="_contextMenuItems">
-                <div style="padding: 16px; border: 2px dashed var(--color-border); text-align: center; color: var(--color-text-muted);">
-                    Clic droit ici (ContextMenu)
+                <div style="padding: 40px; background: #f8fafc; border: 2px dashed #cbd5e1; border-radius: 8px; text-align: center; cursor: context-menu;">
+                    <h3>Clic droit ici</h3>
+                    <p style="color: #64748b; margin: 0;">Testez le menu contextuel</p>
                 </div>
             </ContextMenu>
 
@@ -410,11 +412,48 @@
     private bool _showFullScreen = false;
 
     // 4. Configuration du ContextMenu
-    private List<ContextMenu.ContextMenuItem> _contextMenuItems = new()
+    private List<ContextMenuItem> _contextMenuItems = new();
+
+    private void InitializeContextMenu()
     {
-        new() { Label = "Option 1 (Fictive)" },
-        new() { Label = "Option 2 (Fictive)" }
-    };
+        _contextMenuItems = new()
+        {
+            new() {
+                Label = "Modifier",
+                Icon = "✏️",
+                OnClick = EventCallback.Factory.Create(this, EditAction)
+            },
+            new() {
+                Label = "Dupliquer",
+                Icon = "📄",
+                OnClick = EventCallback.Factory.Create(this, DuplicateAction)
+            },
+            ContextMenuItem.Separator(),
+            new() {
+                Label = "Archiver",
+                Icon = "📦",
+                OnClick = EventCallback.Factory.Create(this, ArchiveActionAsync)
+            },
+            new() {
+                Label = "Supprimer",
+                Icon = "🗑️",
+                IsDisabled = true,
+                OnClick = EventCallback.Factory.Create(this, DeleteAction)
+            }
+        };
+    }
+
+    private void EditAction()
+    {
+        Console.WriteLine("Modifié");
+    }
+
+    private void DuplicateAction() => Console.WriteLine("Dupliqué");
+    private async Task ArchiveActionAsync()
+    {
+        Console.WriteLine("Archivé");
+    }
+    private void DeleteAction() => Console.WriteLine("Supprimé");
 
     private int _quantite = 1;
     private decimal _prix = 0m;
@@ -461,7 +500,10 @@
         Presenter.SetView(this);
         await Presenter.InitializeAsync();
     }
-
+    protected override void OnInitialized()
+    {
+        InitializeContextMenu();
+    }
     public void ShowError(string message) => StateHasChanged();
     public void ShowLoading(bool isLoading) => StateHasChanged();
 

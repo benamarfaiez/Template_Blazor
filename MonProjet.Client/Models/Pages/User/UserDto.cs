@@ -1,2 +1,2 @@
-﻿namespace MonProjet.Client.Models.User;
+﻿namespace MonProjet.Client.Models.Pages.User;
 public record UserDto(int Id, string Name, string Email, string Role);

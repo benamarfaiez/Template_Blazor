@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components;
 using MonProjet.Client.Components.UI.Core;
-using MonProjet.Client.Models.NavBar;
+using MonProjet.Client.Models.UI.Menu.NavBar;
 
 namespace MonProjet.Client.Components.UI.Menu.NavBar;
 
@@ -33,7 +33,6 @@ public partial class AppNavBarLinks : AppComponentBase
     [Parameter]
     public EventCallback<NavLinkItem> OnDropdownToggle { get; set; }
 
-    // Utilitaire pour savoir si un dropdown spécifique est ouvert
     private bool IsDropdownActive(NavLinkItem link)
     {
         return ActiveDropdown == link;

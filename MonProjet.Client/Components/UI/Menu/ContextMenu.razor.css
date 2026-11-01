@@ -1,11 +1,96 @@
-.context-menu-wrapper { position: relative; }
-.context-menu {
-    position: fixed; background: #fff; border: 1px solid var(--color-border);
-    border-radius: var(--radius); box-shadow: var(--shadow-md); padding: 4px; z-index: 1000;
-    display: flex; flex-direction: column; min-width: 160px;
+.app-context-menu-wrapper {
+    position: relative;
+    display: contents; /* Ne perturbe pas la mise en page du parent */
 }
-.context-menu-item {
-    background: none; border: none; text-align: left; padding: 8px 12px;
-    border-radius: 4px; cursor: pointer;
+
+/* ✅ Le fond invisible qui gère la fermeture */
+.app-context-menu-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 9998;
+    background: transparent;
 }
-.context-menu-item:hover { background: var(--color-bg-alt); }
+
+/* ✅ Le menu flottant */
+.app-context-menu {
+    position: fixed;
+    z-index: 9999;
+    min-width: 220px;
+    background-color: #ffffff;
+    border: 1px solid var(--color-border, #e2e8f0);
+    border-radius: 8px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    padding: 6px;
+    animation: contextPopIn 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+}
+    .app-context-menu:focus {
+        outline: none;
+    }
+
+    .app-context-menu:focus-visible {
+        outline: 2px solid var(--color-primary, #2563eb);
+        outline-offset: 2px;
+    }
+/* Élément du menu */
+.app-context-menu-item {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 8px 12px;
+    border: none;
+    background: transparent;
+    text-align: left;
+    border-radius: 4px;
+    font-size: 0.875rem;
+    color: var(--color-text, #0f172a);
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease;
+}
+
+    .app-context-menu-item:hover:not(:disabled),
+    .app-context-menu-item:focus:not(:disabled) {
+        background-color: var(--color-bg-alt, #f1f5f9);
+        outline: none;
+    }
+
+    .app-context-menu-item:disabled {
+        color: #94a3b8;
+        cursor: not-allowed;
+    }
+
+/* Icône */
+.item-icon {
+    width: 20px;
+    margin-right: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+}
+
+/* Raccourci clavier (aligné à droite) */
+.item-shortcut {
+    margin-left: auto;
+    font-size: 0.75rem;
+    color: #94a3b8;
+    letter-spacing: 0.05em;
+}
+
+/* Séparateur */
+.app-context-menu-separator {
+    height: 1px;
+    background-color: var(--color-border, #e2e8f0);
+    margin: 6px 0;
+}
+
+@keyframes contextPopIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95) translateY(-5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}

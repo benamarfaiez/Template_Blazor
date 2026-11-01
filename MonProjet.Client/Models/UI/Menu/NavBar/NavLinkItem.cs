@@ -1,4 +1,4 @@
-﻿namespace MonProjet.Client.Models.NavBar;
+﻿namespace MonProjet.Client.Models.UI.Menu.NavBar;
 public class NavLinkItem
 {
     public string Label { get; set; } = string.Empty;

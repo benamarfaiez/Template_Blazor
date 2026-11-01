@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Components;
-using MonProjet.Client.Models.Style;
+using MonProjet.Client.Models.UI.Style;
 
 namespace MonProjet.Client.Components.UI.Collections.Column;
 

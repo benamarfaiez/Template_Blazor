@@ -1,4 +1,4 @@
-﻿using MonProjet.Client.Models.Gallery;
+﻿using MonProjet.Client.Models.Pages.Gallery;
 using MonProjet.Client.Presenters.Common;
 
 namespace MonProjet.Client.Presenters.Gallery;

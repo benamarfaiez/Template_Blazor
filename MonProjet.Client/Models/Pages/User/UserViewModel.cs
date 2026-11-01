@@ -1,4 +1,4 @@
-﻿namespace MonProjet.Client.Models.User;
+﻿namespace MonProjet.Client.Models.Pages.User;
 
 public class UserViewModel
 {
