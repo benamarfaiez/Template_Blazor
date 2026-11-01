@@ -1,6 +1,97 @@
-.app-textbox {
-    width: 100%; padding: 8px 12px; border: 1px solid var(--color-border);
-    border-radius: var(--radius); background: #fff; transition: border 0.15s;
+/* --- WRAPPER --- */
+.app-textbox-wrapper {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    background: #ffffff;
+    border: 1px solid var(--color-border, #e2e8f0);
+    border-radius: var(--radius, 6px);
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
-.app-textbox:focus { outline: none; border-color: var(--color-primary); box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
-.app-textbox:disabled { background: var(--color-bg-alt); cursor: not-allowed; }
+
+    /* ✅ Focus géré sur le wrapper pour englober les icônes */
+    .app-textbox-wrapper:focus-within {
+        border-color: var(--color-primary, #2563eb);
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+
+    /* ✅ État d'erreur */
+    .app-textbox-wrapper.has-error {
+        border-color: #ef4444;
+    }
+
+        .app-textbox-wrapper.has-error:focus-within {
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+        }
+
+/* --- INPUT --- */
+.app-textbox {
+    flex: 1;
+    width: 100%;
+    padding: 8px 12px;
+    background: transparent;
+    border: none;
+    font-size: 0.875rem;
+    color: var(--color-text, #0f172a);
+    outline: none;
+}
+
+    .app-textbox:disabled {
+        background-color: var(--color-bg-alt, #f1f5f9);
+        cursor: not-allowed;
+        color: #94a3b8;
+        border-radius: var(--radius, 6px);
+    }
+
+    .app-textbox::placeholder {
+        color: #94a3b8;
+    }
+
+/* --- ICÔNES & BOUTONS --- */
+.app-textbox-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 10px;
+    color: #64748b;
+    font-size: 1rem;
+    user-select: none;
+}
+
+    .app-textbox-icon.leading {
+        padding-right: 0;
+    }
+
+    .app-textbox-icon.trailing {
+        padding-left: 0;
+    }
+
+/* Bouton d'effacement */
+.app-textbox-clear {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #e2e8f0;
+    color: #475569;
+    border: none;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    font-size: 10px;
+    cursor: pointer;
+    margin-right: 10px;
+    transition: all 0.15s ease;
+}
+
+    .app-textbox-clear:hover {
+        background: #cbd5e1;
+        color: #0f172a;
+    }
+
+/* --- MESSAGE D'ERREUR --- */
+.app-textbox-error {
+    color: #ef4444;
+    font-size: 0.75rem;
+    margin-top: 4px;
+    margin-left: 4px;
+}

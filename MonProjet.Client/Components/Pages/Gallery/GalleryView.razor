@@ -101,6 +101,18 @@
         <h3>Text</h3>
         <AppStackPanel Orientation="StackOrientation.Vertical" Gap="16">
             <AppTextBox @bind-Value="_textValue" Placeholder="Saisissez du texte..." />
+            <AppTextBox @bind-Value="_recherche"
+                        Placeholder="Rechercher..."
+                        LeadingIcon="🔍"
+                        ShowClearButton="true" />
+            <AppTextBox @bind-Value="_email"
+                        Placeholder="Votre adresse email"
+                        InputType="email"
+                        LeadingIcon="📧"
+                        ShowClearButton="true"
+                        ValidationFunc="@IsValidEmail"
+                        ErrorMessage="Veuillez saisir une adresse email valide." />
+
             <AutoSuggestBox @bind-Value="_suggestValue" Suggestions="Presenter.ViewModel.Suggestions" Placeholder="Auto-suggestion..." />
 
             <TextBlock Text="Texte normal" Variant="TextBlock.TextVariant.Normal" />
@@ -403,6 +415,8 @@
     private string _radioValue = "1";
     private string? _selectedCombo;
     private string _textValue = "";
+    private string _recherche = "";
+    private string _email = "";
     private string _suggestValue = "";
     private string _codeValue = "public class Hello { }";
     private bool _isEditorOpen = false;
@@ -448,6 +462,13 @@
         Console.WriteLine("Modifié");
     }
 
+    private bool IsValidEmail(string email)
+    {
+        if (string.IsNullOrWhiteSpace(email)) return false;
+
+        // Validation simple (vous pouvez utiliser une Regex plus complexe)
+        return email.Contains("@") && email.Contains(".") && email.Length >= 5;
+    }
     private void DuplicateAction() => Console.WriteLine("Dupliqué");
     private async Task ArchiveActionAsync()
     {

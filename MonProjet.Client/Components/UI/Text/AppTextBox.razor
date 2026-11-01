@@ -6,34 +6,45 @@
               HorizontalAlignment="@ContainerAlignment.Stretch" VerticalAlignment="@ContainerAlignment.Center"
               IsEnabled="@(!Disabled)" IsVisible="@IsVisible">
 
-    <input type="@InputType"
-           id="@CalculatedId"
-           name="@Name"
-           class="@ClassNames("app-textbox", AdditionalAttributes?["class"]?.ToString())"
-           value="@Value"
-           @oninput="OnInput"
-           placeholder="@Placeholder"
-           disabled="@Disabled"
-           @attributes="AdditionalAttributes" />
+    <div class="app-textbox-wrapper @(HasError ? "has-error" : "")" @attributes="SafeAttributes">
+
+        @if (!string.IsNullOrEmpty(LeadingIcon))
+        {
+            <span class="app-textbox-icon leading" aria-hidden="true">@LeadingIcon</span>
+        }
+
+        <input type="@InputType"
+               id="@_calculatedId"
+               name="@Name"
+               class="app-textbox"
+               value="@Value"
+               @oninput="OnInputAsync"
+               placeholder="@Placeholder"
+               disabled="@Disabled"
+               readonly="@ReadOnly"
+               maxlength="@MaxLength"
+               aria-invalid="@HasError.ToString().ToLowerInvariant()"
+               aria-describedby="@AriaDescribedBy" />
+
+        @if (ShowClearButton && !string.IsNullOrEmpty(Value) && !Disabled && !ReadOnly)
+        {
+            <button type="button" class="app-textbox-clear" @onclick="ClearAsync" aria-label="Effacer le texte">
+                ✕
+            </button>
+        }
+
+        @if (!string.IsNullOrEmpty(TrailingIcon))
+        {
+            <span class="app-textbox-icon trailing" aria-hidden="true">@TrailingIcon</span>
+        }
+
+    </div>
 
 </AppContainer>
 
-@code {
-    [Parameter] public string Value { get; set; } = string.Empty;
-    [Parameter] public EventCallback<string> ValueChanged { get; set; }
-    [Parameter] public string Placeholder { get; set; } = string.Empty;
-    [Parameter] public string InputType { get; set; } = "text";
-    [Parameter] public bool Disabled { get; set; }
-
-    [Parameter] public string? Id { get; set; }
-    [Parameter] public string? Name { get; set; }
-
-    // Si aucun ID n'est fourni, on en génère un unique pour éviter les avertissements
-    private string CalculatedId => Id ?? $"app-input-{Guid.NewGuid():N}";
-
-    private Task OnInput(ChangeEventArgs e)
-    {
-        Value = e.Value?.ToString() ?? string.Empty;
-        return ValueChanged.InvokeAsync(Value);
-    }
+@if (HasError && !string.IsNullOrEmpty(ErrorMessage))
+{
+    <div id="@($"{_calculatedId}-error")" class="app-textbox-error" role="alert">
+        @ErrorMessage
+    </div>
 }
