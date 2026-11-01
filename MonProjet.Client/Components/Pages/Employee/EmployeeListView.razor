@@ -43,3 +43,23 @@ else
          Severity="InfoSeverity.Error"
          Message="@Presenter.ViewModel.ErrorMessage"
          OnDismiss="() => Presenter.ViewModel.ErrorMessage = null" />
+
+<TextBlock Text="Assigner un employé à un projet :"
+            Variant="TextBlock.TextVariant.Bold" />
+
+<AutoSuggestBox TItem="EmployeeDto"
+                Items="Presenter.ViewModel.Employees"
+                @bind-Value="_selectedEmployee"
+                TextSelector='@(e => $"{e.Name} ({e.Role})")'
+                Placeholder="Rechercher un employé par nom..."
+                MarginTop="16px" />
+
+@if (_selectedEmployee is not null)
+{
+    <AppCard MarginTop="16px" style="background: #f8fafc; border-left: 4px solid #2563eb;">
+        <TextBlock Text="Détails de l'employé sélectionné :" Variant="TextBlock.TextVariant.Bold" />
+        <p><strong>Nom :</strong> @_selectedEmployee.Name</p>
+        <p><strong>Email :</strong> @_selectedEmployee.Email</p>
+        <p><strong>Rôle :</strong> @_selectedEmployee.Role</p>
+    </AppCard>
+}

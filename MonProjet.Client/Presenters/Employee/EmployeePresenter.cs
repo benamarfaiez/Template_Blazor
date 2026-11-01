@@ -31,9 +31,11 @@ public class EmployeePresenter(IExceptionHandler exceptions) : IEmployeePresente
 
             ViewModel.Employees =
             [
-                new() { Id = 1, Name = "Alice Dupont", Email = "alice@test.com", Role = "Admin", IsActive = true, HireDate = new DateTime(2020, 5, 12) },
-                new() { Id = 2, Name = "Bob Martin", Email = "bob@test.com", Role = "Éditeur", IsActive = false, HireDate = new DateTime(2022, 11, 1) },
-                new() { Id = 3, Name = "Charlie Durand", Email = "charlie@test.com", Role = "Lecteur", IsActive = true, HireDate = new DateTime(2023, 2, 15) }
+                new() { Id = 1, Name = "Alice Dupont", Email = "alice@test.com", Role = "Admin" },
+                new() { Id = 2, Name = "Bob Martin", Email = "bob@test.com", Role = "Éditeur" },
+                new() { Id = 3, Name = "Charlie Durand", Email = "charlie@test.com", Role = "Lecteur" },
+                new() { Id = 4, Name = "David Lemaire", Email = "david@test.com", Role = "Admin" },
+                new() { Id = 5, Name = "Eva Rousseau", Email = "eva@test.com", Role = "Éditeur" }
             ];
         }
         catch (Exception ex)

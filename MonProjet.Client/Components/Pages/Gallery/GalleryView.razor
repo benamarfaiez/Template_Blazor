@@ -113,7 +113,10 @@
                         ValidationFunc="@IsValidEmail"
                         ErrorMessage="Veuillez saisir une adresse email valide." />
 
-            <AutoSuggestBox @bind-Value="_suggestValue" Suggestions="Presenter.ViewModel.Suggestions" Placeholder="Auto-suggestion..." />
+            <AutoSuggestBox TItem="string"
+                               Items="Presenter.ViewModel.Suggestions"
+                               @bind-Value="_suggestValue"
+                               Placeholder="Rechercher une langue..." />
 
             <TextBlock Text="Texte normal" Variant="TextBlock.TextVariant.Normal" />
             <TextBlock Text="Texte discret (Muted)" Variant="TextBlock.TextVariant.Muted" />
@@ -417,7 +420,7 @@
     private string _textValue = "";
     private string _recherche = "";
     private string _email = "";
-    private string _suggestValue = "";
+    private string? _suggestValue;
     private string _codeValue = "public class Hello { }";
     private bool _isEditorOpen = false;
     // 3. États pour les fenêtres modales

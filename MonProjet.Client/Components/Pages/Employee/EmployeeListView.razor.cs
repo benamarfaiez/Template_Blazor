@@ -51,4 +51,6 @@ public partial class EmployeeListView : OwningComponentBase, IEmployeeView, IDis
     {
         GC.SuppressFinalize(this);
     }
+
+    private EmployeeDto? _selectedEmployee;
 }

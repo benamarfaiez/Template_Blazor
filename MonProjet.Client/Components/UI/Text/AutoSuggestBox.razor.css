@@ -1,10 +1,79 @@
-.app-autosuggest { position: relative; width: 100%; }
-.app-autosuggest-input { width: 100%; padding: 8px 12px; border: 1px solid var(--color-border); border-radius: var(--radius); }
-.app-autosuggest-list {
-    position: absolute; top: calc(100% + 4px); left: 0; right: 0;
-    margin: 0; padding: 4px; list-style: none; background: #fff;
-    border: 1px solid var(--color-border); border-radius: var(--radius);
-    box-shadow: var(--shadow-md); z-index: 100; max-height: 200px; overflow-y: auto;
+.app-autosuggest {
+    position: relative;
+    width: 100%;
 }
-.app-autosuggest-list li { padding: 6px 12px; cursor: pointer; border-radius: 4px; }
-.app-autosuggest-list li:hover { background: var(--color-bg-alt); }
+
+.app-autosuggest-input {
+    width: 100%;
+    padding: 8px 12px;
+    font-size: 0.875rem;
+    color: var(--color-text, #0f172a);
+    background-color: #ffffff;
+    border: 1px solid var(--color-border, #e2e8f0);
+    border-radius: var(--radius, 6px);
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+    .app-autosuggest-input:focus {
+        outline: none;
+        border-color: var(--color-primary, #2563eb);
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+
+    .app-autosuggest-input:disabled {
+        background-color: var(--color-bg-alt, #f1f5f9);
+        cursor: not-allowed;
+        color: #94a3b8;
+    }
+
+/* --- LISTE DÉROULANTE --- */
+.app-autosuggest-list {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    margin: 0;
+    padding: 6px;
+    list-style: none;
+    background: #ffffff;
+    border: 1px solid var(--color-border, #e2e8f0);
+    border-radius: var(--radius, 6px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    z-index: 100;
+    max-height: 250px;
+    overflow-y: auto;
+    /* Animation d'apparition */
+    animation: autosuggestDrop 0.15s ease-out;
+}
+
+/* Élément de la liste */
+.app-autosuggest-item {
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 0.875rem;
+    color: var(--color-text, #0f172a);
+    transition: background 0.1s ease;
+}
+
+    .app-autosuggest-item:hover {
+        background-color: var(--color-bg-alt, #f1f5f9);
+    }
+
+    /* ✅ Élément sélectionné au clavier ou à la souris */
+    .app-autosuggest-item.selected {
+        background-color: var(--color-primary, #2563eb);
+        color: #ffffff;
+    }
+
+@keyframes autosuggestDrop {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
