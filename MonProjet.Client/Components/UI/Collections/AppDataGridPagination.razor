@@ -1,0 +1,44 @@
+﻿@inherits AppComponentBase
+
+<div class="app-datagrid-pagination" @attributes="SafeAttributes">
+
+    <div class="pagination-info">
+        Affichage de <strong>@StartItem</strong> à <strong>@EndItem</strong> sur <strong>@TotalItems</strong> éléments
+    </div>
+
+    <div class="pagination-controls">
+        <button type="button" class="page-btn" @onclick="FirstPage" disabled="@(CurrentPage == 1)" title="Première page">
+            &laquo;
+        </button>
+        <button type="button" class="page-btn" @onclick="PreviousPage" disabled="@(CurrentPage == 1)" title="Page précédente">
+            &lsaquo;
+        </button>
+
+        <span class="page-indicator">Page @CurrentPage sur @TotalPages</span>
+
+        <button type="button" class="page-btn" @onclick="NextPage" disabled="@(CurrentPage == TotalPages)" title="Page suivante">
+            &rsaquo;
+        </button>
+        <button type="button" class="page-btn" @onclick="LastPage" disabled="@(CurrentPage == TotalPages)" title="Dernière page">
+            &raquo;
+        </button>
+    </div>
+
+</div>
+
+@code {
+    [Parameter] public int CurrentPage { get; set; }
+    [Parameter] public int TotalPages { get; set; }
+    [Parameter] public int TotalItems { get; set; }
+    [Parameter] public int PageSize { get; set; }
+
+    [Parameter] public EventCallback<int> OnPageChanged { get; set; }
+
+    private int StartItem => TotalItems == 0 ? 0 : ((CurrentPage - 1) * PageSize) + 1;
+    private int EndItem => Math.Min(CurrentPage * PageSize, TotalItems);
+
+    private async Task FirstPage() => await OnPageChanged.InvokeAsync(1);
+    private async Task PreviousPage() => await OnPageChanged.InvokeAsync(CurrentPage - 1);
+    private async Task NextPage() => await OnPageChanged.InvokeAsync(CurrentPage + 1);
+    private async Task LastPage() => await OnPageChanged.InvokeAsync(TotalPages);
+}

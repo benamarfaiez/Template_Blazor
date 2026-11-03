@@ -25,21 +25,32 @@
     }
     else
     {
-        <div class="app-datagrid-wrapper" @attributes="SafeAttributes">
-            <table class="app-datagrid">
+        <div class="app-datagrid-container" @attributes="SafeAttributes">
 
-                <AppDataGridHeader TItem="TItem"
-                                   Columns="Columns"
-                                   SortState="_sortState"
-                                   OnSortRequested="HandleSortRequested" />
+            <div class="app-datagrid-wrapper">
+                <table class="app-datagrid">
+                    <AppDataGridHeader TItem="TItem"
+                                       Columns="Columns"
+                                       SortState="_sortState"
+                                       OnSortRequested="HandleSortRequested" />
 
-                <AppDataGridBody TItem="TItem"
-                                 Items="_sortedItems"
-                                 Columns="Columns"
-                                 RowClassSelector="RowClassSelector"
-                                 OnRowClick="OnRowClick" />
+                    <AppDataGridBody TItem="TItem"
+                                     Items="_pagedItems"
+                                     Columns="Columns"
+                                     RowClassSelector="RowClassSelector"
+                                     OnRowClick="OnRowClick" />
+                </table>
+            </div>
 
-            </table>
+            @if (ShowPagination && _paginationState.TotalPages > 1)
+            {
+                <AppDataGridPagination CurrentPage="_paginationState.CurrentPage"
+                                       TotalPages="_paginationState.TotalPages"
+                                       TotalItems="_paginationState.TotalItems"
+                                       PageSize="_paginationState.PageSize"
+                                       OnPageChanged="HandlePageChanged" />
+            }
+
         </div>
     }
 
