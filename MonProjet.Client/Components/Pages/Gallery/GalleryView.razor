@@ -2,6 +2,7 @@
 @using MonProjet.Client.Components.UI.Collections
 @using MonProjet.Client.Components.UI.Collections.Column
 @using MonProjet.Client.Components.UI.Enums
+@using MonProjet.Client.Components.UI.Enums.Text
 @using MonProjet.Client.Components.UI.Helpers
 @using MonProjet.Client.Components.UI.Layout
 @using MonProjet.Client.Models.Pages.Gallery
@@ -32,7 +33,7 @@
             <AppToggleSwitch @bind-Value="_isToggled" Label="Interrupteur (ToggleSwitch)" Position="LabelPlacement.Before" />
 
             <AppStackPanel Orientation="StackOrientation.Vertical" Gap="8">
-                <TextBlock Text="Choisissez votre plan :" Variant="TextBlock.TextVariant.Bold" MarginBottom="8px" />
+                <TextBlock Text="Choisissez votre plan :" Variant="TextVariant.Bold" MarginBottom="8px" />
 
                 <AppRadioButton GroupName="plans"
                                 Value="basic"
@@ -72,7 +73,7 @@
                 Placeholder="Prix en €" />
 
             <div style="max-width: 400px; margin-top: 20px;">
-                <TextBlock Text="Volume : " Variant="TextBlock.TextVariant.Bold" MarginBottom="8px" /> @_volume %
+                <TextBlock Text="Volume : " Variant="TextVariant.Bold" MarginBottom="8px" /> @_volume %
                 <AppRangeSlider TValue="int" @bind-Value="_volume" Min="0" Max="100" />
             </div>
 
@@ -83,7 +84,7 @@
 
             <AppStackPanel Orientation="StackOrientation.Vertical" Gap="16">
                 <div>
-                    <TextBlock Text="Date de naissance" Variant="TextBlock.TextVariant.Bold" MarginBottom="8px" />
+                    <TextBlock Text="Date de naissance" Variant="TextVariant.Bold" MarginBottom="8px" />
                     <AppDatePicker @bind-Value="_dateNaissance"
                                    Placeholder="Sélectionnez votre date de naissance..." />
                 </div>
@@ -118,13 +119,13 @@
                                @bind-Value="_suggestValue"
                                Placeholder="Rechercher une langue..." />
 
-            <TextBlock Text="Texte normal" Variant="TextBlock.TextVariant.Normal" />
-            <TextBlock Text="Texte discret (Muted)" Variant="TextBlock.TextVariant.Muted" />
-            <TextBlock Text="Texte en gras" Variant="TextBlock.TextVariant.Bold" />
-            <TextBlock Text="Petit texte" Variant="TextBlock.TextVariant.Small" />
+            <TextBlock Text="Texte normal" Variant="TextVariant.Normal" />
+            <TextBlock Text="Texte discret (Muted)" Variant="TextVariant.Muted" />
+            <TextBlock Text="Texte en gras" Variant="TextVariant.Bold" />
+            <TextBlock Text="Petit texte" Variant="TextVariant.Small" />
 
             <div style="margin-top: 16px;">
-                <TextBlock Text="Monaco Editor :" Variant="TextBlock.TextVariant.Bold" />
+                <TextBlock Text="Monaco Editor :" Variant="TextVariant.Bold" />
                 <MonacoEditor @bind-Value="_codeValue" Height="150px" Language="csharp" />
             </div>
         </AppStackPanel>
@@ -158,19 +159,19 @@
                 <!-- 1. Solde / Portefeuille -->
                 <AppStackPanel Orientation="StackOrientation.Horizontal" CrossAxisAlignment="StackAlignment.Center" Gap="8">
                     <FontIcon Icon="💰" Size="20px" Variant="IconVariant.Success" />
-                    <TextBlock Text="Solde" Variant="TextBlock.TextVariant.Bold" />
+                    <TextBlock Text="Solde" Variant="TextVariant.Bold" />
                 </AppStackPanel>
 
                 <!-- 2. Investissement / Croissance -->
                 <AppStackPanel Orientation="StackOrientation.Horizontal" CrossAxisAlignment="StackAlignment.Center" Gap="8">
                     <FontIcon Icon="📈" Size="20px" Variant="IconVariant.Success" />
-                    <TextBlock Text="Investissements" Variant="TextBlock.TextVariant.Bold" />
+                    <TextBlock Text="Investissements" Variant="TextVariant.Bold" />
                 </AppStackPanel>
 
                 <!-- 3. Dépenses / Perte -->
                 <AppStackPanel Orientation="StackOrientation.Horizontal" CrossAxisAlignment="StackAlignment.Center" Gap="8">
                     <FontIcon Icon="📉" Size="20px" Variant="IconVariant.Danger" />
-                    <TextBlock Text="Dépenses" Variant="TextBlock.TextVariant.Bold" />
+                    <TextBlock Text="Dépenses" Variant="TextVariant.Bold" />
                 </AppStackPanel>
 
             </AppStackPanel>
@@ -181,19 +182,19 @@
                 <!-- 4. Carte de paiement / Transactions -->
                 <AppStackPanel Orientation="StackOrientation.Horizontal" CrossAxisAlignment="StackAlignment.Center" Gap="8">
                     <FontIcon Icon="💳" Size="20px" Variant="IconVariant.Primary" />
-                    <TextBlock Text="Transactions" Variant="TextBlock.TextVariant.Bold" />
+                    <TextBlock Text="Transactions" Variant="TextVariant.Bold" />
                 </AppStackPanel>
 
                 <!-- 5. Compte Bancaire -->
                 <AppStackPanel Orientation="StackOrientation.Horizontal" CrossAxisAlignment="StackAlignment.Center" Gap="8">
                     <FontIcon Icon="🏦" Size="20px" />
-                    <TextBlock Text="Banques" Variant="TextBlock.TextVariant.Normal" />
+                    <TextBlock Text="Banques" Variant="TextVariant.Normal" />
                 </AppStackPanel>
 
                 <!-- 6. Facturation -->
                 <AppStackPanel Orientation="StackOrientation.Horizontal" CrossAxisAlignment="StackAlignment.Center" Gap="8">
                     <FontIcon Icon="🧾" Size="20px" />
-                    <TextBlock Text="Factures" Variant="TextBlock.TextVariant.Normal" />
+                    <TextBlock Text="Factures" Variant="TextVariant.Normal" />
                 </AppStackPanel>
 
             </AppStackPanel>
@@ -205,13 +206,13 @@
                 <!-- 7. Alerte de découvert / Risque -->
                 <AppStackPanel Orientation="StackOrientation.Horizontal" CrossAxisAlignment="StackAlignment.Center" Gap="8">
                     <FontIcon Icon="⚠️" Size="20px" Variant="IconVariant.Warning" />
-                    <TextBlock Text="Alertes" Variant="TextBlock.TextVariant.Bold" />
+                    <TextBlock Text="Alertes" Variant="TextVariant.Bold" />
                 </AppStackPanel>
 
                 <!-- 8. Sécurité / Crypto -->
                 <AppStackPanel Orientation="StackOrientation.Horizontal" CrossAxisAlignment="StackAlignment.Center" Gap="8">
                     <FontIcon Icon="🔒" Size="20px" Variant="IconVariant.Muted" />
-                    <TextBlock Text="Sécurité" Variant="TextBlock.TextVariant.Muted" />
+                    <TextBlock Text="Sécurité" Variant="TextVariant.Muted" />
                 </AppStackPanel>
 
             </AppStackPanel>
@@ -230,7 +231,7 @@
 
             <!-- ✅ AppSplitGrid Integration -->
             <div style="margin-bottom: 8px;">
-                <TextBlock Text="SplitGrid (Ratio 1:2)" Variant="TextBlock.TextVariant.Bold" />
+                <TextBlock Text="SplitGrid (Ratio 1:2)" Variant="TextVariant.Bold" />
                 <AppSplitGrid Ratio="SplitRatio.OneToTwo" Gap="8px" Height="80px">
                     <Left>
                         <div style="background: #dbeafe; color: #1e40af; height: 100%; display: flex; align-items: center; justify-content: center; border-radius: 4px;">
@@ -246,7 +247,7 @@
             </div>
 
             <div style="margin-bottom: 8px;">
-                <TextBlock Text="SplitGrid (Ratio Custom : 300px / 1fr)" Variant="TextBlock.TextVariant.Bold" />
+                <TextBlock Text="SplitGrid (Ratio Custom : 300px / 1fr)" Variant="TextVariant.Bold" />
                 <AppSplitGrid Ratio="SplitRatio.LeftFixed" Gap="8px" Height="80px">
                     <Left>
                         <div style="background: #fef3c7; color: #92400e; height: 100%; display: flex; align-items: center; justify-content: center; border-radius: 4px;">
@@ -284,7 +285,7 @@
 
             <AppPopover Position="PopoverPosition.Top" TriggerOnHover="true">
                 <Anchor>
-                    <TextBlock Text="Qu'est-ce que c'est ?" Variant="TextBlock.TextVariant.Bold" />
+                    <TextBlock Text="Qu'est-ce que c'est ?" Variant="TextVariant.Bold" />
                 </Anchor>
                 <Content>
                     <span style="font-size: 0.875rem;">Ceci est un texte d'aide contextuel.</span>
@@ -329,7 +330,7 @@
             <AppGrid Columns="2" Gap="24px">
 
                 <AppStackPanel Orientation="StackOrientation.Vertical" Gap="8">
-                    <TextBlock Text="ListBox" Variant="TextBlock.TextVariant.Bold" />
+                    <TextBlock Text="ListBox" Variant="TextVariant.Bold" />
 
                     <AppListBox TItem="string"
                                 Items="Presenter.ViewModel.SuggestionsLangue"
@@ -337,12 +338,12 @@
                                 Height="200px" />
 
                     <TextBlock Text="@($"Langue sélectionnée : {_selectedLanguage}")"
-                               Variant="TextBlock.TextVariant.Bold"
+                               Variant="TextVariant.Bold"
                                MarginTop="8px" />
                 </AppStackPanel>
 
                 <AppStackPanel Orientation="StackOrientation.Vertical" Gap="8">
-                    <TextBlock Text="GridView" Variant="TextBlock.TextVariant.Bold" />
+                    <TextBlock Text="GridView" Variant="TextVariant.Bold" />
                     <AppGridView TItem="string" Items="Presenter.ViewModel.Suggestions" Columns="2">
                         <ItemTemplate Context="item">
                             <span style="font-weight: 500;">@item</span>
@@ -354,7 +355,7 @@
         </AppCard>
 
         <AppCard MarginTop="24px" PaddingBottom="24px">
-            <TextBlock Text="DataGrid" Variant="TextBlock.TextVariant.Bold" />
+            <TextBlock Text="DataGrid" Variant="TextVariant.Bold" />
             <AppDataGrid TItem="DemoItem"
                          Items="Presenter.ViewModel.Items"
                          Columns="_dataGridColumns" />

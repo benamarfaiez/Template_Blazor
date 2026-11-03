@@ -1,9 +1,33 @@
+@using MonProjet.Client.Components.UI.Enums.Text
 @inherits AppComponentBase
 
-<span class="@ClassNames("text-block", $"text-block-{Variant.ToString().ToLowerInvariant()}")">@Text</span>
-
-@code {
-    [Parameter] public string Text { get; set; } = string.Empty;
-    [Parameter] public TextVariant Variant { get; set; } = TextVariant.Normal;
-    public enum TextVariant { Normal, Muted, Bold, Small }
+@if (IsVisible)
+{
+    @switch (As)
+    {
+        case TextElement.H1:
+            <h1 class="@_finalCssClasses" style="@_finalStyles" @attributes="_mergedAttributes">@Text</h1>
+            break;
+        case TextElement.H2:
+            <h2 class="@_finalCssClasses" style="@_finalStyles" @attributes="_mergedAttributes">@Text</h2>
+            break;
+        case TextElement.H3:
+            <h3 class="@_finalCssClasses" style="@_finalStyles" @attributes="_mergedAttributes">@Text</h3>
+            break;
+        case TextElement.H4:
+            <h4 class="@_finalCssClasses" style="@_finalStyles" @attributes="_mergedAttributes">@Text</h4>
+            break;
+        case TextElement.P:
+            <p class="@_finalCssClasses" style="@_finalStyles" @attributes="_mergedAttributes">@Text</p>
+            break;
+        case TextElement.Div:
+            <div class="@_finalCssClasses" style="@_finalStyles" @attributes="_mergedAttributes">@Text</div>
+            break;
+        case TextElement.Label:
+            <label class="@_finalCssClasses" style="@_finalStyles" @attributes="_mergedAttributes">@Text</label>
+            break;
+        default:
+            <span class="@_finalCssClasses" style="@_finalStyles" @attributes="_mergedAttributes">@Text</span>
+            break;
+    }
 }

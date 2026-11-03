@@ -1,4 +1,5 @@
-﻿@inherits AppComponentBase
+﻿@using MonProjet.Client.Components.UI.Enums.Text
+@inherits AppComponentBase
 
 <footer class="app-footer" @attributes="SafeAttributes">
     <AppContainer HorizontalAlignment="@ContainerAlignment.SpaceBetween"
@@ -11,7 +12,7 @@
                   PaddingBottom="16px">
 
         <!-- Texte de Copyright -->
-        <TextBlock Text="@($"© {CurrentYear} {BrandName}")" Variant="TextBlock.TextVariant.Muted" />
+        <TextBlock Text="@($"© {CurrentYear} {BrandName}")" Variant="TextVariant.Muted" />
 
         <!-- Contenu optionnel (ex: Liens) -->
         @if (ChildContent is not null)

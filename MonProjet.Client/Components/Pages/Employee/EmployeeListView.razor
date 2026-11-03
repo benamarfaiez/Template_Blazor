@@ -1,4 +1,5 @@
 ﻿@page "/employees"
+@using MonProjet.Client.Components.UI.Enums.Text
 @using MonProjet.Client.Models.Pages.Employee
 @using MonProjet.Client.View.Employee
 @inherits OwningComponentBase
@@ -30,7 +31,6 @@
 }
 else
 {
-    <!-- ✅ Le DataGrid branché sur le ViewModel du Présentateur -->
     <AppDataGrid TItem="EmployeeDto"
                  Items="Presenter.ViewModel.Employees"
                  Columns="_columns"
@@ -45,7 +45,7 @@ else
          OnDismiss="() => Presenter.ViewModel.ErrorMessage = null" />
 
 <TextBlock Text="Assigner un employé à un projet :"
-            Variant="TextBlock.TextVariant.Bold" />
+            Variant="TextVariant.Bold" />
 
 <AutoSuggestBox TItem="EmployeeDto"
                 Items="Presenter.ViewModel.Employees"
@@ -57,9 +57,28 @@ else
 @if (_selectedEmployee is not null)
 {
     <AppCard MarginTop="16px" style="background: #f8fafc; border-left: 4px solid #2563eb;">
-        <TextBlock Text="Détails de l'employé sélectionné :" Variant="TextBlock.TextVariant.Bold" />
-        <p><strong>Nom :</strong> @_selectedEmployee.Name</p>
-        <p><strong>Email :</strong> @_selectedEmployee.Email</p>
-        <p><strong>Rôle :</strong> @_selectedEmployee.Role</p>
+        <TextBlock Text="Détails de l'employé sélectionné :" Variant="TextVariant.Bold" />
+        <AppCard MarginTop="16px" style="background: #f8fafc; border-left: 4px solid #2563eb;">
+            <TextBlock Text="Détails de l'employé sélectionné :" Variant="TextVariant.Bold" MarginBottom="16px" />
+
+            <AppStackPanel Orientation="StackOrientation.Vertical" Gap="12">
+
+                <AppStackPanel Orientation="StackOrientation.Horizontal" Gap="8" CrossAxisAlignment="StackAlignment.Center">
+                    <TextBlock As="TextElement.Span" Variant="TextVariant.Bold" Text="Nom :" />
+                    <TextBlock As="TextElement.Span" Text="@_selectedEmployee.Name" />
+                </AppStackPanel>
+
+                <AppStackPanel Orientation="StackOrientation.Horizontal" Gap="8" CrossAxisAlignment="StackAlignment.Center">
+                    <TextBlock As="TextElement.Span" Variant="TextVariant.Bold" Text="Email :" />
+                    <TextBlock As="TextElement.Span" Text="@_selectedEmployee.Email" />
+                </AppStackPanel>
+
+                <AppStackPanel Orientation="StackOrientation.Horizontal" Gap="8" CrossAxisAlignment="StackAlignment.Center">
+                    <TextBlock As="TextElement.Span" Variant="TextVariant.Bold" Text="Rôle :" />
+                    <TextBlock As="TextElement.Span" Text="@_selectedEmployee.Role" />
+                </AppStackPanel>
+
+            </AppStackPanel>
+        </AppCard>
     </AppCard>
 }
