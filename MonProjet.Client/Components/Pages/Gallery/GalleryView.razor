@@ -1,4 +1,5 @@
 ﻿@page "/gallery"
+@using MonProjet.Client.Components.Layout.Tabs
 @using MonProjet.Client.Components.UI.Collections
 @using MonProjet.Client.Components.UI.Collections.Column
 @using MonProjet.Client.Components.UI.Enums
@@ -324,44 +325,68 @@
     </AppCard>
 
     <!-- SECTION : COLLECTIONS (Pleine largeur) -->
-    <div style="grid-column: span 2;">
-        <AppCard>
-            <h3>Collections</h3>
-            <AppGrid Columns="2" Gap="24px">
+    <AppCard>
+        <h3>Collections</h3>
+        <AppGrid Columns="2" Gap="24px">
 
+            <AppStackPanel Orientation="StackOrientation.Vertical" Gap="8">
+                <TextBlock Text="ListBox" Variant="TextVariant.Bold" />
+
+                <AppListBox TItem="string"
+                            Items="Presenter.ViewModel.SuggestionsLangue"
+                            @bind-SelectedItem="_selectedLanguage"
+                            Height="200px" />
+
+                <TextBlock Text="@($"Langue sélectionnée : {_selectedLanguage}")"
+                            Variant="TextVariant.Bold"
+                            MarginTop="8px" />
+            </AppStackPanel>
+
+            <AppStackPanel Orientation="StackOrientation.Vertical" Gap="8">
+                <TextBlock Text="GridView" Variant="TextVariant.Bold" />
+                <AppGridView TItem="string" Items="Presenter.ViewModel.Suggestions" Columns="2">
+                    <ItemTemplate Context="item">
+                        <span style="font-weight: 500;">@item</span>
+                    </ItemTemplate>
+                </AppGridView>
+            </AppStackPanel>
+
+            <AppButton Text="Afficher les détails" OnClick="() => _showOverlay = true" />
+        </AppGrid>
+    </AppCard>
+
+    <AppCard MarginTop="24px" PaddingBottom="24px">
+        <TextBlock Text="DataGrid" Variant="TextVariant.Bold" />
+        <AppDataGrid TItem="DemoItem"
+                        Items="Presenter.ViewModel.Items"
+                        Columns="_dataGridColumns" />
+    </AppCard>
+
+    <AppCard>
+        <h3>Onglets (Tabs)</h3>
+        
+        <AppTabs @bind-ActiveTab="_demoTab">
+            <AppTabPanel Title="Profil" Icon="👤">
                 <AppStackPanel Orientation="StackOrientation.Vertical" Gap="8">
-                    <TextBlock Text="ListBox" Variant="TextVariant.Bold" />
-
-                    <AppListBox TItem="string"
-                                Items="Presenter.ViewModel.SuggestionsLangue"
-                                @bind-SelectedItem="_selectedLanguage"
-                                Height="200px" />
-
-                    <TextBlock Text="@($"Langue sélectionnée : {_selectedLanguage}")"
-                               Variant="TextVariant.Bold"
-                               MarginTop="8px" />
+                    <TextBlock Text="Modifiez vos informations personnelles ici." Variant="TextVariant.Muted" />
+                    <AppTextBox Placeholder="Nom d'utilisateur" />
+                    <AppTextBox Placeholder="Email" />
                 </AppStackPanel>
-
+            </AppTabPanel>
+            
+            <AppTabPanel Title="Sécurité" Icon="🔒">
                 <AppStackPanel Orientation="StackOrientation.Vertical" Gap="8">
-                    <TextBlock Text="GridView" Variant="TextVariant.Bold" />
-                    <AppGridView TItem="string" Items="Presenter.ViewModel.Suggestions" Columns="2">
-                        <ItemTemplate Context="item">
-                            <span style="font-weight: 500;">@item</span>
-                        </ItemTemplate>
-                    </AppGridView>
+                    <TextBlock Text="Gérez vos mots de passe et l'authentification à deux facteurs." Variant="TextVariant.Muted" />
+                    <AppButton Text="Changer de mot de passe" Variant="ButtonVariant.Secondary" />
                 </AppStackPanel>
-
-            </AppGrid>
-        </AppCard>
-
-        <AppCard MarginTop="24px" PaddingBottom="24px">
-            <TextBlock Text="DataGrid" Variant="TextVariant.Bold" />
-            <AppDataGrid TItem="DemoItem"
-                         Items="Presenter.ViewModel.Items"
-                         Columns="_dataGridColumns" />
-        </AppCard>
-    </div>
-
+            </AppTabPanel>
+            
+            <AppTabPanel Title="Notifications" Icon="🔔">
+                <TextBlock Text="Choisissez comment vous souhaitez être notifié." Variant="TextVariant.Muted" />
+                <AppToggleSwitch Label="Recevoir les alertes par email" MarginTop="8px" />
+            </AppTabPanel>
+        </AppTabs>
+    </AppCard>
 </AppGrid>
 
 <!-- MODALES ET OVERLAYS -->
@@ -385,7 +410,6 @@
 
 </AppDialog>
 
-<AppButton Text="Afficher les détails" OnClick="() => _showOverlay = true" />
 
 <AppOverlay @bind-IsVisible="_showOverlay">
     <div style="padding: 24px; width: 400px;">
@@ -487,6 +511,7 @@
     private IEnumerable<string> _selectedTags = new List<string> { "Blazor" };
     private DateTime? _dateNaissance;
     private string _selectedLanguage = "";
+    private string? _demoTab;
 
     private void EditProject() { /* Logique */ }
     private void DuplicateProject() { /* Logique */ }

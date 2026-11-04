@@ -1,0 +1,96 @@
+.app-tabs {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* --- NAVIGATION --- */
+.app-tabs-nav {
+    display: flex;
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+}
+
+    .app-tabs-nav::-webkit-scrollbar {
+        display: none;
+    }
+
+/* --- BOUTONS D'ONGLETS --- */
+.app-tab-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    background: transparent;
+    border: none;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--color-text-muted, #64748b);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+    .app-tab-btn:hover:not(.disabled) {
+        color: var(--color-text, #0f172a);
+    }
+
+    .app-tab-btn.disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+
+.tab-icon {
+    font-size: 1.1rem;
+}
+
+/* --- VARIANTE : LINE (Trait en bas) --- */
+.app-tabs-line .app-tabs-nav {
+    border-bottom: 1px solid var(--color-border, #e2e8f0);
+}
+
+.app-tabs-line .app-tab-btn {
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+}
+
+    .app-tabs-line .app-tab-btn.active {
+        color: var(--color-primary, #2563eb);
+        border-bottom-color: var(--color-primary, #2563eb);
+    }
+
+/* --- VARIANTE : PILL (Fond coloré) --- */
+.app-tabs-pill .app-tabs-nav {
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.app-tabs-pill .app-tab-btn {
+    border-radius: 99px;
+    padding: 8px 16px;
+}
+
+    .app-tabs-pill .app-tab-btn.active {
+        background-color: var(--color-primary, #2563eb);
+        color: #ffffff;
+    }
+
+/* --- CONTENU --- */
+.app-tabs-content {
+    padding-top: 16px;
+    animation: fadeInTabs 0.3s ease-out;
+}
+
+@keyframes fadeInTabs {
+    from {
+        opacity: 0;
+        transform: translateY(5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

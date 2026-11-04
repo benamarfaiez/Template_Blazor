@@ -1,0 +1,47 @@
+﻿@inherits AppComponentBase
+
+<AppContainer Width="@Width" MarginTop="@MarginTop" MarginBottom="@MarginBottom" IsVisible="@IsVisible">
+    <div class="app-tabs @VariantClass" @attributes="SafeAttributes">
+
+        <!-- Navigation -->
+        <div class="app-tabs-nav" role="tablist">
+            @for (int i = 0; i < Tabs.Count; i++)
+            {
+                var tab = Tabs[i];
+                var isActive = ActiveTab == tab.Id;
+
+                <button type="button"
+                        class="app-tab-btn @(isActive ? "active" : "") @(tab.IsDisabled ? "disabled" : "")"
+                        role="tab"
+                        aria-selected="@isActive.ToString().ToLowerInvariant()"
+                        disabled="@tab.IsDisabled"
+                        @onclick="() => SetActiveTab(tab.Id)"
+                        @onkeydown="(e) => HandleKeyDownAsync(e, i)">
+
+                    @if (!string.IsNullOrEmpty(tab.Icon))
+                    {
+                        <span class="tab-icon">@tab.Icon</span>
+                    }
+                    @tab.Title
+                </button>
+            }
+        </div>
+
+        <!-- Contenu Actif -->
+        <div class="app-tabs-content" role="tabpanel">
+            @foreach (var tab in Tabs)
+            {
+                @if (ActiveTab == tab.Id)
+                {
+                    @tab.Content
+                }
+            }
+        </div>
+
+    </div>
+
+    <!-- Rendu des enfants (qui s'enregistrent via CascadingValue) -->
+    <CascadingValue Value="this" IsFixed="true">
+        @ChildContent
+    </CascadingValue>
+</AppContainer>
