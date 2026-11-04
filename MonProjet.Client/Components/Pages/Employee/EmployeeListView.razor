@@ -1,4 +1,5 @@
 ﻿@page "/employees"
+@using MonProjet.Client.Components.Layout.Tabs
 @using MonProjet.Client.Components.UI.Enums.Text
 @using MonProjet.Client.Models.Pages.Employee
 @using MonProjet.Client.View.Employee
@@ -10,36 +11,46 @@
 
 <h1>@Presenter.ViewModel.Title</h1>
 
-<AppStackPanel Orientation="StackOrientation.Horizontal" Gap="8" MarginBottom="16px">
-    <AppButton Text="Recharger" 
-               OnClick="Presenter.LoadEmployeesAsync"
-               Loading="Presenter.ViewModel.IsLoading" />
-</AppStackPanel>
+<AppTabs Variant="AppTabs.TabVariant.Pill" MarginTop="24px">
 
-@if (!string.IsNullOrEmpty(_selectedEmployeeName))
-{
-    <InfoBar Visible="true"
-             Severity="InfoSeverity.Success"
-             Message="@($"Employé sélectionné : {_selectedEmployeeName}")"
-             OnDismiss="() => _selectedEmployeeName = string.Empty"
-             MarginBottom="16px" />
-}
+    <!-- Onglet 1 : Le Tableau de données -->
+    <AppTabPanel Title="Liste des employés" Icon="📋">
+        <AppStackPanel Orientation="StackOrientation.Horizontal" Gap="8" MarginBottom="16px">
+            <AppButton Text="Recharger" OnClick="Presenter.LoadEmployeesAsync" Loading="Presenter.ViewModel.IsLoading" />
+        </AppStackPanel>
 
-@if (Presenter.ViewModel.IsLoading)
-{
-    <AppProgressRing Visible="true" />
-}
-else
-{
-    <AppDataGrid TItem="EmployeeDto"
-                 Items="Presenter.ViewModel.Employees"
-                 Columns="_columns"
-                 RowClassSelector="GetRowClass"
-                 OnRowClick="HandleRowClick"
-                 PageSize="5"
-                 ShowPagination="true"
-                 MarginBottom="16px" />
-}
+        @if (Presenter.ViewModel.IsLoading)
+        {
+            <AppProgressRing Visible="true" />
+        }
+        else
+        {
+            <AppDataGrid TItem="EmployeeDto"
+                         Items="Presenter.ViewModel.Employees"
+                         Columns="_columns"
+                         RowClassSelector="GetRowClass"
+                         OnRowClick="HandleRowClick"
+                         PageSize="5"
+                         ShowPagination="true"
+                         MarginBottom="16px" />
+        }
+    </AppTabPanel>
+
+    <!-- Onglet 2 : Un espace statistiques (exemple) -->
+    <AppTabPanel Title="Statistiques RH" Icon="📊">
+        <AppGrid Columns="2" Gap="16">
+            <AppCard>
+                <TextBlock Text="Total Employés" Variant="TextVariant.Muted" />
+                <TextBlock As="TextElement.H2" Variant="TextVariant.Bold" Text="@Presenter.ViewModel.Employees.Count.ToString()" />
+            </AppCard>
+            <AppCard>
+                <TextBlock Text="Employés Actifs" Variant="TextVariant.Muted" />
+                <TextBlock As="TextElement.H2" Variant="TextVariant.Bold" Text="@Presenter.ViewModel.Employees.Count(e => e.IsActive).ToString()" />
+            </AppCard>
+        </AppGrid>
+    </AppTabPanel>
+
+</AppTabs>
 
 <InfoBar IsVisible="@(!string.IsNullOrWhiteSpace(Presenter.ViewModel.ErrorMessage))"
          Severity="InfoSeverity.Error"
