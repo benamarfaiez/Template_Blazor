@@ -1,0 +1,91 @@
+﻿@inherits AppComponentBase
+
+<AppContainer Width="@Width" MarginTop="@MarginTop" MarginBottom="@MarginBottom" IsVisible="@IsVisible">
+    <div class="app-stepper @Orientation.ToString().ToLowerInvariant()" @attributes="SafeAttributes">
+
+        <!-- Barre de progression / Indicateurs -->
+        <div class="app-stepper-header" role="tablist">
+            @for (int i = 0; i < Steps.Count; i++)
+            {
+                var step = Steps[i];
+                var stateClass = GetStepClass(i);
+
+                <div class="app-step-indicator @stateClass @(step.IsDisabled ? "disabled" : "")"
+                     @key="step"
+                     role="tab"
+                     aria-selected="@(i == ActiveIndex).ToString().ToLowerInvariant()"
+                     @onclick="() => GoToStepAsync(i)">
+
+                    <!-- Cercle numéroté ou icône -->
+                    <div class="step-circle">
+                        @if (i < ActiveIndex)
+                        {
+                            <span class="step-check">✓</span>
+                        }
+                        else if (!string.IsNullOrEmpty(step.Icon))
+                        {
+                            <span class="step-icon">@step.Icon</span>
+                        }
+                        else
+                        {
+                            <span class="step-number">@(i + 1)</span>
+                        }
+                    </div>
+
+                    <!-- Texte -->
+                    <div class="step-text">
+                        <span class="step-title">@step.Title</span>
+                        @if (!string.IsNullOrEmpty(step.Subtitle))
+                        {
+                            <span class="step-subtitle">@step.Subtitle</span>
+                        }
+                    </div>
+
+                    <!-- Ligne de connexion (sauf pour le dernier) -->
+                    @if (i < Steps.Count - 1)
+                    {
+                        <div class="step-connector"></div>
+                    }
+                </div>
+            }
+        </div>
+
+        <!-- Contenu de l'étape active -->
+        <div class="app-stepper-content">
+            @if (Steps.Count > 0 && ActiveIndex < Steps.Count)
+            {
+                @Steps[ActiveIndex].Content
+            }
+        </div>
+
+        <!-- Boutons de navigation -->
+        @if (ShowNavigationButtons)
+        {
+            <div class="app-stepper-nav">
+                <AppButton Text="Précédent"
+                           Variant="ButtonVariant.Secondary"
+                           OnClick="PreviousAsync"
+                           Disabled="@(ActiveIndex == 0)" />
+
+                @if (ActiveIndex == Steps.Count - 1)
+                {
+                    <AppButton Text="Terminer"
+                               Variant="ButtonVariant.Success"
+                               OnClick="FinishAsync"
+                               Loading="@IsFinishing" />
+                }
+                else
+                {
+                    <AppButton Text="Suivant"
+                               Variant="ButtonVariant.Primary"
+                               OnClick="NextAsync" />
+                }
+            </div>
+        }
+    </div>
+
+    <!-- Transmission de l'instance parente aux enfants -->
+    <CascadingValue Value="this" IsFixed="true">
+        @ChildContent
+    </CascadingValue>
+</AppContainer>

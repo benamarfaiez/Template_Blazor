@@ -67,5 +67,6 @@ public partial class MainLayout : LayoutComponentBase
         new() { Label = "Utilisateurs", Href = "/users" },
         new() { Label = "Gallery", Href = "/gallery" },
         new() { Label = "Employés", Href = "/employees" },
+        new() { Label = "Nouveau virement", Href = "/treasury/new-transfer" }
     ];
 }

@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using MonProjet.Client.Presenters.Employee;
 using MonProjet.Client.Presenters.Gallery;
 using MonProjet.Client.Presenters.Home;
+using MonProjet.Client.Presenters.Treasury;
 using MonProjet.Client.Presenters.Users;
 using MonProjet.Client.Services;
 
@@ -15,5 +16,6 @@ builder.Services.AddScoped<IHomePresenter, HomePresenter>();
 builder.Services.AddScoped<IUserPresenter, UserPresenter>();
 builder.Services.AddScoped<IGalleryPresenter, GalleryPresenter>();
 builder.Services.AddScoped<IEmployeePresenter, EmployeePresenter>();
+builder.Services.AddScoped<ITransferPresenter, TransferPresenter>();
 
 await builder.Build().RunAsync();

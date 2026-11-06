@@ -1,0 +1,170 @@
+.app-stepper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+/* --- HEADER / INDICATEURS --- */
+.app-stepper-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    position: relative;
+    width: 100%;
+}
+
+/* --- INDICATEUR D'ÉTAPE --- */
+.app-step-indicator {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    flex: 1;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+    .app-step-indicator.disabled {
+        cursor: not-allowed;
+        opacity: 0.5;
+    }
+
+/* Le cercle */
+.step-circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #ffffff;
+    border: 2px solid #cbd5e1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #64748b;
+    margin-bottom: 8px;
+    z-index: 2;
+    transition: all 0.3s ease;
+}
+
+/* Le texte */
+.step-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    z-index: 2;
+    background: var(--color-bg, #ffffff); /* Masque la ligne de connexion */
+    padding: 0 8px;
+}
+
+.step-title {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #64748b;
+}
+
+.step-subtitle {
+    font-size: 0.75rem;
+    color: #94a3b8;
+}
+
+/* --- LIGNE DE CONNEXION --- */
+.step-connector {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    width: 100%;
+    height: 2px;
+    background-color: #e2e8f0;
+    z-index: 1;
+}
+
+/* --- ÉTATS --- */
+
+/* Étape Active */
+.app-step-indicator.active .step-circle {
+    border-color: var(--color-primary, #2563eb);
+    color: var(--color-primary, #2563eb);
+    background: #eff6ff;
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+}
+
+.app-step-indicator.active .step-title {
+    color: var(--color-primary, #2563eb);
+}
+
+/* Étape Complétée */
+.app-step-indicator.completed .step-circle {
+    background: var(--color-primary, #2563eb);
+    border-color: var(--color-primary, #2563eb);
+    color: #ffffff;
+}
+
+.app-step-indicator.completed .step-title {
+    color: #0f172a;
+}
+
+.app-step-indicator.completed .step-connector {
+    background-color: var(--color-primary, #2563eb);
+}
+
+/* --- CONTENU & NAVIGATION --- */
+.app-stepper-content {
+    min-height: 150px;
+    padding: 16px 0;
+    animation: fadeInStep 0.3s ease-out;
+}
+
+.app-stepper-nav {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 16px;
+    border-top: 1px solid var(--color-border, #e2e8f0);
+}
+
+@keyframes fadeInStep {
+    from {
+        opacity: 0;
+        transform: translateX(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* --- RESPONSIVE (Mobile & Vertical) --- */
+@media (max-width: 768px) {
+    .app-stepper-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 24px;
+    }
+
+    .app-step-indicator {
+        flex-direction: row;
+        text-align: left;
+        width: 100%;
+        gap: 16px;
+    }
+
+    .step-circle {
+        margin-bottom: 0;
+    }
+
+    .step-text {
+        background: transparent;
+        padding: 0;
+    }
+
+    /* Ligne verticale sur mobile */
+    .step-connector {
+        top: 40px;
+        left: 20px;
+        width: 2px;
+        height: calc(100% + 24px);
+    }
+}

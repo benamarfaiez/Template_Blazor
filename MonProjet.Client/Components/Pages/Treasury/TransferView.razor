@@ -1,0 +1,80 @@
+﻿@page "/treasury/new-transfer"
+@using MonProjet.Client.Components.UI.Enums.Text
+@using MonProjet.Client.Components.UI.Stepper
+@using MonProjet.Client.View.Treasury
+@using MonProjet.Client.Models.Pages.Treasury
+@inherits OwningComponentBase
+@implements ITransferView
+
+<PageTitle>Nouveau Virement</PageTitle>
+
+<h1 style="margin-bottom: 24px;">@Presenter.ViewModel.Title</h1>
+
+@if (Presenter.ViewModel.IsLoading)
+{
+    <AppProgressRing Visible="true" />
+}
+else
+{
+    <AppCard style="padding: 32px;">
+        <AppStepper @bind-ActiveIndex="_currentStep"
+                    OnBeforeStepChange="ValidateStepAsync"
+                    OnFinished="Presenter.ExecuteTransferAsync"
+                    IsFinishing="Presenter.ViewModel.IsLoading">
+            
+            <AppStep Title="Compte Source" Subtitle="Débit" Icon="🏦">
+                <TextBlock Text="Sélectionnez le compte à débiter :" Variant="TextVariant.Bold" MarginBottom="16px" />
+                <AppComboBox TItem="AccountDto" Items="Presenter.ViewModel.Accounts" 
+                             @bind-SelectedItem="Presenter.ViewModel.SelectedAccount"
+                             ValueSelector="a => a.Id.ToString()" 
+                             LabelSelector='(a => $"{a.Name} - Solde: {a.Balance:C}")'
+                             Placeholder="Choisir un compte..." />
+            </AppStep>
+
+            <AppStep Title="Bénéficiaire" Subtitle="Crédit" Icon="👤">
+                <TextBlock Text="À qui souhaitez-vous envoyer les fonds ?" Variant="TextVariant.Bold" MarginBottom="16px" />
+                <AppComboBox TItem="BeneficiaryDto" Items="Presenter.ViewModel.Beneficiaries" 
+                             @bind-SelectedItem="Presenter.ViewModel.SelectedBeneficiary"
+                             ValueSelector="b => b.Id.ToString()" 
+                             LabelSelector="b => b.Name" 
+                             Placeholder="Choisir un bénéficiaire..." />
+            </AppStep>
+
+            <AppStep Title="Détails" Subtitle="Montant & Date" Icon="💶">
+                <AppStackPanel Orientation="StackOrientation.Vertical" Gap="16">
+                    <div>
+                        <TextBlock Text="Montant (€) :" Variant="TextVariant.Bold" MarginBottom="8px" />
+                        <AppNumberBox TValue="decimal" @bind-Value="Presenter.ViewModel.Amount" Step="10m" />
+                    </div>
+                    <div>
+                        <TextBlock Text="Date d'exécution :" Variant="TextVariant.Bold" MarginBottom="8px" />
+                        <AppDatePicker @bind-Value="Presenter.ViewModel.ExecutionDate" Min="DateTime.Today" />
+                    </div>
+                    <div>
+                        <TextBlock Text="Motif :" Variant="TextVariant.Bold" MarginBottom="8px" />
+                        <AppTextBox @bind-Value="Presenter.ViewModel.Reason" Placeholder="Facture N°..." />
+                    </div>
+                </AppStackPanel>
+            </AppStep>
+
+            <AppStep Title="Confirmation" Subtitle="Vérification" Icon="✅">
+                <AppCard style="background: #f8fafc; border-left: 4px solid var(--color-primary);">
+                    <TextBlock Text="Récapitulatif du virement" Variant="TextVariant.Bold" MarginBottom="16px" />
+                    <AppGrid Columns="2" Gap="16">
+                        <TextBlock Text="Compte débité :" Variant="TextVariant.Muted" />
+                        <TextBlock Text="@(Presenter.ViewModel.SelectedAccount?.Name ?? "-")" Variant="TextVariant.Bold" Align="TextAlignment.Right" />
+                        <TextBlock Text="Bénéficiaire :" Variant="TextVariant.Muted" />
+                        <TextBlock Text="@(Presenter.ViewModel.SelectedBeneficiary?.Name ?? "-")" Variant="TextVariant.Bold" Align="TextAlignment.Right" />
+                        <TextBlock Text="Montant :" Variant="TextVariant.Muted" />
+                        <TextBlock Text="@Presenter.ViewModel.Amount.ToString("C")" Variant="TextVariant.Bold" Align="TextAlignment.Right" />
+                    </AppGrid>
+                </AppCard>
+
+                <AppButton Text="Confirmer et Exécuter le virement" 
+                           Variant="ButtonVariant.Success" 
+                           OnClick="Presenter.ExecuteTransferAsync" 
+                           MarginTop="24px" />
+            </AppStep>
+        </AppStepper>
+    </AppCard>
+}

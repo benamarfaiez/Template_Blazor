@@ -1,6 +1,7 @@
 using MonProjet.Client.Presenters.Employee;
 using MonProjet.Client.Presenters.Gallery;
 using MonProjet.Client.Presenters.Home;
+using MonProjet.Client.Presenters.Treasury;
 using MonProjet.Client.Presenters.Users;
 using MonProjet.Client.Services;
 using MonProjet.Server.Components;
@@ -19,6 +20,7 @@ builder.Services.AddScoped<IHomePresenter, HomePresenter>();
 builder.Services.AddScoped<IUserPresenter, UserPresenter>();
 builder.Services.AddScoped<IGalleryPresenter, GalleryPresenter>();
 builder.Services.AddScoped<IEmployeePresenter, EmployeePresenter>();
+builder.Services.AddScoped<ITransferPresenter, TransferPresenter>();
 
 var app = builder.Build();
 
