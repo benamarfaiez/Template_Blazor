@@ -9,6 +9,7 @@ var builder = WebAssemblyHostBuilder.CreateDefault(args);
 
 builder.Services.AddScoped<IExceptionHandler, ExceptionHandler>();
 builder.Services.AddScoped<IFocusTrapService, FocusTrapService>();
+builder.Services.AddSingleton<IToastService, ToastService>();
 
 builder.Services.AddScoped<IHomePresenter, HomePresenter>();
 builder.Services.AddScoped<IUserPresenter, UserPresenter>();

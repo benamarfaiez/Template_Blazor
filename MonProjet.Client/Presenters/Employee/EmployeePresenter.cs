@@ -4,10 +4,12 @@ using MonProjet.Client.View.Employee;
 
 namespace MonProjet.Client.Presenters.Employee;
 
-public class EmployeePresenter(IExceptionHandler exceptions) : IEmployeePresenter
+public class EmployeePresenter(IExceptionHandler exceptions, IToastService toastService) : IEmployeePresenter
 {
     private IEmployeeView? _view;
     private readonly IExceptionHandler _exceptions = exceptions;
+    private readonly IToastService _toastService = toastService;
+
 
     public EmployeeViewModel ViewModel { get; } = new();
 
@@ -16,6 +18,19 @@ public class EmployeePresenter(IExceptionHandler exceptions) : IEmployeePresente
     public async Task InitializeAsync()
     {
         await LoadEmployeesAsync();
+    }
+    public async Task SaveEmployeeAsync()
+    {
+        try
+        {
+            // Logique de sauvegarde...
+            _toastService.ShowSuccess("Employé enregistré avec succès.");
+        }
+        catch (Exception ex)
+        {
+            await _exceptions.HandleAsync(ex);
+            _toastService.ShowError("Impossible d'enregistrer l'employé.");
+        }
     }
 
     public async Task LoadEmployeesAsync()

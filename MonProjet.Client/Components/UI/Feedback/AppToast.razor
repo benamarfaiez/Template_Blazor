@@ -1,0 +1,32 @@
+﻿@inherits AppComponentBase
+
+@if (IsVisible)
+{
+    <div class="app-toast-container" @attributes="SafeAttributes">
+        @foreach (var toast in _toasts)
+        {
+            <div @key="toast.Id" class="app-toast toast-@toast.Severity.ToString().ToLowerInvariant()">
+
+                <div class="toast-icon">@GetIcon(toast.Severity)</div>
+
+                <div class="toast-content">
+                    @if (!string.IsNullOrEmpty(toast.Title))
+                    {
+                        <div class="toast-title">@toast.Title</div>
+                    }
+                    <div class="toast-message">@toast.Message</div>
+                </div>
+
+                <button type="button" class="toast-close" @onclick="() => Close(toast)" aria-label="Fermer">
+                    ✕
+                </button>
+
+                @if (toast.ShowProgressBar)
+                {
+                    <!-- ✅ Barre de progression animée (UX) -->
+                    <div class="toast-progress" style="animation-duration: @(toast.DurationMs)ms;"></div>
+                }
+            </div>
+        }
+    </div>
+}

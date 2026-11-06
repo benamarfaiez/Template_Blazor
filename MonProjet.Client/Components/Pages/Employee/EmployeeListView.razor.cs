@@ -3,6 +3,7 @@ using MonProjet.Client.Components.UI.Collections.Column;
 using MonProjet.Client.Models.Pages.Employee;
 using MonProjet.Client.Models.UI.Menu;
 using MonProjet.Client.Presenters.Employee;
+using MonProjet.Client.Services;
 using MonProjet.Client.View.Employee;
 
 namespace MonProjet.Client.Components.Pages.Employee;
@@ -23,7 +24,6 @@ public partial class EmployeeListView : OwningComponentBase, IEmployeeView, IDis
     {
         Presenter.SetView(this);
         await Presenter.InitializeAsync();
-        Presenter.ViewModel.ErrorMessage = "Impossible de contacter le serveur. Vérifiez votre connexion."; ;
     }
 
     public void ShowError(string message)
@@ -61,4 +61,8 @@ public partial class EmployeeListView : OwningComponentBase, IEmployeeView, IDis
         new("Ressources Humaines", "/"),
         new("Employés") // Le dernier n'a pas de Href car c'est la page actuelle
     ];
+    private async Task SaveData()
+    {
+        await Presenter.SaveEmployeeAsync();
+    }
 }

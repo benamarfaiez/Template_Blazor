@@ -9,5 +9,6 @@ namespace MonProjet.Client.Presenters.Employee
         EmployeeViewModel ViewModel { get; }
         Task InitializeAsync();
         Task LoadEmployeesAsync();
+        Task SaveEmployeeAsync();
     }
 }
