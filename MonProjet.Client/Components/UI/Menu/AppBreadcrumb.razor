@@ -1,0 +1,56 @@
+﻿@inherits AppComponentBase
+
+@if (IsVisible && Items != null && Items.Any())
+{
+    <div @attributes="SafeAttributes">
+        <nav class="app-breadcrumb" aria-label="breadcrumb">
+            <ol class="app-breadcrumb-list">
+                @for (int i = 0; i < Items.Count; i++)
+                {
+                    var item = Items[i];
+                    var isLast = i == Items.Count - 1;
+
+                    <li class="app-breadcrumb-item" @key="item">
+
+                        @if (isLast)
+                        {
+                            <span class="app-breadcrumb-text @(HighlightLastItem ? "active" : "")" aria-current="page">
+                                @if (!string.IsNullOrEmpty(item.Icon))
+                                {
+                                    <span class="app-breadcrumb-icon">@item.Icon</span>
+                                }
+                                @item.Label
+                            </span>
+                        }
+                        else
+                        {
+                            @if (!string.IsNullOrEmpty(item.Href) && !item.IsDisabled)
+                            {
+                                <NavLink href="@item.Href" class="app-breadcrumb-link">
+                                    @if (!string.IsNullOrEmpty(item.Icon))
+                                    {
+                                        <span class="app-breadcrumb-icon">@item.Icon</span>
+                                    }
+                                    @item.Label
+                                </NavLink>
+                            }
+                            else
+                            {
+                                <span class="app-breadcrumb-text disabled">
+                                    @if (!string.IsNullOrEmpty(item.Icon))
+                                    {
+                                        <span class="app-breadcrumb-icon">@item.Icon</span>
+                                    }
+                                    @item.Label
+                                </span>
+                            }
+
+                            <span class="app-breadcrumb-separator" aria-hidden="true">@Separator</span>
+                        }
+                    </li>
+                }
+            </ol>
+        </nav>
+
+    </div>
+}

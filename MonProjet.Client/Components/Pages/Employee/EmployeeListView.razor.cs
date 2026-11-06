@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using MonProjet.Client.Components.UI.Collections.Column;
 using MonProjet.Client.Models.Pages.Employee;
+using MonProjet.Client.Models.UI.Menu;
 using MonProjet.Client.Presenters.Employee;
 using MonProjet.Client.View.Employee;
 
@@ -53,4 +54,11 @@ public partial class EmployeeListView : OwningComponentBase, IEmployeeView, IDis
     }
 
     private EmployeeDto? _selectedEmployee;
+
+    private readonly List<BreadcrumbItem> _breadcrumbItems =
+    [
+        new("Accueil", "/", "🏠"),
+        new("Ressources Humaines", "/"),
+        new("Employés") // Le dernier n'a pas de Href car c'est la page actuelle
+    ];
 }

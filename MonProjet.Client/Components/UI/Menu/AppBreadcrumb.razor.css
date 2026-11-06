@@ -1,0 +1,76 @@
+.app-breadcrumb {
+    width: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; /* Firefox */
+    padding: 4px 0;
+}
+
+    .app-breadcrumb::-webkit-scrollbar {
+        display: none; /* Chrome/Safari */
+    }
+
+.app-breadcrumb-list {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: 8px;
+}
+
+.app-breadcrumb-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.875rem;
+}
+
+/* --- LIENS --- */
+.app-breadcrumb-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--color-text-muted, #64748b);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+    .app-breadcrumb-link:hover {
+        color: var(--color-primary, #2563eb);
+        text-decoration: underline;
+    }
+
+.app-breadcrumb-text {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--color-text-muted, #64748b);
+    font-weight: 500;
+}
+
+    .app-breadcrumb-text.active {
+        color: var(--color-text, #0f172a);
+        font-weight: 600;
+    }
+
+    .app-breadcrumb-text.disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+
+/* --- SÉPARATEUR --- */
+.app-breadcrumb-separator {
+    color: #cbd5e1;
+    font-size: 1.1rem;
+    user-select: none;
+    pointer-events: none;
+    line-height: 1;
+}
+
+.app-breadcrumb-icon {
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+}
