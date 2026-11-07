@@ -2,10 +2,13 @@
    THÈME CLAIR (Par défaut)
    ============================================================ */
 :root {
+    color-scheme: light;
     --color-primary: #2563eb;
     --color-primary-hover: #1d4ed8;
     --color-secondary: #64748b;
     --color-danger: #dc2626;
+    --color-danger-bg: #fee2e2;
+    --color-danger-text: #7f1d1d;
     --color-bg: #f8fafc;
     --color-surface: #ffffff;
     --color-bg-alt: #f1f5f9;
@@ -26,32 +29,19 @@
 /* ============================================================
    THÈME SOMBRE (Dark Mode)
    ============================================================ */
-html.dark-mode {
+html[data-theme="dark"] {
+    color-scheme: dark;
     --color-primary: #3b82f6;
     --color-primary-hover: #60a5fa;
     --color-danger: #ef4444;
+    --color-danger-bg: #450a0a;
+    --color-danger-text: #fecaca;
     --color-bg: #0f172a;
     --color-surface: #1e293b;
     --color-bg-alt: #334155;
     --color-border: #475569;
     --color-text: #f8fafc;
     --color-text-muted: #94a3b8;
-    --radius: 6px;
-    --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
-    --shadow-md: 0 4px 6px rgba(0,0,0,0.07);
-    --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
-    --spacing-xs: 4px;
-    --spacing-sm: 8px;
-    --spacing-md: 16px;
-    --spacing-lg: 24px;
-    --spacing-xl: 32px;
-}
-
-/* Application globale */
-html, body {
-    background-color: var(--color-bg);
-    color: var(--color-text);
-    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 *, *::before, *::after {
@@ -59,13 +49,15 @@ html, body {
 }
 
 html, body {
+    min-height: 100%;
     margin: 0;
     padding: 0;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     color: var(--color-text);
-    background: var(--color-bg);
+    background-color: var(--color-bg);
     font-size: 14px;
     line-height: 1.5;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 h1, h2, h3, h4 {
@@ -106,8 +98,8 @@ button, input, select, textarea {
     left: 0;
     right: 0;
     padding: var(--spacing-md);
-    background: #fee2e2;
-    color: #7f1d1d;
+        background: var(--color-danger-bg);
+        color: var(--color-danger-text);
     box-shadow: var(--shadow-lg);
     z-index: 9999;
 }

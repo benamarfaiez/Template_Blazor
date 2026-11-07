@@ -1,18 +1,25 @@
 ﻿export function setTheme(isDark) {
-    if (isDark) {
-        document.documentElement.classList.add('dark-mode');
-        localStorage.setItem('theme', 'dark');
-    } else {
-        document.documentElement.classList.remove('dark-mode');
-        localStorage.setItem('theme', 'light');
+    const theme = isDark ? 'dark' : 'light';
+    document.documentElement.dataset.theme = theme;
+
+    try {
+        localStorage.setItem('theme', theme);
+    } catch {
     }
 }
 
 export function getTheme() {
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) {
-        return savedTheme === 'dark';
+    let savedTheme;
+
+    try {
+        savedTheme = localStorage.getItem('theme');
+    } catch {
     }
-    // Si aucun thème sauvegardé, on utilise les préférences du système
-    return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+    const isDark = savedTheme
+        ? savedTheme === 'dark'
+        : window.matchMedia?.('(prefers-color-scheme: dark)').matches ?? false;
+
+    document.documentElement.dataset.theme = isDark ? 'dark' : 'light';
+    return isDark;
 }

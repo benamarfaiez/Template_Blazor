@@ -55,7 +55,7 @@
     }
 
         .app-datagrid tbody tr:hover {
-            background-color: #f8fafc;
+            background-color: var(--color-bg-alt, #f8fafc);
         }
 
         .app-datagrid tbody tr:last-child td {

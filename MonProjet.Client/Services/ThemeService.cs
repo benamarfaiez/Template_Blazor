@@ -14,8 +14,8 @@ public class ThemeService(IJSRuntime js) : IThemeService
     {
         try
         {
-            _module ??= await _js.InvokeAsync<IJSObjectReference>("import", "./js/theme.js");
-            IsDarkMode = await _module.InvokeAsync<bool>("getTheme");
+            await EnsureModuleAsync();
+            IsDarkMode = await _module!.InvokeAsync<bool>("getTheme");
             OnThemeChanged?.Invoke();
         }
         catch (Exception)
@@ -25,17 +25,14 @@ public class ThemeService(IJSRuntime js) : IThemeService
 
     public async Task ToggleThemeAsync()
     {
+        await EnsureModuleAsync();
         IsDarkMode = !IsDarkMode;
-
-        if (_module is not null)
-        {
-            await _module.InvokeVoidAsync("setTheme", IsDarkMode);
-        }
-        else
-        {
-            await _js.InvokeVoidAsync("eval", $"document.documentElement.classList.toggle('dark-mode', {IsDarkMode.ToString().ToLower()})");
-        }
-
+        await _module!.InvokeVoidAsync("setTheme", IsDarkMode);
         OnThemeChanged?.Invoke();
+    }
+
+    private async Task EnsureModuleAsync()
+    {
+        _module ??= await _js.InvokeAsync<IJSObjectReference>("import", "./js/theme.js");
     }
 }

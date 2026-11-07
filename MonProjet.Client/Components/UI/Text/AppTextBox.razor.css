@@ -9,7 +9,6 @@
     transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
-    /* ✅ Focus géré sur le wrapper pour englober les icônes */
     .app-textbox-wrapper:focus-within {
         border-color: var(--color-primary, #2563eb);
         box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
