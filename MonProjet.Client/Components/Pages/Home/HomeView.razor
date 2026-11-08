@@ -1,5 +1,4 @@
 @page "/"
-@using MonProjet.Client.Models.Pages.Home
 @using MonProjet.Client.View.Home
 @inherits OwningComponentBase
 @implements IHomeView
@@ -27,7 +26,7 @@
 }
 else
 {
-    <AppDataGrid TItem="HomeItem" Items="Presenter.ViewModel.Items" Columns="_columns" />
+    <AppDataGrid TItem="HomeItemDto" Items="Presenter.ViewModel.Items" Columns="_columns" />
 }
 
 <InfoBar IsVisible="@(!string.IsNullOrWhiteSpace(Presenter.ViewModel.ErrorMessage))"

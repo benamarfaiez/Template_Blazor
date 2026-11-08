@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Components;
 using MonProjet.Client.Components.UI.Collections.Column;
-using MonProjet.Client.Models.Pages.Home;
 using MonProjet.Client.Presenters.Home;
 using MonProjet.Client.View.Home;
+using MonProjet.Shared.Models.Home;
 
 namespace MonProjet.Client.Components.Pages.Home;
 
@@ -27,7 +27,7 @@ public partial class HomeView : OwningComponentBase, IHomeView, IDisposable
 
     public event Action? OnRefreshRequested;
 
-    private List<GridColumn<HomeItem>> _columns = null!;
+    private List<GridColumn<HomeItemDto>> _columns = null!;
 
     protected override void OnInitialized()
     {

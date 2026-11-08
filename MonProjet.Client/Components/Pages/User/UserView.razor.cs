@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Components;
 using MonProjet.Client.Components.UI.Collections.Column;
-using MonProjet.Client.Models.Pages.User;
 using MonProjet.Client.Presenters.Users;
 using MonProjet.Client.View.User;
+using MonProjet.Shared.Models.User;
 
 namespace MonProjet.Client.Components.Pages.User;
 

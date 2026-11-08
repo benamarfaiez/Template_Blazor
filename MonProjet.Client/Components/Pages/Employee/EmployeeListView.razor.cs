@@ -1,10 +1,9 @@
 using Microsoft.AspNetCore.Components;
 using MonProjet.Client.Components.UI.Collections.Column;
-using MonProjet.Client.Models.Pages.Employee;
 using MonProjet.Client.Models.UI.Menu;
 using MonProjet.Client.Presenters.Employee;
-using MonProjet.Client.Services;
 using MonProjet.Client.View.Employee;
+using MonProjet.Shared.Models.Employee;
 
 namespace MonProjet.Client.Components.Pages.Employee;
 

@@ -1,6 +1,7 @@
 using MonProjet.Client.Models.Pages.Home;
 using MonProjet.Client.Services;
 using MonProjet.Client.View.Home;
+using MonProjet.Shared.Models.Home;
 
 namespace MonProjet.Client.Presenters.Home;
 
@@ -77,7 +78,7 @@ public class HomePresenter(IExceptionHandler exceptions) : IHomePresenter
         }
     }
 
-    private static List<HomeItem> BuildSampleData() =>
+    private static List<HomeItemDto> BuildSampleData() =>
     [
         new(1, "Projet Alpha", "Actif", DateTime.UtcNow.AddDays(-3)),
         new(2, "Projet Beta", "En attente", DateTime.UtcNow.AddDays(-1)),

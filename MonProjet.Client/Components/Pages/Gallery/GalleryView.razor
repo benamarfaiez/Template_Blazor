@@ -6,7 +6,6 @@
 @using MonProjet.Client.Components.UI.Enums.Text
 @using MonProjet.Client.Components.UI.Helpers
 @using MonProjet.Client.Components.UI.Layout
-@using MonProjet.Client.Models.Pages.Gallery
 @using MonProjet.Client.Models.UI.Menu
 @using MonProjet.Client.Presenters.Gallery
 @inherits OwningComponentBase
@@ -357,7 +356,7 @@
 
     <AppCard MarginTop="24px" PaddingBottom="24px">
         <TextBlock Text="DataGrid" Variant="TextVariant.Bold" />
-        <AppDataGrid TItem="DemoItem"
+        <AppDataGrid TItem="DemoItemDto"
                         Items="Presenter.ViewModel.Items"
                         Columns="_dataGridColumns" />
     </AppCard>
@@ -523,15 +522,15 @@
         _showDialog = false; // Ferme la modale
     }
     // 5. Configuration du DataGrid
-    private readonly List<GridColumn<DemoItem>> _dataGridColumns;
+    private readonly List<GridColumn<DemoItemDto>> _dataGridColumns;
 
     public GalleryView()
     {
-        _dataGridColumns = new List<GridColumn<DemoItem>>
+        _dataGridColumns = new List<GridColumn<DemoItemDto>>
         {
-            GridColumn.Text<DemoItem>("ID", i => i.Id, comparer: (a,b) => a.Id.CompareTo(b.Id)),
-            GridColumn.Text<DemoItem>("Nom", i => i.Name),
-            GridColumn.Template<DemoItem>("Statut", item => builder =>
+            GridColumn.Text<DemoItemDto>("ID", i => i.Id, comparer: (a,b) => a.Id.CompareTo(b.Id)),
+            GridColumn.Text<DemoItemDto>("Nom", i => i.Name),
+            GridColumn.Template<DemoItemDto>("Statut", item => builder =>
             {
                 var color = item.Status == "Actif" ? "#166534" : "#92400e";
                 var bg = item.Status == "Actif" ? "#dcfce7" : "#fef3c7";
@@ -540,7 +539,7 @@
                 builder.AddContent(2, item.Status);
                 builder.CloseElement();
             }),
-            GridColumn.Text<DemoItem>("Quantité", i => i.Count, formatter: raw => $"{raw} unités")
+            GridColumn.Text<DemoItemDto>("Quantité", i => i.Count, formatter: raw => $"{raw} unités")
         };
     }
 

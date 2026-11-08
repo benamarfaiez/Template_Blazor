@@ -1,4 +1,6 @@
-﻿namespace MonProjet.Client.Models.Pages.Employee
+﻿using MonProjet.Shared.Models.Employee;
+
+namespace MonProjet.Client.Models.Pages.Employee
 {
     public class EmployeeViewModel
     {
