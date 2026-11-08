@@ -10,7 +10,7 @@
     max-width: 1200px;
     background: var(--color-surface, #ffffff);
     border-radius: 12px;
-    box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(0,0,0,0.05);
+    box-shadow: var(--shadow-lg);
     z-index: 1000;
     margin-top: 8px;
     animation: megaSlideDown 0.25s cubic-bezier(0.16, 1, 0.3, 1);
@@ -24,17 +24,17 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background-color: #fef3c7;
+    background-color: var(--state-warning-bg);
     padding: 12px 16px;
     border-radius: 8px;
     margin-bottom: 24px;
     font-size: 0.875rem;
-    color: #92400e;
+    color: var(--state-warning-text);
 }
 
     .app-megamenu-banner a {
         font-weight: 600;
-        color: #92400e;
+        color: var(--state-warning-text);
         text-decoration: none;
         white-space: nowrap;
     }
@@ -61,7 +61,7 @@
         margin-top: 0;
         box-shadow: none;
         border-radius: 0;
-        background: #f8fafc;
+        background: var(--color-bg);
         animation: none;
         transform: none;
     }

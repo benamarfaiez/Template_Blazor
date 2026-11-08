@@ -10,7 +10,7 @@
 }
 
     .mega-item:hover {
-        background-color: #f8fafc;
+        background-color: var(--color-bg-alt);
     }
 
 .mega-icon {
@@ -19,7 +19,7 @@
     justify-content: center;
     width: 36px;
     height: 36px;
-    background-color: #f1f5f9;
+    background-color: var(--color-bg-alt);
     border-radius: 8px;
     font-size: 1.2rem;
     flex-shrink: 0;
@@ -33,7 +33,7 @@
 .mega-title {
     font-weight: 600;
     font-size: 0.9rem;
-    color: #0f172a;
+    color: var(--color-text);
     display: flex;
     align-items: center;
     gap: 6px;
@@ -41,15 +41,15 @@
 
 .mega-desc {
     font-size: 0.8rem;
-    color: #64748b;
+    color: var(--color-text-muted);
     margin-top: 2px;
     line-height: 1.4;
 }
 
 .mega-badge {
     font-size: 0.65rem;
-    background-color: #dbeafe;
-    color: #1e40af;
+    background-color: var(--state-selected-bg);
+    color: var(--state-selected-text);
     padding: 2px 6px;
     border-radius: 4px;
     font-weight: 600;

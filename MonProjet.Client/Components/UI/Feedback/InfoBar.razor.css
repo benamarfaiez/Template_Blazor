@@ -90,7 +90,7 @@
 
     .app-infobar-dismiss:hover {
         opacity: 1;
-        background: rgba(0, 0, 0, 0.05);
+        background: var(--color-hover-overlay);
     }
 
 /* --- VARIANTES DE COULEURS --- */

@@ -24,7 +24,7 @@
 
     .app-multiselect-control.is-open {
         border-color: var(--color-primary, #2563eb);
-        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        box-shadow: var(--shadow-focus);
     }
 
 /* La zone des tags */
@@ -68,7 +68,7 @@
 
     .app-multiselect-tag-close:hover {
         opacity: 1;
-        color: #dc2626;
+        color: var(--color-danger);
     }
 
 .app-multiselect-arrow {
@@ -87,12 +87,12 @@
     top: calc(100% + 6px);
     left: 0;
     width: 100%;
-    max-height: 250px;
+    max-height: min(15.625rem, 50dvh);
     overflow-y: auto;
     background: var(--color-surface, #ffffff);
     border: 1px solid var(--color-border, #e2e8f0);
     border-radius: var(--radius, 6px);
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow-md);
     z-index: 100;
     padding: 4px;
     animation: slideDown 0.2s cubic-bezier(0.16, 1, 0.3, 1);
@@ -115,9 +115,10 @@
         color: var(--color-text, #0f172a);
     }
 
-    .app-multiselect-item.selected {
-        background-color: var(--state-selected-bg) !important;
-        color: var(--state-selected-text) !important;
+    .app-multiselect-item.selected,
+    .app-multiselect-item.selected:hover {
+        background-color: var(--state-selected-bg);
+        color: var(--state-selected-text);
     }
 
 .app-multiselect-label {
@@ -143,7 +144,7 @@
     }
 
 .checkmark {
-    color: white;
+    color: var(--color-on-primary);
     font-size: 12px;
     font-weight: bold;
 }

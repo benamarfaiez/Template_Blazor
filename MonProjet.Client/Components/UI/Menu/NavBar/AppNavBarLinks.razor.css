@@ -28,8 +28,8 @@
     font-family: inherit;
     font-size: 0.95rem;
     font-weight: 500;
-    color: var(--color-text-muted, #475569) !important;
-    text-decoration: none !important;
+    color: var(--color-text-muted);
+    text-decoration: none;
     padding: 8px 16px;
     border-radius: 6px;
     cursor: pointer;
@@ -39,13 +39,13 @@
 
     .app-navbar-link:hover,
     ::deep .app-navbar-link:hover {
-        color: var(--color-text, #0f172a) !important;
+        color: var(--color-text);
         background-color: var(--color-bg-alt, #f1f5f9);
     }
 
     .app-navbar-link.active,
     ::deep .app-navbar-link.active {
-        color: var(--color-text, #0f172a) !important;
+        color: var(--color-text);
         font-weight: 600;
         background-color: transparent;
     }
@@ -57,7 +57,7 @@
             left: 16px;
             right: 16px;
             height: 3px;
-            background-color: var(--color-primary, #fcd34d);
+            background-color: var(--color-primary);
             border-radius: 3px 3px 0 0;
         }
 
@@ -77,7 +77,7 @@
         flex-direction: column;
         position: fixed;
         inset: 72px 0 0 0;
-        width: 100vw;
+        width: 100%;
         height: calc(100vh - 72px);
         overflow-y: auto;
         background: var(--color-surface, #ffffff);
@@ -108,7 +108,7 @@
         padding: 16px;
         font-size: 1.05rem;
         height: auto;
-        border-bottom: 1px solid #f1f5f9; /* Séparateur subtil */
+        border-bottom: 1px solid var(--color-border);
     }
 
         /* On désactive le trait jaune sur mobile */

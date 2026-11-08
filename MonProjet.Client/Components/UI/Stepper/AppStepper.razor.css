@@ -2,7 +2,7 @@
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 32px;
+    gap: var(--spacing-xl);
 }
 
 /* --- HEADER / INDICATEURS --- */
@@ -69,7 +69,6 @@
 .step-subtitle {
     font-size: 0.75rem;
     color: var(--color-text-muted, #94a3b8);
-    opacity: 0.8;
 }
 
 /* --- LIGNE DE CONNEXION --- */
@@ -91,7 +90,7 @@
     border-color: var(--color-primary, #2563eb);
     color: var(--color-primary, #2563eb);
     background: var(--state-info-bg, #eff6ff);
-    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.15);
+    box-shadow: var(--shadow-focus);
 }
 
 .app-step-indicator.active .step-title {
@@ -102,7 +101,7 @@
 .app-step-indicator.completed .step-circle {
     background: var(--color-primary, #2563eb);
     border-color: var(--color-primary, #2563eb);
-    color: #ffffff;
+    color: var(--color-on-primary);
 }
 
 .app-step-indicator.completed .step-title {
@@ -145,7 +144,7 @@
     .app-stepper-header {
         flex-direction: column;
         align-items: flex-start;
-        gap: 24px;
+        gap: var(--spacing-lg);
     }
 
     .app-step-indicator {

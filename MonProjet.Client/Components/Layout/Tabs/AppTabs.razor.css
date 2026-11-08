@@ -74,7 +74,7 @@
 
     .app-tabs-pill .app-tab-btn.active {
         background-color: var(--color-primary, #2563eb);
-        color: #ffffff;
+        color: var(--color-on-primary);
     }
 
 /* --- CONTENU --- */

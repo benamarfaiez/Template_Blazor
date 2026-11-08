@@ -11,7 +11,7 @@
     cursor: pointer;
     transition: all 0.2s ease;
     line-height: 1.25;
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    box-shadow: var(--shadow-sm);
 }
 
     .app-button:disabled {
@@ -22,19 +22,19 @@
 
 .app-button-primary {
     background-color: var(--color-primary);
-    color: #ffffff;
+    color: var(--color-on-primary);
 }
 
     .app-button-primary:hover:not(:disabled) {
         background-color: var(--color-primary-hover);
-        box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2);
+        box-shadow: var(--shadow-md);
     }
 
 .app-button-spinner {
     width: 14px;
     height: 14px;
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    border-top-color: #ffffff;
+    border: 2px solid var(--color-on-primary-muted);
+    border-top-color: var(--color-on-primary);
     border-radius: 50%;
     animation: spin 0.6s linear infinite;
 }
@@ -57,11 +57,11 @@
 
 .app-button-danger {
     background: var(--color-danger);
-    color: #fff;
+    color: var(--color-on-danger);
 }
 
     .app-button-danger:hover:not(:disabled) {
-        background: #b91c1c;
+        background: var(--color-danger-button);
     }
 
 .app-button-ghost {
@@ -76,7 +76,7 @@
 .app-button-spinner {
     width: 14px;
     height: 14px;
-    border: 2px solid rgba(255,255,255,0.3);
+    border: 2px solid var(--color-on-primary-muted);
     border-top-color: currentColor;
     border-radius: 50%;
     animation: spin 0.6s linear infinite;

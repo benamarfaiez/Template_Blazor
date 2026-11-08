@@ -23,9 +23,9 @@
 .app-checkbox-box {
     width: 20px;
     height: 20px;
-    border: 2px solid #cbd5e1; /* Gris clair par défaut */
+    border: 2px solid var(--color-border);
     border-radius: 4px;
-    background-color: #ffffff;
+    background-color: var(--color-surface);
     transition: all 0.2s ease;
     position: relative;
     flex-shrink: 0; /* Empêche la boîte de s'écraser dans un flex container */
@@ -51,7 +51,7 @@
     top: 2px;
     width: 5px;
     height: 10px;
-    border: solid white;
+    border: solid var(--color-on-primary);
     border-width: 0 2px 2px 0;
     transform: rotate(45deg); /* Le fameux virage à 45° */
 }
@@ -69,15 +69,15 @@
 
 /* État désactivé */
 .app-checkbox input:disabled ~ .app-checkbox-box {
-    background-color: #f1f5f9;
-    border-color: #e2e8f0;
+    background-color: var(--color-bg-alt);
+    border-color: var(--color-border);
     cursor: not-allowed;
 }
 
 /* État désactivé ET coché */
 .app-checkbox input:disabled:checked ~ .app-checkbox-box {
-    background-color: #94a3b8;
-    border-color: #94a3b8;
+    background-color: var(--color-text-muted);
+    border-color: var(--color-text-muted);
 }
 
 /* Texte du label */
@@ -89,6 +89,6 @@
 
 /* Texte désactivé */
 .app-checkbox input:disabled ~ .app-checkbox-label {
-    color: #94a3b8;
+    color: var(--color-text-muted);
     cursor: not-allowed;
 }

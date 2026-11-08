@@ -48,7 +48,7 @@ th.sortable {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--color-text-muted, #cbd5e1);
+    color: var(--color-text-muted);
     transition: all 0.2s ease;
 }
 
@@ -58,7 +58,7 @@ th.sortable {
     }
 
 th.sortable:hover .sort-icon.neutral {
-    color: #94a3b8;
+    color: var(--color-text-muted);
     opacity: 1;
 }
 

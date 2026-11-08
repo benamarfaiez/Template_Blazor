@@ -2,7 +2,7 @@
     /* Variables de thème */
     --track-bg: var(--color-bg-alt, #e2e8f0);
     --track-fill: var(--color-primary, #2563eb);
-    --thumb-bg: #ffffff;
+    --thumb-bg: var(--color-surface);
     --thumb-size: 20px;
     --track-height: 6px;
     -webkit-appearance: none; /* Désactive le style par défaut */
@@ -33,7 +33,7 @@
         border-radius: 50%;
         background: var(--thumb-bg);
         border: 2px solid var(--track-fill);
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+        box-shadow: var(--shadow-sm);
         /* Centre le curseur sur la ligne */
         margin-top: calc((var(--track-height) - var(--thumb-size)) / 2);
         transition: transform 0.1s ease, box-shadow 0.1s ease;
@@ -46,7 +46,7 @@
         border-radius: 50%;
         background: var(--thumb-bg);
         border: 2px solid var(--track-fill);
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+        box-shadow: var(--shadow-sm);
         transition: transform 0.1s ease, box-shadow 0.1s ease;
     }
 
@@ -55,13 +55,13 @@
     .app-range-slider:hover::-webkit-slider-thumb,
     .app-range-slider:focus-visible::-webkit-slider-thumb {
         transform: scale(1.15);
-        box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.15), 0 2px 4px rgba(0, 0, 0, 0.2);
+        box-shadow: var(--shadow-focus), var(--shadow-sm);
     }
 
     .app-range-slider:hover::-moz-range-thumb,
     .app-range-slider:focus-visible::-moz-range-thumb {
         transform: scale(1.15);
-        box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.15), 0 2px 4px rgba(0, 0, 0, 0.2);
+        box-shadow: var(--shadow-focus), var(--shadow-sm);
     }
 
     /* Désactivé */
@@ -75,7 +75,7 @@
         }
 
         .app-range-slider:disabled::-webkit-slider-thumb {
-            border-color: #94a3b8;
+            border-color: var(--color-text-muted);
             transform: none;
             box-shadow: none;
         }

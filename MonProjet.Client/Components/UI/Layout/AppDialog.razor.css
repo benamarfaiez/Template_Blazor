@@ -2,7 +2,7 @@
     position: fixed;
     inset: 0;
     z-index: 1000;
-    background: var(--color-surface, #ffffff);
+    background: var(--color-overlay);
     backdrop-filter: blur(4px);
     -webkit-backdrop-filter: blur(4px);
     display: flex;
@@ -15,7 +15,7 @@
 .app-dialog {
     background: var(--color-surface, #ffffff);
     border-radius: var(--radius, 8px);
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    box-shadow: var(--shadow-lg);
     width: 100%;
     max-width: var(--dialog-max-width, 600px);
     max-height: calc(100vh - 32px);
@@ -46,7 +46,7 @@
     background: transparent;
     border: none;
     font-size: 1.25rem;
-    color: #94a3b8;
+    color: var(--color-text-muted);
     cursor: pointer;
     padding: 4px;
     border-radius: 4px;
@@ -57,8 +57,8 @@
 }
 
     .app-dialog-close:hover {
-        background: #f1f5f9;
-        color: #0f172a;
+        background: var(--color-bg-alt);
+        color: var(--color-text);
     }
 
 /* --- CORPS (Scrollable si trop long) --- */
@@ -73,7 +73,7 @@
 .app-dialog-footer {
     padding: 16px 24px;
     border-top: 1px solid var(--color-border, #e2e8f0);
-    background: #f8fafc;
+    background: var(--color-bg-alt);
     display: flex;
     justify-content: flex-end;
     gap: 12px;

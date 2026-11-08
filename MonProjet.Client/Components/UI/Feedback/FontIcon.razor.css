@@ -14,19 +14,19 @@
 }
 
 .icon-success {
-    color: #22c55e;
+    color: var(--state-success-text);
 }
 
 .icon-warning {
-    color: #f59e0b;
+    color: var(--state-warning-text);
 }
 
 .icon-danger {
-    color: #ef4444;
+    color: var(--state-error-text);
 }
 
 .icon-muted {
-    color: #64748b;
+    color: var(--color-text-muted);
 }
 
 .app-fonticon[role="button"],

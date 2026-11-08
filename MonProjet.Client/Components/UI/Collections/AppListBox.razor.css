@@ -8,12 +8,12 @@
     height: 100%;
     box-sizing: border-box;
     overflow-y: auto;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    box-shadow: var(--shadow-sm);
     outline: none;
 }
     .app-listbox:focus-visible {
         border-color: var(--color-primary, #2563eb);
-        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        box-shadow: var(--shadow-focus);
     }
 
 /* Élément de la liste */
@@ -36,9 +36,9 @@
     /* Élément sélectionné */
     .app-listbox-item.selected {
         background-color: var(--color-primary, #2563eb);
-        color: #ffffff;
+        color: var(--color-on-primary);
         font-weight: 500;
-        box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2);
+        box-shadow: var(--shadow-md);
     }
 
 /* Scrollbar personnalisée (WebKit - Chrome/Edge/Safari) */
@@ -51,12 +51,12 @@
 }
 
 .app-listbox::-webkit-scrollbar-thumb {
-    background: #cbd5e1;
+    background: var(--color-scrollbar-thumb);
     border-radius: 3px;
 }
 
     .app-listbox::-webkit-scrollbar-thumb:hover {
-        background: #94a3b8;
+        background: var(--color-scrollbar-thumb-hover);
     }
 
 /* --- ÉTAT VIDE --- */
@@ -66,7 +66,7 @@
     background: var(--color-bg-alt, #f8fafc);
     border: 1px dashed var(--color-border, #cbd5e1);
     border-radius: var(--radius, 8px);
-    color: #64748b;
+    color: var(--color-text-muted);
 }
 
 .app-listbox-empty-text {

@@ -18,13 +18,13 @@
 }
 
     .app-datepicker-input:hover {
-        border-color: #cbd5e1;
+        border-color: var(--color-border);
     }
 
     .app-datepicker-input.is-open,
     .app-datepicker-input:focus-visible {
         border-color: var(--color-primary, #2563eb);
-        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        box-shadow: var(--shadow-focus);
         outline: none;
     }
 
@@ -34,12 +34,12 @@
 }
 
     .app-datepicker-text.placeholder {
-        color: #94a3b8;
+        color: var(--color-text-muted);
     }
 
 .app-datepicker-icon {
     font-size: 1rem;
-    color: #64748b;
+    color: var(--color-text-muted);
 }
 
 /* --- LE POPUP DU CALENDRIER --- */
@@ -47,11 +47,11 @@
     position: absolute;
     top: calc(100% + 8px);
     left: 0;
-    width: 300px;
+    width: min(18.75rem, calc(100vw - 2rem));
     background: var(--color-surface, #ffffff);
     border: 1px solid var(--color-border, #e2e8f0);
     border-radius: 8px;
-    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow-lg);
     z-index: 100;
     padding: 16px;
     animation: slideDown 0.2s cubic-bezier(0.16, 1, 0.3, 1);
@@ -75,7 +75,7 @@
 .app-datepicker-nav-btn {
     background: transparent;
     border: none;
-    color: #64748b;
+    color: var(--color-text-muted);
     cursor: pointer;
     padding: 4px 8px;
     border-radius: 4px;
@@ -109,7 +109,7 @@
     text-align: center;
     font-size: 0.75rem;
     font-weight: 600;
-    color: #94a3b8;
+    color: var(--color-text-muted);
     text-transform: uppercase;
 }
 
@@ -149,14 +149,14 @@
     /* Jour sélectionné */
     .app-datepicker-day.selected {
         background: var(--color-primary, #2563eb);
-        color: #ffffff;
+        color: var(--color-on-primary);
         font-weight: 600;
-        box-shadow: 0 2px 4px rgba(37, 99, 235, 0.3);
+        box-shadow: var(--shadow-md);
     }
 
     /* Jours désactivés */
     .app-datepicker-day:disabled {
-        color: #cbd5e1;
+        color: var(--color-text-muted);
         cursor: not-allowed;
         background: transparent;
         border-color: transparent;

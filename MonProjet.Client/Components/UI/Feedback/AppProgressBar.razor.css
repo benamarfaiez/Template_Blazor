@@ -19,15 +19,15 @@
 }
 
 .app-progressbar-success {
-    background-color: #22c55e;
+    background-color: var(--state-success-text);
 }
 
 .app-progressbar-warning {
-    background-color: #f59e0b;
+    background-color: var(--state-warning-text);
 }
 
 .app-progressbar-danger {
-    background-color: #ef4444;
+    background-color: var(--state-error-text);
 }
 
 /* --- MODE INDÉTERMINÉ (Animation) --- */

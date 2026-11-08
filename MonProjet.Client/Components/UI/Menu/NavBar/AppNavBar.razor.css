@@ -11,7 +11,7 @@
 
     .app-navbar-wrapper:focus-within .app-navbar,
     .app-navbar-wrapper:hover .app-navbar {
-        border-bottom-color: #e2e8f0;
+        border-bottom-color: var(--color-border);
     }
 
 .app-navbar {
@@ -54,7 +54,7 @@
 .hamburger-line {
     width: 24px;
     height: 2px;
-    background: #0f172a;
+    background: var(--color-text);
     transition: all 0.3s ease;
     border-radius: 2px;
 }
