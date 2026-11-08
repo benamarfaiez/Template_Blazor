@@ -1,8 +1,6 @@
 # Template Blazor
 
-[![Build](https://img.shields.io/badge/build-non_configur%C3%A9-lightgrey)](#)
 [![.NET](https://img.shields.io/badge/.NET-10.0-512BD4)](https://dotnet.microsoft.com/)
-[![Licence](https://img.shields.io/badge/licence-non_sp%C3%A9cifi%C3%A9e-lightgrey)](#)
 
 Template Blazor est une application web de gestion construite avec **Blazor**, **C# et .NET 10**. Elle associe un client Blazor WebAssembly à un hôte ASP.NET Core et utilise le CSS Isolation pour encapsuler les styles des composants.
 
