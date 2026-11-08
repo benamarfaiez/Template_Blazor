@@ -24,6 +24,28 @@
     --spacing-md: 16px;
     --spacing-lg: 24px;
     --spacing-xl: 32px;
+    /* Couleurs des alertes (InfoBar, Toast) */
+    --state-info-bg: #eff6ff;
+    --state-info-text: #1e40af;
+    --state-info-border: #bfdbfe;
+    --state-success-bg: #f0fdf4;
+    --state-success-text: #166534;
+    --state-success-border: #bbf7d0;
+    --state-warning-bg: #fffbeb;
+    --state-warning-text: #92400e;
+    --state-warning-border: #fde68a;
+    --state-error-bg: #fef2f2;
+    --state-error-text: #991b1b;
+    --state-error-border: #fecaca;
+    /* Couleurs des Badges (DataGrid) */
+    --badge-success-bg: #dcfce7;
+    --badge-success-text: #166534;
+    --badge-warning-bg: #fef3c7;
+    --badge-warning-text: #92400e;
+    --badge-info-bg: #dbeafe;
+    --badge-info-text: #1e40af;
+    --badge-muted-bg: #e2e8f0;
+    --badge-muted-text: #475569;
 }
 
 /* ============================================================
@@ -42,6 +64,28 @@ html[data-theme="dark"] {
     --color-border: #475569;
     --color-text: #f8fafc;
     --color-text-muted: #94a3b8;
+    /* Surcharge des alertes en mode sombre */ 
+    --state-info-bg: rgba(59, 130, 246, 0.15);
+    --state-info-text: #93c5fd;
+    --state-info-border: rgba(59, 130, 246, 0.3);
+    --state-success-bg: rgba(34, 197, 94, 0.15);
+    --state-success-text: #86efac;
+    --state-success-border: rgba(34, 197, 94, 0.3);
+    --state-warning-bg: rgba(245, 158, 11, 0.15);
+    --state-warning-text: #fcd34d;
+    --state-warning-border: rgba(245, 158, 11, 0.3);
+    --state-error-bg: rgba(239, 68, 68, 0.15);
+    --state-error-text: #fca5a5;
+    --state-error-border: rgba(239, 68, 68, 0.3);
+    /* Surcharge des badges en mode sombre */
+    --badge-success-bg: rgba(34, 197, 94, 0.2);
+    --badge-success-text: #86efac;
+    --badge-warning-bg: rgba(245, 158, 11, 0.2);
+    --badge-warning-text: #fcd34d;
+    --badge-info-bg: rgba(59, 130, 246, 0.2);
+    --badge-info-text: #93c5fd;
+    --badge-muted-bg: #475569;
+    --badge-muted-text: #cbd5e1;
 }
 
 *, *::before, *::after {
