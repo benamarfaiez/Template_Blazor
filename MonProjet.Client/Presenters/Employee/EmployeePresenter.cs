@@ -1,7 +1,6 @@
 ﻿using MonProjet.Client.Models.Pages.Employee;
 using MonProjet.Client.Services;
 using MonProjet.Client.View.Employee;
-using MonProjet.Shared.Models.Employee;
 
 namespace MonProjet.Client.Presenters.Employee;
 
@@ -59,6 +58,7 @@ public class EmployeePresenter(IExceptionHandler exceptions, IToastService toast
                 new( 13, "Marie Dubois", "marie@test.com", "Admin", true, new DateTime(2022, 9, 20) ),
                 new( 14, "Nicolas Garnier", "nicolas@test.com", "Éditeur", false, new DateTime(2023, 1, 5) ),
                 new( 15, "Olivia Lefevre", "olivia@test.com", "Éditeur", false, new DateTime(2023, 3, 15) ),
+                new( 16, "Pauline Martin", "pauline@test.com", "Admin", true, new DateTime(2020, 4, 10) ),
                 new(17, "Quentin Petit", "quentin@test.com", "Éditeur", false, new DateTime(2021, 8, 20)),
                 new(18, "Romain Lefevre", "romain@test.com", "Lecteur", false, new DateTime(2022, 3, 15)),
                 new(19, "Sophie Garnier", "sophie@test.com", "Admin", true, new DateTime(2023, 6, 5))
