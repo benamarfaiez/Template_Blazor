@@ -3,7 +3,7 @@
     align-items: stretch;
     border: 1px solid var(--color-border, #e2e8f0);
     border-radius: var(--radius, 6px);
-    background-color: #ffffff;
+    background-color: var(--color-surface, #ffffff);
     overflow: hidden; /* Empêche les coins carrés de dépasser */
     transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
@@ -28,7 +28,6 @@
     font-size: 16px;
 }
 
-    /* ✅ Cacher les flèches natives (spinners) du navigateur */
     .app-numberbox-input::-webkit-outer-spin-button,
     .app-numberbox-input::-webkit-inner-spin-button {
         -webkit-appearance: none;
@@ -39,7 +38,6 @@
         -moz-appearance: textfield;
     }
 
-/* Les boutons plus et moins */
 .app-numberbox-btn {
     display: flex;
     align-items: center;
@@ -65,7 +63,7 @@
 
     /* Survol des boutons */
     .app-numberbox-btn:hover:not(:disabled) {
-        background-color: #e2e8f0;
+        background-color: var(--color-border, #e2e8f0);
         color: var(--color-primary, #2563eb);
     }
 

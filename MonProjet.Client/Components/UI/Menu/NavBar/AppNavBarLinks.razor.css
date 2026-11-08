@@ -45,7 +45,7 @@
 
     .app-navbar-link.active,
     ::deep .app-navbar-link.active {
-        color: #0f172a !important;
+        color: var(--color-text, #0f172a) !important;
         font-weight: 600;
         background-color: transparent;
     }
@@ -57,23 +57,20 @@
             left: 16px;
             right: 16px;
             height: 3px;
-            background-color: #fcd34d;
+            background-color: var(--color-primary, #fcd34d);
             border-radius: 3px 3px 0 0;
         }
 
 .chevron {
     transition: transform 0.2s ease;
-    color: #64748b;
+    color: var(--color-text-muted, #64748b);
 }
 
 .app-navbar-link.active .chevron {
     transform: rotate(180deg);
-    color: #0f172a;
+    color: var(--color-text, #0f172a);
 }
 
-/* ============================================================
-   ✅ CORRECTION MOBILE : Plein écran & Scroll
-   ============================================================ */
 @media (max-width: 768px) {
     .app-navbar-links {
         display: none;
@@ -84,6 +81,7 @@
         height: calc(100vh - 72px);
         overflow-y: auto;
         background: var(--color-surface, #ffffff);
+        box-shadow: var(--shadow-md);
         padding: 16px;
         z-index: 9999; /* Passe au-dessus de tout */
         align-items: stretch;
@@ -121,6 +119,6 @@
         /* Fond gris quand actif sur mobile */
         .app-navbar-link.active,
         ::deep .app-navbar-link.active {
-            background-color: #f8fafc;
+            background-color: var(--color-bg-alt, #f1f5f9);
         }
 }

@@ -34,7 +34,7 @@
     }
 
     .app-combobox option {
+        background-color: var(--color-surface, #ffffff);
         color: var(--color-text, #0f172a);
-        background-color: #ffffff;
         padding: 8px;
     }

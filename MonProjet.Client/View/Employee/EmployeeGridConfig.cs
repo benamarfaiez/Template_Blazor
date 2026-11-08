@@ -1,5 +1,4 @@
-﻿using MonProjet.Client.Components.UI.Collections;
-using MonProjet.Client.Components.UI.Collections.Column;
+﻿using MonProjet.Client.Components.UI.Collections.Column;
 using MonProjet.Client.Components.UI.Helpers;
 using MonProjet.Client.Models.Pages.Employee;
 using MonProjet.Client.Models.UI.Style;
@@ -33,9 +32,15 @@ public static class EmployeeGridConfig
                 header: "Rôle",
                 template: emp => builder =>
                 {
-                    var color = emp.Role == "Admin" ? "#dc2626" : "#2563eb";
+                    var cssClass = emp.Role switch
+                    {
+                        "Admin"   => "role-badge role-admin",
+                        "Éditeur" => "role-badge role-editor",
+                        _         => "role-badge role-reader"
+                    };
+
                     builder.OpenElement(0, "span");
-                    builder.AddAttribute(1, "style", $"color: {color}; font-weight: 600;");
+                    builder.AddAttribute(1, "class", cssClass);
                     builder.AddContent(2, emp.Role);
                     builder.CloseElement();
                 },

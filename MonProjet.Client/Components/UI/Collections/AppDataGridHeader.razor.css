@@ -1,5 +1,5 @@
 thead {
-    background-color: #f8fafc;
+    background-color: var(--color-bg-alt, #f8fafc);
 }
 
 th {
@@ -8,7 +8,8 @@ th {
     z-index: 10;
     padding: 0;
     border-bottom: 1px solid var(--color-border, #e2e8f0);
-    color: #64748b;
+    color: var(--color-text-muted, #64748b);
+    background-color: var(--color-bg-alt, #f8fafc);
     font-weight: 600;
     font-size: 0.75rem;
     text-transform: uppercase;
@@ -34,21 +35,20 @@ th.sortable {
 }
 
     th.sortable:hover {
-        background-color: #f1f5f9;
+        background-color: var(--color-bg-alt, #f1f5f9);
         color: var(--color-text, #0f172a);
     }
 
     th.sortable:focus-visible {
-        outline: 2px solid var(--color-primary, #2563eb);
-        outline-offset: -2px;
-        background-color: #f1f5f9;
+        background-color: var(--color-bg-alt, #f1f5f9);
+        color: var(--color-primary, #2563eb);
     }
 
 .sort-icon {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #cbd5e1;
+    color: var(--color-text-muted, #cbd5e1);
     transition: all 0.2s ease;
 }
 

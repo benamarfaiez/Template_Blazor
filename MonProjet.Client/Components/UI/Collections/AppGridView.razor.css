@@ -19,7 +19,7 @@
 
 /* Style des cartes (Items) */
 .app-gridview-item {
-    background: #ffffff;
+    background: var(--color-surface, #ffffff);
     border: 1px solid var(--color-border, #e2e8f0);
     border-radius: var(--radius, 8px);
     padding: var(--spacing-md, 16px);
@@ -39,10 +39,10 @@
     align-items: center;
     justify-content: center;
     padding: 48px 24px;
-    background: #ffffff;
+    background: var(--color-surface, #ffffff);
     border: 1px dashed var(--color-border, #cbd5e1);
     border-radius: var(--radius, 8px);
-    color: #64748b;
+    color: var(--color-text, #64748b);
     width: 100%;
 }
 

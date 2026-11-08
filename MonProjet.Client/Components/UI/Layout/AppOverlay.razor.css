@@ -15,13 +15,12 @@
 }
 
 .app-overlay-content {
-    background: #ffffff;
+    background: var(--color-surface, #ffffff);
     border-radius: var(--radius, 8px);
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
     max-width: 100%;
     max-height: calc(100vh - 48px); /* Ne dépasse jamais la hauteur de l'écran */
     overflow-y: auto; /* Permet le défilement interne si le contenu est grand */
-    /* Animation d'apparition */
     animation: scaleIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
