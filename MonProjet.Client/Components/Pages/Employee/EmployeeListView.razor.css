@@ -6,8 +6,7 @@
 ::deep .row-inactive {
     pointer-events: none;
 }
-
-::deep.highlight-card {
+::deep .highlight-card {
     border-left: 4px solid var(--color-primary);
     background: var(--color-surface);
 }
