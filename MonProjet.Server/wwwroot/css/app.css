@@ -189,3 +189,19 @@ button, input, select, textarea {
         float: right;
         cursor: pointer;
     }
+
+.role-badge {
+    font-weight: 600;
+}
+
+.role-admin {
+    color: var(--badge-danger-text);
+}
+
+.role-editor {
+    color: var(--badge-info-text);
+}
+
+.role-reader {
+    color: var(--badge-info-text);
+}

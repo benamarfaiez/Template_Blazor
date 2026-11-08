@@ -25,10 +25,17 @@ public class ThemeService(IJSRuntime js) : IThemeService
 
     public async Task ToggleThemeAsync()
     {
-        await EnsureModuleAsync();
-        IsDarkMode = !IsDarkMode;
-        await _module!.InvokeVoidAsync("setTheme", IsDarkMode);
-        OnThemeChanged?.Invoke();
+        try
+        {
+            await EnsureModuleAsync();
+            var nextIsDarkMode = !IsDarkMode;
+            await _module!.InvokeVoidAsync("setTheme", nextIsDarkMode);
+            IsDarkMode = nextIsDarkMode;
+            OnThemeChanged?.Invoke();
+        }
+        catch (Exception)
+        {
+        }
     }
 
     private async Task EnsureModuleAsync()

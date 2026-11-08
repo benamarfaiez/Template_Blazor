@@ -72,23 +72,25 @@
 
 @if (_selectedEmployee is not null)
 {
-    <AppCard MarginTop="16px" class="highlight-card">
-        <TextBlock Text="Détails de l'employé sélectionné :" Variant="TextVariant.Bold" MarginBottom="16px" />
-        <AppCard>
-            <AppStackPanel Orientation="StackOrientation.Vertical" Gap="8">
-                <div style="display: flex; gap: 8px;">
-                    <TextBlock As="TextElement.Span" Variant="TextVariant.Bold" Text="Nom :" />
-                    <TextBlock As="TextElement.Span" Text="@_selectedEmployee.Name" />
-                </div>
-                <div style="display: flex; gap: 8px;">
-                    <TextBlock As="TextElement.Span" Variant="TextVariant.Bold" Text="Email :" />
-                    <TextBlock As="TextElement.Span" Text="@_selectedEmployee.Email" />
-                </div>
-                <div style="display: flex; gap: 8px;">
-                    <TextBlock As="TextElement.Span" Variant="TextVariant.Bold" Text="Rôle :" />
-                    <TextBlock As="TextElement.Span" Text="@_selectedEmployee.Role" />
-                </div>
-            </AppStackPanel>
+    <div>
+        <AppCard MarginTop="16px" class="highlight-card">
+            <TextBlock Text="Détails de l'employé sélectionné :" Variant="TextVariant.Bold" MarginBottom="16px" />
+            <AppCard>
+                <AppStackPanel Orientation="StackOrientation.Vertical" Gap="8">
+                    <div style="display: flex; gap: 8px;">
+                        <TextBlock As="TextElement.Span" Variant="TextVariant.Bold" Text="Nom :" />
+                        <TextBlock As="TextElement.Span" Text="@_selectedEmployee.Name" />
+                    </div>
+                    <div style="display: flex; gap: 8px;">
+                        <TextBlock As="TextElement.Span" Variant="TextVariant.Bold" Text="Email :" />
+                        <TextBlock As="TextElement.Span" Text="@_selectedEmployee.Email" />
+                    </div>
+                    <div style="display: flex; gap: 8px;">
+                        <TextBlock As="TextElement.Span" Variant="TextVariant.Bold" Text="Rôle :" />
+                        <TextBlock As="TextElement.Span" Text="@_selectedEmployee.Role" />
+                    </div>
+                </AppStackPanel>
+            </AppCard>
         </AppCard>
-    </AppCard>
+    </div>
 }
