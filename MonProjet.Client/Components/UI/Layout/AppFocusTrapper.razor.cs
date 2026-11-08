@@ -36,7 +36,7 @@ public partial class AppFocusTrapper : AppComponentBase, IAsyncDisposable
                 await _module.InvokeVoidAsync("trap", _container);
                 _isCurrentlyTrapped = true;
             }
-            catch (JSDisconnectedException) {}
+            catch (JSDisconnectedException) { }
         }
         else if (!Active && _isCurrentlyTrapped)
         {
@@ -52,7 +52,7 @@ public partial class AppFocusTrapper : AppComponentBase, IAsyncDisposable
             {
                 await _module.InvokeVoidAsync("release", _container);
             }
-            catch (JSDisconnectedException) {}
+            catch (JSDisconnectedException) { }
             finally
             {
                 _isCurrentlyTrapped = false;
@@ -70,8 +70,8 @@ public partial class AppFocusTrapper : AppComponentBase, IAsyncDisposable
             {
                 await _module.DisposeAsync();
             }
-            catch (JSDisconnectedException) {}
-            catch (TaskCanceledException) {}
+            catch (JSDisconnectedException) { }
+            catch (TaskCanceledException) { }
         }
         GC.SuppressFinalize(this);
     }
