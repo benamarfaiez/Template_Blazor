@@ -6,7 +6,7 @@ namespace MonProjet.Client.Components.UI.Menu.NavBar;
 
 public partial class AppNavBarLinks : AppComponentBase
 {
-    [Parameter] 
+    [Parameter]
     public List<NavLinkItem> Links { get; set; } = [];
 
     /// <summary>
@@ -18,13 +18,13 @@ public partial class AppNavBarLinks : AppComponentBase
     /// <summary>
     /// Le lien actif (qui a son méga-menu ouvert).
     /// </summary>
-    [Parameter] 
+    [Parameter]
     public NavLinkItem? ActiveDropdown { get; set; }
 
     /// <summary>
     /// Déclenché au clic sur un lien classique (pour fermer le menu mobile).
     /// </summary>
-    [Parameter] 
+    [Parameter]
     public EventCallback OnLinkClick { get; set; }
 
     /// <summary>

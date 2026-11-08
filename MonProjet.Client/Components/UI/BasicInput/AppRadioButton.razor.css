@@ -19,9 +19,9 @@
 .app-radio-circle {
     width: 20px;
     height: 20px;
-    border: 2px solid #cbd5e1; /* Gris clair */
+    border: 2px solid var(--color-border);
     border-radius: 50%;
-    background-color: #ffffff;
+    background-color: var(--color-surface);
     position: relative;
     transition: all 0.2s ease;
     flex-shrink: 0;
@@ -64,14 +64,14 @@
 
 /* État désactivé */
 .app-radio input:disabled ~ .app-radio-circle {
-    background-color: #f1f5f9;
-    border-color: #e2e8f0;
+    background-color: var(--color-bg-alt);
+    border-color: var(--color-border);
     cursor: not-allowed;
 }
 
 /* État désactivé ET sélectionné */
 .app-radio input:disabled:checked ~ .app-radio-circle::after {
-    background-color: #94a3b8;
+    background-color: var(--color-text-muted);
 }
 
 /* Texte du label */
@@ -83,6 +83,6 @@
 
 /* Texte désactivé */
 .app-radio input:disabled ~ .app-radio-label {
-    color: #94a3b8;
+    color: var(--color-text-muted);
     cursor: not-allowed;
 }

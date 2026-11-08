@@ -22,15 +22,15 @@
 }
 
 .app-progressring-white .app-progressring-fill {
-    stroke: #ffffff;
+    stroke: var(--color-white);
 }
 
 .app-progressring-success .app-progressring-fill {
-    stroke: #22c55e;
+    stroke: var(--state-success-text);
 }
 
 .app-progressring-danger .app-progressring-fill {
-    stroke: #ef4444;
+    stroke: var(--state-error-text);
 }
 
 /* --- ANIMATIONS --- */

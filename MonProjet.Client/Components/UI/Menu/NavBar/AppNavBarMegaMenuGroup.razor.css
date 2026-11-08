@@ -8,7 +8,7 @@
 .group-title {
     font-size: 0.75rem;
     font-weight: 700;
-    color: #0f172a;
+    color: var(--color-text);
     text-transform: uppercase;
     letter-spacing: 0.05em;
     margin: 0;
@@ -20,7 +20,7 @@
     .group-title .dot {
         width: 6px;
         height: 6px;
-        background-color: #3b82f6;
+        background-color: var(--color-primary);
         border-radius: 50%;
     }
 

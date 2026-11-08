@@ -8,7 +8,7 @@
     padding: 8px 12px;
     font-size: 0.875rem;
     color: var(--color-text, #0f172a);
-    background-color: #ffffff;
+    background-color: var(--color-surface, #ffffff);
     border: 1px solid var(--color-border, #e2e8f0);
     border-radius: var(--radius, 6px);
     transition: border-color 0.15s ease, box-shadow 0.15s ease;
@@ -17,13 +17,13 @@
     .app-autosuggest-input:focus {
         outline: none;
         border-color: var(--color-primary, #2563eb);
-        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        box-shadow: var(--shadow-focus);
     }
 
     .app-autosuggest-input:disabled {
         background-color: var(--color-bg-alt, #f1f5f9);
         cursor: not-allowed;
-        color: #94a3b8;
+        color: var(--color-text-muted);
     }
 
 /* --- LISTE DÉROULANTE --- */
@@ -35,12 +35,12 @@
     margin: 0;
     padding: 6px;
     list-style: none;
-    background: #ffffff;
+    background: var(--color-surface, #ffffff);
     border: 1px solid var(--color-border, #e2e8f0);
     border-radius: var(--radius, 6px);
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    box-shadow: var(--shadow-md);
     z-index: 100;
-    max-height: 250px;
+    max-height: min(15.625rem, 50dvh);
     overflow-y: auto;
     /* Animation d'apparition */
     animation: autosuggestDrop 0.15s ease-out;
@@ -63,7 +63,7 @@
     /* ✅ Élément sélectionné au clavier ou à la souris */
     .app-autosuggest-item.selected {
         background-color: var(--color-primary, #2563eb);
-        color: #ffffff;
+        color: var(--color-on-primary);
     }
 
 @keyframes autosuggestDrop {

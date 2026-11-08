@@ -58,7 +58,7 @@ else
             </AppStep>
 
             <AppStep Title="Confirmation" Subtitle="Vérification" Icon="✅">
-                <AppCard style="background: #f8fafc; border-left: 4px solid var(--color-primary);">
+                <AppCard>
                     <TextBlock Text="Récapitulatif du virement" Variant="TextVariant.Bold" MarginBottom="16px" />
                     <AppGrid Columns="2" Gap="16">
                         <TextBlock Text="Compte débité :" Variant="TextVariant.Muted" />
@@ -71,7 +71,7 @@ else
                 </AppCard>
 
                 <AppButton Text="Confirmer et Exécuter le virement" 
-                           Variant="ButtonVariant.Success" 
+                           Variant="ButtonVariant.Primary"
                            OnClick="Presenter.ExecuteTransferAsync" 
                            MarginTop="24px" />
             </AppStep>

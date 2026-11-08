@@ -5,7 +5,7 @@ tbody tr {
 }
 
     tbody tr:hover {
-        background-color: #f8fafc;
+        background-color: var(--color-bg-alt, #f8fafc);
     }
 
     tbody tr.clickable {
@@ -13,7 +13,7 @@ tbody tr {
     }
 
         tbody tr.clickable:active {
-            background-color: #f1f5f9;
+            background-color: var(--color-bg-alt);
         }
 
     tbody tr:last-child td {

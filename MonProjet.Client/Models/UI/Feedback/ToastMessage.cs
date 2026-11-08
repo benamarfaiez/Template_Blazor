@@ -1,4 +1,5 @@
 ﻿namespace MonProjet.Client.Models.UI.Feedback;
+
 public class ToastMessage
 {
     public Guid Id { get; } = Guid.NewGuid();

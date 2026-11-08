@@ -10,6 +10,46 @@
     animation: slideIn 0.3s ease-out;
 }
 
+.app-infobar-info {
+    background-color: var(--state-info-bg);
+    border-color: var(--state-info-border);
+    color: var(--state-info-text);
+}
+
+    .app-infobar-info .app-infobar-dismiss {
+        color: var(--state-info-text);
+    }
+
+.app-infobar-success {
+    background-color: var(--state-success-bg);
+    border-color: var(--state-success-border);
+    color: var(--state-success-text);
+}
+
+    .app-infobar-success .app-infobar-dismiss {
+        color: var(--state-success-text);
+    }
+
+.app-infobar-warning {
+    background-color: var(--state-warning-bg);
+    border-color: var(--state-warning-border);
+    color: var(--state-warning-text);
+}
+
+    .app-infobar-warning .app-infobar-dismiss {
+        color: var(--state-warning-text);
+    }
+
+.app-infobar-error {
+    background-color: var(--state-error-bg);
+    border-color: var(--state-error-border);
+    color: var(--state-error-text);
+}
+
+    .app-infobar-error .app-infobar-dismiss {
+        color: var(--state-error-text);
+    }
+
 .app-infobar-icon {
     font-size: 1.1rem;
     display: flex;
@@ -38,49 +78,10 @@
 
     .app-infobar-dismiss:hover {
         opacity: 1;
-        background: rgba(0, 0, 0, 0.05);
+        background: var(--color-hover-overlay);
     }
 
 /* --- VARIANTES DE COULEURS --- */
-.app-infobar-info {
-    background-color: #eff6ff;
-    border-color: #bfdbfe;
-    color: #1e40af;
-}
-
-    .app-infobar-info .app-infobar-dismiss {
-        color: #1e40af;
-    }
-
-.app-infobar-success {
-    background-color: #f0fdf4;
-    border-color: #bbf7d0;
-    color: #166534;
-}
-
-    .app-infobar-success .app-infobar-dismiss {
-        color: #166534;
-    }
-
-.app-infobar-warning {
-    background-color: #fffbeb;
-    border-color: #fde68a;
-    color: #92400e;
-}
-
-    .app-infobar-warning .app-infobar-dismiss {
-        color: #92400e;
-    }
-
-.app-infobar-error {
-    background-color: #fef2f2;
-    border-color: #fecaca;
-    color: #991b1b;
-}
-
-    .app-infobar-error .app-infobar-dismiss {
-        color: #991b1b;
-    }
 
 @keyframes slideIn {
     from {

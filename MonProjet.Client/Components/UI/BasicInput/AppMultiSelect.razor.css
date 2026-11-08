@@ -11,7 +11,7 @@
     justify-content: space-between;
     min-height: 42px;
     padding: 4px 12px;
-    background: #ffffff;
+    background: var(--color-surface, #ffffff);
     border: 1px solid var(--color-border, #e2e8f0);
     border-radius: var(--radius, 6px);
     cursor: pointer;
@@ -19,12 +19,12 @@
 }
 
     .app-multiselect-control:hover {
-        border-color: #cbd5e1;
+        border-color: var(--color-primary, #cbd5e1);
     }
 
     .app-multiselect-control.is-open {
         border-color: var(--color-primary, #2563eb);
-        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        box-shadow: var(--shadow-focus);
     }
 
 /* La zone des tags */
@@ -37,7 +37,7 @@
 }
 
 .app-multiselect-placeholder {
-    color: #94a3b8;
+    color: var(--color-text-muted, #94a3b8);
     font-size: 0.875rem;
 }
 
@@ -46,8 +46,8 @@
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    background-color: #eff6ff;
-    color: #1e40af;
+    background-color: var(--badge-info-bg, #eff6ff);
+    color: var(--badge-info-text, #1e40af);
     padding: 2px 8px;
     border-radius: 4px;
     font-size: 0.75rem;
@@ -57,7 +57,7 @@
 .app-multiselect-tag-close {
     background: none;
     border: none;
-    color: #1e40af;
+    color: var(--badge-info-text, #1e40af);
     font-size: 1rem;
     line-height: 1;
     cursor: pointer;
@@ -68,12 +68,12 @@
 
     .app-multiselect-tag-close:hover {
         opacity: 1;
-        color: #dc2626;
+        color: var(--color-danger);
     }
 
 .app-multiselect-arrow {
     font-size: 0.65rem;
-    color: #64748b;
+    color: var(--color-text-muted, #64748b);
     transition: transform 0.2s ease;
 }
 
@@ -87,12 +87,12 @@
     top: calc(100% + 6px);
     left: 0;
     width: 100%;
-    max-height: 250px;
+    max-height: min(15.625rem, 50dvh);
     overflow-y: auto;
-    background: #ffffff;
+    background: var(--color-surface, #ffffff);
     border: 1px solid var(--color-border, #e2e8f0);
     border-radius: var(--radius, 6px);
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow-md);
     z-index: 100;
     padding: 4px;
     animation: slideDown 0.2s cubic-bezier(0.16, 1, 0.3, 1);
@@ -107,14 +107,18 @@
     cursor: pointer;
     border-radius: 4px;
     transition: background-color 0.15s ease;
+    color: var(--color-text, #0f172a);
 }
 
     .app-multiselect-item:hover {
         background-color: var(--color-bg-alt, #f8fafc);
+        color: var(--color-text, #0f172a);
     }
 
-    .app-multiselect-item.selected {
-        background-color: #eff6ff;
+    .app-multiselect-item.selected,
+    .app-multiselect-item.selected:hover {
+        background-color: var(--state-selected-bg);
+        color: var(--state-selected-text);
     }
 
 .app-multiselect-label {
@@ -122,16 +126,15 @@
     color: var(--color-text, #0f172a);
 }
 
-/* Fausse Checkbox personnalisée */
 .app-multiselect-checkbox {
     width: 18px;
     height: 18px;
-    border: 2px solid #cbd5e1;
+    border: 2px solid var(--color-border, #cbd5e1);
     border-radius: 4px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #fff;
+    background: var(--color-surface, #fff);
     transition: all 0.2s ease;
 }
 
@@ -141,7 +144,7 @@
     }
 
 .checkmark {
-    color: white;
+    color: var(--color-on-primary);
     font-size: 12px;
     font-weight: bold;
 }
@@ -150,7 +153,7 @@
     padding: 12px;
     text-align: center;
     font-size: 0.875rem;
-    color: #94a3b8;
+    color: var(--color-text-muted, #94a3b8);
 }
 
 @keyframes slideDown {

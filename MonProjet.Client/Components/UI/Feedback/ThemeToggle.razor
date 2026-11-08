@@ -1,0 +1,14 @@
+﻿@using MonProjet.Client.Services
+@inject IThemeService ThemeService
+@implements IDisposable
+
+<button type="button" class="theme-toggle" @onclick="ToggleTheme" aria-label="Changer de thème">
+    @if (ThemeService.IsDarkMode)
+    {
+        <FontIcon Icon="☀️" Size="1.25rem" Variant="IconVariant.Warning" />
+    }
+    else
+    {
+        <FontIcon Icon="🌙" Size="1.25rem" Variant="IconVariant.Muted" />
+    }
+</button>   

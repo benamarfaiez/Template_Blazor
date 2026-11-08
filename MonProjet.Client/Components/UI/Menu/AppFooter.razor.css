@@ -1,8 +1,8 @@
 .app-footer {
-    background-color: #ffffff;
+    background-color: var(--color-surface, #ffffff);
     border-top: 1px solid var(--color-border, #e2e8f0);
     width: 100%;
-    margin-top: auto; /* Pousse le footer vers le bas si utilisé dans un flex container */
+    margin-top: auto;
 }
 
 /* Conteneur des liens et du copyright */
@@ -15,7 +15,6 @@
 /* ============================================================
    STYLISATION DES LIENS (Passés via ChildContent)
    ============================================================ */
-/* ✅ Le ::deep est crucial car les liens sont définis dans le MainLayout */
 ::deep .app-footer-content a {
     color: var(--color-text-muted, #64748b);
     text-decoration: none;
@@ -34,7 +33,7 @@
         content: "•";
         position: absolute;
         right: -14px;
-        color: #cbd5e1;
+        color: var(--color-border);
         pointer-events: none;
     }
 

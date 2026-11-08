@@ -3,25 +3,24 @@
     display: flex;
     align-items: center;
     width: 100%;
-    background: #ffffff;
+    background: var(--color-surface, #ffffff);
     border: 1px solid var(--color-border, #e2e8f0);
     border-radius: var(--radius, 6px);
     transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
-    /* ✅ Focus géré sur le wrapper pour englober les icônes */
     .app-textbox-wrapper:focus-within {
         border-color: var(--color-primary, #2563eb);
-        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        box-shadow: var(--shadow-focus);
     }
 
     /* ✅ État d'erreur */
     .app-textbox-wrapper.has-error {
-        border-color: #ef4444;
+        border-color: var(--color-danger);
     }
 
         .app-textbox-wrapper.has-error:focus-within {
-            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+            box-shadow: var(--shadow-focus-danger);
         }
 
 /* --- INPUT --- */
@@ -39,12 +38,12 @@
     .app-textbox:disabled {
         background-color: var(--color-bg-alt, #f1f5f9);
         cursor: not-allowed;
-        color: #94a3b8;
+        color: var(--color-text-muted);
         border-radius: var(--radius, 6px);
     }
 
     .app-textbox::placeholder {
-        color: #94a3b8;
+        color: var(--color-text-muted, #94a3b8);
     }
 
 /* --- ICÔNES & BOUTONS --- */
@@ -53,7 +52,7 @@
     align-items: center;
     justify-content: center;
     padding: 0 10px;
-    color: #64748b;
+    color: var(--color-text-muted);
     font-size: 1rem;
     user-select: none;
 }
@@ -71,8 +70,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #e2e8f0;
-    color: #475569;
+    background: var(--color-bg-alt);
+    color: var(--color-text-muted);
     border: none;
     border-radius: 50%;
     width: 18px;
@@ -84,13 +83,13 @@
 }
 
     .app-textbox-clear:hover {
-        background: #cbd5e1;
-        color: #0f172a;
+        background: var(--color-border);
+        color: var(--color-text);
     }
 
 /* --- MESSAGE D'ERREUR --- */
 .app-textbox-error {
-    color: #ef4444;
+    color: var(--color-danger);
     font-size: 0.75rem;
     margin-top: 4px;
     margin-left: 4px;

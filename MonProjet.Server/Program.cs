@@ -15,6 +15,7 @@ builder.Services.AddRazorComponents()
 builder.Services.AddScoped<IExceptionHandler, ExceptionHandler>();
 builder.Services.AddScoped<IFocusTrapService, FocusTrapService>();
 builder.Services.AddSingleton<IToastService, ToastService>();
+builder.Services.AddScoped<IThemeService, ThemeService>();
 
 builder.Services.AddScoped<IHomePresenter, HomePresenter>();
 builder.Services.AddScoped<IUserPresenter, UserPresenter>();

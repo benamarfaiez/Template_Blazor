@@ -4,7 +4,7 @@
     font-weight: 800;
     font-size: 1.75rem;
     font-style: italic;
-    color: #0f172a;
+    color: var(--color-text);
     text-decoration: none;
     white-space: nowrap;
     transition: opacity 0.2s ease, transform 0.2s ease;

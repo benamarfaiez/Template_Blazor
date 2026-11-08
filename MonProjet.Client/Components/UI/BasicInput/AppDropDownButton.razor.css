@@ -8,11 +8,11 @@
     position: absolute;
     top: calc(100% + 8px);
     left: 0;
-    min-width: 220px;
-    background: #ffffff;
+    min-width: min(13.75rem, calc(100vw - 2rem));
+    background: var(--color-surface, #ffffff);
     border: 1px solid var(--color-border, #e2e8f0);
     border-radius: var(--radius, 6px);
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    box-shadow: var(--shadow-lg);
     padding: 6px;
     z-index: 100;
     animation: slideDown 0.2s cubic-bezier(0.16, 1, 0.3, 1);

@@ -19,17 +19,17 @@
     }
 
     .app-scrollviewer::-webkit-scrollbar-thumb {
-        background: #cbd5e1;
+        background: var(--color-scrollbar-thumb);
         border-radius: 10px;
     }
 
         .app-scrollviewer::-webkit-scrollbar-thumb:hover {
-            background: #94a3b8;
+            background: var(--color-scrollbar-thumb-hover);
         }
 
 .app-scrollviewer {
     scrollbar-width: thin;
-    scrollbar-color: #cbd5e1 transparent;
+    scrollbar-color: var(--color-scrollbar-thumb) transparent;
 }
 
     .app-scrollviewer.fade-bottom {

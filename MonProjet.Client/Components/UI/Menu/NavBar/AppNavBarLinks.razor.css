@@ -28,8 +28,8 @@
     font-family: inherit;
     font-size: 0.95rem;
     font-weight: 500;
-    color: #475569 !important;
-    text-decoration: none !important;
+    color: var(--color-text-muted);
+    text-decoration: none;
     padding: 8px 16px;
     border-radius: 6px;
     cursor: pointer;
@@ -39,13 +39,13 @@
 
     .app-navbar-link:hover,
     ::deep .app-navbar-link:hover {
-        color: #0f172a !important;
-        background-color: #f1f5f9;
+        color: var(--color-text);
+        background-color: var(--color-bg-alt, #f1f5f9);
     }
 
     .app-navbar-link.active,
     ::deep .app-navbar-link.active {
-        color: #0f172a !important;
+        color: var(--color-text);
         font-weight: 600;
         background-color: transparent;
     }
@@ -57,41 +57,37 @@
             left: 16px;
             right: 16px;
             height: 3px;
-            background-color: #fcd34d;
+            background-color: var(--color-primary);
             border-radius: 3px 3px 0 0;
         }
 
 .chevron {
     transition: transform 0.2s ease;
-    color: #64748b;
+    color: var(--color-text-muted, #64748b);
 }
 
 .app-navbar-link.active .chevron {
     transform: rotate(180deg);
-    color: #0f172a;
+    color: var(--color-text, #0f172a);
 }
 
-/* ============================================================
-   ✅ CORRECTION MOBILE : Plein écran & Scroll
-   ============================================================ */
 @media (max-width: 768px) {
     .app-navbar-links {
         display: none;
         flex-direction: column;
-        /* ✅ LE SECRET EST ICI : Position fixe plein écran */
         position: fixed;
-        inset: 72px 0 0 0; /* Top: 72px, Droite: 0, Bas: 0, Gauche: 0 */
-        width: 100vw;
+        inset: 72px 0 0 0;
+        width: 100%;
         height: calc(100vh - 72px);
-        overflow-y: auto; /* Permet le scroll */
-
-        background: #ffffff;
+        overflow-y: auto;
+        background: var(--color-surface, #ffffff);
+        box-shadow: var(--shadow-md);
         padding: 16px;
         z-index: 9999; /* Passe au-dessus de tout */
         align-items: stretch;
         gap: 4px;
         margin: 0;
-        border-top: 1px solid #e2e8f0;
+        border-top: 1px solid var(--color-border, #e2e8f0);
     }
 
         .app-navbar-links.is-open {
@@ -112,7 +108,7 @@
         padding: 16px;
         font-size: 1.05rem;
         height: auto;
-        border-bottom: 1px solid #f1f5f9; /* Séparateur subtil */
+        border-bottom: 1px solid var(--color-border);
     }
 
         /* On désactive le trait jaune sur mobile */
@@ -123,6 +119,6 @@
         /* Fond gris quand actif sur mobile */
         .app-navbar-link.active,
         ::deep .app-navbar-link.active {
-            background-color: #f8fafc;
+            background-color: var(--color-bg-alt, #f1f5f9);
         }
 }

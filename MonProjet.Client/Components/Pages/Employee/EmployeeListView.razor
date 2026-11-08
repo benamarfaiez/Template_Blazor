@@ -72,29 +72,25 @@
 
 @if (_selectedEmployee is not null)
 {
-    <AppCard MarginTop="16px" style="background: #f8fafc; border-left: 4px solid #2563eb;">
-        <TextBlock Text="Détails de l'employé sélectionné :" Variant="TextVariant.Bold" />
-        <AppCard MarginTop="16px" style="background: #f8fafc; border-left: 4px solid #2563eb;">
+    <div>
+        <AppCard MarginTop="16px" class="highlight-card">
             <TextBlock Text="Détails de l'employé sélectionné :" Variant="TextVariant.Bold" MarginBottom="16px" />
-
-            <AppStackPanel Orientation="StackOrientation.Vertical" Gap="12">
-
-                <AppStackPanel Orientation="StackOrientation.Horizontal" Gap="8" CrossAxisAlignment="StackAlignment.Center">
-                    <TextBlock As="TextElement.Span" Variant="TextVariant.Bold" Text="Nom :" />
-                    <TextBlock As="TextElement.Span" Text="@_selectedEmployee.Name" />
+            <AppCard>
+                <AppStackPanel Orientation="StackOrientation.Vertical" Gap="8">
+                    <div style="display: flex; gap: 8px;">
+                        <TextBlock As="TextElement.Span" Variant="TextVariant.Bold" Text="Nom :" />
+                        <TextBlock As="TextElement.Span" Text="@_selectedEmployee.Name" />
+                    </div>
+                    <div style="display: flex; gap: 8px;">
+                        <TextBlock As="TextElement.Span" Variant="TextVariant.Bold" Text="Email :" />
+                        <TextBlock As="TextElement.Span" Text="@_selectedEmployee.Email" />
+                    </div>
+                    <div style="display: flex; gap: 8px;">
+                        <TextBlock As="TextElement.Span" Variant="TextVariant.Bold" Text="Rôle :" />
+                        <TextBlock As="TextElement.Span" Text="@_selectedEmployee.Role" />
+                    </div>
                 </AppStackPanel>
-
-                <AppStackPanel Orientation="StackOrientation.Horizontal" Gap="8" CrossAxisAlignment="StackAlignment.Center">
-                    <TextBlock As="TextElement.Span" Variant="TextVariant.Bold" Text="Email :" />
-                    <TextBlock As="TextElement.Span" Text="@_selectedEmployee.Email" />
-                </AppStackPanel>
-
-                <AppStackPanel Orientation="StackOrientation.Horizontal" Gap="8" CrossAxisAlignment="StackAlignment.Center">
-                    <TextBlock As="TextElement.Span" Variant="TextVariant.Bold" Text="Rôle :" />
-                    <TextBlock As="TextElement.Span" Text="@_selectedEmployee.Role" />
-                </AppStackPanel>
-
-            </AppStackPanel>
+            </AppCard>
         </AppCard>
-    </AppCard>
+    </div>
 }

@@ -1,7 +1,7 @@
 .app-expander {
     border: 1px solid var(--color-border);
     border-radius: var(--radius);
-    background: #fff;
+    background: var(--color-surface);
     overflow: hidden;
 }
 
@@ -21,7 +21,7 @@
 }
 
     .app-expander-header:hover {
-        background: #e2e8f0;
+        background: var(--color-border);
     }
 
 .app-expander-icon {
