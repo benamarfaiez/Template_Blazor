@@ -1,7 +1,7 @@
 ﻿using MonProjet.Client.Components.UI.Collections.Column;
 using MonProjet.Client.Components.UI.Helpers;
-using MonProjet.Client.Models.Pages.Employee;
 using MonProjet.Client.Models.UI.Style;
+using MonProjet.Shared.Models.Employee;
 
 namespace MonProjet.Client.View.Employee;
 

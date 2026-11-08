@@ -1,4 +1,6 @@
-﻿namespace MonProjet.Client.Models.Pages.Treasury;
+﻿using MonProjet.Shared.Models.Treasury;
+
+namespace MonProjet.Client.Models.Pages.Treasury;
 
 public class TransferViewModel
 {
@@ -17,6 +19,3 @@ public class TransferViewModel
     public DateTime? ExecutionDate { get; set; } = DateTime.Today;
     public string Reason { get; set; } = string.Empty;
 }
-
-public record AccountDto(int Id, string Name, string Iban, decimal Balance);
-public record BeneficiaryDto(int Id, string Name, string Iban);

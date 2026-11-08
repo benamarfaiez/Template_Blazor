@@ -1,4 +1,6 @@
-﻿namespace MonProjet.Client.Models.Pages.User;
+﻿using MonProjet.Shared.Models.User;
+
+namespace MonProjet.Client.Models.Pages.User;
 
 public class UserViewModel
 {

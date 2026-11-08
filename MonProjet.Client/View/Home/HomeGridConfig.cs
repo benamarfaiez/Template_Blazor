@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Components.Rendering;
-using MonProjet.Client.Components.UI.Collections;
 using MonProjet.Client.Components.UI.Collections.Column;
 using MonProjet.Client.Components.UI.Helpers;
-using MonProjet.Client.Models.Pages.Home;
 using MonProjet.Client.Models.UI.Style;
+using MonProjet.Shared.Models.Home;
 
 namespace MonProjet.Client.View.Home;
 
@@ -12,33 +11,33 @@ namespace MonProjet.Client.View.Home;
 /// </summary>
 public static class HomeGridConfig
 {
-    public static List<GridColumn<HomeItem>> CreateColumns()
+    public static List<GridColumn<HomeItemDto>> CreateColumns()
     {
-        var columns = new List<GridColumn<HomeItem>>
+        var columns = new List<GridColumn<HomeItemDto>>
         {
             // Colonne ID
-            GridColumn.Text<HomeItem>(
+            GridColumn.Text<HomeItemDto>(
                 header: "ID",
                 valueSelector: i => i.Id,
                 comparer: (a, b) => a.Id.CompareTo(b.Id)
             ),
 
             // Colonne Nom
-            GridColumn.Text<HomeItem>(
+            GridColumn.Text<HomeItemDto>(
                 header: "Nom",
                 valueSelector: i => i.Name,
                 comparer: (a, b) => string.Compare(a.Name, b.Name, StringComparison.OrdinalIgnoreCase)
             ),
 
             // Colonne Statut (avec badge)
-            GridColumn.Template<HomeItem>(
+            GridColumn.Template<HomeItemDto>(
                 header: "Statut",
                 template: item => builder => RenderStatusBadge(builder, item.Status),
                 comparer: (a, b) => string.Compare(a.Status, b.Status, StringComparison.OrdinalIgnoreCase)
             ),
 
             // Colonne Date
-            GridColumn.Text<HomeItem>(
+            GridColumn.Text<HomeItemDto>(
                 header: "Créé le",
                 valueSelector: i => i.CreatedAt,
                 comparer: (a, b) => a.CreatedAt.CompareTo(b.CreatedAt),
