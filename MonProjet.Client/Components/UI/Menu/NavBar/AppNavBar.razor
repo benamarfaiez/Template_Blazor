@@ -37,9 +37,10 @@
 
         @if (_activeDropdown is not null)
         {
-            <div @onmouseenter="() => OnMouseEnterAsync(_activeDropdown)"
+            var currentLink = _activeDropdown;
+            <div @onmouseenter="() => OnMouseEnterAsync(currentLink)"
                  @onmouseleave="() => OnMouseLeaveAsync()">
-                <AppNavBarMegaMenu ActiveLink="_activeDropdown" OnLinkClick="CloseAll" />
+                <AppNavBarMegaMenu ActiveLink="currentLink" OnLinkClick="CloseAll" />
             </div>
         }
     </div>

@@ -35,7 +35,8 @@ public partial class AppNavBar : AppComponentBase, IDisposable
 
     private async Task OnMouseEnterAsync(NavLinkItem link)
     {
-        _hoverCts?.Cancel(); // Annule la fermeture en cours
+        if (link is null) return;
+        _hoverCts?.Cancel();
         if (link.HasDropdown && _activeDropdown != link)
         {
             _activeDropdown = link;
