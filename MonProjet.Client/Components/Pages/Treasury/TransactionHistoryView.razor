@@ -27,7 +27,7 @@ else
 }
 
 <!-- Affichage des erreurs -->
-<InfoBar Visible="@(!string.IsNullOrWhiteSpace(Presenter.ViewModel.ErrorMessage))"
+<InfoBar IsVisible="@(!string.IsNullOrWhiteSpace(Presenter.ViewModel.ErrorMessage))"
          Severity="InfoSeverity.Error"
          Message="@Presenter.ViewModel.ErrorMessage"
          OnDismiss="() => Presenter.ViewModel.ErrorMessage = null" />

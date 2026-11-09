@@ -10,8 +10,10 @@
         <div class="preset-selector">
             <AppComboBox TItem="DateRangePreset"
                          Items="_presets"
-                         Value="_viewModel.CurrentPreset"
-                         ValueChanged="HandlePresetChanged"
+                         id="select-date-preset"
+                         name="date_range_preset"
+                         SelectedItem="_viewModel.CurrentPreset"
+                         SelectedItemChanged="HandlePresetChanged"
                          LabelSelector="GetPresetLabel"
                          Placeholder="Choisir un raccourci..." />
         </div>
