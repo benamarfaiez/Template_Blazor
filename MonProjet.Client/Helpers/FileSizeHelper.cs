@@ -17,7 +17,7 @@ public static class FileSizeHelper
         int counter = 0;
         decimal number = bytes;
 
-        while (Math.Round(number / 1024) >= 1)
+        while (number >= 1024 && counter < Suffixes.Length - 1)
         {
             number /= 1024;
             counter++;
