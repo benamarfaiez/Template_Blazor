@@ -1,0 +1,33 @@
+﻿@page "/treasury/transactions"
+@using MonProjet.Client.Components.UI.BasicInput
+@using MonProjet.Client.Components.UI.Enums.Text
+@using MonProjet.Client.Presenters.Treasury
+@inherits OwningComponentBase
+@implements ITransactionHistoryView
+
+<PageTitle>Historique des Transactions</PageTitle>
+
+<h1 style="margin-bottom: 24px;">@Presenter.ViewModel.Title</h1>
+
+<AppCard MarginBottom="24px">
+    <TextBlock Text="Filtrer par période :" Variant="TextVariant.Bold" MarginBottom="8px" />
+    <AppDateRangePicker OnRangeChanged="HandleRangeChanged" />
+</AppCard>
+
+@if (Presenter.ViewModel.IsLoading)
+{
+    <AppProgressRing Visible="true" />
+}
+else
+{
+    <AppDataGrid TItem="TransactionDto"
+                 Items="Presenter.ViewModel.Transactions"
+                 Columns="_columns"
+                 PageSize="10" />
+}
+
+<!-- Affichage des erreurs -->
+<InfoBar Visible="@(!string.IsNullOrWhiteSpace(Presenter.ViewModel.ErrorMessage))"
+         Severity="InfoSeverity.Error"
+         Message="@Presenter.ViewModel.ErrorMessage"
+         OnDismiss="() => Presenter.ViewModel.ErrorMessage = null" />

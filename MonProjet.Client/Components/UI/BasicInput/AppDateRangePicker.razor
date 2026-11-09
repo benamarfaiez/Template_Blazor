@@ -1,0 +1,52 @@
+﻿@using MonProjet.Client.Components.UI.Enums.Text
+@using MonProjet.Client.Models.UI.Date
+@inherits AppComponentBase
+@implements IDisposable
+
+<AppContainer Width="@Width" MarginTop="@MarginTop" MarginBottom="@MarginBottom" IsVisible="@IsVisible">
+    <div class="app-daterangepicker" @attributes="SafeAttributes">
+
+        <!-- Raccourcis (Presets) : Utilisation de Value et ValueChanged -->
+        <div class="preset-selector">
+            <AppComboBox TItem="DateRangePreset"
+                         Items="_presets"
+                         Value="_viewModel.CurrentPreset"
+                         ValueChanged="HandlePresetChanged"
+                         LabelSelector="GetPresetLabel"
+                         Placeholder="Choisir un raccourci..." />
+        </div>
+
+        <!-- Sélection manuelle des dates (liée au ViewModel) -->
+        <div class="date-inputs">
+            <div class="date-field">
+                <TextBlock Text="Du :" Variant="TextVariant.Small" MarginBottom="4px" />
+                <AppDatePicker Value="_viewModel.CurrentRange.Start"
+                               ValueChanged="OnStartDateChanged"
+                               Max="_viewModel.CurrentRange.End" />
+            </div>
+
+            <div class="date-field">
+                <TextBlock Text="Au :" Variant="TextVariant.Small" MarginBottom="4px" />
+                <AppDatePicker Value="_viewModel.CurrentRange.End"
+                               ValueChanged="OnEndDateChanged"
+                               Min="_viewModel.CurrentRange.Start" />
+            </div>
+
+            <!-- Bouton reset -->
+            <div class="reset-action">
+                <AppButton Text="✕"
+                           Variant="ButtonVariant.Ghost"
+                           OnClick="_viewModel.Reset"
+                           aria-label="Réinitialiser les dates" />
+            </div>
+        </div>
+
+        <!-- Message d'erreur (sans style inline) -->
+        @if (!string.IsNullOrEmpty(_viewModel.ErrorMessage))
+        {
+            <TextBlock Text="@_viewModel.ErrorMessage"
+                       Variant="TextVariant.Small"
+                       class="error-message" />
+        }
+    </div>
+</AppContainer>
