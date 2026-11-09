@@ -13,17 +13,19 @@
     transition: all 0.2s ease;
     overflow: hidden;
 }
-
     .app-fileupload-zone:hover {
         background: var(--color-surface);
         border-color: var(--color-primary);
     }
-
-    /* État Drag & Drop */
     .app-fileupload-zone.is-dragging {
         background: var(--state-info-bg);
         border-color: var(--color-primary);
         box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+    }
+    .app-fileupload-zone:focus-within {
+        border-color: var(--color-primary);
+        box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.15);
+        background: var(--color-surface);
     }
 
 .app-fileupload-input {
