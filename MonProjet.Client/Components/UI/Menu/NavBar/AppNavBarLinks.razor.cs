@@ -32,6 +32,8 @@ public partial class AppNavBarLinks : AppComponentBase
     /// </summary>
     [Parameter]
     public EventCallback<NavLinkItem> OnDropdownToggle { get; set; }
+    [Parameter] public EventCallback<NavLinkItem> OnMouseEnter { get; set; }
+    [Parameter] public EventCallback OnMouseLeave { get; set; }
 
     private bool IsDropdownActive(NavLinkItem link)
     {
