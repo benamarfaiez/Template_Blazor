@@ -27,7 +27,7 @@ public class GalleryPresenter : IGalleryPresenter
         FileUploader.Config = new()
         {
             MaxFileSizeInBytes = 5 * 1024 * 1024, // 5 Mo
-            AllowedExtensions = [".pdf", ".jpg", ".png", ".docx"],
+            AllowedExtensions = [".pdf", ".jpg", ".png"],
             AllowMultiple = true,
             MaxFileCount = 5
         };
