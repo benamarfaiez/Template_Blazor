@@ -8,6 +8,7 @@ public class FileUploadPresenter : IFileUploadPresenter
     public List<ClientFileInfo> Files { get; } = [];
     public FileUploadConfig Config { get; set; } = new();
     public event Action? OnStateChanged;
+    public event Action<string>? OnErrorOccurred;
 
     public Task AddFilesAsync(IReadOnlyList<IBrowserFile> files)
     {
@@ -16,6 +17,23 @@ public class FileUploadPresenter : IFileUploadPresenter
         if (!Config.AllowMultiple)
         {
             Files.Clear();
+            files = [files[0]]; // On ne garde que le premier
+        }
+        else
+        {
+            // Vérification de la capacité totale
+            int remainingCapacity = Config.MaxFileCount - Files.Count;
+
+            if (remainingCapacity <= 0)
+            {
+                OnErrorOccurred?.Invoke($"Vous avez atteint la limite de {Config.MaxFileCount} fichiers.");
+                return Task.CompletedTask;
+            }
+
+            if (files.Count > remainingCapacity)
+            {
+                files = [.. files.Take(remainingCapacity)];
+            }
         }
 
         foreach (var file in files)

@@ -7,6 +7,7 @@ public interface IFileUploadPresenter
 {
     List<ClientFileInfo> Files { get; }
     FileUploadConfig Config { get; set; }
+    event Action<string>? OnErrorOccurred;
     event Action? OnStateChanged;
 
     Task AddFilesAsync(IReadOnlyList<IBrowserFile> files);

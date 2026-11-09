@@ -130,6 +130,7 @@ public partial class GalleryView
     }
     protected override void OnInitialized()
     {
+        Presenter.FileUploader.OnErrorOccurred += HandleUploadError;
         InitializeContextMenu();
     }
     public void ShowError(string message) => StateHasChanged();
@@ -152,6 +153,7 @@ public partial class GalleryView
     // 7. Libération propre
     public void Dispose()
     {
+        Presenter.FileUploader.OnErrorOccurred -= HandleUploadError;
         GC.SuppressFinalize(this);
     }
 }
