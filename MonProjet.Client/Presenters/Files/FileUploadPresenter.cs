@@ -11,6 +11,13 @@ public class FileUploadPresenter : IFileUploadPresenter
 
     public Task AddFilesAsync(IReadOnlyList<IBrowserFile> files)
     {
+        if (files == null || files.Count == 0) return Task.CompletedTask;
+
+        if (!Config.AllowMultiple)
+        {
+            Files.Clear();
+        }
+
         foreach (var file in files)
         {
             var clientFile = new ClientFileInfo(file);
