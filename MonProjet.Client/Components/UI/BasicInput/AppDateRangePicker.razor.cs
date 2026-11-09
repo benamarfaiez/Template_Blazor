@@ -9,7 +9,7 @@ public partial class AppDateRangePicker : AppComponentBase, IDisposable
     private readonly DateRangePickerViewModel _viewModel = new();
 
     // La liste des presets disponibles
-    private readonly List<DateRangePreset> _presets = [.. Enum.GetValues<DateRangePreset>().Where(p => p != DateRangePreset.Custom)];
+    private readonly List<DateRangePreset> _presets = [.. Enum.GetValues<DateRangePreset>()];
 
     [Parameter] public EventCallback<DateRange> OnRangeChanged { get; set; }
 
@@ -54,6 +54,7 @@ public partial class AppDateRangePicker : AppComponentBase, IDisposable
         DateRangePreset.ThisMonth => "Ce mois-ci",
         DateRangePreset.LastMonth => "Mois dernier",
         DateRangePreset.ThisYear => "Cette année",
+        DateRangePreset.Custom => "Choisir un raccourci...",
         _ => "Personnalisé"
     };
     public void Dispose()
