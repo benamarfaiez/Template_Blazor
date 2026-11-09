@@ -28,8 +28,12 @@ public partial class AppFileUpload : AppComponentBase, IAsyncDisposable
                 _jsModule = await JSRuntime.InvokeAsync<IJSObjectReference>("import", "./js/file-drop.js");
                 await _jsModule.InvokeVoidAsync("initDropZone", _containerRef, _inputFileRef.Element);
             }
+            catch (JSDisconnectedException)
+            {
+            }
             catch (Exception)
             {
+                //Logger.LogError(ex, "Erreur lors de l'initialisation du module JS pour le Drag & Drop.");
             }
         }
     }
@@ -52,7 +56,17 @@ public partial class AppFileUpload : AppComponentBase, IAsyncDisposable
     {
         if (_jsModule is not null)
         {
-            await _jsModule.DisposeAsync();
+            try
+            {
+                await _jsModule.DisposeAsync();
+            }
+            catch (JSDisconnectedException)
+            {
+            }
+            catch (Exception)
+            {
+                // Logger.LogWarning(ex, "Erreur mineure lors de la libération du module JS.");
+            }
         }
         GC.SuppressFinalize(this);
     }
