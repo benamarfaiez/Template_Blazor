@@ -1,0 +1,61 @@
+﻿@using MonProjet.Client.Components.UI.Enums.Text
+@using MonProjet.Client.Models.UI.Files
+@inherits AppComponentBase
+
+<AppContainer Width="@Width" MarginTop="@MarginTop" MarginBottom="@MarginBottom" IsVisible="@IsVisible">
+
+    <!-- ZONE DE DÉPÔT -->
+    <div class="app-fileupload-zone @(_isDragging ? "is-dragging" : "")"
+         @ref="_containerRef"
+         @ondragenter="HandleDragEnter"
+         @ondragleave="HandleDragLeave"
+         @ondragover:preventDefault="true"
+         @attributes="SafeAttributes">
+         
+        <InputFile @ref="_inputFileRef" 
+                   OnChange="OnInputFileChange"
+                   multiple="@Config.AllowMultiple"
+                   accept="@string.Join(",", Config.AllowedExtensions)"
+                   class="app-fileupload-input" />
+
+        <div class="app-fileupload-content">
+            <FontIcon Icon="☁️" Size="3rem" Variant="IconVariant.Muted" MarginBottom="12px" />
+            <TextBlock Text="Glissez-déposez vos fichiers ici" Variant="TextVariant.Bold" Align="TextAlignment.Center" />
+            <TextBlock Text="ou cliquez pour parcourir" Variant="TextVariant.Muted" Align="TextAlignment.Center" MarginTop="4px" />
+            <TextBlock Text="@($"Taille max : {Config.MaxFileSizeFormatted}")" 
+                       Variant="TextVariant.Small" Align="TextAlignment.Center" MarginTop="8px" />
+        </div>
+    </div>
+
+    <!-- LISTE DES FICHIERS (Contrôlée par le parent via @Files) -->
+    @if (Files.Any())
+    {
+        <div class="app-fileupload-list">
+            @foreach (var file in Files)
+            {
+                <div class="app-fileupload-item @file.Status.ToString().ToLowerInvariant()" @key="file.Id">
+                    <div class="item-icon">
+                        <FontIcon Icon="@GetIcon(file.Name)" />
+                    </div>
+                    
+                    <div class="item-details">
+                        <TextBlock Text="@file.Name" Variant="TextVariant.Bold" Truncate="true" />
+                        <TextBlock Text="@file.FormattedSize" Variant="TextVariant.Small" />
+                        
+                        @if (file.Status == FileUploadStatus.Error)
+                        {
+                            <TextBlock Text="@file.ErrorMessage" Variant="TextVariant.Small" style="color: var(--state-error-text);" />
+                        }
+                    </div>
+
+                    @if (OnRemoveFile.HasDelegate)
+                    {
+                        <button type="button" class="item-remove" @onclick="() => OnRemoveFile.InvokeAsync(file)" aria-label="Supprimer">
+                            ✕
+                        </button>
+                    }
+                </div>
+            }
+        </div>
+    }
+</AppContainer>

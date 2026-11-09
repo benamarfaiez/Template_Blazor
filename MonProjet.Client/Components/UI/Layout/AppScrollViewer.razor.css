@@ -4,6 +4,9 @@
     width: 100%;
     position: relative;
     box-sizing: border-box;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
 }
     .app-scrollviewer.is-smooth {
         scroll-behavior: smooth;

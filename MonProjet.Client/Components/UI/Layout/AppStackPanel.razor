@@ -6,7 +6,7 @@
               HorizontalAlignment="@ContainerAlignment.Stretch" VerticalAlignment="@ContainerAlignment.Stretch"
               IsVisible="@IsVisible">
 
-    <div style="@_finalFlexStyles" class="@ClassNames("app-stackpanel", AdditionalAttributes?["class"]?.ToString())">
+    <div style="@_finalFlexStyles" class="@ClassNames("app-stackpanel", AdditionalAttributes?.GetValueOrDefault("class")?.ToString())">
         @ChildContent
     </div>
 

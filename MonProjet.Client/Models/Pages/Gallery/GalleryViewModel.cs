@@ -1,4 +1,5 @@
-﻿using MonProjet.Shared.Models.Gallery;
+﻿using MonProjet.Client.Models.UI.Files;
+using MonProjet.Shared.Models.Gallery;
 
 namespace MonProjet.Client.Models.Pages.Gallery;
 
@@ -20,4 +21,7 @@ public class GalleryViewModel
         new(2, "Composant B", "Inactif", 45),
         new(3, "Composant C", "En attente", 0)
     ];
+
+    public List<ClientFileInfo> UploadedFiles { get; set; } = [];
+    public bool IsUploading { get; set; }
 }
