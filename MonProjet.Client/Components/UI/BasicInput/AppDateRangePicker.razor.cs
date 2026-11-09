@@ -11,7 +11,19 @@ public partial class AppDateRangePicker : AppComponentBase, IDisposable
     // La liste des presets disponibles
     private readonly List<DateRangePreset> _presets = [.. Enum.GetValues<DateRangePreset>()];
 
+    [Parameter] public DateRange? InitialRange { get; set; }
     [Parameter] public EventCallback<DateRange> OnRangeChanged { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        if (InitialRange is not null)
+        {
+            if (InitialRange.Start != _viewModel.CurrentRange.Start || InitialRange.End != _viewModel.CurrentRange.End)
+            {
+                _viewModel.SetDates(InitialRange.Start, InitialRange.End);
+            }
+        }
+    }
 
     protected override void OnInitialized()
     {
