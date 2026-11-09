@@ -2,13 +2,18 @@
 
 @if (IsVisible)
 {
-    <div class="app-navbar-wrapper" tabindex="-1" @onfocusout="CloseAll">
+    <div class="app-navbar-wrapper">
+
+        @if (_activeDropdown is not null || _isMobileMenuOpen)
+        {
+            <div class="app-navbar-backdrop" @onclick="CloseAll" @oncontextmenu="CloseAll" @oncontextmenu:preventDefault="true"></div>
+        }
+
         <nav class="app-navbar" @attributes="SafeAttributes">
             <div class="app-navbar-container">
-                <!-- 1. LOGO -->
+
                 <AppNavBarBrand Brand="Brand" BrandTemplate="BrandTemplate" OnClick="CloseAll" />
 
-                <!-- 2. LIENS & MÉGA-MENUS -->
                 <AppNavBarLinks Links="Links"
                                 IsMobileMenuOpen="_isMobileMenuOpen"
                                 ActiveDropdown="_activeDropdown"
@@ -17,12 +22,10 @@
                                 OnMouseEnter="OnMouseEnterAsync"
                                 OnMouseLeave="OnMouseLeaveAsync" />
 
-                <!-- 3. ACTIONS À DROITE -->
                 <div class="app-navbar-right">
                     @RightContent
                 </div>
 
-                <!-- BOUTON HAMBURGER -->
                 <button class="app-navbar-hamburger @(_isMobileMenuOpen ? "is-active" : "")"
                         @onclick="ToggleMobileMenu" @onclick:stopPropagation="true" aria-label="Menu">
                     <span class="hamburger-line"></span>
@@ -32,11 +35,10 @@
             </div>
         </nav>
 
-        <!-- 4. LE MÉGA-MENU -->
         @if (_activeDropdown is not null)
         {
             <div @onmouseenter="() => OnMouseEnterAsync(_activeDropdown)"
-                 @onmouseleave="OnMouseLeaveAsync">
+                 @onmouseleave="() => OnMouseLeaveAsync()">
                 <AppNavBarMegaMenu ActiveLink="_activeDropdown" OnLinkClick="CloseAll" />
             </div>
         }
