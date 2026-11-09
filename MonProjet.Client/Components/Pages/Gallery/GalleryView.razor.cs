@@ -135,13 +135,6 @@ public partial class GalleryView
     public void ShowError(string message) => StateHasChanged();
     public void ShowLoading(bool isLoading) => StateHasChanged();
 
-    private readonly FileUploadConfig _config = new()
-    {
-        MaxFileSizeInBytes = 5 * 1024 * 1024,
-        AllowedExtensions = [".pdf", ".jpg", ".png"],
-        AllowMultiple = true,
-        MaxFileCount = 5
-    };
     private void HandleUploadError(string errorMessage)
     {
         ToastService.ShowWarning(errorMessage, "Limite atteinte");
@@ -154,11 +147,6 @@ public partial class GalleryView
     private void HandleRemoveFile(ClientFileInfo file)
     {
         Presenter.FileUploader.RemoveFile(file);
-    }
-
-    private async Task HandleUpload()
-    {
-        await Presenter.UploadAllFilesAsync();
     }
 
     // 7. Libération propre
