@@ -5,12 +5,14 @@ using MonProjet.Client.Components.UI.Helpers;
 using MonProjet.Client.Models.UI.Files;
 using MonProjet.Client.Models.UI.Menu;
 using MonProjet.Client.Presenters.Gallery;
+using MonProjet.Client.Services;
 using MonProjet.Shared.Models.Gallery;
 
 namespace MonProjet.Client.Components.Pages.Gallery;
 
 public partial class GalleryView
 {
+    [Inject] private IToastService ToastService { get; set; } = default!;
     // 1. Résolution du présentateur
     private IGalleryPresenter Presenter => ScopedServices.GetRequiredService<IGalleryPresenter>();
 
@@ -136,11 +138,14 @@ public partial class GalleryView
     private readonly FileUploadConfig _config = new()
     {
         MaxFileSizeInBytes = 5 * 1024 * 1024,
-        AllowedExtensions = [".pdf", ".jpg", ".png", ".docx"],
-        AllowMultiple = true
+        AllowedExtensions = [".pdf", ".jpg", ".png"],
+        AllowMultiple = true,
+        MaxFileCount = 5
     };
-
-    // ✅ Délégation au Présentateur
+    private void HandleUploadError(string errorMessage)
+    {
+        ToastService.ShowWarning(errorMessage, "Limite atteinte");
+    }
     private async Task HandleFilesSelected(IReadOnlyList<IBrowserFile> files)
     {
         await Presenter.FileUploader.AddFilesAsync(files);

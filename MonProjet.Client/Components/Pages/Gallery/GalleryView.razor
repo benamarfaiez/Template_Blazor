@@ -403,10 +403,11 @@
     <AppCard>
         <h3>Upload de Fichiers</h3>
 
-        <AppFileUpload Config="Presenter.FileUploader.Config"
+        <AppFileUpload Config="_config"
                        Files="Presenter.FileUploader.Files"
                        OnFilesSelected="HandleFilesSelected"
-                       OnRemoveFile="HandleRemoveFile" />
+                       OnRemoveFile="HandleRemoveFile"
+                       OnError="HandleUploadError" />
 
         @if (Presenter.FileUploader.Files.Any(f => f.Status != FileUploadStatus.Error))
         {

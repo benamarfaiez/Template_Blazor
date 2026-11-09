@@ -13,6 +13,7 @@ public partial class AppFileUpload : AppComponentBase, IAsyncDisposable
     [Parameter] public List<ClientFileInfo> Files { get; set; } = [];
     [Parameter] public EventCallback<IReadOnlyList<IBrowserFile>> OnFilesSelected { get; set; }
     [Parameter] public EventCallback<ClientFileInfo> OnRemoveFile { get; set; }
+    [Parameter] public EventCallback<string> OnError { get; set; }
 
     private bool _isDragging;
     private ElementReference _containerRef;
@@ -44,9 +45,27 @@ public partial class AppFileUpload : AppComponentBase, IAsyncDisposable
     private async Task OnInputFileChange(InputFileChangeEventArgs e)
     {
         _isDragging = false;
-        if (OnFilesSelected.HasDelegate)
+        if (!OnFilesSelected.HasDelegate) return;
+
+        try
         {
-            await OnFilesSelected.InvokeAsync(e.GetMultipleFiles());
+            if (!Config.AllowMultiple)
+            {
+                await OnFilesSelected.InvokeAsync([e.File]);
+            }
+            else
+            {
+                var files = e.GetMultipleFiles(Config.MaxFileCount);
+                await OnFilesSelected.InvokeAsync(files);
+            }
+        }
+        catch (InvalidOperationException)
+        {
+            // Logger.LogWarning(ex, "Trop de fichiers sélectionnés. Maximum autorisé : {Max}", Config.MaxFileCount);
+            if (OnError.HasDelegate)
+            {
+                await OnError.InvokeAsync($"Vous ne pouvez pas sélectionner plus de {Config.MaxFileCount} fichiers à la fois.");
+            }
         }
     }
 
