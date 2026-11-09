@@ -1,12 +1,11 @@
 ﻿@page "/gallery"
 @using MonProjet.Client.Components.Layout.Tabs
 @using MonProjet.Client.Components.UI.Collections
-@using MonProjet.Client.Components.UI.Collections.Column
 @using MonProjet.Client.Components.UI.Enums
 @using MonProjet.Client.Components.UI.Enums.Text
 @using MonProjet.Client.Components.UI.Helpers
 @using MonProjet.Client.Components.UI.Layout
-@using MonProjet.Client.Models.UI.Menu
+@using MonProjet.Client.Models.UI.Files
 @using MonProjet.Client.Presenters.Gallery
 @inherits OwningComponentBase
 @implements IGalleryView
@@ -293,15 +292,29 @@
             </AppPopover>
 
             <ContextMenu Items="_contextMenuItems">
-                <div style="padding: 40px; background: #f8fafc; border: 2px dashed #cbd5e1; border-radius: 8px; text-align: center; cursor: context-menu;">
-                    <h3>Clic droit ici</h3>
-                    <p style="color: #64748b; margin: 0;">Testez le menu contextuel</p>
-                </div>
+                <AppCard class="context-menu-demo-zone" PaddingTop="40px" PaddingBottom="40px">
+                    <AppStackPanel Orientation="StackOrientation.Vertical"
+                                   Gap="8"
+                                   CrossAxisAlignment="StackAlignment.Center">
+                        <TextBlock As="TextElement.H3"
+                                   Variant="TextVariant.Heading3"
+                                   Text="Clic droit ici"
+                                   Align="TextAlignment.Center" />
+
+                        <TextBlock As="TextElement.P"
+                                   Variant="TextVariant.Muted"
+                                   Text="Testez le menu contextuel"
+                                   Align="TextAlignment.Center"
+                                   MarginBottom="0" />
+
+                    </AppStackPanel>
+                </AppCard>
             </ContextMenu>
 
             <AppScrollViewer MaxHeight="100px" Direction="ScrollDirection.Vertical">
-                <div style="height: 300px; background: linear-gradient(to bottom, #f1f5f9, #e2e8f0);">
-                    Contenu long pour tester le défilement (ScrollViewer).
+                <div class="scroll-demo-content">
+                    <TextBlock Text="Contenu long pour tester le défilement (ScrollViewer)." Variant="TextVariant.Normal" />
+                    <div style="height: 200px;"></div>
                 </div>
             </AppScrollViewer>
 
@@ -386,6 +399,24 @@
             </AppTabPanel>
         </AppTabs>
     </AppCard>
+
+    <AppCard>
+        <h3>Upload de Fichiers</h3>
+
+        <AppFileUpload Config="Presenter.FileUploader.Config"
+                       Files="Presenter.FileUploader.Files"
+                       OnFilesSelected="HandleFilesSelected"
+                       OnRemoveFile="HandleRemoveFile"
+                       OnError="HandleUploadError" />
+
+        @if (Presenter.FileUploader.Files.Any(f => f.Status != FileUploadStatus.Error))
+        {
+            <AppButton Text="Uploader les fichiers"
+                       OnClick="Presenter.UploadAllFilesAsync"
+                       Loading="Presenter.ViewModel.IsUploading"
+                       MarginTop="16px" />
+        }
+    </AppCard>
 </AppGrid>
 
 <!-- MODALES ET OVERLAYS -->
@@ -430,135 +461,4 @@
         </div>
         <p>Ce contenu prend tout l'écran.</p>
     </AppFullScreenContainer>
-}
-
-@code {
-    // 1. Résolution du présentateur
-    private IGalleryPresenter Presenter => ScopedServices.GetRequiredService<IGalleryPresenter>();
-
-    // 2. États pour les composants interactifs
-    private bool _isChecked = true;
-    private bool _isToggled = false;
-    private string _radioValue = "1";
-    private string? _selectedCombo;
-    private string _textValue = "";
-    private string _recherche = "";
-    private string _email = "";
-    private string? _suggestValue;
-    private string _codeValue = "public class Hello { }";
-    private bool _isEditorOpen = false;
-    // 3. États pour les fenêtres modales
-    private bool _showDialog = false;
-    private bool _showOverlay = false;
-    private bool _showFullScreen = false;
-
-    // 4. Configuration du ContextMenu
-    private List<ContextMenuItem> _contextMenuItems = new();
-
-    private void InitializeContextMenu()
-    {
-        _contextMenuItems = new()
-        {
-            new() {
-                Label = "Modifier",
-                Icon = "✏️",
-                OnClick = EventCallback.Factory.Create(this, EditAction)
-            },
-            new() {
-                Label = "Dupliquer",
-                Icon = "📄",
-                OnClick = EventCallback.Factory.Create(this, DuplicateAction)
-            },
-            ContextMenuItem.Separator(),
-            new() {
-                Label = "Archiver",
-                Icon = "📦",
-                OnClick = EventCallback.Factory.Create(this, ArchiveActionAsync)
-            },
-            new() {
-                Label = "Supprimer",
-                Icon = "🗑️",
-                IsDisabled = true,
-                OnClick = EventCallback.Factory.Create(this, DeleteAction)
-            }
-        };
-    }
-
-    private void EditAction()
-    {
-        Console.WriteLine("Modifié");
-    }
-
-    private bool IsValidEmail(string email)
-    {
-        if (string.IsNullOrWhiteSpace(email)) return false;
-
-        // Validation simple (vous pouvez utiliser une Regex plus complexe)
-        return email.Contains("@") && email.Contains(".") && email.Length >= 5;
-    }
-    private void DuplicateAction() => Console.WriteLine("Dupliqué");
-    private async Task ArchiveActionAsync()
-    {
-        Console.WriteLine("Archivé");
-    }
-    private void DeleteAction() => Console.WriteLine("Supprimé");
-
-    private int _quantite = 1;
-    private decimal _prix = 0m;
-    private int _volume = 50;
-    private List<string> _allTags = new() { "C#", "Blazor", ".NET", "WASM", "SOLID" };
-    private IEnumerable<string> _selectedTags = new List<string> { "Blazor" };
-    private DateTime? _dateNaissance;
-    private string _selectedLanguage = "";
-    private string? _demoTab;
-
-    private void EditProject() { /* Logique */ }
-    private void DuplicateProject() { /* Logique */ }
-    private void DeleteProject() { /* Logique */ }
-
-    private void DeleteEmployee()
-    {
-        // Logique de suppression...
-        _showDialog = false; // Ferme la modale
-    }
-    // 5. Configuration du DataGrid
-    private readonly List<GridColumn<DemoItemDto>> _dataGridColumns;
-
-    public GalleryView()
-    {
-        _dataGridColumns = new List<GridColumn<DemoItemDto>>
-        {
-            GridColumn.Text<DemoItemDto>("ID", i => i.Id, comparer: (a,b) => a.Id.CompareTo(b.Id)),
-            GridColumn.Text<DemoItemDto>("Nom", i => i.Name),
-            GridColumn.Template<DemoItemDto>("Statut", item => builder =>
-            {
-                var color = item.Status == "Actif" ? "#166534" : "#92400e";
-                var bg = item.Status == "Actif" ? "#dcfce7" : "#fef3c7";
-                builder.OpenElement(0, "span");
-                builder.AddAttribute(1, "style", $"background:{bg}; color:{color}; padding:2px 8px; border-radius:12px; font-size:12px; font-weight:600;");
-                builder.AddContent(2, item.Status);
-                builder.CloseElement();
-            }),
-            GridColumn.Text<DemoItemDto>("Quantité", i => i.Count, formatter: raw => $"{raw} unités")
-        };
-    }
-
-    // 6. Cycle de vie
-    protected override async Task OnInitializedAsync()
-    {
-        Presenter.SetView(this);
-        await Presenter.InitializeAsync();
-    }
-    protected override void OnInitialized()
-    {
-        InitializeContextMenu();
-    }
-    public void ShowError(string message) => StateHasChanged();
-    public void ShowLoading(bool isLoading) => StateHasChanged();
-
-    // 7. Libération propre
-    public void Dispose()
-    {
-        GC.SuppressFinalize(this);
-    }
 }

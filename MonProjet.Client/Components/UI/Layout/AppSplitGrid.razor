@@ -6,7 +6,7 @@
               HorizontalAlignment="@ContainerAlignment.Stretch" VerticalAlignment="@ContainerAlignment.Stretch"
               IsVisible="@IsVisible">
 
-    <div class="@ClassNames("app-splitgrid", AdditionalAttributes?["class"]?.ToString())"
+    <div class="@ClassNames("app-splitgrid", AdditionalAttributes?.GetValueOrDefault("class")?.ToString())"
          style="@_finalGridStyles">
 
         <div class="app-splitgrid-left">@Left</div>

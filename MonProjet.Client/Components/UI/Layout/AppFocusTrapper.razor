@@ -1,7 +1,7 @@
 @inherits AppComponentBase
 
 <div @ref="_container"
-     class="@ClassNames("app-focus-trapper", AdditionalAttributes?["class"]?.ToString())"
+     class="@ClassNames("app-focus-trapper", AdditionalAttributes?.GetValueOrDefault("class")?.ToString())"
      @attributes="SafeAttributes">
     @ChildContent
 </div>

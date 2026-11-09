@@ -29,11 +29,13 @@ public partial class TextBlock : AppComponentBase
 
     private void BuildCssClasses()
     {
+        var userClass = AdditionalAttributes?.GetValueOrDefault("class")?.ToString();
+
         _finalCssClasses = ClassNames(
-            "text-block",
+            "text-block", // ou "app-fileupload", etc.
             $"text-block-{Variant.ToString().ToLowerInvariant()}",
             Truncate ? "is-truncated" : null,
-            AdditionalAttributes?["class"]?.ToString()
+            userClass?.ToString()
         );
     }
 
@@ -60,7 +62,7 @@ public partial class TextBlock : AppComponentBase
             sb.Append($"display: -webkit-box; -webkit-line-clamp: {LineClamp.Value}; -webkit-box-orient: vertical; overflow: hidden; ");
         }
 
-        var userStyle = AdditionalAttributes?["style"]?.ToString();
+        var userStyle = AdditionalAttributes?.GetValueOrDefault("style")?.ToString();
         if (!string.IsNullOrEmpty(userStyle)) sb.Append(userStyle);
 
         _finalStyles = sb.ToString().TrimEnd();
