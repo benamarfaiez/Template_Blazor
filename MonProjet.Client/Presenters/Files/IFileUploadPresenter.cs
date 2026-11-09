@@ -10,6 +10,7 @@ public interface IFileUploadPresenter
     event Action? OnStateChanged;
 
     Task AddFilesAsync(IReadOnlyList<IBrowserFile> files);
+    void RemoveFiles(IEnumerable<ClientFileInfo> files);
     void RemoveFile(ClientFileInfo file);
     void Clear();
 }

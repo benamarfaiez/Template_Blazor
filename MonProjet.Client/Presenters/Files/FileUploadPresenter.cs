@@ -42,6 +42,16 @@ public class FileUploadPresenter : IFileUploadPresenter
         Files.Remove(file);
         OnStateChanged?.Invoke();
     }
+    public void RemoveFiles(IEnumerable<ClientFileInfo> files)
+    {
+        if (files == null) return;
+
+        foreach (var file in files)
+        {
+            Files.Remove(file);
+        }
+        OnStateChanged?.Invoke();
+    }
 
     public void Clear()
     {

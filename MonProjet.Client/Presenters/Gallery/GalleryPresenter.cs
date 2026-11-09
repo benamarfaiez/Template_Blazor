@@ -54,11 +54,10 @@ public class GalleryPresenter : IGalleryPresenter
             foreach (var file in validFiles)
             {
                 await Task.Delay(500); // Simulation API
-                Console.WriteLine($"Upload de : {file.Name}");
             }
 
             _toastService.ShowSuccess($"{validFiles.Count} fichier(s) uploadé(s).");
-            FileUploader.Clear();
+            FileUploader.RemoveFiles(validFiles);
         }
         catch (Exception ex)
         {

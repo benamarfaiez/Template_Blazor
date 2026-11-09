@@ -19,7 +19,5 @@ public class ClientFileInfo(IBrowserFile browserFile)
 
     public FileUploadStatus Status { get; set; } = FileUploadStatus.Pending;
     public string? ErrorMessage { get; set; }
-
-    // ✅ Le modèle utilise le Helper (pas de logique interne)
     public string FormattedSize => FileSizeHelper.Format(SizeInBytes);
 }
