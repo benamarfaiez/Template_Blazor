@@ -47,15 +47,20 @@ public partial class AppNavBar : AppComponentBase, IDisposable
     private async Task OnMouseLeaveAsync()
     {
         _hoverCts?.Cancel();
+        _hoverCts?.Dispose();
         _hoverCts = new CancellationTokenSource();
 
         try
         {
             await Task.Delay(200, _hoverCts.Token);
+            if (_hoverCts.IsCancellationRequested) return;
             _activeDropdown = null;
             StateHasChanged();
         }
         catch (TaskCanceledException)
+        {
+        }
+        catch (ObjectDisposedException)
         {
         }
     }
@@ -76,7 +81,12 @@ public partial class AppNavBar : AppComponentBase, IDisposable
     public void Dispose()
     {
         NavManager.LocationChanged -= HandleLocationChanged;
-        _hoverCts?.Dispose();
+        if (_hoverCts is not null)
+        {
+            _hoverCts.Cancel();
+            _hoverCts.Dispose();
+            _hoverCts = null;
+        }
         GC.SuppressFinalize(this);
     }
 }
