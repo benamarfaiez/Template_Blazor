@@ -56,6 +56,10 @@ public partial class AppFileUpload : AppComponentBase, IAsyncDisposable
             else
             {
                 var files = e.GetMultipleFiles(Config.MaxFileCount);
+                if (!Config.AllowMultiple && files.Count > 1)
+                {
+                    files = [.. files.Take(1)];
+                }
                 await OnFilesSelected.InvokeAsync(files);
             }
         }
