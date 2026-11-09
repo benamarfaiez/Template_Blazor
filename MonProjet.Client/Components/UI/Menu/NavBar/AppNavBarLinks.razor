@@ -11,9 +11,13 @@
             {
                 <button type="button"
                         class="app-navbar-link @(IsDropdownActive(link) ? "active" : "")"
-                        @onclick="() => OnDropdownToggle.InvokeAsync(link)">
+                        @onclick="() => OnDropdownToggle.InvokeAsync(link)"
+                        aria-haspopup="true"
+                        aria-expanded="@(IsDropdownActive(link).ToString().ToLowerInvariant())">
                     @link.Label
-                    <svg class="chevron" viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    <svg class="chevron" viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
                 </button>
             }
             else

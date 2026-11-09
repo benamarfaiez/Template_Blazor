@@ -27,6 +27,7 @@ public class TransactionHistoryPresenter(IExceptionHandler exceptions, IToastSer
     public async Task FilterByDateRangeAsync(DateRange range)
     {
         ViewModel.CurrentDateRange = range;
+        ViewModel.ErrorMessage = null;
         ViewModel.IsLoading = true;
         _view?.ShowLoading(true);
 
@@ -38,10 +39,10 @@ public class TransactionHistoryPresenter(IExceptionHandler exceptions, IToastSer
             var filtered = _allTransactions.AsEnumerable();
 
             if (range.Start.HasValue)
-                filtered = filtered.Where(t => t.Date >= range.Start.Value);
+                filtered = filtered.Where(t => t.Date.Date >= range.Start.Value.Date);
 
             if (range.End.HasValue)
-                filtered = filtered.Where(t => t.Date <= range.End.Value);
+                filtered = filtered.Where(t => t.Date.Date <= range.End.Value.Date);
 
             ViewModel.Transactions = [.. filtered.OrderByDescending(t => t.Date)];
 
