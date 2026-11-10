@@ -5,13 +5,12 @@ using MonProjet.Shared.Models.Treasury;
 
 namespace MonProjet.Client.Presenters.Treasury;
 
-public class TransactionHistoryPresenter(IExceptionHandler exceptions, IToastService toastService) : ITransactionHistoryPresenter
+public class TransactionHistoryPresenter(IExceptionHandler exceptions, IToastService toastService) : ITransactionHistoryPresenter, IDisposable
 {
     private ITransactionHistoryView? _view;
     private readonly IExceptionHandler _exceptions = exceptions;
     private readonly IToastService _toastService = toastService;
-
-    // Liste brute (simulant la base de données)
+    private CancellationTokenSource? _filterCts;
     private readonly List<TransactionDto> _allTransactions = GenerateSampleData();
 
     public TransactionHistoryViewModel ViewModel { get; } = new();
@@ -31,10 +30,14 @@ public class TransactionHistoryPresenter(IExceptionHandler exceptions, IToastSer
         ViewModel.IsLoading = true;
         _view?.ShowLoading(true);
 
+        _filterCts?.Cancel();
+        _filterCts?.Dispose();
+        _filterCts = new CancellationTokenSource();
+        var token = _filterCts.Token;
         try
         {
             // Simulation d'un appel API
-            await Task.Delay(400);
+            await Task.Delay(400, token);
 
             var filtered = _allTransactions.AsEnumerable();
 
@@ -43,6 +46,8 @@ public class TransactionHistoryPresenter(IExceptionHandler exceptions, IToastSer
 
             if (range.End.HasValue)
                 filtered = filtered.Where(t => t.Date.Date <= range.End.Value.Date);
+
+            token.ThrowIfCancellationRequested();
 
             ViewModel.Transactions = [.. filtered.OrderByDescending(t => t.Date)];
 
@@ -74,5 +79,12 @@ public class TransactionHistoryPresenter(IExceptionHandler exceptions, IToastSer
             Math.Round((decimal)(random.NextDouble() * 1000), 2),
             i % 2 != 0
         ))];
+    }
+
+    public void Dispose()
+    {
+        _filterCts?.Cancel();
+        _filterCts?.Dispose();
+        GC.SuppressFinalize(this);
     }
 }

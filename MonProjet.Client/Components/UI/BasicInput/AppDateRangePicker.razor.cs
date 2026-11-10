@@ -32,14 +32,24 @@ public partial class AppDateRangePicker : AppComponentBase, IDisposable
 
     private void HandleStateChanged()
     {
-        _ = NotifyParentAsync();
+        _ = InvokeAsync(async () =>
+        {
+            StateHasChanged();
+            await NotifyParentAsync();
+        });
     }
 
     private async Task NotifyParentAsync()
     {
         if (OnRangeChanged.HasDelegate && string.IsNullOrEmpty(_viewModel.ErrorMessage))
         {
-            await OnRangeChanged.InvokeAsync(_viewModel.CurrentRange);
+            try
+            {
+                await OnRangeChanged.InvokeAsync(_viewModel.CurrentRange);
+            }
+            catch (Exception)
+            {
+            }
         }
     }
 
