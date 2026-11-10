@@ -13,14 +13,28 @@ public partial class AppDateRangePicker : AppComponentBase, IDisposable
 
     [Parameter] public DateRange? InitialRange { get; set; }
     [Parameter] public EventCallback<DateRange> OnRangeChanged { get; set; }
-
+    [Parameter] public DateRangePreset InitialPreset { get; set; } = DateRangePreset.Custom;
+    private bool _suppressNotify = false;
     protected override void OnParametersSet()
     {
         if (InitialRange is not null)
         {
             if (InitialRange.Start != _viewModel.CurrentRange.Start || InitialRange.End != _viewModel.CurrentRange.End)
             {
-                _viewModel.SetDates(InitialRange.Start, InitialRange.End);
+                _suppressNotify = true;
+                try
+                {
+                    _viewModel.SetDates(InitialRange.Start, InitialRange.End);
+
+                    if (InitialPreset != DateRangePreset.Custom)
+                    {
+                        _viewModel.ApplyPreset(InitialPreset);
+                    }
+                }
+                finally
+                {
+                    _suppressNotify = false;
+                }
             }
         }
     }
@@ -35,7 +49,10 @@ public partial class AppDateRangePicker : AppComponentBase, IDisposable
         _ = InvokeAsync(async () =>
         {
             StateHasChanged();
-            await NotifyParentAsync();
+            if (!_suppressNotify)
+            {
+                await NotifyParentAsync();
+            }
         });
     }
 

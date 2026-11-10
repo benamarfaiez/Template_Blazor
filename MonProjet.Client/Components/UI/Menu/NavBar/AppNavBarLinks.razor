@@ -19,6 +19,12 @@
                         <polyline points="6 9 12 15 18 9"></polyline>
                     </svg>
                 </button>
+                @if (IsDropdownActive(link) && DropdownContent is not null)
+                {
+                    <div class="mobile-dropdown-wrapper">
+                        @DropdownContent
+                    </div>
+                }
             }
             else
             {

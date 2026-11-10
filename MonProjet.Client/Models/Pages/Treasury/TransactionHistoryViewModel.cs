@@ -10,4 +10,5 @@ public class TransactionHistoryViewModel
     public string? ErrorMessage { get; set; }
     public DateRange CurrentDateRange { get; set; } = new(null, null);
     public List<TransactionDto> Transactions { get; set; } = [];
+    public DateRangePreset CurrentPreset { get; set; } = DateRangePreset.Custom;
 }

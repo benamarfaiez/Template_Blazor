@@ -20,6 +20,7 @@ public class TransactionHistoryPresenter(IExceptionHandler exceptions, IToastSer
     public async Task InitializeAsync()
     {
         ViewModel.CurrentDateRange = new DateRange(DateTime.Today.AddDays(-30), DateTime.Today);
+        ViewModel.CurrentPreset = DateRangePreset.Last30Days;
         await FilterByDateRangeAsync(ViewModel.CurrentDateRange);
     }
 

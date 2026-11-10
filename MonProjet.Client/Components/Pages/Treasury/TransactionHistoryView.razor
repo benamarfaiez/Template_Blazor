@@ -11,9 +11,9 @@
 
 <AppCard MarginBottom="24px">
     <TextBlock Text="Filtrer par période :" Variant="TextVariant.Bold" MarginBottom="8px" />
-    <AppDateRangePicker 
-        InitialRange="Presenter.ViewModel.CurrentDateRange" 
-        OnRangeChanged="HandleRangeChanged" />
+    <AppDateRangePicker InitialRange="Presenter.ViewModel.CurrentDateRange"
+                        InitialPreset="Presenter.ViewModel.CurrentPreset"
+                        OnRangeChanged="HandleRangeChanged" />
 </AppCard>
 
 @if (Presenter.ViewModel.IsLoading)

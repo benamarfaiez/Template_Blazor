@@ -20,7 +20,17 @@
                                 OnLinkClick="CloseAll"
                                 OnDropdownToggle="ToggleDropdown"
                                 OnMouseEnter="OnMouseEnterAsync"
-                                OnMouseLeave="OnMouseLeaveAsync" />
+                                OnMouseLeave="OnMouseLeaveAsync">
+                    <DropdownContent>
+                        @if (_activeDropdown is not null)
+                        {
+                            <div @onmouseenter="() => OnMouseEnterAsync(_activeDropdown)"
+                                 @onmouseleave="() => OnMouseLeaveAsync()">
+                                <AppNavBarMegaMenu ActiveLink="_activeDropdown" OnLinkClick="CloseAll" />
+                            </div>
+                        }
+                    </DropdownContent>
+                </AppNavBarLinks>
 
                 <div class="app-navbar-right">
                     @RightContent
@@ -34,14 +44,5 @@
                 </button>
             </div>
         </nav>
-
-        @if (_activeDropdown is not null)
-        {
-            var currentLink = _activeDropdown;
-            <div @onmouseenter="() => OnMouseEnterAsync(currentLink)"
-                 @onmouseleave="() => OnMouseLeaveAsync()">
-                <AppNavBarMegaMenu ActiveLink="currentLink" OnLinkClick="CloseAll" />
-            </div>
-        }
     </div>
 }
