@@ -50,8 +50,9 @@ public class TransactionHistoryPresenter(IExceptionHandler exceptions, IToastSer
 
             ViewModel.Transactions = [.. filtered.OrderByDescending(t => t.Date)];
         }
-        catch (OperationCanceledException)
+        catch (OperationCanceledException) when (token.IsCancellationRequested)
         {
+            return;
         }
         catch (Exception ex)
         {
