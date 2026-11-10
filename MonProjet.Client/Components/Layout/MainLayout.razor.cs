@@ -55,18 +55,17 @@ public partial class MainLayout : LayoutComponentBase
                 },
                 new()
                 {
-                    Title = "FINANCE",
+                    Title = "Treasury",
                     Items =
                     [
-                        new() { Icon = "🏦", Title = "Finance & Treasury", Description = "Treasury operations & cash flow" },
-                        new() { Icon = "💳", Title = "Payments", Description = "B2B payment automation" }
+                        new() { Icon = "🏦", Title = "Historique", Description = "Historique des transactions", Href = "/treasury/transactions"},
+                        new() { Icon = "💳", Title = "Nouveau virement", Description = "Nouveau virement", Href = "/treasury/new-transfer" }
                     ]
                 }
             ]
         },
         new() { Label = "Utilisateurs", Href = "/users" },
         new() { Label = "Gallery", Href = "/gallery" },
-        new() { Label = "Employés", Href = "/employees" },
-        new() { Label = "Nouveau virement", Href = "/treasury/new-transfer" }
+        new() { Label = "Employés", Href = "/employees" }
     ];
 }

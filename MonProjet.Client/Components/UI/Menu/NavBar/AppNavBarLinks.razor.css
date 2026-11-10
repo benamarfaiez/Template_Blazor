@@ -122,3 +122,18 @@
             background-color: var(--color-bg-alt, #f1f5f9);
         }
 }
+.mobile-dropdown-wrapper {
+    display: contents;
+}
+
+@media (max-width: 768px) {
+    .app-navbar-item {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .mobile-dropdown-wrapper {
+        display: block;
+        width: 100%;
+    }
+}

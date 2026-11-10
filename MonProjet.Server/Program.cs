@@ -24,6 +24,7 @@ builder.Services.AddScoped<IGalleryPresenter, GalleryPresenter>();
 builder.Services.AddScoped<IEmployeePresenter, EmployeePresenter>();
 builder.Services.AddScoped<ITransferPresenter, TransferPresenter>();
 builder.Services.AddScoped<IFileUploadPresenter, FileUploadPresenter>();
+builder.Services.AddScoped<ITransactionHistoryPresenter, TransactionHistoryPresenter>();
 
 var app = builder.Build();
 
