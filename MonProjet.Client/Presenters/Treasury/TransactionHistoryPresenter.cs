@@ -27,7 +27,6 @@ public class TransactionHistoryPresenter(IExceptionHandler exceptions, IToastSer
     public async Task FilterByDateRangeAsync(DateRange range)
     {
         ViewModel.CurrentDateRange = range;
-        ViewModel.ErrorMessage = null;
         ViewModel.IsLoading = true;
         _view?.ShowLoading(true);
 
@@ -37,8 +36,7 @@ public class TransactionHistoryPresenter(IExceptionHandler exceptions, IToastSer
         var token = _filterCts.Token;
         try
         {
-            // Simulation d'un appel API
-            await Task.Delay(400, token);
+            await Task.Delay(400, token); // Simulation appel API
 
             var filtered = _allTransactions.AsEnumerable();
 
@@ -51,11 +49,9 @@ public class TransactionHistoryPresenter(IExceptionHandler exceptions, IToastSer
             token.ThrowIfCancellationRequested();
 
             ViewModel.Transactions = [.. filtered.OrderByDescending(t => t.Date)];
-
-            if (ViewModel.Transactions.Count == 0)
-            {
-                _toastService.ShowInfo("Aucune transaction trouvée pour cette période.");
-            }
+        }
+        catch (OperationCanceledException)
+        {
         }
         catch (Exception ex)
         {
@@ -65,11 +61,13 @@ public class TransactionHistoryPresenter(IExceptionHandler exceptions, IToastSer
         }
         finally
         {
-            ViewModel.IsLoading = false;
-            _view?.ShowLoading(false);
+            if (!token.IsCancellationRequested)
+            {
+                ViewModel.IsLoading = false;
+                _view?.ShowLoading(false);
+            }
         }
     }
-
     private static List<TransactionDto> GenerateSampleData()
     {
         var random = new Random();
