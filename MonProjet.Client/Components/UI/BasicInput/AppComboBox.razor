@@ -8,6 +8,8 @@
               IsEnabled="@(!Disabled)" IsVisible="@IsVisible">
 
     <select class="app-combobox"
+            id="@(Id ?? _calculatedId)"
+            name="@Name"
             value="@GetValue(SelectedItem)"
             @onchange="OnChanged"
             disabled="@Disabled"

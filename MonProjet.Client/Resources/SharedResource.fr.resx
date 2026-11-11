@@ -144,4 +144,16 @@
   <data name="Nav_NewTransfer" xml:space="preserve">
     <value>Nouvelle virement</value>
   </data>
+  <data name="Nav_Treasury_History" xml:space="preserve">
+    <value>Historique des transactions</value>
+  </data>
+  <data name="                        new() { Icon = &quot;??&quot;" xml:space="preserve">
+    <value> Href = "/treasury/transactions"}</value>
+  </data>
+  <data name="Nav_Treasury_History_Description" xml:space="preserve">
+    <value>Historique des transactions</value>
+  </data>
+  <data name="Nav_NewTransfer_Description" xml:space="preserve">
+    <value>Nouvelle virement</value>
+  </data>
 </root>

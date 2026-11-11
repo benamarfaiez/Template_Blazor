@@ -3,7 +3,9 @@
 <ul class="app-navbar-links @(IsMobileMenuOpen ? "is-open" : "")" @attributes="SafeAttributes">
     @foreach (var link in Links)
     {
-        <li class="app-navbar-item" @key="link">
+        <li class="app-navbar-item" @key="link"
+            @onmouseenter="() => OnMouseEnter.InvokeAsync(link)"
+            @onmouseleave="() => OnMouseLeave.InvokeAsync()">
 
             @if (link.HasDropdown)
             {
@@ -12,30 +14,24 @@
                         @onclick="() => OnDropdownToggle.InvokeAsync(link)"
                         aria-haspopup="true"
                         aria-expanded="@(IsDropdownActive(link).ToString().ToLowerInvariant())">
-
                     @link.Label
-
                     <svg class="chevron" viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none">
                         <polyline points="6 9 12 15 18 9"></polyline>
                     </svg>
                 </button>
-
-                <!-- ✅ Le méga-menu s'affiche juste sous ce lien -->
-                @if (IsDropdownActive(link))
+                @if (IsDropdownActive(link) && DropdownContent is not null)
                 {
-                    <AppNavBarMegaMenu ActiveLink="link" OnLinkClick="OnLinkClick" />
+                    <div class="mobile-dropdown-wrapper">
+                        @DropdownContent
+                    </div>
                 }
             }
             else
             {
-                <NavLink href="@link.Href"
-                         Match="NavLinkMatch.Prefix"
-                         class="app-navbar-link"
-                         @onclick="() => OnLinkClick.InvokeAsync()">
+                <NavLink href="@link.Href" class="app-navbar-link" @onclick="() => OnLinkClick.InvokeAsync()">
                     @link.Label
                 </NavLink>
             }
-
         </li>
     }
 </ul>

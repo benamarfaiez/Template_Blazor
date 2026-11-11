@@ -14,7 +14,10 @@ public partial class AppComboBox<TItem> : AppComponentBase
 
     [Parameter] public string Placeholder { get; set; } = string.Empty;
     [Parameter] public bool Disabled { get; set; }
+    [Parameter] public string? Id { get; set; }
+    [Parameter] public string? Name { get; set; }
 
+    private readonly string _calculatedId = $"combo-{Guid.NewGuid():N}";
     private string GetValue(TItem? item) => item is null ? string.Empty : ValueSelector(item);
     private string GetLabel(TItem item) => LabelSelector(item);
 

@@ -22,6 +22,7 @@ builder.Services.AddScoped<IGalleryPresenter, GalleryPresenter>();
 builder.Services.AddScoped<IEmployeePresenter, EmployeePresenter>();
 builder.Services.AddScoped<ITransferPresenter, TransferPresenter>();
 builder.Services.AddScoped<IFileUploadPresenter, FileUploadPresenter>();
+builder.Services.AddScoped<ITransactionHistoryPresenter, TransactionHistoryPresenter>();
 
 CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("fr-FR");
 CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo("fr-FR");
