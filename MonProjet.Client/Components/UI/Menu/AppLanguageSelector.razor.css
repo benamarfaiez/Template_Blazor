@@ -1,0 +1,9 @@
+::deep .lang-option {
+    justify-content: flex-start !important;
+    width: 100%;
+    padding: 8px 12px !important;
+}
+
+    ::deep .lang-option:hover {
+        background-color: var(--color-bg-alt) !important;
+    }

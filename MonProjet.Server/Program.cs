@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Localization;
 using MonProjet.Client.Presenters.Employee;
 using MonProjet.Client.Presenters.Files;
 using MonProjet.Client.Presenters.Gallery;
@@ -6,6 +7,7 @@ using MonProjet.Client.Presenters.Treasury;
 using MonProjet.Client.Presenters.Users;
 using MonProjet.Client.Services;
 using MonProjet.Server.Components;
+using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,6 +27,21 @@ builder.Services.AddScoped<IEmployeePresenter, EmployeePresenter>();
 builder.Services.AddScoped<ITransferPresenter, TransferPresenter>();
 builder.Services.AddScoped<IFileUploadPresenter, FileUploadPresenter>();
 
+builder.Services.AddLocalization();
+builder.Services.AddScoped<ILanguageService, LanguageService>();
+
+builder.Services.AddRazorComponents()
+    .AddInteractiveServerComponents()
+    .AddInteractiveWebAssemblyComponents();
+
+var supportedCultures = new[] { "en-US", "fr-FR" };
+builder.Services.Configure<RequestLocalizationOptions>(options =>
+{
+    options.DefaultRequestCulture = new RequestCulture("fr-FR");
+    options.SupportedCultures = [.. supportedCultures.Select(c => new CultureInfo(c))];
+    options.SupportedUICultures = options.SupportedCultures;
+});
+
 var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())
@@ -33,6 +50,7 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+app.UseRequestLocalization();
 app.UseHttpsRedirection();
 app.UseAntiforgery();
 

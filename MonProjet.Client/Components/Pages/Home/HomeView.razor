@@ -1,12 +1,13 @@
 @page "/"
 @using MonProjet.Client.View.Home
+@inject IStringLocalizer<HomeResource> Loc
 @inherits OwningComponentBase
 @implements IHomeView
 @implements IDisposable
 
 <PageTitle>Tableau de bord</PageTitle>
 
-<h1>@Presenter.ViewModel.Title</h1>
+<h1>@Loc["Title"]</h1>
 
 <AppStackPanel Orientation="StackOrientation.Horizontal"
                Gap="12"
@@ -15,7 +16,12 @@
                CrossAxisAlignment="StackAlignment.Center"
                MarginBottom="24px">
 
-    <AppTextBox id="search-input" name="search" @bind-Value="SearchTerm" Width="400px" PaddingLeft="0px" Placeholder="Rechercher un projet..." />
+    <AppTextBox id="search-input" 
+                name="search" 
+                @bind-Value="SearchTerm" 
+                Width="400px" 
+                PaddingLeft="0px" 
+                Placeholder="@Loc["Search_Placeholder"]" />
     <AppButton Text="Rafraîchir" OnClick="RequestRefresh" Loading="Presenter.ViewModel.IsLoading" />
 
 </AppStackPanel>
