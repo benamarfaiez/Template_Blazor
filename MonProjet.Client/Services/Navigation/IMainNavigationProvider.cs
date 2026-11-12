@@ -4,5 +4,5 @@ namespace MonProjet.Client.Services.Navigation;
 
 public interface IMainNavigationProvider
 {
-    List<NavLinkItem> CreateLinks();
+    IReadOnlyList<NavLinkItem> CreateLinks();
 }

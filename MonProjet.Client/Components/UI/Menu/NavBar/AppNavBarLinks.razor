@@ -1,11 +1,10 @@
 ﻿@inherits AppComponentBase
 
-<ul class="app-navbar-links @(IsMobileMenuOpen ? "is-open" : "")" @attributes="SafeAttributes">
+<ul id="app-navbar-links" class="app-navbar-links @(IsMobileMenuOpen ? "is-open" : "")" @attributes="SafeAttributes">
     @foreach (var link in Links)
     {
         <li class="app-navbar-item" @key="link"
-            @onmouseenter="() => OnMouseEnter.InvokeAsync(link)"
-            @onmouseleave="() => OnMouseLeave.InvokeAsync()">
+            @onmouseenter="() => OnMouseEnter.InvokeAsync(link)">
 
             @if (link.HasDropdown)
             {

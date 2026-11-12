@@ -1,7 +1,7 @@
 ﻿@using MonProjet.Client.Models.UI.Menu.NavBar
 @inherits AppComponentBase
 
-<a href="@Item.Href" class="mega-item" @attributes="SafeAttributes">
+<NavLink href="@Item.Href" class="mega-item" @onclick="HandleClickAsync" @attributes="SafeAttributes">
     <div class="mega-icon">@Item.Icon</div>
     <div class="mega-text">
         <div class="mega-title">
@@ -13,8 +13,11 @@
         </div>
         <div class="mega-desc">@Item.Description</div>
     </div>
-</a>
+</NavLink>
 
 @code {
     [Parameter] public MegaMenuItem Item { get; set; } = default!;
+    [Parameter] public EventCallback OnClick { get; set; }
+
+    private Task HandleClickAsync() => OnClick.InvokeAsync();
 }

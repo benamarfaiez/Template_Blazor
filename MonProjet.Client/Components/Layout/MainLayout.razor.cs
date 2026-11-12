@@ -14,7 +14,7 @@ public partial class MainLayout : LayoutComponentBase, IDisposable
     [Inject] public IStringLocalizer<SharedResource> Loc { get; set; } = default!;
     [Inject] public ILanguageService LanguageService { get; set; } = default!;
     [Inject] public IMainNavigationProvider NavigationProvider { get; set; } = default!;
-    private List<NavLinkItem> _navLinks = [];
+    private IReadOnlyList<NavLinkItem> _navLinks = [];
     private ErrorBoundary? _errorBoundary;
 
     private void Recover() => _errorBoundary?.Recover();

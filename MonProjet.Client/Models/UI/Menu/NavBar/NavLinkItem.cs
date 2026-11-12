@@ -8,6 +8,6 @@ public class NavLinkItem
     public string? BannerText { get; set; }
     public string? BannerLinkText { get; set; }
     public string? BannerLinkUrl { get; set; }
-    public List<MegaMenuGroup>? Groups { get; set; }
+    public IReadOnlyList<MegaMenuGroup>? Groups { get; set; }
     public bool HasDropdown => Groups != null && Groups.Count != 0;
 }
