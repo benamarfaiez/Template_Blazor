@@ -8,14 +8,22 @@
 
     <div class="app-dropdown"
          tabindex="-1"
-         @onfocusout="HandleFocusOut"
+         @ref="_dropdownElement"
+         @onkeydown="HandleKeyDownAsync"
+         @onmouseenter="OnMouseEnterAsync"
+         @onmouseleave="OnMouseLeaveAsync"
          @attributes="SafeAttributes">
 
-        <AppButton Text="@Text" OnClick="Toggle" />
-
-        @if (_open)
+        @if (IsOpen && !TriggerOnHover)
         {
-            <div class="app-dropdown-menu">
+            <div class="app-dropdown-backdrop" @onclick="CloseAsync"></div>
+        }
+
+        <AppButton Text="@Text" OnClick="ToggleAsync" Variant="@Variant" />
+
+        @if (IsOpen)
+        {
+            <div class="app-dropdown-menu" @onclick:stopPropagation="true">
                 @ChildContent
             </div>
         }

@@ -8,7 +8,7 @@
     position: absolute;
     top: calc(100% + 8px);
     left: 0;
-    min-width: min(13.75rem, calc(100vw - 2rem));
+    width: max-content;
     background: var(--color-surface, #ffffff);
     border: 1px solid var(--color-border, #e2e8f0);
     border-radius: var(--radius, 6px);
@@ -40,6 +40,13 @@
         .app-dropdown-menu ::deep a:hover {
             background-color: var(--color-bg-alt, #f1f5f9);
         }
+
+.app-dropdown-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 99;
+    background: transparent;
+}
 
 /* Animation keyframes */
 @keyframes slideDown {

@@ -12,9 +12,9 @@
                     <span>@ActiveLink.BannerText</span>
                     @if (!string.IsNullOrWhiteSpace(ActiveLink.BannerLinkText))
                     {
-                        <a href="@(ActiveLink.BannerLinkUrl ?? "#")" @onclick="HandleLinkClickAsync">
+                        <NavLink href="@(ActiveLink.BannerLinkUrl ?? "#")" @onclick="HandleLinkClickAsync">
                             @ActiveLink.BannerLinkText &rarr;
-                        </a>
+                        </NavLink>
                     }
                 </div>
             }

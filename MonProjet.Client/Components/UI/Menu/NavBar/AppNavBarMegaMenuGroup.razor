@@ -9,7 +9,7 @@
         @foreach (var item in Group.Items)
         {
             <li>
-                <AppNavBarMegaMenuItem Item="item" />
+                <AppNavBarMegaMenuItem Item="item" OnClick="OnItemClick" />
             </li>
         }
     </ul>
@@ -17,4 +17,5 @@
 
 @code {
     [Parameter] public MegaMenuGroup Group { get; set; } = default!;
+    [Parameter] public EventCallback OnItemClick { get; set; }
 }

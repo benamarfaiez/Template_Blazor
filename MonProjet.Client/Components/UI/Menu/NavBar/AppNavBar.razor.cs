@@ -10,7 +10,7 @@ public partial class AppNavBar : AppComponentBase, IDisposable
 
     [Parameter] public string Brand { get; set; } = "MonProjet";
     [Parameter] public RenderFragment? BrandTemplate { get; set; }
-    [Parameter] public List<NavLinkItem> Links { get; set; } = [];
+    [Parameter] public IReadOnlyList<NavLinkItem> Links { get; set; } = [];
     [Parameter] public RenderFragment? RightContent { get; set; }
 
     private NavLinkItem? _activeDropdown;
@@ -22,84 +22,97 @@ public partial class AppNavBar : AppComponentBase, IDisposable
         NavManager.LocationChanged += HandleLocationChanged;
     }
 
+    protected override void OnParametersSet()
+    {
+        if (_activeDropdown is not null)
+        {
+            var newActiveLink = Links.FirstOrDefault(l => l.Id == _activeDropdown.Id);
+
+            if (newActiveLink is not null)
+            {
+                _activeDropdown = newActiveLink;
+            }
+            else
+            {
+                CloseAll();
+            }
+        }
+    }
     private void HandleLocationChanged(object? sender, LocationChangedEventArgs e)
     {
-        CloseAll();
+        _ = InvokeAsync(() =>
+        {
+            CloseAll();
+            StateHasChanged();
+        });
     }
 
     private void ToggleDropdown(NavLinkItem link)
     {
         if (!link.HasDropdown) return;
-        _activeDropdown = _activeDropdown == link ? null : link;
+        _activeDropdown = _activeDropdown?.Id == link.Id ? null : link;
     }
 
-    private async Task OnMouseEnterAsync(NavLinkItem link)
+    private Task OnMouseEnterAsync(NavLinkItem link)
     {
-        if (link is null) return;
-
-        _hoverCts?.Cancel();
-
-        if (link.HasDropdown)
-        {
-            if (_activeDropdown != link)
-            {
-                _activeDropdown = link;
-                StateHasChanged();
-            }
-        }
-        else
-        {
-            if (_activeDropdown is not null)
-            {
-                _activeDropdown = null;
-                StateHasChanged();
-            }
-        }
+        CancelPendingClose();
+        _activeDropdown = link.HasDropdown ? link : null;
+        return Task.CompletedTask;
     }
 
     private async Task OnMouseLeaveAsync()
     {
-        _hoverCts?.Cancel();
-        _hoverCts?.Dispose();
-        _hoverCts = new CancellationTokenSource();
+        CancelPendingClose();
+        var hoverCts = _hoverCts = new CancellationTokenSource();
 
         try
         {
-            await Task.Delay(200, _hoverCts.Token);
-            if (_hoverCts.IsCancellationRequested) return;
-            _activeDropdown = null;
-            StateHasChanged();
+            await Task.Delay(200, hoverCts.Token);
+            if (ReferenceEquals(_hoverCts, hoverCts))
+            {
+                _hoverCts = null;
+                _activeDropdown = null;
+            }
         }
-        catch (TaskCanceledException)
+        catch (OperationCanceledException)
         {
         }
-        catch (ObjectDisposedException)
+        finally
         {
+            if (ReferenceEquals(_hoverCts, hoverCts))
+            {
+                _hoverCts = null;
+            }
+
+            hoverCts.Dispose();
         }
     }
 
     private void CloseAll()
     {
+        CancelPendingClose();
         _activeDropdown = null;
         _isMobileMenuOpen = false;
-        StateHasChanged();
     }
 
     private void ToggleMobileMenu()
     {
         _isMobileMenuOpen = !_isMobileMenuOpen;
         _activeDropdown = null;
+        CancelPendingClose();
+    }
+
+    private void CancelPendingClose()
+    {
+        _hoverCts?.Cancel();
+        _hoverCts?.Dispose();
+        _hoverCts = null;
     }
 
     public void Dispose()
     {
         NavManager.LocationChanged -= HandleLocationChanged;
-        if (_hoverCts is not null)
-        {
-            _hoverCts.Cancel();
-            _hoverCts.Dispose();
-            _hoverCts = null;
-        }
+        CancelPendingClose();
         GC.SuppressFinalize(this);
     }
 }

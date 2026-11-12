@@ -9,7 +9,7 @@
             <div class="app-navbar-backdrop" @onclick="CloseAll" @oncontextmenu="CloseAll" @oncontextmenu:preventDefault="true"></div>
         }
 
-        <nav class="app-navbar" @attributes="SafeAttributes">
+        <nav class="app-navbar" @onmouseleave="OnMouseLeaveAsync" @attributes="SafeAttributes">
             <div class="app-navbar-container">
 
                 <AppNavBarBrand Brand="Brand" BrandTemplate="BrandTemplate" OnClick="CloseAll" />
@@ -19,12 +19,11 @@
                                 ActiveDropdown="_activeDropdown"
                                 OnLinkClick="CloseAll"
                                 OnDropdownToggle="ToggleDropdown"
-                                OnMouseEnter="OnMouseEnterAsync"
-                                OnMouseLeave="OnMouseLeaveAsync">
+                                OnMouseEnter="OnMouseEnterAsync">
                     <DropdownContent>
                         @if (_activeDropdown is not null)
                         {
-                            <div @onmouseenter="() => OnMouseEnterAsync(_activeDropdown)"
+                                <div @onmouseenter="() => OnMouseEnterAsync(_activeDropdown)"
                                  @onmouseleave="() => OnMouseLeaveAsync()">
                                 <AppNavBarMegaMenu ActiveLink="_activeDropdown" OnLinkClick="CloseAll" />
                             </div>
@@ -37,7 +36,8 @@
                 </div>
 
                 <button class="app-navbar-hamburger @(_isMobileMenuOpen ? "is-active" : "")"
-                        @onclick="ToggleMobileMenu" @onclick:stopPropagation="true" aria-label="Menu">
+                        @onclick="ToggleMobileMenu" @onclick:stopPropagation="true" aria-label="Menu"
+                        aria-expanded="@_isMobileMenuOpen" aria-controls="app-navbar-links">
                     <span class="hamburger-line"></span>
                     <span class="hamburger-line"></span>
                     <span class="hamburger-line"></span>

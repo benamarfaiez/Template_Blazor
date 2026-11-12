@@ -3,7 +3,7 @@
    ============================================================ */
 .app-megamenu {
     position: absolute;
-    top: 72px;
+    top: var(--app-navbar-height);
     left: 50%;
     transform: translateX(-50%);
     width: 95vw; /* Prend 95% de la largeur de l'écran */
@@ -12,7 +12,6 @@
     border-radius: 12px;
     box-shadow: var(--shadow-lg);
     z-index: 1000;
-    margin-top: 8px;
     animation: megaSlideDown 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 

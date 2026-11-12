@@ -1,5 +1,5 @@
 /* CSS for AppNavBarMegaMenuItem component */
-.mega-item {
+.mega-item-wrapper ::deep .mega-item {
     display: flex;
     align-items: flex-start;
     gap: 12px;
@@ -9,7 +9,7 @@
     transition: background 0.15s ease;
 }
 
-    .mega-item:hover {
+    .mega-item-wrapper ::deep .mega-item:hover {
         background-color: var(--color-bg-alt);
     }
 

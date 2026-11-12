@@ -7,7 +7,7 @@ namespace MonProjet.Client.Components.UI.Menu.NavBar;
 public partial class AppNavBarLinks : AppComponentBase
 {
     [Parameter]
-    public List<NavLinkItem> Links { get; set; } = [];
+    public IReadOnlyList<NavLinkItem> Links { get; set; } = [];
 
     /// <summary>
     /// Indique si le menu mobile est ouvert (géré par le parent AppNavBar).
@@ -33,10 +33,9 @@ public partial class AppNavBarLinks : AppComponentBase
     [Parameter]
     public EventCallback<NavLinkItem> OnDropdownToggle { get; set; }
     [Parameter] public EventCallback<NavLinkItem> OnMouseEnter { get; set; }
-    [Parameter] public EventCallback OnMouseLeave { get; set; }
     [Parameter] public RenderFragment? DropdownContent { get; set; }
     private bool IsDropdownActive(NavLinkItem link)
     {
-        return ActiveDropdown == link;
+        return ActiveDropdown?.Id == link.Id;
     }
 }

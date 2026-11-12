@@ -76,9 +76,9 @@
         display: none;
         flex-direction: column;
         position: fixed;
-        inset: 72px 0 0 0;
+        inset: var(--app-navbar-height) 0 0 0;
         width: 100%;
-        height: calc(100vh - 72px);
+        height: calc(100vh - var(--app-navbar-height));
         overflow-y: auto;
         background: var(--color-surface, #ffffff);
         box-shadow: var(--shadow-md);

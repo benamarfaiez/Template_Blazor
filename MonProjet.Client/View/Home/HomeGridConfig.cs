@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Components.Rendering;
+﻿using Microsoft.Extensions.Localization;
+using Microsoft.AspNetCore.Components.Rendering;
 using MonProjet.Client.Components.UI.Collections.Column;
 using MonProjet.Client.Components.UI.Helpers;
 using MonProjet.Client.Models.UI.Style;
+using MonProjet.Client.Resources;
 using MonProjet.Shared.Models.Home;
 
 namespace MonProjet.Client.View.Home;
@@ -11,37 +13,33 @@ namespace MonProjet.Client.View.Home;
 /// </summary>
 public static class HomeGridConfig
 {
-    public static List<GridColumn<HomeItemDto>> CreateColumns()
+    public static List<GridColumn<HomeItemDto>> CreateColumns(IStringLocalizer<HomeResource> localizer)
     {
         var columns = new List<GridColumn<HomeItemDto>>
         {
-            // Colonne ID
             GridColumn.Text<HomeItemDto>(
-                header: "ID",
+                header: localizer["Grid_Id"],
                 valueSelector: i => i.Id,
                 comparer: (a, b) => a.Id.CompareTo(b.Id)
             ),
 
-            // Colonne Nom
             GridColumn.Text<HomeItemDto>(
-                header: "Nom",
+                header: localizer["Grid_Name"],
                 valueSelector: i => i.Name,
                 comparer: (a, b) => string.Compare(a.Name, b.Name, StringComparison.OrdinalIgnoreCase)
             ),
 
-            // Colonne Statut (avec badge)
             GridColumn.Template<HomeItemDto>(
-                header: "Statut",
-                template: item => builder => RenderStatusBadge(builder, item.Status),
+                header: localizer["Grid_Status"],
+                template: item => builder => RenderStatusBadge(builder, item.Status, localizer),
                 comparer: (a, b) => string.Compare(a.Status, b.Status, StringComparison.OrdinalIgnoreCase)
             ),
 
-            // Colonne Date
             GridColumn.Text<HomeItemDto>(
-                header: "Créé le",
+                header: localizer["Grid_CreatedOn"],
                 valueSelector: i => i.CreatedAt,
                 comparer: (a, b) => a.CreatedAt.CompareTo(b.CreatedAt),
-                formatter: raw => raw is DateTime dt ? dt.ToString("dd/MM/yyyy") : "-"
+                formatter: raw => raw is DateTime dt ? dt.ToString("d") : "-"
             )
         };
 
@@ -59,13 +57,13 @@ public static class HomeGridConfig
     }
 
     // Extraction de la logique de rendu du badge pour alléger la déclaration de la colonne
-    private static void RenderStatusBadge(RenderTreeBuilder builder, string status)
+    private static void RenderStatusBadge(RenderTreeBuilder builder, string status, IStringLocalizer<HomeResource> localizer)
     {
         var (cls, label) = status switch
         {
-            "Actif" => ("badge-success", "Actif"),
-            "En attente" => ("badge-warning", "En attente"),
-            "Terminé" => ("badge-muted", "Terminé"),
+            "Actif" or "Active" => ("badge-success", localizer["Status_Active"].Value),
+            "En attente" or "Pending" => ("badge-warning", localizer["Status_Pending"].Value),
+            "Terminé" or "Completed" => ("badge-muted", localizer["Status_Completed"].Value),
             _ => ("badge-info", status)
         };
 

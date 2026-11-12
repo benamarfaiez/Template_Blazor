@@ -1,6 +1,9 @@
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Localization;
 using MonProjet.Client.Components.UI.Collections.Column;
 using MonProjet.Client.Presenters.Home;
+using MonProjet.Client.Resources;
+using MonProjet.Client.Services;
 using MonProjet.Client.View.Home;
 using MonProjet.Shared.Models.Home;
 
@@ -8,47 +11,47 @@ namespace MonProjet.Client.Components.Pages.Home;
 
 public partial class HomeView : OwningComponentBase, IHomeView, IDisposable
 {
-    private IHomePresenter Presenter => ScopedServices.GetRequiredService<IHomePresenter>();
+    [Inject] public IStringLocalizer<HomeResource> Loc { get; set; } = default!;
+    [Inject] public ILanguageService LanguageService { get; set; } = default!;
 
-    // Propriétés liées à la recherche
+    private IHomePresenter Presenter { get; set; } = default!;
+
     private string _searchTerm = string.Empty;
     public string SearchTerm
     {
         get => _searchTerm;
-        set
-        {
-            if (_searchTerm != value)
-            {
-                _searchTerm = value;
-                RequestRefresh();
-            }
-        }
+        set => _searchTerm = value;
     }
-
-    public event Action? OnRefreshRequested;
 
     private List<GridColumn<HomeItemDto>> _columns = null!;
 
     protected override void OnInitialized()
     {
-        _columns = HomeGridConfig.CreateColumns();
+        Presenter = ScopedServices.GetRequiredService<IHomePresenter>();
+        _columns = HomeGridConfig.CreateColumns(Loc);
+        LanguageService.OnLanguageChanged += HandleLanguageChanged;
     }
 
     protected override async Task OnInitializedAsync()
     {
         Presenter.SetView(this);
         await Presenter.InitializeAsync();
-        Presenter.ViewModel.ErrorMessage = "Impossible de contacter le serveur. Vérifiez votre connexion.";
     }
 
-    private void RequestRefresh()
+    private Task RefreshDataAsync() => Presenter.RefreshDataAsync();
+
+    private void HandleLanguageChanged()
     {
-        OnRefreshRequested?.Invoke();
+        _ = InvokeAsync(() =>
+        {
+            _columns = HomeGridConfig.CreateColumns(Loc);
+            StateHasChanged();
+        });
     }
 
     public void ShowError(string message)
     {
-        Presenter.ViewModel.ErrorMessage = message;
+        Presenter.ViewModel.ErrorMessage = Loc["Error_ServiceUnavailable"];
         StateHasChanged();
     }
 
@@ -58,8 +61,9 @@ public partial class HomeView : OwningComponentBase, IHomeView, IDisposable
         StateHasChanged();
     }
 
-    public void Dispose()
+    protected override void Dispose(bool disposing)
     {
-        GC.SuppressFinalize(this);
+        LanguageService.OnLanguageChanged -= HandleLanguageChanged;
+        base.Dispose(disposing);
     }
 }
