@@ -39,16 +39,7 @@ public class LanguageService(IJSRuntime js) : ILanguageService
     public async Task ChangeLanguageAsync(string cultureCode)
     {
         if (CurrentCulture == cultureCode) return;
-
         ApplyCulture(cultureCode);
-
-        try
-        {
-            var module = await GetModuleAsync();
-            await module.InvokeVoidAsync("setLanguage", cultureCode);
-        }
-        catch (Exception) { }
-
         OnLanguageChanged?.Invoke();
     }
 

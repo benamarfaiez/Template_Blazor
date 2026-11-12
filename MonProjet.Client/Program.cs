@@ -1,3 +1,4 @@
+using Blazor.WebAssembly.DynamicCulture.Loader;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using MonProjet.Client.Presenters.Employee;
 using MonProjet.Client.Presenters.Files;
@@ -29,4 +30,12 @@ CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo("fr-FR");
 
 builder.Services.AddLocalization();
 
-await builder.Build().RunAsync();
+var host = builder.Build();
+
+var languageService = host.Services.GetRequiredService<ILanguageService>();
+await languageService.InitializeAsync();
+
+var supportedCultures = new[] { new CultureInfo("fr-FR"), new CultureInfo("en-US") };
+await host.LoadSatelliteCultureAssembliesCultureAsync(supportedCultures);
+
+await host.RunAsync();
