@@ -21,7 +21,13 @@ public partial class MainLayout : LayoutComponentBase, IDisposable
         LanguageService.OnLanguageChanged += HandleLanguageChanged;
         BuildNavLinks();
     }
-
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await LanguageService.InitializeAsync();
+        }
+    }
     private void HandleLanguageChanged()
     {
         BuildNavLinks();

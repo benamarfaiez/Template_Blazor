@@ -26,10 +26,12 @@ public class LanguageService(IJSRuntime js) : ILanguageService
             if (!string.IsNullOrEmpty(savedCulture))
             {
                 ApplyCulture(savedCulture);
+                OnLanguageChanged?.Invoke();
                 return;
             }
 
             ApplyCulture("fr-FR");
+            OnLanguageChanged?.Invoke();
         }
         catch (Exception)
         {
