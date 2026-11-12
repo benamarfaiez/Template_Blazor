@@ -51,7 +51,16 @@ public partial class AppDropDownButton : AppComponentBase, IAsyncDisposable
     }
 
     [JSInvokable]
-    public Task HandleFocusOutAsync() => IsOpen ? CloseAsync() : Task.CompletedTask;
+    public async Task HandleFocusOutAsync()
+    {
+        if (!IsOpen)
+        {
+            return;
+        }
+
+        await CloseAsync();
+        await InvokeAsync(StateHasChanged);
+    }
 
 
     private async Task CloseAsync()

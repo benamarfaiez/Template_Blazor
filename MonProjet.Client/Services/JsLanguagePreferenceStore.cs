@@ -30,7 +30,13 @@ public sealed class JsLanguagePreferenceStore(IJSRuntime js) : ILanguagePreferen
     {
         if (_module is not null)
         {
-            await _module.DisposeAsync();
+            try
+            {
+                await _module.DisposeAsync();
+            }
+            catch (JSDisconnectedException)
+            {
+            }
         }
     }
 }

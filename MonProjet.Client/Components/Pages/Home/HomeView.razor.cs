@@ -36,7 +36,6 @@ public partial class HomeView : OwningComponentBase, IHomeView, IDisposable
     {
         Presenter.SetView(this);
         await Presenter.InitializeAsync();
-        Presenter.ViewModel.ErrorMessage = Loc["Error_ServiceUnavailable"];
     }
 
     private Task RefreshDataAsync() => Presenter.RefreshDataAsync();
@@ -52,7 +51,7 @@ public partial class HomeView : OwningComponentBase, IHomeView, IDisposable
 
     public void ShowError(string message)
     {
-        Presenter.ViewModel.ErrorMessage = message;
+        Presenter.ViewModel.ErrorMessage = Loc["Error_ServiceUnavailable"];
         StateHasChanged();
     }
 

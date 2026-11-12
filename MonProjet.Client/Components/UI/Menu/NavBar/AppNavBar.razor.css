@@ -84,7 +84,8 @@
     }
 
     .app-navbar-right {
-        display: none;
+        display: flex;
+        gap: 8px;
     }
 
     .app-navbar-container {
