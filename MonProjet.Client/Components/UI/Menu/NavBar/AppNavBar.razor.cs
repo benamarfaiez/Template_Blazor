@@ -22,6 +22,22 @@ public partial class AppNavBar : AppComponentBase, IDisposable
         NavManager.LocationChanged += HandleLocationChanged;
     }
 
+    protected override void OnParametersSet()
+    {
+        if (_activeDropdown is not null)
+        {
+            var newActiveLink = Links.FirstOrDefault(l => l.Href == _activeDropdown.Href);
+
+            if (newActiveLink is not null)
+            {
+                _activeDropdown = newActiveLink;
+            }
+            else
+            {
+                CloseAll();
+            }
+        }
+    }
     private void HandleLocationChanged(object? sender, LocationChangedEventArgs e)
     {
         CloseAll();

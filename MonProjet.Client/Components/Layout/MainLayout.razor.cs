@@ -11,6 +11,7 @@ public partial class MainLayout : LayoutComponentBase, IDisposable
 {
     [Inject] public IStringLocalizer<SharedResource> Loc { get; set; } = default!;
     [Inject] public ILanguageService LanguageService { get; set; } = default!;
+    private List<NavLinkItem> _navLinks = [];
     private ErrorBoundary? _errorBoundary;
 
     private void Recover() => _errorBoundary?.Recover();
@@ -18,15 +19,18 @@ public partial class MainLayout : LayoutComponentBase, IDisposable
     protected override void OnInitialized()
     {
         LanguageService.OnLanguageChanged += HandleLanguageChanged;
+        BuildNavLinks();
     }
 
     private void HandleLanguageChanged()
     {
-        InvokeAsync(StateHasChanged);
+        BuildNavLinks();
+        _ = InvokeAsync(StateHasChanged);
     }
-    private List<NavLinkItem> GetNavLinks()
+    private void BuildNavLinks()
     {
-        return [
+        _navLinks =
+        [
             new()
             {
                 Label = "Platform",
