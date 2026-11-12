@@ -145,14 +145,10 @@
     <value>New Transfer</value>
   </data>
   <data name="Nav_Treasury_History" xml:space="preserve">
-    <value>History Transfer</value>
-  </data>
-  <data name="                        new() { Icon = &quot;??&quot;" xml:space="preserve">
-    <value> Title = "Historique"</value>
-    <comment> Description = "Historique des transactions"</comment>
+    <value>Transfer History</value>
   </data>
   <data name="Nav_Treasury_History_Description" xml:space="preserve">
-    <value>History Transfer</value>
+    <value>Transfer History</value>
   </data>
   <data name="Nav_NewTransfer_Description" xml:space="preserve">
     <value>New Transfer</value>
