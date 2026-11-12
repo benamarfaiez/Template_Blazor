@@ -157,4 +157,7 @@
   <data name="Nav_NewTransfer_Description" xml:space="preserve">
     <value>New Transfer</value>
   </data>
+  <data name="Btn_Refresh" xml:space="preserve">
+    <value>Retry</value>
+  </data>
 </root>

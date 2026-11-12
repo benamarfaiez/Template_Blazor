@@ -29,8 +29,4 @@ CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo("fr-FR");
 
 builder.Services.AddLocalization();
 
-var host = builder.Build();
-var languageService = host.Services.GetRequiredService<ILanguageService>();
-await languageService.InitializeAsync();
-await host.RunAsync();
 await builder.Build().RunAsync();
