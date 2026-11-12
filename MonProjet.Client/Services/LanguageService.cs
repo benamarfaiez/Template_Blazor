@@ -49,7 +49,10 @@ public class LanguageService(IJSRuntime js) : ILanguageService
         var cultureInfo = new CultureInfo(cultureCode);
         CultureInfo.CurrentCulture = cultureInfo;
         CultureInfo.CurrentUICulture = cultureInfo;
-        CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
-        CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
+        if (OperatingSystem.IsBrowser())
+        {
+            CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
+            CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
+        }
     }
 }
