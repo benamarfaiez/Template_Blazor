@@ -1,60 +1,63 @@
-﻿using Microsoft.JSInterop;
-using System.Globalization;
+﻿using System.Globalization;
 
 namespace MonProjet.Client.Services;
 
-public class LanguageService(IJSRuntime js) : ILanguageService
+public sealed class LanguageService(ILanguagePreferenceStore preferenceStore) : ILanguageService
 {
-    private readonly IJSRuntime _js = js;
-    private IJSObjectReference? _module;
+    private const string DefaultCulture = "fr-FR";
 
-    public string CurrentCulture { get; private set; } = "fr-FR";
+    public string CurrentCulture { get; private set; } = DefaultCulture;
     public event Action? OnLanguageChanged;
-
-    private async Task<IJSObjectReference> GetModuleAsync()
-    {
-        _module ??= await _js.InvokeAsync<IJSObjectReference>("import", "./js/language.js");
-        return _module;
-    }
 
     public async Task InitializeAsync()
     {
-        try
-        {
-            var module = await GetModuleAsync();
-            var savedCulture = await module.InvokeAsync<string>("getLanguage");
-            if (!string.IsNullOrEmpty(savedCulture))
-            {
-                ApplyCulture(savedCulture);
-                OnLanguageChanged?.Invoke();
-                return;
-            }
-
-            ApplyCulture("fr-FR");
-            OnLanguageChanged?.Invoke();
-        }
-        catch (Exception)
-        {
-        }
+        var savedCulture = await preferenceStore.GetSavedCultureAsync();
+        ApplyCulture(GetSavedCultureOrDefault(savedCulture));
     }
 
     public async Task ChangeLanguageAsync(string cultureCode)
     {
-        if (CurrentCulture == cultureCode) return;
-        ApplyCulture(cultureCode);
+        ArgumentException.ThrowIfNullOrWhiteSpace(cultureCode);
+
+        var culture = CultureInfo.GetCultureInfo(cultureCode);
+        if (string.Equals(CurrentCulture, culture.Name, StringComparison.OrdinalIgnoreCase))
+        {
+            return;
+        }
+
+        await preferenceStore.SaveCultureAsync(culture.Name);
+        ApplyCulture(culture);
+    }
+
+    private void ApplyCulture(CultureInfo culture)
+    {
+        CurrentCulture = culture.Name;
+        CultureInfo.CurrentCulture = culture;
+        CultureInfo.CurrentUICulture = culture;
+
+        if (OperatingSystem.IsBrowser())
+        {
+            CultureInfo.DefaultThreadCurrentCulture = culture;
+            CultureInfo.DefaultThreadCurrentUICulture = culture;
+        }
+
         OnLanguageChanged?.Invoke();
     }
 
-    private void ApplyCulture(string cultureCode)
+    private static CultureInfo GetSavedCultureOrDefault(string? cultureCode)
     {
-        CurrentCulture = cultureCode;
-        var cultureInfo = new CultureInfo(cultureCode);
-        CultureInfo.CurrentCulture = cultureInfo;
-        CultureInfo.CurrentUICulture = cultureInfo;
-        if (OperatingSystem.IsBrowser())
+        if (string.IsNullOrWhiteSpace(cultureCode))
         {
-            CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
-            CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
+            return CultureInfo.GetCultureInfo(DefaultCulture);
+        }
+
+        try
+        {
+            return CultureInfo.GetCultureInfo(cultureCode);
+        }
+        catch (CultureNotFoundException)
+        {
+            return CultureInfo.GetCultureInfo(DefaultCulture);
         }
     }
 }

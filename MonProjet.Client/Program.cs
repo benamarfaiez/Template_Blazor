@@ -16,6 +16,7 @@ builder.Services.AddScoped<IExceptionHandler, ExceptionHandler>();
 builder.Services.AddScoped<IFocusTrapService, FocusTrapService>();
 builder.Services.AddSingleton<IToastService, ToastService>();
 builder.Services.AddScoped<IThemeService, ThemeService>();
+builder.Services.AddScoped<ILanguagePreferenceStore, JsLanguagePreferenceStore>();
 builder.Services.AddScoped<ILanguageService, LanguageService>();
 builder.Services.AddScoped<IMainNavigationProvider, MainNavigationProvider>();
 
@@ -27,10 +28,14 @@ builder.Services.AddScoped<ITransferPresenter, TransferPresenter>();
 builder.Services.AddScoped<IFileUploadPresenter, FileUploadPresenter>();
 builder.Services.AddScoped<ITransactionHistoryPresenter, TransactionHistoryPresenter>();
 
-CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("fr-FR");
-CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo("fr-FR");
-
 builder.Services.AddLocalization();
 
 var host = builder.Build();
+
+await host.LoadSatelliteCultureAssembliesCultureAsync(
+[
+    new CultureInfo("fr-FR"),
+    new CultureInfo("en-US")
+]);
+
 await host.RunAsync();

@@ -19,6 +19,7 @@ builder.Services.AddScoped<IFocusTrapService, FocusTrapService>();
 builder.Services.AddSingleton<IToastService, ToastService>();
 builder.Services.AddScoped<IThemeService, ThemeService>();
 builder.Services.AddScoped<IMainNavigationProvider, MainNavigationProvider>();
+builder.Services.AddScoped<ILanguagePreferenceStore, JsLanguagePreferenceStore>();
 
 builder.Services.AddScoped<IHomePresenter, HomePresenter>();
 builder.Services.AddScoped<IUserPresenter, UserPresenter>();
