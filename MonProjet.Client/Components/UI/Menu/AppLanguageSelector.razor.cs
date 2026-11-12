@@ -7,6 +7,8 @@ public partial class AppLanguageSelector : ComponentBase, IDisposable
 {
     [Inject]
     public ILanguageService LanguageService { get; set; } = default!;
+    [Inject]
+    private NavigationManager Navigation { get; set; } = default!;
     private bool _isMenuOpen;
     private const string CultureFR = "fr-FR";
     private const string CultureEN = "en-US";
@@ -21,7 +23,13 @@ public partial class AppLanguageSelector : ComponentBase, IDisposable
     private async Task ChangeLanguageAsync(string culture)
     {
         _isMenuOpen = false;
+        var previousCulture = LanguageService.CurrentCulture;
         await LanguageService.ChangeLanguageAsync(culture);
+
+        if (!OperatingSystem.IsBrowser() && !string.Equals(previousCulture, LanguageService.CurrentCulture, StringComparison.OrdinalIgnoreCase))
+        {
+            Navigation.NavigateTo(Navigation.Uri, forceLoad: true);
+        }
     }
 
     private void HandleLanguageChanged()

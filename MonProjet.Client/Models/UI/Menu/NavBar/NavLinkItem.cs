@@ -2,6 +2,7 @@
 
 public class NavLinkItem
 {
+    public string Id { get; set; } = Guid.NewGuid().ToString("N");
     public string Label { get; set; } = string.Empty;
     public string? Href { get; set; }
     public string? BannerText { get; set; }

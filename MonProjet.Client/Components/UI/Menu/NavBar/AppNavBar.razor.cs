@@ -26,7 +26,7 @@ public partial class AppNavBar : AppComponentBase, IDisposable
     {
         if (_activeDropdown is not null)
         {
-            var newActiveLink = Links.FirstOrDefault(l => l.Href == _activeDropdown.Href);
+            var newActiveLink = Links.FirstOrDefault(l => l.Id == _activeDropdown.Id);
 
             if (newActiveLink is not null)
             {
@@ -46,7 +46,7 @@ public partial class AppNavBar : AppComponentBase, IDisposable
     private void ToggleDropdown(NavLinkItem link)
     {
         if (!link.HasDropdown) return;
-        _activeDropdown = _activeDropdown == link ? null : link;
+        _activeDropdown = _activeDropdown?.Id == link.Id ? null : link;
     }
 
     private async Task OnMouseEnterAsync(NavLinkItem link)

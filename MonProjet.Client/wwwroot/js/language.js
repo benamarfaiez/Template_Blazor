@@ -1,7 +1,20 @@
 ﻿export function setLanguage(culture) {
-    localStorage.setItem('culture', culture);
+    try {
+        localStorage.setItem('culture', culture);
+    } catch {
+    }
+
+    try {
+        const requestCulture = encodeURIComponent(`c=${culture}|uic=${culture}`);
+        document.cookie = `.AspNetCore.Culture=${requestCulture}; path=/; max-age=31536000; samesite=lax`;
+    } catch {
+    }
 }
 
 export function getLanguage() {
-    return localStorage.getItem('culture');
+    try {
+        return localStorage.getItem('culture');
+    } catch {
+        return null;
+    }
 }

@@ -5,14 +5,23 @@ namespace MonProjet.Client.Services;
 public sealed class LanguageService(ILanguagePreferenceStore preferenceStore) : ILanguageService
 {
     private const string DefaultCulture = "fr-FR";
+    private readonly SemaphoreSlim _cultureChangeLock = new(1, 1);
 
     public string CurrentCulture { get; private set; } = DefaultCulture;
     public event Action? OnLanguageChanged;
 
     public async Task InitializeAsync()
     {
-        var savedCulture = await preferenceStore.GetSavedCultureAsync();
-        ApplyCulture(GetSavedCultureOrDefault(savedCulture));
+        await _cultureChangeLock.WaitAsync();
+        try
+        {
+            var savedCulture = await preferenceStore.GetSavedCultureAsync();
+            ApplyCulture(GetSavedCultureOrDefault(savedCulture));
+        }
+        finally
+        {
+            _cultureChangeLock.Release();
+        }
     }
 
     public async Task ChangeLanguageAsync(string cultureCode)
@@ -20,13 +29,21 @@ public sealed class LanguageService(ILanguagePreferenceStore preferenceStore) : 
         ArgumentException.ThrowIfNullOrWhiteSpace(cultureCode);
 
         var culture = CultureInfo.GetCultureInfo(cultureCode);
-        if (string.Equals(CurrentCulture, culture.Name, StringComparison.OrdinalIgnoreCase))
+        await _cultureChangeLock.WaitAsync();
+        try
         {
-            return;
-        }
+            if (string.Equals(CurrentCulture, culture.Name, StringComparison.OrdinalIgnoreCase))
+            {
+                return;
+            }
 
-        await preferenceStore.SaveCultureAsync(culture.Name);
-        ApplyCulture(culture);
+            await preferenceStore.SaveCultureAsync(culture.Name);
+            ApplyCulture(culture);
+        }
+        finally
+        {
+            _cultureChangeLock.Release();
+        }
     }
 
     private void ApplyCulture(CultureInfo culture)

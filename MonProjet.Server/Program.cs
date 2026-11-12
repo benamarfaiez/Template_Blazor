@@ -7,6 +7,8 @@ using MonProjet.Client.Presenters.Users;
 using MonProjet.Client.Services;
 using MonProjet.Client.Services.Navigation;
 using MonProjet.Server.Components;
+using Microsoft.AspNetCore.Localization;
+using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,6 +33,13 @@ builder.Services.AddScoped<ITransactionHistoryPresenter, TransactionHistoryPrese
 
 builder.Services.AddLocalization();
 builder.Services.AddScoped<ILanguageService, LanguageService>();
+builder.Services.Configure<RequestLocalizationOptions>(options =>
+{
+    var supportedCultures = new[] { new CultureInfo("fr-FR"), new CultureInfo("en-US") };
+    options.DefaultRequestCulture = new RequestCulture("fr-FR");
+    options.SupportedCultures = supportedCultures;
+    options.SupportedUICultures = supportedCultures;
+});
 
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents()
@@ -46,6 +55,7 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseRequestLocalization();
 app.UseAntiforgery();
 
 app.MapStaticAssets();

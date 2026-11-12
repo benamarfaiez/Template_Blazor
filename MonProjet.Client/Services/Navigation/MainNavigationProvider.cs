@@ -10,6 +10,7 @@ public sealed class MainNavigationProvider(IStringLocalizer<SharedResource> loca
     [
         new()
         {
+            Id = "platform",
             Label = "Platform",
             BannerText = "What is Platform? — One Enterprise OS. AI agents that see, decide, and act.",
             BannerLinkText = "Explore",

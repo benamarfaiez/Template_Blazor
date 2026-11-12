@@ -9,7 +9,7 @@ using MonProjet.Shared.Models.Home;
 
 namespace MonProjet.Client.Components.Pages.Home;
 
-public partial class HomeView : OwningComponentBase, IHomeView
+public partial class HomeView : OwningComponentBase, IHomeView, IDisposable
 {
     [Inject] public IStringLocalizer<HomeResource> Loc { get; set; } = default!;
     [Inject] public ILanguageService LanguageService { get; set; } = default!;
@@ -29,6 +29,7 @@ public partial class HomeView : OwningComponentBase, IHomeView
     {
         Presenter = ScopedServices.GetRequiredService<IHomePresenter>();
         _columns = HomeGridConfig.CreateColumns(Loc);
+        LanguageService.OnLanguageChanged += HandleLanguageChanged;
     }
 
     protected override async Task OnInitializedAsync()
@@ -40,6 +41,15 @@ public partial class HomeView : OwningComponentBase, IHomeView
 
     private Task RefreshDataAsync() => Presenter.RefreshDataAsync();
 
+    private void HandleLanguageChanged()
+    {
+        _ = InvokeAsync(() =>
+        {
+            _columns = HomeGridConfig.CreateColumns(Loc);
+            StateHasChanged();
+        });
+    }
+
     public void ShowError(string message)
     {
         Presenter.ViewModel.ErrorMessage = message;
@@ -50,5 +60,11 @@ public partial class HomeView : OwningComponentBase, IHomeView
     {
         Presenter.ViewModel.IsLoading = isLoading;
         StateHasChanged();
+    }
+
+    public void Dispose()
+    {
+        LanguageService.OnLanguageChanged -= HandleLanguageChanged;
+        GC.SuppressFinalize(this);
     }
 }

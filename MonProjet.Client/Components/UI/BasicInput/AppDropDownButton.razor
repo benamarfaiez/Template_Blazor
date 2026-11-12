@@ -8,6 +8,8 @@
 
     <div class="app-dropdown"
          tabindex="-1"
+         @ref="_dropdownElement"
+         @onkeydown="HandleKeyDownAsync"
          @onmouseenter="OnMouseEnterAsync"
          @onmouseleave="OnMouseLeaveAsync"
          @attributes="SafeAttributes">

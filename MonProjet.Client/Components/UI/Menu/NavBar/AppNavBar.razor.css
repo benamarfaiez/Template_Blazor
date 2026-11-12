@@ -1,4 +1,5 @@
 .app-navbar-wrapper {
+    --app-navbar-height: 58px;
     position: sticky;
     top: 0;
     z-index: 1000;
@@ -35,7 +36,7 @@
     max-width: 1400px;
     margin: 0 auto;
     padding: 0 32px;
-    height: 58px;
+    height: var(--app-navbar-height);
 }
 
 .app-navbar-right {
