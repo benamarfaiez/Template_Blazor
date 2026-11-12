@@ -1,4 +1,6 @@
 ﻿export function setLanguage(culture) {
+    setDocumentLanguage(culture);
+
     try {
         localStorage.setItem('culture', culture);
     } catch {
@@ -9,6 +11,10 @@
         document.cookie = `.AspNetCore.Culture=${requestCulture}; path=/; max-age=31536000; samesite=lax`;
     } catch {
     }
+}
+
+export function setDocumentLanguage(culture) {
+    document.documentElement.lang = culture;
 }
 
 export function getLanguage() {

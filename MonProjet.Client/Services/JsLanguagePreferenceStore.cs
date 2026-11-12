@@ -20,6 +20,14 @@ public sealed class JsLanguagePreferenceStore(IJSRuntime js) : ILanguagePreferen
         await module.InvokeVoidAsync("setLanguage", cultureCode);
     }
 
+    public async Task SetDocumentLanguageAsync(string cultureCode)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(cultureCode);
+
+        var module = await GetModuleAsync();
+        await module.InvokeVoidAsync("setDocumentLanguage", cultureCode);
+    }
+
     private async Task<IJSObjectReference> GetModuleAsync()
     {
         _module ??= await js.InvokeAsync<IJSObjectReference>("import", "./js/language.js");

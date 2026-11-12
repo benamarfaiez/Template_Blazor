@@ -17,6 +17,7 @@ public sealed class LanguageService(ILanguagePreferenceStore preferenceStore) : 
         {
             var savedCulture = await preferenceStore.GetSavedCultureAsync();
             ApplyCulture(GetSavedCultureOrDefault(savedCulture));
+            await preferenceStore.SetDocumentLanguageAsync(CurrentCulture);
         }
         finally
         {
