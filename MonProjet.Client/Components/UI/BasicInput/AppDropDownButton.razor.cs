@@ -15,6 +15,11 @@ public partial class AppDropDownButton : AppComponentBase, IDisposable
     private CancellationTokenSource? _hoverCts;
     private async Task ToggleAsync()
     {
+        if (TriggerOnHover && IsOpen)
+        {
+            return;
+        }
+
         IsOpen = !IsOpen;
         await IsOpenChanged.InvokeAsync(IsOpen);
     }
@@ -58,6 +63,7 @@ public partial class AppDropDownButton : AppComponentBase, IDisposable
 
     public void Dispose()
     {
+        _hoverCts?.Cancel();
         _hoverCts?.Dispose();
         GC.SuppressFinalize(this);
     }
