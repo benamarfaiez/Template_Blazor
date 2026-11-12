@@ -126,4 +126,28 @@
   <data name="Btn_Refresh" xml:space="preserve">
     <value>Refresh</value>
   </data>
+  <data name="Grid_Id" xml:space="preserve">
+    <value>ID</value>
+  </data>
+  <data name="Grid_Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="Grid_Status" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="Grid_CreatedOn" xml:space="preserve">
+    <value>Created on</value>
+  </data>
+  <data name="Status_Active" xml:space="preserve">
+    <value>Active</value>
+  </data>
+  <data name="Status_Pending" xml:space="preserve">
+    <value>Pending</value>
+  </data>
+  <data name="Status_Completed" xml:space="preserve">
+    <value>Completed</value>
+  </data>
+  <data name="Error_ServiceUnavailable" xml:space="preserve">
+    <value>Unable to contact the server. Please check your connection.</value>
+  </data>
 </root>

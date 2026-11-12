@@ -9,19 +9,10 @@ public class HomePresenter(IExceptionHandler exceptions) : IHomePresenter
 {
     private IHomeView? _view;
     private readonly IExceptionHandler _exceptions = exceptions;
-    private Action? _refreshHandler;
 
     public HomeViewModel ViewModel { get; } = new();
 
-    public void SetView(IHomeView view)
-    {
-        if (_refreshHandler is not null && _view is not null)
-            _view.OnRefreshRequested -= _refreshHandler;
-
-        _view = view;
-        _refreshHandler = async () => await RefreshDataAsync();
-        view.OnRefreshRequested += _refreshHandler;
-    }
+    public void SetView(IHomeView view) => _view = view;
 
     public async Task InitializeAsync()
     {

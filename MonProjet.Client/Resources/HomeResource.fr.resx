@@ -120,4 +120,12 @@
 	<data name="Title" xml:space="preserve"><value>Tableau de bord</value></data>
 	<data name="Search_Placeholder" xml:space="preserve"><value>Rechercher un projet...</value></data>
 	<data name="Btn_Refresh" xml:space="preserve"><value>Rafraîchir</value></data>
+    <data name="Grid_Id" xml:space="preserve"><value>ID</value></data>
+    <data name="Grid_Name" xml:space="preserve"><value>Nom</value></data>
+    <data name="Grid_Status" xml:space="preserve"><value>Statut</value></data>
+    <data name="Grid_CreatedOn" xml:space="preserve"><value>Créé le</value></data>
+    <data name="Status_Active" xml:space="preserve"><value>Actif</value></data>
+    <data name="Status_Pending" xml:space="preserve"><value>En attente</value></data>
+    <data name="Status_Completed" xml:space="preserve"><value>Terminé</value></data>
+    <data name="Error_ServiceUnavailable" xml:space="preserve"><value>Impossible de contacter le serveur. Vérifiez votre connexion.</value></data>
 </root>

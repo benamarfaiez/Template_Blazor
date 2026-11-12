@@ -1,14 +1,10 @@
 @page "/"
-@using MonProjet.Client.View.Home
-@inject IStringLocalizer<HomeResource> Loc
 @inherits OwningComponentBase
-@implements IHomeView
-@implements IDisposable
 
-<PageTitle>Tableau de bord</PageTitle>
+<div @key="LanguageService.CurrentCulture">
+<PageTitle>@Loc["Title"]</PageTitle>
 
 <h1>@Loc["Title"]</h1>
-
 <AppStackPanel Orientation="StackOrientation.Horizontal"
                Gap="12"
                PaddingLeft="0px"
@@ -19,10 +15,11 @@
     <AppTextBox id="search-input" 
                 name="search" 
                 @bind-Value="SearchTerm" 
+                @bind-Value:after="RefreshDataAsync"
                 Width="400px" 
                 PaddingLeft="0px" 
                 Placeholder="@Loc["Search_Placeholder"]" />
-    <AppButton Text="Rafraîchir" OnClick="RequestRefresh" Loading="Presenter.ViewModel.IsLoading" />
+    <AppButton Text='@Loc["Btn_Refresh"]' OnClick="RefreshDataAsync" Loading="Presenter.ViewModel.IsLoading" />
 
 </AppStackPanel>
 
@@ -40,3 +37,4 @@ else
          Message="@Presenter.ViewModel.ErrorMessage"
          MarginTop="16px"
          OnDismiss="() => Presenter.ViewModel.ErrorMessage = null" />
+</div>

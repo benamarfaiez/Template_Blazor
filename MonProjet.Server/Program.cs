@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Localization;
 using MonProjet.Client.Presenters.Employee;
 using MonProjet.Client.Presenters.Files;
 using MonProjet.Client.Presenters.Gallery;
@@ -6,8 +5,8 @@ using MonProjet.Client.Presenters.Home;
 using MonProjet.Client.Presenters.Treasury;
 using MonProjet.Client.Presenters.Users;
 using MonProjet.Client.Services;
+using MonProjet.Client.Services.Navigation;
 using MonProjet.Server.Components;
-using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +18,7 @@ builder.Services.AddScoped<IExceptionHandler, ExceptionHandler>();
 builder.Services.AddScoped<IFocusTrapService, FocusTrapService>();
 builder.Services.AddSingleton<IToastService, ToastService>();
 builder.Services.AddScoped<IThemeService, ThemeService>();
+builder.Services.AddScoped<IMainNavigationProvider, MainNavigationProvider>();
 
 builder.Services.AddScoped<IHomePresenter, HomePresenter>();
 builder.Services.AddScoped<IUserPresenter, UserPresenter>();
