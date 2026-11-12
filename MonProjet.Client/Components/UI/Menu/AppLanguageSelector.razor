@@ -1,4 +1,8 @@
-﻿<AppDropDownButton Text="@CurrentLanguageLabel" @bind-IsOpen="_isMenuOpen" Variant="ButtonVariant.Ghost">
+﻿<AppDropDownButton 
+    @bind-IsOpen="_isMenuOpen"
+    Text="@CurrentLanguageLabel" 
+    TriggerOnHover="true"
+    Variant="ButtonVariant.Ghost">
 
     <AppStackPanel Orientation="StackOrientation.Vertical"
                    Gap="4"

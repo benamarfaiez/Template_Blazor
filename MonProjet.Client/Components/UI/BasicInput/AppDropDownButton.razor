@@ -8,6 +8,8 @@
 
     <div class="app-dropdown"
          tabindex="-1"
+         @onmouseenter="OnMouseEnterAsync"
+         @onmouseleave="OnMouseLeaveAsync"
          @attributes="SafeAttributes">
 
         @if (IsOpen)
