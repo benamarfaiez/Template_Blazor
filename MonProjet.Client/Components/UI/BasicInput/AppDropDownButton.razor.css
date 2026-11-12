@@ -41,6 +41,13 @@
             background-color: var(--color-bg-alt, #f1f5f9);
         }
 
+.app-dropdown-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 99;
+    background: transparent;
+}
+
 /* Animation keyframes */
 @keyframes slideDown {
     from {

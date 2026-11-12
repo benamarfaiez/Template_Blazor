@@ -12,7 +12,7 @@
          @onmouseleave="OnMouseLeaveAsync"
          @attributes="SafeAttributes">
 
-        @if (IsOpen)
+        @if (IsOpen && !TriggerOnHover)
         {
             <div class="app-dropdown-backdrop" @onclick="CloseAsync"></div>
         }
