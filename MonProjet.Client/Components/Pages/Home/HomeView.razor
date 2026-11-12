@@ -1,7 +1,6 @@
 @page "/"
 @inherits OwningComponentBase
 
-<div @key="LanguageService.CurrentCulture">
 <PageTitle>@Loc["Title"]</PageTitle>
 
 <h1>@Loc["Title"]</h1>
@@ -37,4 +36,3 @@ else
          Message="@Presenter.ViewModel.ErrorMessage"
          MarginTop="16px"
          OnDismiss="() => Presenter.ViewModel.ErrorMessage = null" />
-</div>

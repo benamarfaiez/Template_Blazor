@@ -21,7 +21,7 @@
         <AppContainer HorizontalAlignment="@ContainerAlignment.Center" Width="100%" MaxWidth="1200px" PaddingLeft="24px" PaddingRight="24px" PaddingTop="32px" PaddingBottom="32px">
             <ErrorBoundary @ref="_errorBoundary">
                 <ChildContent>
-                    <div @key="LanguageService.CurrentCulture">@Body</div>
+                    @Body
                 </ChildContent>
                 <ErrorContent Context="ex">
                     <div class="error-container">
