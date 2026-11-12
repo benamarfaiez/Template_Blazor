@@ -35,13 +35,6 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents()
     .AddInteractiveWebAssemblyComponents();
 
-var supportedCultures = new[] { "en-US", "fr-FR" };
-builder.Services.Configure<RequestLocalizationOptions>(options =>
-{
-    options.DefaultRequestCulture = new RequestCulture("fr-FR");
-    options.SupportedCultures = [.. supportedCultures.Select(c => new CultureInfo(c))];
-    options.SupportedUICultures = options.SupportedCultures;
-});
 
 var app = builder.Build();
 
@@ -51,7 +44,6 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-app.UseRequestLocalization();
 app.UseHttpsRedirection();
 app.UseAntiforgery();
 

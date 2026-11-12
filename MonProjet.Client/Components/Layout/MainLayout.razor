@@ -2,11 +2,10 @@
 @inherits LayoutComponentBase
 
 <div class="layout">
-    
+
     <!-- 1. LA BARRE DE NAVIGATION PRINCIPALE -->
-    <AppNavBar Links="_navLinks" Href="/">
+    <AppNavBar Links="GetNavLinks()">
         
-        <!-- Le logo personnalisé -->
         <BrandTemplate>
             <img src="/images/logo.svg" alt="Logo" />
         </BrandTemplate>
@@ -15,28 +14,19 @@
         <RightContent>
             <AppLanguageSelector />
             <ThemeToggle />
-            <AppButton Text="Contact us" Variant="ButtonVariant.Secondary" />
         </RightContent>
     </AppNavBar>
 
-    <!-- 2. LE CONTENU DES PAGES -->
-    <main class="layout-main">
-        <AppContainer HorizontalAlignment="@ContainerAlignment.Center"
-                      Width="100%" 
-                      MaxWidth="1400px" 
-                      PaddingLeft="32px" 
-                      PaddingRight="32px" 
-                      PaddingTop="32px"
-                      PaddingBottom="32px">
-                      
+    <main class="layout-main" @key="LanguageService.CurrentCulture">
+        <AppContainer HorizontalAlignment="@ContainerAlignment.Center" Width="100%" MaxWidth="1200px" PaddingLeft="24px" PaddingRight="24px" PaddingTop="32px" PaddingBottom="32px">
             <ErrorBoundary @ref="_errorBoundary">
                 <ChildContent>@Body</ChildContent>
                 <ErrorContent Context="ex">
-                    <div style="display: flex; justify-content: center; margin-top: 48px;">
-                        <AppCard style="max-width: 500px; text-align: center; border-top: 4px solid #dc2626;">
+                    <div class="error-container">
+                        <AppCard>
                             <h2>Oups ! Une erreur est survenue</h2>
-                            <p style="color: #64748b;">@ex.Message</p>
-                            <AppButton Text="Réessayer" OnClick="Recover" MarginTop="16px" />
+                            <p class="error-message">@ex.Message</p>
+                            <AppButton Text="@Loc["Btn_Refresh"]" OnClick="Recover" />
                         </AppCard>
                     </div>
                 </ErrorContent>
@@ -44,12 +34,11 @@
         </AppContainer>
     </main>
 
-    <!-- 3. LE FOOTER -->
     <AppFooter BrandName="Flowic">
         <a href="/mentions-legales">Mentions légales</a>
         <a href="/cgu">CGU</a>
         <a href="/contact">Contact</a>
     </AppFooter>
-    
+
     <AppToast />
 </div>

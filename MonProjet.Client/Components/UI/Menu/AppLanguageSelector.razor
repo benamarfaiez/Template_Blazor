@@ -1,15 +1,14 @@
-﻿<AppDropDownButton Text="@CurrentLanguageLabel" Variant="AppButton.ButtonVariant.Ghost">
+﻿<AppDropDownButton Text="@CurrentLanguageLabel" @bind-IsOpen="_isMenuOpen" Variant="ButtonVariant.Ghost">
 
     <AppStackPanel Orientation="StackOrientation.Vertical"
                    Gap="4"
-                   Width="140px"
                    Padding="4">
 
-        <button type="button" class="lang-option" @onmousedown="() => ChangeLanguageAsync(CultureFR)" @onmousedown:preventDefault="true">
+        <button type="button" class="lang-option" @onclick="() => ChangeLanguageAsync(CultureFR)" @onmousedown:preventDefault="true">
             🇫🇷 Français
         </button>
 
-        <button type="button" class="lang-option" @onmousedown="() => ChangeLanguageAsync(CultureEN)" @onmousedown:preventDefault="true">
+        <button type="button" class="lang-option" @onclick="() => ChangeLanguageAsync(CultureEN)" @onmousedown:preventDefault="true">
             🇬🇧 English
         </button>
 

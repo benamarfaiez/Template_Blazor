@@ -9,14 +9,11 @@ public class LanguageService(IJSRuntime js) : ILanguageService
     private IJSObjectReference? _module;
 
     public string CurrentCulture { get; private set; } = "fr-FR";
+    public event Action? OnLanguageChanged;
 
     private async Task<IJSObjectReference> GetModuleAsync()
     {
-        if (_module is not null)
-        {
-            return _module;
-        }
-        _module = await _js.InvokeAsync<IJSObjectReference>("import", "./js/language.js");
+        _module ??= await _js.InvokeAsync<IJSObjectReference>("import", "./js/language.js");
         return _module;
     }
 
@@ -26,15 +23,16 @@ public class LanguageService(IJSRuntime js) : ILanguageService
         {
             var module = await GetModuleAsync();
             var savedCulture = await module.InvokeAsync<string>("getLanguage");
-
             if (!string.IsNullOrEmpty(savedCulture))
             {
                 ApplyCulture(savedCulture);
+                return;
             }
+
+            ApplyCulture("fr-FR");
         }
         catch (Exception)
         {
-            // On ignore l'erreur de prérendu serveur
         }
     }
 
@@ -46,24 +44,20 @@ public class LanguageService(IJSRuntime js) : ILanguageService
 
         try
         {
-            // ✅ On récupère le module (il sera chargé s'il était null)
             var module = await GetModuleAsync();
             await module.InvokeVoidAsync("setLanguage", cultureCode);
         }
-        catch (JSDisconnectedException)
-        {
-            // Si le circuit est fermé, on ignore
-        }
-        catch (InvalidOperationException)
-        {
-            // Si on est en prérendu (ne devrait pas arriver sur un clic)
-        }
+        catch (Exception) { }
+
+        OnLanguageChanged?.Invoke();
     }
 
     private void ApplyCulture(string cultureCode)
     {
         CurrentCulture = cultureCode;
         var cultureInfo = new CultureInfo(cultureCode);
+        CultureInfo.CurrentCulture = cultureInfo;
+        CultureInfo.CurrentUICulture = cultureInfo;
         CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
         CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
     }
