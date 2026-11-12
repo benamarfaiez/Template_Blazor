@@ -61,9 +61,9 @@ public partial class HomeView : OwningComponentBase, IHomeView, IDisposable
         StateHasChanged();
     }
 
-    public void Dispose()
+    protected override void Dispose(bool disposing)
     {
         LanguageService.OnLanguageChanged -= HandleLanguageChanged;
-        GC.SuppressFinalize(this);
+        base.Dispose(disposing);
     }
 }
