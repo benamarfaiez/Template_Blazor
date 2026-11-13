@@ -48,7 +48,7 @@ public sealed class JsLanguagePreferenceStoreTests
             var args = call.GetArguments();
             if (args[0] as string != "setLanguage") return false;
 
-            var lastArg = args[args.Length - 1];
+            var lastArg = args[^1];
             if (lastArg is object?[] paramsArray)
             {
                 return Equals(paramsArray[0], "en-US");

@@ -15,6 +15,7 @@ public static class JsMockExtensions
 
     public static void SetupModuleReturn<T>(this IJSObjectReference module, string method, T value)
     {
+        ArgumentException.ThrowIfNullOrWhiteSpace(method);
 #pragma warning disable CA2012
         // ✅ 1. Intercepte la surcharge SANS CancellationToken
         module.InvokeAsync<T>(Arg.Any<string>(), Arg.Any<object?[]?>())
