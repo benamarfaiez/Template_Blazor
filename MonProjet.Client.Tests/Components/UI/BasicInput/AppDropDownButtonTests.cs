@@ -10,9 +10,9 @@ public sealed class AppDropDownButtonTests : BunitContext
     [Fact]
     public void Click_TogglesMenuAndRaisesOpenCallback()
     {
-        // ✅ CORRECTION : Ajout de `_ => true` pour accepter n'importe quels arguments
         JSInterop.SetupModule("./js/dropdown.js")
-                 .SetupVoid("registerFocusOut", _ => true);
+                 .SetupVoid("registerFocusOut", _ => true)
+                 .SetVoidResult();
 
         bool? isOpen = null;
 
