@@ -70,8 +70,16 @@ public sealed class GalleryViewTests
 
     private static void ConfigureGalleryJavaScript(BunitContext context)
     {
-        context.JSInterop.SetupModule("./js/file-drop.js").SetupVoid("initDropZone");
-        context.JSInterop.SetupModule("./js/dropdown.js").SetupVoid("registerFocusOut", _ => true);
-        context.JSInterop.SetupModule("./Components/UI/Text/MonacoEditor.razor.js").SetupVoid("init", _ => true);
+        context.JSInterop.SetupModule("./js/file-drop.js")
+            .SetupVoid("initDropZone")
+            .SetVoidResult();
+
+        context.JSInterop.SetupModule("./js/dropdown.js")
+            .SetupVoid("registerFocusOut", _ => true)
+            .SetVoidResult();
+
+        context.JSInterop.SetupModule("./Components/UI/Text/MonacoEditor.razor.js")
+            .SetupVoid("init", _ => true)
+            .SetVoidResult();
     }
 }
