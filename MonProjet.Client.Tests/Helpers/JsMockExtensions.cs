@@ -17,12 +17,10 @@ public static class JsMockExtensions
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(method);
 #pragma warning disable CA2012
-        // ✅ 1. Intercepte la surcharge SANS CancellationToken
-        module.InvokeAsync<T>(Arg.Any<string>(), Arg.Any<object?[]?>())
+        module.InvokeAsync<T>(method, Arg.Any<object?[]?>())
             .Returns(_ => ValueTask.FromResult(value));
 
-        // ✅ 2. Intercepte la surcharge AVEC CancellationToken
-        module.InvokeAsync<T>(Arg.Any<string>(), Arg.Any<CancellationToken>(), Arg.Any<object?[]?>())
+        module.InvokeAsync<T>(method, Arg.Any<CancellationToken>(), Arg.Any<object?[]?>())
             .Returns(_ => ValueTask.FromResult(value));
 #pragma warning restore CA2012
     }
