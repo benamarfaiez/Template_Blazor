@@ -37,7 +37,8 @@
 
                 <button class="app-navbar-hamburger @(_isMobileMenuOpen ? "is-active" : "")"
                         @onclick="ToggleMobileMenu" @onclick:stopPropagation="true" aria-label="Menu"
-                        aria-expanded="@_isMobileMenuOpen" aria-controls="app-navbar-links">
+                        aria-expanded="@(_isMobileMenuOpen ? "true" : "false")"
+                        aria-controls="app-navbar-links">
                     <span class="hamburger-line"></span>
                     <span class="hamburger-line"></span>
                     <span class="hamburger-line"></span>

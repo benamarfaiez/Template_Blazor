@@ -13,7 +13,7 @@
                 <div class="app-step-indicator @stateClass @(step.IsDisabled ? "disabled" : "")"
                      @key="step"
                      role="tab"
-                     aria-selected="@(i == ActiveIndex).ToString().ToLowerInvariant()"
+                     aria-selected="@((i == ActiveIndex).ToString().ToLowerInvariant())"
                      @onclick="() => GoToStepAsync(i)">
 
                     <!-- Cercle numéroté ou icône -->
