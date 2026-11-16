@@ -6,7 +6,7 @@ using MonProjet.Shared.Models.User;
 
 namespace MonProjet.Client.Components.Pages.User;
 
-public partial class UserView : OwningComponentBase, IUserView, IDisposable
+public partial class UserView : OwningComponentBase, IUserView
 {
     // 1. Résolution du présentateur via le scope du composant
     private IUserPresenter Presenter => ScopedServices.GetRequiredService<IUserPresenter>();
@@ -34,10 +34,4 @@ public partial class UserView : OwningComponentBase, IUserView, IDisposable
     public void ShowError(string message) => StateHasChanged();
     public void ShowLoading(bool isLoading) => StateHasChanged();
 
-    // 4. Implémentation de IDisposable
-    public void Dispose()
-    {
-        // Le scope du OwningComponentBase libère automatiquement le présentateur.
-        GC.SuppressFinalize(this);
-    }
 }
