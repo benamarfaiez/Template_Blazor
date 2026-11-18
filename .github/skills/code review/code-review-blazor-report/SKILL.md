@@ -1,5 +1,4 @@
 ---
-name: code-review-blazor-report
 description: Produit une revue de pull request Blazor structurée, priorisée et actionnable, avec décision finale claire.
 allowed-tools:
   - read
@@ -9,10 +8,29 @@ allowed-tools:
   - github-mcp/create_pending_pull_request_review
   - github-mcp/add_comment_to_pending_pull_request_review
   - github-mcp/submit_pending_pull_request_review
+name: code-review-blazor-report
 ---
 
-# Produire la revue Blazor
+# Code Review Report
 
+## Description
+Produit une revue de pull request Blazor structurée, priorisée et actionnable, avec décision finale claire.
+
+## When to use
+- Invoquer pour : Produit une revue de pull request Blazor structurée, priorisée et actionnable, avec décision finale claire.
+- Utiliser uniquement lorsque la cible correspond au périmètre du skill.
+
+## Inputs
+- Cible, PR, issue ou chemins fournis par l’appelant.
+- Contraintes humaines explicites et état Git vérifié.
+- Périmètre limité à 20 fichiers au premier passage.
+
+## Outputs
+- Résultat vérifié correspondant à la mission du skill.
+- Chemins exacts, preuves et décisions humaines restantes.
+- Informations inconnues signalées par `À confirmer`.
+
+## Steps
 Produis une revue structurée à partir des constats des autres skills.
 
 ## Règles de priorisation
@@ -77,3 +95,12 @@ Classe chaque commentaire :
 - `BLOQUER` : faille de sécurité, perte de données potentielle, régression majeure
   ou changement dangereux non validé.
 - `COMMENTER` : observations utiles sans changement obligatoire.
+
+## Exemples
+- Exemple : appliquer le skill à une cible nommée explicitement par l’appelant.
+- Exemple : produire une sortie vérifiée avec chemins exacts et commandes exécutées.
+
+## Limites
+- Inspecter au plus 20 fichiers sans exploration exhaustive.
+- Arrêter après 3 tentatives ciblées infructueuses.
+- Consulter `../../common/glossary.md` pour les termes communs.

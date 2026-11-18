@@ -12,6 +12,8 @@ tools:
   - github-mcp/get_pull_request_diff
   - github-mcp/create_issue
 skills:
+  - common/read-project-structure
+  - common/report-format
   - qa-prepare-environment
   - qa-run-unit-tests
   - qa-run-component-tests

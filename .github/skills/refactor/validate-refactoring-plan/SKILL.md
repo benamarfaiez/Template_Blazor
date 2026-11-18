@@ -1,15 +1,33 @@
 ---
-name: validate-refactoring-plan
 description: Valide un plan de refactoring Blazor avant exécution : périmètre, dépendances, tests, risques, rollback, décisions humaines et absence de mélange de responsabilités.
 allowed-tools:
   - read
   - search
   - glob
   - grep
+name: validate-refactoring-plan
 ---
 
-# Valider un plan de refactoring
+# Validate Refactoring Plan
 
+## Description
+Valide un plan de refactoring Blazor avant exécution : périmètre, dépendances, tests, risques, rollback, décisions humaines et absence de mélange de responsabilités.
+
+## When to use
+- Invoquer pour : Valide un plan de refactoring Blazor avant exécution : périmètre, dépendances, tests, risques, rollback, décisions humaines et absence de mélange de responsabilités.
+- Utiliser uniquement lorsque la cible correspond au périmètre du skill.
+
+## Inputs
+- Cible, PR, issue ou chemins fournis par l’appelant.
+- Contraintes humaines explicites et état Git vérifié.
+- Périmètre limité à 20 fichiers au premier passage.
+
+## Outputs
+- Résultat vérifié correspondant à la mission du skill.
+- Chemins exacts, preuves et décisions humaines restantes.
+- Informations inconnues signalées par `À confirmer`.
+
+## Steps
 Vérifie que le plan est sûr, incrémental et exécutable avant de créer des
 issues ou de lancer un refactoring.
 
@@ -82,3 +100,12 @@ Termine par l’une de ces conclusions :
 - Ne lance pas le refactoring.
 - Signale tout incrément qui mélange refactoring, fonctionnalité, bugfix et migration.
 - Signale tout incrément sans test ou sans rollback.
+
+## Exemples
+- Exemple : appliquer le skill à une cible nommée explicitement par l’appelant.
+- Exemple : produire une sortie vérifiée avec chemins exacts et commandes exécutées.
+
+## Limites
+- Inspecter au plus 20 fichiers sans exploration exhaustive.
+- Arrêter après 3 tentatives ciblées infructueuses.
+- Consulter `../../common/glossary.md` pour les termes communs.

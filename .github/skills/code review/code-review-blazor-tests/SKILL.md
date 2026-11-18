@@ -1,14 +1,32 @@
 ---
-name: code-review-blazor-tests
 description: Vérifie la couverture, la qualité, la robustesse et la pertinence des tests ajoutés ou modifiés dans une pull request Blazor.
 allowed-tools:
   - read
   - search
   - github-mcp/get_pull_request_diff
+name: code-review-blazor-tests
 ---
 
-# Vérifier les tests Blazor
+# Code Review Tests
 
+## Description
+Vérifie la couverture, la qualité, la robustesse et la pertinence des tests ajoutés ou modifiés dans une pull request Blazor.
+
+## When to use
+- Invoquer pour : Vérifie la couverture, la qualité, la robustesse et la pertinence des tests ajoutés ou modifiés dans une pull request Blazor.
+- Utiliser uniquement lorsque la cible correspond au périmètre du skill.
+
+## Inputs
+- Cible, PR, issue ou chemins fournis par l’appelant.
+- Contraintes humaines explicites et état Git vérifié.
+- Périmètre limité à 20 fichiers au premier passage.
+
+## Outputs
+- Résultat vérifié correspondant à la mission du skill.
+- Chemins exacts, preuves et décisions humaines restantes.
+- Informations inconnues signalées par `À confirmer`.
+
+## Steps
 Vérifie que la PR est correctement couverte par des tests pertinents.
 
 ## Contrôles obligatoires
@@ -66,3 +84,12 @@ Pour une modification d’API ou de parcours critique :
 
 **Scénario à couvrir :** comportement attendu et cas limite.
 ```
+
+## Exemples
+- Exemple : appliquer le skill à une cible nommée explicitement par l’appelant.
+- Exemple : produire une sortie vérifiée avec chemins exacts et commandes exécutées.
+
+## Limites
+- Inspecter au plus 20 fichiers sans exploration exhaustive.
+- Arrêter après 3 tentatives ciblées infructueuses.
+- Consulter `../../common/glossary.md` pour les termes communs.

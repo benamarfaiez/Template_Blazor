@@ -1,5 +1,4 @@
 ---
-name: qa-run-e2e-tests
 description: Exécute les tests Playwright des parcours utilisateurs critiques d'une application Blazor et capture les preuves en cas d'échec.
 allowed-tools:
   - read
@@ -7,10 +6,29 @@ allowed-tools:
   - glob
   - terminal
   - playwright-mcp
+name: qa-run-e2e-tests
 ---
 
-# Exécuter les tests E2E
+# Qa Run E2E Tests
 
+## Description
+Exécute les tests Playwright des parcours utilisateurs critiques d'une application Blazor et capture les preuves en cas d'échec.
+
+## When to use
+- Invoquer pour : Exécute les tests Playwright des parcours utilisateurs critiques d'une application Blazor et capture les preuves en cas d'échec.
+- Utiliser uniquement lorsque la cible correspond au périmètre du skill.
+
+## Inputs
+- Cible, PR, issue ou chemins fournis par l’appelant.
+- Contraintes humaines explicites et état Git vérifié.
+- Périmètre limité à 20 fichiers au premier passage.
+
+## Outputs
+- Résultat vérifié correspondant à la mission du skill.
+- Chemins exacts, preuves et décisions humaines restantes.
+- Informations inconnues signalées par `À confirmer`.
+
+## Steps
 Exécute les tests Playwright pertinents pour les parcours utilisateurs critiques.
 
 ## Commandes
@@ -54,3 +72,12 @@ Pour chaque parcours critique, vérifie :
 - État de chargement
 - État vide, si applicable
 - Échec serveur ou réseau, si pertinent
+
+## Exemples
+- Exemple : appliquer le skill à une cible nommée explicitement par l’appelant.
+- Exemple : produire une sortie vérifiée avec chemins exacts et commandes exécutées.
+
+## Limites
+- Inspecter au plus 20 fichiers sans exploration exhaustive.
+- Arrêter après 3 tentatives ciblées infructueuses.
+- Consulter `../../common/glossary.md` pour les termes communs.

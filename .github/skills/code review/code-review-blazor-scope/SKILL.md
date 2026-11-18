@@ -1,15 +1,33 @@
 ---
-name: code-review-blazor-scope
 description: Analyse le périmètre d'une pull request Blazor : objectif, fichiers modifiés, impact, risques et critères d'acceptation.
 allowed-tools:
   - read
   - search
   - github-mcp/get_pull_request
   - github-mcp/get_pull_request_diff
+name: code-review-blazor-scope
 ---
 
-# Définir le périmètre de revue
+# Code Review Scope
 
+## Description
+Analyse le périmètre d'une pull request Blazor : objectif, fichiers modifiés, impact, risques et critères d'acceptation.
+
+## When to use
+- Invoquer pour : Analyse le périmètre d'une pull request Blazor : objectif, fichiers modifiés, impact, risques et critères d'acceptation.
+- Utiliser uniquement lorsque la cible correspond au périmètre du skill.
+
+## Inputs
+- Cible, PR, issue ou chemins fournis par l’appelant.
+- Contraintes humaines explicites et état Git vérifié.
+- Périmètre limité à 20 fichiers au premier passage.
+
+## Outputs
+- Résultat vérifié correspondant à la mission du skill.
+- Chemins exacts, preuves et décisions humaines restantes.
+- Informations inconnues signalées par `À confirmer`.
+
+## Steps
 Analyse la PR sans modifier le code.
 
 ## Informations à extraire
@@ -45,3 +63,12 @@ Produis :
 - Critères d’acceptation
 - Questions à clarifier
 - Liste des skills de revue à appliquer
+
+## Exemples
+- Exemple : appliquer le skill à une cible nommée explicitement par l’appelant.
+- Exemple : produire une sortie vérifiée avec chemins exacts et commandes exécutées.
+
+## Limites
+- Inspecter au plus 20 fichiers sans exploration exhaustive.
+- Arrêter après 3 tentatives ciblées infructueuses.
+- Consulter `../../common/glossary.md` pour les termes communs.

@@ -10,6 +10,9 @@ tools:
   - write
   - terminal
 skills:
+  - common/read-project-structure
+  - common/handle-merge-conflicts
+  - common/report-format
   - extract-blazor-business-logic
   - extract-blazor-component
   - modernize-blazor-csharp

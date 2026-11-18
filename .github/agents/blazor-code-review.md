@@ -10,6 +10,8 @@ tools:
   - github-mcp/add_comment_to_pending_pull_request_review
   - github-mcp/submit_pending_pull_request_review
 skills:
+  - common/read-project-structure
+  - common/report-format
   - code-review-blazor-scope
   - code-review-blazor-correctness
   - code-review-blazor-security

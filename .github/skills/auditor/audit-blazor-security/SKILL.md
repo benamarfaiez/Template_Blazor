@@ -1,13 +1,31 @@
 ---
-name: audit-blazor-security
 description: Audit en lecture seule de la sécurité, de l'autorisation, de la validation, du JS interop, de la configuration et de l'exposition de secrets dans un projet Blazor.
 allowed-tools:
   - read
   - search
+name: audit-blazor-security
 ---
 
-# Auditer la sécurité Blazor
+# Audit Security
 
+## Description
+Audit en lecture seule de la sécurité, de l'autorisation, de la validation, du JS interop, de la configuration et de l'exposition de secrets dans un projet Blazor.
+
+## When to use
+- Invoquer pour : Audit en lecture seule de la sécurité, de l'autorisation, de la validation, du JS interop, de la configuration et de l'exposition de secrets dans un projet Blazor.
+- Utiliser uniquement lorsque la cible correspond au périmètre du skill.
+
+## Inputs
+- Cible, PR, issue ou chemins fournis par l’appelant.
+- Contraintes humaines explicites et état Git vérifié.
+- Périmètre limité à 20 fichiers au premier passage.
+
+## Outputs
+- Résultat vérifié correspondant à la mission du skill.
+- Chemins exacts, preuves et décisions humaines restantes.
+- Informations inconnues signalées par `À confirmer`.
+
+## Steps
 Analyse les risques de sécurité sans modifier le projet.
 
 ## Périmètre
@@ -66,3 +84,12 @@ Analyse les risques de sécurité sans modifier le projet.
 - Masque les valeurs sensibles dans les extraits de code.
 - Ne tente pas d’exploiter une vulnérabilité.
 - Signale immédiatement toute faille critique.
+
+## Exemples
+- Exemple : appliquer le skill à une cible nommée explicitement par l’appelant.
+- Exemple : produire une sortie vérifiée avec chemins exacts et commandes exécutées.
+
+## Limites
+- Inspecter au plus 20 fichiers sans exploration exhaustive.
+- Arrêter après 3 tentatives ciblées infructueuses.
+- Consulter `../../common/glossary.md` pour les termes communs.

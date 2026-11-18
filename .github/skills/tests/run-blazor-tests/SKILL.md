@@ -1,10 +1,28 @@
 ---
-name: run-blazor-tests
 description: Exécute les tests xUnit, bUnit et Playwright pertinents, analyse les résultats et distingue les échecs de test des bugs existants.
+name: run-blazor-tests
 ---
 
-# Exécuter les tests Blazor
+# Run Tests
 
+## Description
+Exécute les tests xUnit, bUnit et Playwright pertinents, analyse les résultats et distingue les échecs de test des bugs existants.
+
+## When to use
+- Invoquer pour : Exécute les tests xUnit, bUnit et Playwright pertinents, analyse les résultats et distingue les échecs de test des bugs existants.
+- Utiliser uniquement lorsque la cible correspond au périmètre du skill.
+
+## Inputs
+- Cible, PR, issue ou chemins fournis par l’appelant.
+- Contraintes humaines explicites et état Git vérifié.
+- Périmètre limité à 20 fichiers au premier passage.
+
+## Outputs
+- Résultat vérifié correspondant à la mission du skill.
+- Chemins exacts, preuves et décisions humaines restantes.
+- Informations inconnues signalées par `À confirmer`.
+
+## Steps
 Exécute uniquement les tests pertinents pour la cible analysée.
 
 ## Commandes autorisées
@@ -39,3 +57,12 @@ Pour Playwright, utilise la commande déjà configurée dans le dépôt.
 - Ne modifie pas une assertion pour masquer un échec.
 - Ne contourne pas une erreur de sécurité, d’autorisation ou de validation.
 - Si un test échoue, indique la cause, la preuve et l’action recommandée.
+
+## Exemples
+- Exemple : appliquer le skill à une cible nommée explicitement par l’appelant.
+- Exemple : produire une sortie vérifiée avec chemins exacts et commandes exécutées.
+
+## Limites
+- Inspecter au plus 20 fichiers sans exploration exhaustive.
+- Arrêter après 3 tentatives ciblées infructueuses.
+- Consulter `../../common/glossary.md` pour les termes communs.

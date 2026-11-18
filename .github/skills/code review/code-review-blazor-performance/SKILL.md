@@ -1,14 +1,32 @@
 ---
-name: code-review-blazor-performance
 description: Vérifie la performance, la fiabilité, les requêtes EF Core, le rendu Blazor, la résilience et la gestion des ressources dans une pull request.
 allowed-tools:
   - read
   - search
   - github-mcp/get_pull_request_diff
+name: code-review-blazor-performance
 ---
 
-# Vérifier la performance Blazor
+# Code Review Performance
 
+## Description
+Vérifie la performance, la fiabilité, les requêtes EF Core, le rendu Blazor, la résilience et la gestion des ressources dans une pull request.
+
+## When to use
+- Invoquer pour : Vérifie la performance, la fiabilité, les requêtes EF Core, le rendu Blazor, la résilience et la gestion des ressources dans une pull request.
+- Utiliser uniquement lorsque la cible correspond au périmètre du skill.
+
+## Inputs
+- Cible, PR, issue ou chemins fournis par l’appelant.
+- Contraintes humaines explicites et état Git vérifié.
+- Périmètre limité à 20 fichiers au premier passage.
+
+## Outputs
+- Résultat vérifié correspondant à la mission du skill.
+- Chemins exacts, preuves et décisions humaines restantes.
+- Informations inconnues signalées par `À confirmer`.
+
+## Steps
 Vérifie les risques de performance et de fiabilité introduits par la PR.
 
 ## Accès aux données
@@ -63,3 +81,12 @@ Vérifie les risques de performance et de fiabilité introduits par la PR.
 - Distingue un problème mesuré d’un risque potentiel.
 - Recommande une mesure avant toute optimisation coûteuse.
 - Ne lance pas de test de charge.
+
+## Exemples
+- Exemple : appliquer le skill à une cible nommée explicitement par l’appelant.
+- Exemple : produire une sortie vérifiée avec chemins exacts et commandes exécutées.
+
+## Limites
+- Inspecter au plus 20 fichiers sans exploration exhaustive.
+- Arrêter après 3 tentatives ciblées infructueuses.
+- Consulter `../../common/glossary.md` pour les termes communs.

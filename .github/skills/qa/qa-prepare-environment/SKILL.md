@@ -1,15 +1,33 @@
 ---
-name: qa-prepare-environment
 description: Prépare l'environnement de QA Blazor : vérifie le SDK .NET, restaure les dépendances si nécessaire, identifie les projets de tests et vérifie l'état Git.
 allowed-tools:
   - read
   - search
   - glob
   - terminal
+name: qa-prepare-environment
 ---
 
-# Préparer l’environnement QA
+# Qa Prepare Environment
 
+## Description
+Prépare l'environnement de QA Blazor : vérifie le SDK .NET, restaure les dépendances si nécessaire, identifie les projets de tests et vérifie l'état Git.
+
+## When to use
+- Invoquer pour : Prépare l'environnement de QA Blazor : vérifie le SDK .NET, restaure les dépendances si nécessaire, identifie les projets de tests et vérifie l'état Git.
+- Utiliser uniquement lorsque la cible correspond au périmètre du skill.
+
+## Inputs
+- Cible, PR, issue ou chemins fournis par l’appelant.
+- Contraintes humaines explicites et état Git vérifié.
+- Périmètre limité à 20 fichiers au premier passage.
+
+## Outputs
+- Résultat vérifié correspondant à la mission du skill.
+- Chemins exacts, preuves et décisions humaines restantes.
+- Informations inconnues signalées par `À confirmer`.
+
+## Steps
 Prépare l’environnement sans modifier le code de production.
 
 ## Étapes
@@ -39,3 +57,12 @@ dotnet list package --vulnerable --include-transitive
 - Ne modifie pas les fichiers de configuration de production.
 - Ne stocke pas de secret dans un log ou une variable d’environnement persistante.
 - Si l’environnement est incomplet, demande une clarification plutôt que de deviner.
+
+## Exemples
+- Exemple : appliquer le skill à une cible nommée explicitement par l’appelant.
+- Exemple : produire une sortie vérifiée avec chemins exacts et commandes exécutées.
+
+## Limites
+- Inspecter au plus 20 fichiers sans exploration exhaustive.
+- Arrêter après 3 tentatives ciblées infructueuses.
+- Consulter `../../common/glossary.md` pour les termes communs.

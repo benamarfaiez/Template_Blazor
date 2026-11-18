@@ -1,14 +1,32 @@
 ---
-name: audit-blazor-quality
 description: Audit en lecture seule de la qualité, de la maintenabilité, de la testabilité, de l'accessibilité et de la robustesse d'un projet Blazor.
 allowed-tools:
   - read
   - search
   - terminal
+name: audit-blazor-quality
 ---
 
-# Auditer la qualité Blazor
+# Audit Quality
 
+## Description
+Audit en lecture seule de la qualité, de la maintenabilité, de la testabilité, de l'accessibilité et de la robustesse d'un projet Blazor.
+
+## When to use
+- Invoquer pour : Audit en lecture seule de la qualité, de la maintenabilité, de la testabilité, de l'accessibilité et de la robustesse d'un projet Blazor.
+- Utiliser uniquement lorsque la cible correspond au périmètre du skill.
+
+## Inputs
+- Cible, PR, issue ou chemins fournis par l’appelant.
+- Contraintes humaines explicites et état Git vérifié.
+- Périmètre limité à 20 fichiers au premier passage.
+
+## Outputs
+- Résultat vérifié correspondant à la mission du skill.
+- Chemins exacts, preuves et décisions humaines restantes.
+- Informations inconnues signalées par `À confirmer`.
+
+## Steps
 Analyse la qualité du code Blazor et .NET sans modifier le projet.
 
 ## Périmètre
@@ -96,3 +114,12 @@ Analyse la qualité du code Blazor et .NET sans modifier le projet.
 - `ÉLEVÉ` : dette forte, testabilité insuffisante ou risque de production
 - `MOYEN` : maintenabilité, duplication ou UX à améliorer
 - `FAIBLE` : style, nommage ou documentation
+
+## Exemples
+- Exemple : appliquer le skill à une cible nommée explicitement par l’appelant.
+- Exemple : produire une sortie vérifiée avec chemins exacts et commandes exécutées.
+
+## Limites
+- Inspecter au plus 20 fichiers sans exploration exhaustive.
+- Arrêter après 3 tentatives ciblées infructueuses.
+- Consulter `../../common/glossary.md` pour les termes communs.

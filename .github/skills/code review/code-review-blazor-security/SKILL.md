@@ -1,14 +1,32 @@
 ---
-name: code-review-blazor-security
 description: Vérifie la sécurité, l'autorisation, la validation, le JS interop, la gestion des secrets et l'exposition de données sensibles dans une pull request Blazor.
 allowed-tools:
   - read
   - search
   - github-mcp/get_pull_request_diff
+name: code-review-blazor-security
 ---
 
-# Vérifier la sécurité Blazor
+# Code Review Security
 
+## Description
+Vérifie la sécurité, l'autorisation, la validation, le JS interop, la gestion des secrets et l'exposition de données sensibles dans une pull request Blazor.
+
+## When to use
+- Invoquer pour : Vérifie la sécurité, l'autorisation, la validation, le JS interop, la gestion des secrets et l'exposition de données sensibles dans une pull request Blazor.
+- Utiliser uniquement lorsque la cible correspond au périmètre du skill.
+
+## Inputs
+- Cible, PR, issue ou chemins fournis par l’appelant.
+- Contraintes humaines explicites et état Git vérifié.
+- Périmètre limité à 20 fichiers au premier passage.
+
+## Outputs
+- Résultat vérifié correspondant à la mission du skill.
+- Chemins exacts, preuves et décisions humaines restantes.
+- Informations inconnues signalées par `À confirmer`.
+
+## Steps
 Vérifie les risques de sécurité introduits ou non corrigés par la PR.
 
 ## Contrôles obligatoires
@@ -60,3 +78,12 @@ Traite comme bloquant :
 - Masque les secrets dans les extraits de code.
 - Ne divulgue aucun token, mot de passe ou chaîne de connexion.
 - Signale immédiatement toute faille critique.
+
+## Exemples
+- Exemple : appliquer le skill à une cible nommée explicitement par l’appelant.
+- Exemple : produire une sortie vérifiée avec chemins exacts et commandes exécutées.
+
+## Limites
+- Inspecter au plus 20 fichiers sans exploration exhaustive.
+- Arrêter après 3 tentatives ciblées infructueuses.
+- Consulter `../../common/glossary.md` pour les termes communs.

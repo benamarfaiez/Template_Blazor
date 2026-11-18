@@ -1,14 +1,32 @@
 ---
-name: audit-blazor-performance
 description: Audit en lecture seule de la performance, de la fiabilité, des requêtes EF Core, du rendu Blazor, de la gestion d'erreurs et de la résilience.
 allowed-tools:
   - read
   - search
   - terminal
+name: audit-blazor-performance
 ---
 
-# Auditer la performance Blazor
+# Audit Performance
 
+## Description
+Audit en lecture seule de la performance, de la fiabilité, des requêtes EF Core, du rendu Blazor, de la gestion d'erreurs et de la résilience.
+
+## When to use
+- Invoquer pour : Audit en lecture seule de la performance, de la fiabilité, des requêtes EF Core, du rendu Blazor, de la gestion d'erreurs et de la résilience.
+- Utiliser uniquement lorsque la cible correspond au périmètre du skill.
+
+## Inputs
+- Cible, PR, issue ou chemins fournis par l’appelant.
+- Contraintes humaines explicites et état Git vérifié.
+- Périmètre limité à 20 fichiers au premier passage.
+
+## Outputs
+- Résultat vérifié correspondant à la mission du skill.
+- Chemins exacts, preuves et décisions humaines restantes.
+- Informations inconnues signalées par `À confirmer`.
+
+## Steps
 Analyse la performance et la fiabilité sans modifier le projet.
 
 ## Périmètre
@@ -82,3 +100,12 @@ Analyse la performance et la fiabilité sans modifier le projet.
 - Distingue un problème mesuré d’un risque potentiel.
 - Recommande une mesure avant toute optimisation coûteuse.
 - Ne lance pas de test de charge ou de commande destructive.
+
+## Exemples
+- Exemple : appliquer le skill à une cible nommée explicitement par l’appelant.
+- Exemple : produire une sortie vérifiée avec chemins exacts et commandes exécutées.
+
+## Limites
+- Inspecter au plus 20 fichiers sans exploration exhaustive.
+- Arrêter après 3 tentatives ciblées infructueuses.
+- Consulter `../../common/glossary.md` pour les termes communs.

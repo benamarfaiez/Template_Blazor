@@ -1,15 +1,33 @@
 ---
-name: qa-analyze-failures
 description: Analyse les échecs de build, de tests ou de Playwright, distingue les bugs, régressions et problèmes de test, puis recommande une action sûre.
 allowed-tools:
   - read
   - search
   - terminal
   - playwright-mcp
+name: qa-analyze-failures
 ---
 
-# Analyser les échecs QA
+# Qa Analyze Failures
 
+## Description
+Analyse les échecs de build, de tests ou de Playwright, distingue les bugs, régressions et problèmes de test, puis recommande une action sûre.
+
+## When to use
+- Invoquer pour : Analyse les échecs de build, de tests ou de Playwright, distingue les bugs, régressions et problèmes de test, puis recommande une action sûre.
+- Utiliser uniquement lorsque la cible correspond au périmètre du skill.
+
+## Inputs
+- Cible, PR, issue ou chemins fournis par l’appelant.
+- Contraintes humaines explicites et état Git vérifié.
+- Périmètre limité à 20 fichiers au premier passage.
+
+## Outputs
+- Résultat vérifié correspondant à la mission du skill.
+- Chemins exacts, preuves et décisions humaines restantes.
+- Informations inconnues signalées par `À confirmer`.
+
+## Steps
 Analyse chaque échec sans masquer le problème.
 
 ## Classification
@@ -41,3 +59,12 @@ Classe chaque échec :
 - Ne contourne pas une erreur de sécurité, d’autorisation ou de validation.
 - Ne corrige pas un bug de production sans validation explicite.
 - Masque les secrets dans les extraits de log.
+
+## Exemples
+- Exemple : appliquer le skill à une cible nommée explicitement par l’appelant.
+- Exemple : produire une sortie vérifiée avec chemins exacts et commandes exécutées.
+
+## Limites
+- Inspecter au plus 20 fichiers sans exploration exhaustive.
+- Arrêter après 3 tentatives ciblées infructueuses.
+- Consulter `../../common/glossary.md` pour les termes communs.

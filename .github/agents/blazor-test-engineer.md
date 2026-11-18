@@ -8,6 +8,8 @@ tools:
   - terminal
   - playwright-mcp
 skills:
+  - common/read-project-structure
+  - common/report-format
   - analyze-blazor-target
   - create-xunit-tests
   - create-bunit-tests

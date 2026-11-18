@@ -12,6 +12,9 @@ tools:
   - github-mcp/create_pull_request
   - github-mcp/get_pull_request
 skills:
+  - common/read-project-structure
+  - common/handle-merge-conflicts
+  - common/report-format
   - discover-blazor-stack
   - map-blazor-architecture
   - assess-blazor-risks

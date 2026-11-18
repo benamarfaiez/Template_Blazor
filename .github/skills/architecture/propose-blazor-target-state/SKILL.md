@@ -1,13 +1,31 @@
 ---
-name: propose-blazor-target-state
 description: Propose une architecture cible progressive pour un projet Blazor, sans modifier le code ni imposer une réécriture complète.
 allowed-tools:
   - read
   - search
+name: propose-blazor-target-state
 ---
 
-# Proposer un état cible Blazor
+# Propose Target State
 
+## Description
+Propose une architecture cible progressive pour un projet Blazor, sans modifier le code ni imposer une réécriture complète.
+
+## When to use
+- Invoquer pour : Propose une architecture cible progressive pour un projet Blazor, sans modifier le code ni imposer une réécriture complète.
+- Utiliser uniquement lorsque la cible correspond au périmètre du skill.
+
+## Inputs
+- Cible, PR, issue ou chemins fournis par l’appelant.
+- Contraintes humaines explicites et état Git vérifié.
+- Périmètre limité à 20 fichiers au premier passage.
+
+## Outputs
+- Résultat vérifié correspondant à la mission du skill.
+- Chemins exacts, preuves et décisions humaines restantes.
+- Informations inconnues signalées par `À confirmer`.
+
+## Steps
 Propose une architecture cible progressive, adaptée au projet existant.
 
 ## Objectif
@@ -69,3 +87,12 @@ Liste les décisions qui nécessitent une validation humaine :
 - Respecte les contraintes et l’existant.
 - Indique clairement les compromis.
 - Ne présente pas une recommandation comme une décision déjà prise.
+
+## Exemples
+- Exemple : appliquer le skill à une cible nommée explicitement par l’appelant.
+- Exemple : produire une sortie vérifiée avec chemins exacts et commandes exécutées.
+
+## Limites
+- Inspecter au plus 20 fichiers sans exploration exhaustive.
+- Arrêter après 3 tentatives ciblées infructueuses.
+- Consulter `../../common/glossary.md` pour les termes communs.

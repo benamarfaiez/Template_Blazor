@@ -1,10 +1,28 @@
 ---
-name: report-test-coverage
 description: Produit un rapport de couverture, de risques résiduels et de décision avant refactoring pour une cible Blazor.
+name: report-test-coverage
 ---
 
-# Rapporter la couverture de tests
+# Report Test Coverage
 
+## Description
+Produit un rapport de couverture, de risques résiduels et de décision avant refactoring pour une cible Blazor.
+
+## When to use
+- Invoquer pour : Produit un rapport de couverture, de risques résiduels et de décision avant refactoring pour une cible Blazor.
+- Utiliser uniquement lorsque la cible correspond au périmètre du skill.
+
+## Inputs
+- Cible, PR, issue ou chemins fournis par l’appelant.
+- Contraintes humaines explicites et état Git vérifié.
+- Périmètre limité à 20 fichiers au premier passage.
+
+## Outputs
+- Résultat vérifié correspondant à la mission du skill.
+- Chemins exacts, preuves et décisions humaines restantes.
+- Informations inconnues signalées par `À confirmer`.
+
+## Steps
 Produis un rapport Markdown clair après l’analyse et l’exécution des tests.
 
 ## Sections obligatoires
@@ -73,3 +91,12 @@ Ne déclare jamais `PRÊT POUR REFACTORING` si :
 - Les états de chargement, d’erreur ou de validation ne sont pas couverts.
 - Un bug existant n’a pas été traité ou accepté explicitement.
 - Une intégration externe, une autorisation ou un JavaScript interop critique n’est pas couvert.
+
+## Exemples
+- Exemple : appliquer le skill à une cible nommée explicitement par l’appelant.
+- Exemple : produire une sortie vérifiée avec chemins exacts et commandes exécutées.
+
+## Limites
+- Inspecter au plus 20 fichiers sans exploration exhaustive.
+- Arrêter après 3 tentatives ciblées infructueuses.
+- Consulter `../../common/glossary.md` pour les termes communs.

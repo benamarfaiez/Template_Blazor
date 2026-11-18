@@ -17,8 +17,8 @@ Tu n’es pas autorisé à modifier des données de production, à déployer en 
 
 ## Environnement
 
-- .NET <10>
-- Blazor <Server | WebAssembly | Auto | Hybrid>
+- .NET 10
+- Variante Blazor confirmée par les fichiers projet
 - Tests : xUnit, bUnit, Playwright
 - Build : `dotnet build --no-restore`
 - Tests : `dotnet test --no-build`
@@ -132,4 +132,22 @@ Demande une validation humaine avant de :
 - Règles de tests : `.github/instructions/testing.instructions.md`
 - Règles de revue : `.github/instructions/code-review.instructions.md`
 - Règles de sécurité : `.github/instructions/security.instructions.md`
-- Skill d’audit : `.github/skills/audit-blazor-project/SKILL.md`
+- Skills communs : `.github/skills/common/`
+- Glossaire commun : `.github/skills/common/glossary.md`
+- Architecture : `.github/skills/architecture/`
+- Audit : `.github/skills/auditor/`
+- Revue de code : `.github/skills/code review/`
+- Tests : `.github/skills/tests/`
+- QA : `.github/skills/qa/`
+- Refactoring : `.github/skills/refactor/`
+
+## Agents disponibles
+
+- `.github/agents/blazor-architect.md`
+- `.github/agents/blazor-auditor.md`
+- `.github/agents/blazor-code-review.md`
+- `.github/agents/blazor-test-engineer.md`
+- `.github/agents/blazor-qa-agent.md`
+- `.github/agents/blazor-refactor-planner.md`
+- `.github/agents/blazor-refactor-executor.md`
+- `.github/agents/blazor-refactoring-agent.md`

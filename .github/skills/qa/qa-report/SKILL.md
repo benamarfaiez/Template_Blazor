@@ -1,15 +1,33 @@
 ---
-name: qa-report
 description: Produit un rapport de QA Blazor structuré avec résultats de tests, échecs, accessibilité, risques et décision finale.
 allowed-tools:
   - read
   - search
   - github-mcp/get_pull_request
   - github-mcp/get_pull_request_diff
+name: qa-report
 ---
 
-# Produire le rapport QA
+# Qa Report
 
+## Description
+Produit un rapport de QA Blazor structuré avec résultats de tests, échecs, accessibilité, risques et décision finale.
+
+## When to use
+- Invoquer pour : Produit un rapport de QA Blazor structuré avec résultats de tests, échecs, accessibilité, risques et décision finale.
+- Utiliser uniquement lorsque la cible correspond au périmètre du skill.
+
+## Inputs
+- Cible, PR, issue ou chemins fournis par l’appelant.
+- Contraintes humaines explicites et état Git vérifié.
+- Périmètre limité à 20 fichiers au premier passage.
+
+## Outputs
+- Résultat vérifié correspondant à la mission du skill.
+- Chemins exacts, preuves et décisions humaines restantes.
+- Informations inconnues signalées par `À confirmer`.
+
+## Steps
 Produis un rapport Markdown clair et actionnable.
 
 ## Sections obligatoires
@@ -85,3 +103,12 @@ Termine par l’une de ces conclusions :
 - Ne déclare jamais `VALIDÉ` si un problème de sécurité critique est détecté.
 - Ne déclare jamais `VALIDÉ` si une migration ou un déploiement est nécessaire sans validation humaine.
 - Ne divulgue aucun secret dans le rapport.
+
+## Exemples
+- Exemple : appliquer le skill à une cible nommée explicitement par l’appelant.
+- Exemple : produire une sortie vérifiée avec chemins exacts et commandes exécutées.
+
+## Limites
+- Inspecter au plus 20 fichiers sans exploration exhaustive.
+- Arrêter après 3 tentatives ciblées infructueuses.
+- Consulter `../../common/glossary.md` pour les termes communs.

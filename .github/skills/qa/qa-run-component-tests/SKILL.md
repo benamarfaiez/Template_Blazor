@@ -1,5 +1,4 @@
 ---
-name: qa-run-component-tests
 description: Exécute les tests bUnit des composants Blazor Razor et vérifie le rendu, les interactions, les états, la validation et les messages d'erreur.
 allowed-tools:
   - read
@@ -7,10 +6,29 @@ allowed-tools:
   - glob
   - terminal
   - edit
+name: qa-run-component-tests
 ---
 
-# Exécuter les tests bUnit
+# Qa Run Component Tests
 
+## Description
+Exécute les tests bUnit des composants Blazor Razor et vérifie le rendu, les interactions, les états, la validation et les messages d'erreur.
+
+## When to use
+- Invoquer pour : Exécute les tests bUnit des composants Blazor Razor et vérifie le rendu, les interactions, les états, la validation et les messages d'erreur.
+- Utiliser uniquement lorsque la cible correspond au périmètre du skill.
+
+## Inputs
+- Cible, PR, issue ou chemins fournis par l’appelant.
+- Contraintes humaines explicites et état Git vérifié.
+- Périmètre limité à 20 fichiers au premier passage.
+
+## Outputs
+- Résultat vérifié correspondant à la mission du skill.
+- Chemins exacts, preuves et décisions humaines restantes.
+- Informations inconnues signalées par `À confirmer`.
+
+## Steps
 Exécute les tests bUnit pertinents pour les composants Razor modifiés.
 
 ## Commandes
@@ -52,3 +70,12 @@ Pour chaque composant modifié, vérifie :
 - État vide
 - État d’erreur
 - Validation ou message d’erreur, si applicable
+
+## Exemples
+- Exemple : appliquer le skill à une cible nommée explicitement par l’appelant.
+- Exemple : produire une sortie vérifiée avec chemins exacts et commandes exécutées.
+
+## Limites
+- Inspecter au plus 20 fichiers sans exploration exhaustive.
+- Arrêter après 3 tentatives ciblées infructueuses.
+- Consulter `../../common/glossary.md` pour les termes communs.

@@ -1,5 +1,4 @@
 ---
-name: extract-blazor-component
 description: Extrait un composant Blazor réutilisable à partir d'un composant volumineux ou dupliqué, sans changer le comportement utilisateur.
 allowed-tools:
   - read
@@ -9,10 +8,29 @@ allowed-tools:
   - edit
   - write
   - terminal
+name: extract-blazor-component
 ---
 
-# Extraire un composant Blazor
+# Extract Component
 
+## Description
+Extrait un composant Blazor réutilisable à partir d'un composant volumineux ou dupliqué, sans changer le comportement utilisateur.
+
+## When to use
+- Invoquer pour : Extrait un composant Blazor réutilisable à partir d'un composant volumineux ou dupliqué, sans changer le comportement utilisateur.
+- Utiliser uniquement lorsque la cible correspond au périmètre du skill.
+
+## Inputs
+- Cible, PR, issue ou chemins fournis par l’appelant.
+- Contraintes humaines explicites et état Git vérifié.
+- Périmètre limité à 20 fichiers au premier passage.
+
+## Outputs
+- Résultat vérifié correspondant à la mission du skill.
+- Chemins exacts, preuves et décisions humaines restantes.
+- Informations inconnues signalées par `À confirmer`.
+
+## Steps
 Extrais un composant réutilisable lorsqu’un composant est volumineux, dupliqué
 ou possède plusieurs responsabilités.
 
@@ -82,3 +100,12 @@ Après :
 - Tests bUnit ajoutés ou mis à jour
 - Résultats de build et tests
 - Risques résiduels
+
+## Exemples
+- Exemple : appliquer le skill à une cible nommée explicitement par l’appelant.
+- Exemple : produire une sortie vérifiée avec chemins exacts et commandes exécutées.
+
+## Limites
+- Inspecter au plus 20 fichiers sans exploration exhaustive.
+- Arrêter après 3 tentatives ciblées infructueuses.
+- Consulter `../../common/glossary.md` pour les termes communs.

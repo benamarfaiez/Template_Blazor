@@ -1,5 +1,4 @@
 ---
-name: verify-refactoring-behavior
 description: Vérifie qu'un refactoring Blazor préserve le comportement utilisateur observable avant la création d'une PR.
 allowed-tools:
   - read
@@ -8,10 +7,29 @@ allowed-tools:
   - grep
   - terminal
   - playwright-mcp
+name: verify-refactoring-behavior
 ---
 
-# Vérifier le comportement après refactoring
+# Verify Refactoring Behavior
 
+## Description
+Vérifie qu'un refactoring Blazor préserve le comportement utilisateur observable avant la création d'une PR.
+
+## When to use
+- Invoquer pour : Vérifie qu'un refactoring Blazor préserve le comportement utilisateur observable avant la création d'une PR.
+- Utiliser uniquement lorsque la cible correspond au périmètre du skill.
+
+## Inputs
+- Cible, PR, issue ou chemins fournis par l’appelant.
+- Contraintes humaines explicites et état Git vérifié.
+- Périmètre limité à 20 fichiers au premier passage.
+
+## Outputs
+- Résultat vérifié correspondant à la mission du skill.
+- Chemins exacts, preuves et décisions humaines restantes.
+- Informations inconnues signalées par `À confirmer`.
+
+## Steps
 Vérifie que le refactoring préserve le comportement utilisateur observable.
 
 ## Périmètre
@@ -54,3 +72,12 @@ Vérifie :
 - Différences détectées
 - Risques résiduels
 - Décision : `COMPORTEMENT PRÉSERVÉ` ou `RÉGRESSION DÉTECTÉE`
+
+## Exemples
+- Exemple : appliquer le skill à une cible nommée explicitement par l’appelant.
+- Exemple : produire une sortie vérifiée avec chemins exacts et commandes exécutées.
+
+## Limites
+- Inspecter au plus 20 fichiers sans exploration exhaustive.
+- Arrêter après 3 tentatives ciblées infructueuses.
+- Consulter `../../common/glossary.md` pour les termes communs.

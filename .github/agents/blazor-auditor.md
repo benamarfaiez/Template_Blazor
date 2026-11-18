@@ -8,6 +8,9 @@ tools:
   - github-mcp/list_issues
   - github-mcp/get_issue
 skills:
+  - common/read-project-structure
+  - common/check-vulnerable-dependencies
+  - common/report-format
   - discover-blazor-stack
   - map-blazor-architecture
   - audit-blazor-quality

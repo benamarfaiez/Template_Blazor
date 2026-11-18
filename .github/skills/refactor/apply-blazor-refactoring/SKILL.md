@@ -1,5 +1,4 @@
 ---
-name: apply-blazor-refactoring
 description: Applique un incrément de refactoring Blazor validé : analyse, modification limitée, tests, build et rapport d'exécution.
 allowed-tools:
   - read
@@ -9,10 +8,29 @@ allowed-tools:
   - edit
   - write
   - terminal
+name: apply-blazor-refactoring
 ---
 
-# Appliquer un refactoring Blazor
+# Apply Refactoring
 
+## Description
+Applique un incrément de refactoring Blazor validé : analyse, modification limitée, tests, build et rapport d'exécution.
+
+## When to use
+- Invoquer pour : Applique un incrément de refactoring Blazor validé : analyse, modification limitée, tests, build et rapport d'exécution.
+- Utiliser uniquement lorsque la cible correspond au périmètre du skill.
+
+## Inputs
+- Cible, PR, issue ou chemins fournis par l’appelant.
+- Contraintes humaines explicites et état Git vérifié.
+- Périmètre limité à 20 fichiers au premier passage.
+
+## Outputs
+- Résultat vérifié correspondant à la mission du skill.
+- Chemins exacts, preuves et décisions humaines restantes.
+- Informations inconnues signalées par `À confirmer`.
+
+## Steps
 Applique un seul incrément de refactoring validé.
 
 ## Méthode
@@ -55,3 +73,12 @@ dotnet format --verify-no-changes
 - Résultats de build et tests
 - Risques résiduels
 - Décision : `INCRÉMENT APPLIQUÉ`, `INCRÉMENT PARTIEL`, `TESTS ÉCHOUÉS`
+
+## Exemples
+- Exemple : appliquer le skill à une cible nommée explicitement par l’appelant.
+- Exemple : produire une sortie vérifiée avec chemins exacts et commandes exécutées.
+
+## Limites
+- Inspecter au plus 20 fichiers sans exploration exhaustive.
+- Arrêter après 3 tentatives ciblées infructueuses.
+- Consulter `../../common/glossary.md` pour les termes communs.

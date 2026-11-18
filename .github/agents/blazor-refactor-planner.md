@@ -11,6 +11,8 @@ tools:
   - github-mcp/get_issue
   - github-mcp/create_issue
 skills:
+  - common/read-project-structure
+  - common/report-format
   - discover-blazor-stack
   - map-blazor-architecture
   - assess-blazor-risks

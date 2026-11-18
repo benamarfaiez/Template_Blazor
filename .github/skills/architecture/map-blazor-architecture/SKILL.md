@@ -1,13 +1,31 @@
 ---
-name: map-blazor-architecture
 description: Cartographie les pages, composants, services, modèles, dépendances et flux de données d'un projet Blazor sans modifier le code.
 allowed-tools:
   - read
   - search
+name: map-blazor-architecture
 ---
 
-# Cartographier l’architecture Blazor
+# Map Architecture
 
+## Description
+Cartographie les pages, composants, services, modèles, dépendances et flux de données d'un projet Blazor sans modifier le code.
+
+## When to use
+- Invoquer pour : Cartographie les pages, composants, services, modèles, dépendances et flux de données d'un projet Blazor sans modifier le code.
+- Utiliser uniquement lorsque la cible correspond au périmètre du skill.
+
+## Inputs
+- Cible, PR, issue ou chemins fournis par l’appelant.
+- Contraintes humaines explicites et état Git vérifié.
+- Périmètre limité à 20 fichiers au premier passage.
+
+## Outputs
+- Résultat vérifié correspondant à la mission du skill.
+- Chemins exacts, preuves et décisions humaines restantes.
+- Informations inconnues signalées par `À confirmer`.
+
+## Steps
 Produis une cartographie factuelle de l’architecture du projet.
 
 ## Éléments à cartographier
@@ -51,3 +69,12 @@ Produis une cartographie factuelle de l’architecture du projet.
 - Base chaque constat sur une preuve de code.
 - Indique le chemin et, si possible, les lignes concernées.
 - Classe chaque zone par risque : `Faible`, `Moyen` ou `Élevé`.
+
+## Exemples
+- Exemple : appliquer le skill à une cible nommée explicitement par l’appelant.
+- Exemple : produire une sortie vérifiée avec chemins exacts et commandes exécutées.
+
+## Limites
+- Inspecter au plus 20 fichiers sans exploration exhaustive.
+- Arrêter après 3 tentatives ciblées infructueuses.
+- Consulter `../../common/glossary.md` pour les termes communs.

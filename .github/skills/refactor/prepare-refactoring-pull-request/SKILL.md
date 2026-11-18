@@ -1,5 +1,4 @@
 ---
-name: prepare-refactoring-pull-request
 description: Prépare une pull request Blazor courte, focalisée et réversible après un refactoring validé, avec description, tests, risques et rollback.
 allowed-tools:
   - read
@@ -8,10 +7,29 @@ allowed-tools:
   - grep
   - terminal
   - github-mcp/create_pull_request
+name: prepare-refactoring-pull-request
 ---
 
-# Préparer une PR de refactoring
+# Prepare Refactoring Pull Request
 
+## Description
+Prépare une pull request Blazor courte, focalisée et réversible après un refactoring validé, avec description, tests, risques et rollback.
+
+## When to use
+- Invoquer pour : Prépare une pull request Blazor courte, focalisée et réversible après un refactoring validé, avec description, tests, risques et rollback.
+- Utiliser uniquement lorsque la cible correspond au périmètre du skill.
+
+## Inputs
+- Cible, PR, issue ou chemins fournis par l’appelant.
+- Contraintes humaines explicites et état Git vérifié.
+- Périmètre limité à 20 fichiers au premier passage.
+
+## Outputs
+- Résultat vérifié correspondant à la mission du skill.
+- Chemins exacts, preuves et décisions humaines restantes.
+- Informations inconnues signalées par `À confirmer`.
+
+## Steps
 Prépare une PR après un refactoring validé.
 
 ## Conditions préalables
@@ -81,3 +99,12 @@ Ne prépare pas de PR si :
 - Ne déploie jamais.
 - Ne modifie pas le code après la création de la PR sans validation.
 - Ne stocke jamais de secret dans la description ou les fichiers modifiés.
+
+## Exemples
+- Exemple : appliquer le skill à une cible nommée explicitement par l’appelant.
+- Exemple : produire une sortie vérifiée avec chemins exacts et commandes exécutées.
+
+## Limites
+- Inspecter au plus 20 fichiers sans exploration exhaustive.
+- Arrêter après 3 tentatives ciblées infructueuses.
+- Consulter `../../common/glossary.md` pour les termes communs.

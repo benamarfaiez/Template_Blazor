@@ -1,10 +1,28 @@
 ---
-name: create-bunit-tests
 description: Crée ou met à jour des tests bUnit pour les composants Blazor Razor, leurs paramètres, interactions, états, formulaires et messages d'erreur.
+name: create-bunit-tests
 ---
 
-# Créer des tests bUnit
+# Create Bunit Tests
 
+## Description
+Crée ou met à jour des tests bUnit pour les composants Blazor Razor, leurs paramètres, interactions, états, formulaires et messages d'erreur.
+
+## When to use
+- Invoquer pour : Crée ou met à jour des tests bUnit pour les composants Blazor Razor, leurs paramètres, interactions, états, formulaires et messages d'erreur.
+- Utiliser uniquement lorsque la cible correspond au périmètre du skill.
+
+## Inputs
+- Cible, PR, issue ou chemins fournis par l’appelant.
+- Contraintes humaines explicites et état Git vérifié.
+- Périmètre limité à 20 fichiers au premier passage.
+
+## Outputs
+- Résultat vérifié correspondant à la mission du skill.
+- Chemins exacts, preuves et décisions humaines restantes.
+- Informations inconnues signalées par `À confirmer`.
+
+## Steps
 Ajoute ou renforce les tests bUnit pour verrouiller le comportement actuel des
 composants Razor.
 
@@ -43,3 +61,12 @@ Pour chaque composant, couvre au minimum :
 - État vide
 - État d’erreur
 - Validation ou message d’erreur, si applicable
+
+## Exemples
+- Exemple : appliquer le skill à une cible nommée explicitement par l’appelant.
+- Exemple : produire une sortie vérifiée avec chemins exacts et commandes exécutées.
+
+## Limites
+- Inspecter au plus 20 fichiers sans exploration exhaustive.
+- Arrêter après 3 tentatives ciblées infructueuses.
+- Consulter `../../common/glossary.md` pour les termes communs.
