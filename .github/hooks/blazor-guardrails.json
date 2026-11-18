@@ -1,0 +1,59 @@
+{
+  "version": 1,
+  "hooks": {
+    "sessionStart": [
+      {
+        "type": "command",
+        "bash": "./.github/hooks/scripts/blazor-session-start.sh",
+        "powershell": "./.github/hooks/scripts/Blazor-Session-Start.ps1",
+        "cwd": ".",
+        "timeoutSec": 30
+    }
+    ],
+    "userPromptSubmitted": [
+      {
+        "type": "command",
+        "bash": "./.github/hooks/scripts/blazor-user-prompt.sh",
+        "powershell": "./.github/hooks/scripts/Blazor-User-Prompt.ps1",
+        "cwd": ".",
+        "timeoutSec": 10
+      }
+    ],
+    "preToolUse": [
+      {
+        "type": "command",
+        "bash": "./.github/hooks/scripts/blazor-pre-tool-use.sh",
+        "powershell": "./.github/hooks/scripts/Blazor-Pre-Tool-Use.ps1",
+        "cwd": ".",
+        "timeoutSec": 10
+      }
+    ],
+    "postToolUse": [
+      {
+        "type": "command",
+        "bash": "./.github/hooks/scripts/blazor-post-tool-use.sh",
+        "powershell": "./.github/hooks/scripts/Blazor-Post-Tool-Use.ps1",
+        "cwd": ".",
+        "timeoutSec": 30
+      }
+    ],
+    "errorOccurred": [
+      {
+        "type": "command",
+        "bash": "./.github/hooks/scripts/blazor-error-handling.sh",
+        "powershell": "./.github/hooks/scripts/Blazor-Error-Handling.ps1",
+        "cwd": ".",
+        "timeoutSec": 10
+      }
+    ],
+    "sessionEnd": [
+      {
+        "type": "command",
+        "bash": "./.github/hooks/scripts/blazor-session-end.sh",
+        "powershell": "./.github/hooks/scripts/Blazor-Session-End.ps1",
+        "cwd": ".",
+        "timeoutSec": 30
+      }
+    ]
+  }
+}
