@@ -1,125 +1,40 @@
 ---
-description: Audit en lecture seule de la qualité, de la maintenabilité, de la testabilité, de l'accessibilité et de la robustesse d'un projet Blazor.
-allowed-tools:
-  - read
-  - search
-  - terminal
 name: audit-blazor-quality
+description: Audite la qualité du code Blazor (composants, services, DTO, erreurs, tests, accessibilité, documentation) d'une cible fournie. Lecture seule. Invoquer pour "audite la qualité", "vérifie la maintenabilité", "contrôle les conventions", ou sur une PR qui modifie des composants/services. Ne couvre pas sécurité (audit-blazor-security), performance (audit-blazor-performance).
+allowed-tools: [read, search]
 ---
 
 # Audit Quality
 
-## Description
-Audit en lecture seule de la qualité, de la maintenabilité, de la testabilité, de l'accessibilité et de la robustesse d'un projet Blazor.
+## Préconditions
+Cible fournie (PR, issue, chemins). Sinon → arrêter et signaler `cible absente`.
 
-## When to use
-- Invoquer pour : Audit en lecture seule de la qualité, de la maintenabilité, de la testabilité, de l'accessibilité et de la robustesse d'un projet Blazor.
-- Utiliser uniquement lorsque la cible correspond au périmètre du skill.
-
-## Inputs
-- Cible, PR, issue ou chemins fournis par l’appelant.
-- Contraintes humaines explicites et état Git vérifié.
-- Périmètre limité à 20 fichiers au premier passage.
-
-## Outputs
-- Résultat vérifié correspondant à la mission du skill.
-- Chemins exacts, preuves et décisions humaines restantes.
-- Informations inconnues signalées par `À confirmer`.
+## Inputs / Outputs
+Voir `../../common/report-format.md` (format de finding, sévérités, preuves).
+Spécifique : catégorie ∈ {composants, services, DTO, erreurs, tests, accessibilité, doc}.
 
 ## Steps
-Analyse la qualité du code Blazor et .NET sans modifier le projet.
+1. Lire la cible (max 20 fichiers, 1 passe).
+2. Pour chaque catégorie ci-dessous, identifier les findings avérés.
+3. Preuve : extrait 1–5 lignes avec `chemin/fichier:Lxx-Lyy`.
+4. S'arrêter après 3 tentatives ciblées infructueuses.
 
-## Périmètre
+## Critères (spécifiques à ce skill)
 
-- Composants `.razor` et `.razor.cs`
-- Services, interfaces et classes métier
-- DTO, entités et modèles
-- Gestion des erreurs
-- Tests unitaires, bUnit et Playwright
-- Accessibilité des composants
-- Documentation et conventions du dépôt
+| Catégorie | Signaux à rechercher |
+|---|---|
+| **Composants** | > 150 lignes, logique métier dans l'UI, duplication, `[Parameter]` non typés |
+| **Services** | Responsabilités multiples, couplage fort UI, interface absente, effets de bord non documentés |
+| **DTO/Entités** | Anémiques ou surchargés, validation absente/incohérente, mutabilité non justifiée |
+| **Erreurs** | try/catch vides ou trop larges, exceptions silencieuses, messages non actionnables |
+| **Tests** | Règles métier critiques non testées, tests fragiles (temps/réseau), absence bUnit/Playwright sur parcours critiques |
+| **Accessibilité** | ARIA manquants, navigation clavier incomplète, contraste insuffisant |
+| **Documentation** | README obsolète, commentaires trompeurs, API publiques non documentées |
 
-## Constats à rechercher
-
-### Composants Razor
-
-- Composant de plus de 300 lignes
-- Plus de cinq responsabilités dans un composant
-- Logique métier dans le markup Razor
-- Duplication entre composants
-- Paramètres mutés
-- `StateHasChanged()` excessif ou mal placé
-- Gestion incorrecte du cycle de vie
-- Ressources non libérées
-- Absence de `CancellationToken`
-- Rendu coûteux ou listes non virtualisées
-
-### Code C#
-
-- Méthodes trop longues ou trop complexes
-- Classes avec trop de responsabilités
-- Duplication significative
-- Dépendances circulaires
-- Couplage fort entre couches
-- Absence d’interfaces
-- Exceptions avalées sans journalisation
-- `async void`, `.Result`, `.Wait()` ou `.GetAwaiter().GetResult()`
-- Utilisation directe de `DateTime.Now`, `Guid.NewGuid()` ou `Random`
-  dans la logique métier
-
-### Tests
-
-- Absence de tests sur une règle métier critique
-- Tests dépendants de l’ordre, du réseau, de l’horloge ou d’une base partagée
-- Tests qui valident l’implémentation plutôt que le comportement
-- Absence de tests bUnit pour les composants interactifs
-- Absence de tests Playwright pour les parcours critiques
-- Couverture faible sur les zones à risque
-
-### Accessibilité
-
-- Champs sans label accessible
-- Navigation clavier incomplète
-- Focus non visible
-- Messages d’erreur peu clairs
-- Contraste insuffisant
-- Composants interactifs non accessibles
-- États de chargement ou d’erreur non annoncés
-
-## Format de constat
-
-```md
-### [SÉVÉRITÉ] Titre
-
-**Localisation :** `chemin/du/fichier:Lxx-Lyy`
-
-**Constat :** description factuelle.
-
-**Impact :** maintenabilité, testabilité, robustesse ou UX.
-
-**Preuve :** extrait court du code.
-
-**Action recommandée :** correction incrémentale.
-
-**Effort estimé :** S / M / L
-
-**Risque de changement :** Faible / Moyen / Élevé
-
-**Tests nécessaires :** tests à ajouter ou mettre à jour.
-```
-
-## Niveaux de sévérité
-
-- `BLOQUANT` : bug critique, perte de données ou régression majeure
-- `ÉLEVÉ` : dette forte, testabilité insuffisante ou risque de production
-- `MOYEN` : maintenabilité, duplication ou UX à améliorer
-- `FAIBLE` : style, nommage ou documentation
-
-## Exemples
-- Exemple : appliquer le skill à une cible nommée explicitement par l’appelant.
-- Exemple : produire une sortie vérifiée avec chemins exacts et commandes exécutées.
-
-## Limites
-- Inspecter au plus 20 fichiers sans exploration exhaustive.
-- Arrêter après 3 tentatives ciblées infructueuses.
-- Consulter `../../common/glossary.md` pour les termes communs.
+## Règles
+- Lecture seule : ne modifie aucun fichier.
+- Hypothèse ≠ fait : tout élément non vérifié → `À confirmer`.
+- Chaque finding classé (sévérité + catégorie) et cité avec fichier:ligne.
+- Les 7 catégories apparaissent dans la sortie, même sans finding
+  (ligne : `Aucun finding — <catégorie>`).
+- Termes communs : `../../common/glossary.md`.
