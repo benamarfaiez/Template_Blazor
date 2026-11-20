@@ -1,0 +1,51 @@
+name: "Agent 01 — Planification"
+
+on:
+  workflow_run:
+    workflows: ["Agent 00 — Audit"]
+    types: [completed]
+    branches: [main]
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: agent-plan-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  plan:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Download audit report
+        uses: actions/download-artifact@v4
+        with:
+          name: audit-report
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: input/
+
+      - name: Run blazor-refactor-planner
+        run: |
+          ./run-agent.sh blazor-refactor-planner \
+            --input input/audit-report.json \
+            > refactor-plan.json
+
+      - name: Validate plan output
+        run: |
+          test -s refactor-plan.json
+          jq -e 'has("increments") and (.increments | length > 0)' refactor-plan.json
+
+      - name: Upload refactor plan
+        uses: actions/upload-artifact@v4
+        with:
+          name: refactor-plan
+          path: refactor-plan.json
+          retention-days: 7

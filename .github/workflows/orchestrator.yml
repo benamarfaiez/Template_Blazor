@@ -1,0 +1,38 @@
+name: "Orchestrateur manuel"
+
+on:
+  workflow_dispatch:
+    inputs:
+      target:
+        description: "Étape à lancer"
+        required: true
+        type: choice
+        options:
+          - audit
+          - plan
+          - tests
+          - refactor
+      ref:
+        description: "Branche cible"
+        required: false
+        default: "main"
+        type: string
+
+permissions:
+  actions: write
+  contents: read
+
+jobs:
+  dispatch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger target agent
+        run: |
+          gh workflow run "${{ github.event.inputs.target == 'audit' && '00-audit.yml' ||
+                              github.event.inputs.target == 'plan' && '01-plan.yml' ||
+                              github.event.inputs.target == 'tests' && '02-tests.yml' ||
+                              '03-refactor.yml' }}" \
+            --ref "${{ github.event.inputs.ref }}" \
+            --repo "${{ github.repository }}"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

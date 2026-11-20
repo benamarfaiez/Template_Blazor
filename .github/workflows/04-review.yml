@@ -1,0 +1,80 @@
+name: "Agent 04 — Revue"
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches: [main]
+
+permissions:
+  contents: read
+  pull-requests: write
+  actions: read
+
+concurrency:
+  group: agent-review-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  review:
+    if: contains(github.event.pull_request.labels.*.name, 'agent:refactor')
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Generate diff
+        run: |
+          git diff origin/${{ github.base_ref }}...HEAD > diff.patch
+          test -s diff.patch || { echo "Diff vide"; exit 0; }
+
+      - name: Run blazor-code-review
+        run: |
+          ./run-agent.sh blazor-code-review \
+            --diff diff.patch \
+            > review.json
+
+      - name: Validate review output
+        run: |
+          test -s review.json
+          jq -e 'has("summary") and has("approved") and has("findings")' review.json
+
+      - name: Publish review
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const review = require('./review.json');
+            await github.rest.pulls.createReview({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number,
+              body: review.summary,
+              event: review.approved ? 'APPROVE' : 'REQUEST_CHANGES'
+            });
+
+  qa:
+    if: contains(github.event.pull_request.labels.*.name, 'agent:refactor')
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+
+      - name: Run blazor-qa-agent
+        run: |
+          ./run-agent.sh blazor-qa-agent > qa-report.json
+
+      - name: Run tests (déterministe)
+        run: dotnet test --nologo -v q
+
+      - name: Upload QA report
+        uses: actions/upload-artifact@v4
+        with:
+          name: qa-report
+          path: qa-report.json
+          retention-days: 7

@@ -1,0 +1,41 @@
+name: "Agent 00 — Audit"
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 2 * * 1"   # audit hebdomadaire, lundi 2h UTC
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: agent-audit-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run blazor-auditor
+        run: |
+          # Adaptez la commande à votre runner d'agent réel.
+          # L'agent doit produire audit-report.json dans le workspace.
+          ./run-agent.sh blazor-auditor > audit-report.json
+
+      - name: Validate audit output
+        run: |
+          test -s audit-report.json
+          jq -e 'has("findings") or has("summary")' audit-report.json
+
+      - name: Upload audit report
+        uses: actions/upload-artifact@v4
+        with:
+          name: audit-report
+          path: audit-report.json
+          retention-days: 7
