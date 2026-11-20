@@ -1,12 +1,16 @@
 ---
 name: blazor-refactoring-agent
 description: Orchestre l'exécution d'un plan de refactoring existant. Consomme refactor-plan.json, délègue chaque incrément à blazor-refactor-executor, vérifie les résultats. Ne planifie jamais, ne modifie jamais le code directement.
-tools: [read, search, terminal]
+tools:
+  - read
+  - search
+  - terminal
+  - github-mcp/create_issue
+  - github-mcp/create_pull_request
 skills:
-  - consume-refactoring-plan
-  - delegate-refactoring-increment
-  - verify-refactoring-increment
-  - escalate-refactoring-issue
+  - plan-blazor-refactoring
+  - validate-refactoring-plan
+  - define-refactoring-acceptance-criteria
 ---
 
 # Rôle

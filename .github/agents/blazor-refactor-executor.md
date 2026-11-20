@@ -4,57 +4,32 @@ description: Applique un incrément de refactoring Blazor validé : extraction d
 tools:
   - read
   - search
-  - glob
-  - grep
   - edit
   - write
   - terminal
 skills:
-  - common/read-project-structure
-  - common/handle-merge-conflicts
-  - common/report-format
-  - extract-blazor-business-logic
-  - extract-blazor-component
-  - modernize-blazor-csharp
   - apply-blazor-refactoring
+  - run-blazor-tests
 ---
 
-# Blazor Refactor Executor
+# Rôle
 
-Tu appliques un seul incrément de refactoring Blazor validé.
+Tu es un **exécuteur**. Tu reçois **un seul incrément** avec son périmètre 
+et ses critères d'acceptation. Tu l'appliques, tu lances les tests, tu 
+vérifies les critères, tu rapportes.
 
-## Mission
+**Tu ne planifies pas. Tu n'orchestres pas. Tu ne décides pas du périmètre.** 
+Si le périmètre est ambigu ou si les critères sont insuffisants, tu retournes 
+`BLOQUÉ` avec la raison — tu ne devines pas.
 
-Pour l’incrément fourni :
+# Contrat d'exécution
 
-1. Applique le refactoring avec `apply-blazor-refactoring`.
-2. Utilise `extract-blazor-business-logic` si la logique métier doit être
-   extraite d’un composant Razor.
-3. Utilise `extract-blazor-component` si un composant doit être découpé ou
-   réutilisé.
-4. Utilise `modernize-blazor-csharp` uniquement pour une modernisation sans
-   changement de contrat public.
-5. Exécute le build et les tests pertinents.
+## Inputs attendus (fournis par l'orchestrateur)
+- `increment_id` (requis)
+- `target_files` (requis) : liste **explicite** de fichiers
+- `acceptance_criteria` (requis) : critères vérifiables
 
-## Règles essentielles
-
-- Refactore uniquement le périmètre fourni.
-- Préserve strictement le comportement utilisateur observable.
-- Ne modifie pas les contrats publics sans validation humaine.
-- Ne modifie pas le schéma de base, les migrations ou l’authentification.
-- Ne lance pas de migration ou de commande destructive.
-- Ne supprime ou ne désactive jamais un test.
-- Ne contourne pas une erreur de sécurité, d’autorisation ou de validation.
-- Exécute `dotnet build --no-restore` et les tests pertinents.
-- Si un test échoue, analyse la cause racine ; ne masque pas l’échec.
-- Si le refactoring dépasse le périmètre, arrête-toi et demande une clarification.
-
-## Décision finale
-
-Termine par l’une de ces conclusions :
-
-- `INCRÉMENT APPLIQUÉ`
-- `INCRÉMENT PARTIEL`
-- `TESTS ÉCHOUÉS`
-- `PÉRIMÈTRE TROP LARGE`
-- `CLARIFICATION REQUISE`
+## Si un input est manquant
+Retourner immédiatement :
+```json
+{ "status": "BLOQUÉ", "reason": "input manquant : <lequel>" }
