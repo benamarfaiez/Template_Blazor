@@ -2,9 +2,17 @@ name: "Agent 00 — Audit"
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: "0 2 * * 1"   # audit hebdomadaire, lundi 2h UTC
-
+    inputs:
+      target:
+        description: "Cible à auditer"
+        required: true
+        type: string
+      ref:
+        description: "Branche cible"
+        required: false
+        default: "main"
+        type: string
+        
 permissions:
   contents: read
   actions: read
