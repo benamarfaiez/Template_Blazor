@@ -56,11 +56,16 @@ jobs:
             > execution-report.json
 
       - name: Validate refactoring output
+        id: validate
         run: |
+          echo "create_pr=false" >> "$GITHUB_OUTPUT"
           test -s execution-report.json
-          jq -e 'has("status")' execution-report.json
+          if jq -e '.status == "APPLIQUÉ"' execution-report.json >/dev/null; then
+            echo "create_pr=true" >> "$GITHUB_OUTPUT"
+          fi
 
       - name: Upload execution report
+        if: ${{ always() }}
         uses: actions/upload-artifact@v4
         with:
           name: execution-report
@@ -68,6 +73,7 @@ jobs:
           retention-days: 7
 
       - name: Create Pull Request
+        if: ${{ steps.validate.outputs.create_pr == 'true' }}
         uses: peter-evans/create-pull-request@v6
         with:
           token: ${{ secrets.AGENT_PR_TOKEN }}
