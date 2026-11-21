@@ -7,7 +7,7 @@ on:
     branches: [main]
 
 permissions:
-  contents: read
+  contents: write
   actions: read
 
 concurrency:
@@ -51,6 +51,20 @@ jobs:
         run: |
           test -s test-coverage.json
           jq -e 'has("coverage") and (.coverage >= 0)' test-coverage.json
+
+      - name: Preserve test changes for refactoring
+        env:
+          TEST_BRANCH: refactor/agent-auto-${{ github.run_id }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git switch -c "$TEST_BRANCH"
+          git add -A
+          if ! git diff --cached --quiet; then
+            git diff --cached --stat
+            git commit -m "test: add characterization tests for refactoring"
+          fi
+          git push origin "HEAD:$TEST_BRANCH"
 
       - name: Upload test coverage
         uses: actions/upload-artifact@v4

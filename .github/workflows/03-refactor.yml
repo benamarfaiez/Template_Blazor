@@ -25,6 +25,7 @@ jobs:
         with:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
+          ref: refactor/agent-auto-${{ github.event.workflow_run.id }}
 
       - name: Download test coverage
         uses: actions/download-artifact@v4
@@ -70,7 +71,7 @@ jobs:
         uses: peter-evans/create-pull-request@v6
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          branch: refactor/agent-auto-${{ github.run_id }}
+          branch: refactor/agent-auto-${{ github.event.workflow_run.id }}
           base: main
           title: "refactor: application du plan par blazor-refactoring-agent"
           body: |

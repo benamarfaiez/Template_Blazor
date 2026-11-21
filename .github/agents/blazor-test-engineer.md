@@ -33,6 +33,16 @@ Pour la cible fournie :
 5. Exécute les tests avec `run-blazor-tests`.
 6. Produis le rapport avec `report-test-coverage`.
 
+## Remise au job de refactoring
+
+- Tous les fichiers de tests créés ou modifiés par `create-xunit-tests`,
+  `create-bunit-tests` et `create-playwright-tests` doivent rester présents
+  dans le changement à remettre au job de refactoring.
+- Le workflow les conserve sur la branche
+  `refactor/agent-auto-<id-du-run-tests>` avant de déclencher le job suivant.
+- Ne conclut pas `PRÊT POUR REFACTORING` si les changements de tests ne sont
+  pas disponibles dans cette branche ou si le push échoue.
+
 ## Règles essentielles
 
 - Ne réalise pas le refactoring demandé.
