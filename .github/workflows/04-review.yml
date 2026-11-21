@@ -24,14 +24,22 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Setup Copilot CLI
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: npm install --global @github/copilot
+
       - name: Generate diff
         run: |
           git diff origin/${{ github.base_ref }}...HEAD > diff.patch
           test -s diff.patch || { echo "Diff vide"; exit 0; }
 
-      - name: Run blazor-code-review
+      - name: Run blazor-code-reviewer
+        env:
+          GH_TOKEN: ${{ secrets.COPILOT_GITHUB_TOKEN }}
         run: |
-          ./run-agent.sh blazor-code-review \
+          bash .github/scripts/run-agent.sh blazor-code-reviewer \
             --diff diff.patch \
             > review.json
 
@@ -82,14 +90,21 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Setup Copilot CLI
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: npm install --global @github/copilot
+
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: "10.0.x"
 
       - name: Run blazor-qa-agent
-        run: |
-          ./run-agent.sh blazor-qa-agent > qa-report.json
+        env:
+          GH_TOKEN: ${{ secrets.COPILOT_GITHUB_TOKEN }}
+        run: bash .github/scripts/run-agent.sh blazor-qa-agent > qa-report.json
 
       - name: Run tests (déterministe)
         run: dotnet test --nologo -v q

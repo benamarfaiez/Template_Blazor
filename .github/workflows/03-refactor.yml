@@ -74,7 +74,15 @@ jobs:
         with:
           dotnet-version: "10.0.x"
 
+      - name: Setup Copilot CLI
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: npm install --global @github/copilot
+
       - name: Run blazor-refactoring-agent
+        env:
+          GH_TOKEN: ${{ secrets.COPILOT_GITHUB_TOKEN }}
         run: |
           source_sha="${{ steps.source.outputs.sha }}"
           checked_sha="$(git rev-parse HEAD)"
@@ -85,7 +93,7 @@ jobs:
             exit 1
           fi
           git merge-base --is-ancestor "$source_sha" "$checked_sha"
-          ./run-agent.sh blazor-refactoring-agent \
+          bash .github/scripts/run-agent.sh blazor-refactoring-agent \
             --plan input/refactor-plan.json \
             --coverage input/test-coverage.json \
             > agent-execution-report.json

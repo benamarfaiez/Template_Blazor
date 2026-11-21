@@ -90,7 +90,9 @@ de lecture/écriture nécessaires sur le contenu et les pull requests). Le
 `GITHUB_TOKEN` standard ne déclenche pas les workflows `pull_request` lorsqu'il
 est utilisé pour créer une pull request ou y ajouter des labels.
 
-Les workflows appellent également `./run-agent.sh` à la racine du dépôt. Ce
-script n'est pas présent dans cette version du dépôt; les workflows d'agents
-ne peuvent donc pas exécuter leurs agents tant que le runner correspondant
-n'est pas fourni.
+Les workflows d'agents utilisent le runner `.github/scripts/run-agent.sh`,
+qui s'appuie sur GitHub Copilot CLI. Ils installent le CLI avec Node.js 22 et
+nécessitent le secret de dépôt `COPILOT_GITHUB_TOKEN` (fine-grained PAT avec
+la permission « Copilot Requests »). Le runner accepte `--target` pour l'audit
+et les entrées de fichier `--input`, `--plan`, `--coverage` et `--diff` selon
+l'agent invoqué.

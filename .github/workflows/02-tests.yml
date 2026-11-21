@@ -55,7 +55,15 @@ jobs:
         with:
           dotnet-version: "10.0.x"
 
+      - name: Setup Copilot CLI
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: npm install --global @github/copilot
+
       - name: Run blazor-test-engineer
+        env:
+          GH_TOKEN: ${{ secrets.COPILOT_GITHUB_TOKEN }}
         run: |
           checked_sha="$(git rev-parse HEAD)"
           planned_sha="$(jq -r '.source_sha' input/refactor-plan.json)"
@@ -63,7 +71,7 @@ jobs:
             echo "La révision cochée ne correspond pas au plan"
             exit 1
           fi
-          ./run-agent.sh blazor-test-engineer \
+          bash .github/scripts/run-agent.sh blazor-test-engineer \
             --plan input/refactor-plan.json \
             > agent-test-coverage.json
           jq --arg sha "$planned_sha" \

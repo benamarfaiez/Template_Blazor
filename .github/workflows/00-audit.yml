@@ -39,11 +39,20 @@ jobs:
           test "$sha" =~ ^[0-9a-f]{40}$ || { echo "SHA source invalide"; exit 1; }
           echo "sha=$sha" >> "$GITHUB_OUTPUT"
 
+      - name: Setup Copilot CLI
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: npm install --global @github/copilot
+
       - name: Run blazor-auditor
+        env:
+          GH_TOKEN: ${{ secrets.COPILOT_GITHUB_TOKEN }}
+          AUDIT_TARGET: ${{ inputs.target }}
         run: |
-          # Adaptez la commande à votre runner d'agent réel.
-          # L'agent doit produire audit-report.json dans le workspace.
-          ./run-agent.sh blazor-auditor > agent-audit-report.json
+          bash .github/scripts/run-agent.sh blazor-auditor \
+            --target "$AUDIT_TARGET" \
+            > agent-audit-report.json
 
       - name: Validate audit output
         run: |
@@ -53,7 +62,15 @@ jobs:
              --arg ref "${{ inputs.ref }}" \
              '. + {source_sha: $sha, source_ref: $ref}' \
              agent-audit-report.json > audit-report.json
-          jq -e 'has("findings") or has("summary")' audit-report.json
+          jq -e '
+            type == "object" and
+            (.architecture | type == "object") and
+            (.risks | type == "array") and
+            (.decision | type == "string") and
+            (.decision == "AUDIT_COMPLET" or
+             .decision == "AUDIT_PARTIEL" or
+             .decision == "CLARIFICATION_REQUISE")
+          ' audit-report.json
 
       - name: Upload audit report
         uses: actions/upload-artifact@v4

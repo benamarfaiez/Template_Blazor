@@ -50,7 +50,15 @@ jobs:
           ref: ${{ steps.source.outputs.sha }}
           fetch-depth: 0
 
+      - name: Setup Copilot CLI
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: npm install --global @github/copilot
+
       - name: Run blazor-refactor-planner
+        env:
+          GH_TOKEN: ${{ secrets.COPILOT_GITHUB_TOKEN }}
         run: |
           checked_sha="$(git rev-parse HEAD)"
           audited_sha="$(jq -r '.source_sha' input/audit-report.json)"
@@ -58,7 +66,7 @@ jobs:
             echo "La révision cochée ne correspond pas au rapport d'audit"
             exit 1
           fi
-          ./run-agent.sh blazor-refactor-planner \
+          bash .github/scripts/run-agent.sh blazor-refactor-planner \
             --input input/audit-report.json \
             > agent-refactor-plan.json
           jq --arg sha "$audited_sha" \
