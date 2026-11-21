@@ -33,8 +33,8 @@ Exécute les tests xUnit pertinents pour la cible ou la PR analysée.
 ## Commandes
 
 ```bash
-dotnet test --no-build
-dotnet test --no-build --filter "FullyQualifiedName~<NomDuModule>"
+dotnet test
+dotnet test --filter "FullyQualifiedName~<NomDuModule>"
 dotnet test --collect:"XPlat Code Coverage"
 ```
 

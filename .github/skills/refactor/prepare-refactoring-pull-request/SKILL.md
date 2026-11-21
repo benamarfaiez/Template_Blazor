@@ -78,7 +78,7 @@ Ne prépare pas de PR si :
 
 - Tests ajoutés : <liste>
 - Tests mis à jour : <liste>
-- Commande exécutée : `dotnet test --no-build`
+- Commande exécutée : `dotnet test `
 
 ## Risques
 

@@ -46,7 +46,7 @@ Prépare l’environnement sans modifier le code de production.
 dotnet --version
 dotnet restore
 dotnet build --no-restore
-dotnet test --no-build
+dotnet test 
 dotnet list package --vulnerable --include-transitive
 ```
 

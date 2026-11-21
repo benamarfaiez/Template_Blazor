@@ -21,7 +21,7 @@ Tu n’es pas autorisé à modifier des données de production, à déployer en 
 - Variante Blazor confirmée par les fichiers projet
 - Tests : xUnit, bUnit, Playwright
 - Build : `dotnet build --no-restore`
-- Tests : `dotnet test --no-build`
+- Tests : `dotnet test `
 
 ## Règles essentielles
 

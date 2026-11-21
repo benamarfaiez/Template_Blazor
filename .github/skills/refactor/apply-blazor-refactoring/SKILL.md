@@ -60,8 +60,8 @@ Applique un seul incrément de refactoring validé.
 
 ```bash
 dotnet build --no-restore
-dotnet test --no-build
-dotnet test --no-build --filter "FullyQualifiedName~<NomDuModule>"
+dotnet test 
+dotnet test  --filter "FullyQualifiedName~<NomDuModule>"
 dotnet format --verify-no-changes
 ```
 

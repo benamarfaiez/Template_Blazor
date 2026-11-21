@@ -15,7 +15,7 @@ Utilise ces commandes lorsque cela est pertinent :
 ```bash
 dotnet restore
 dotnet build --no-restore
-dotnet test --no-build
+dotnet test 
 dotnet test --collect:"XPlat Code Coverage"
 dotnet format --verify-no-changes
 ```

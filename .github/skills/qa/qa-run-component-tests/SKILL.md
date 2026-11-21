@@ -34,8 +34,8 @@ Exécute les tests bUnit pertinents pour les composants Razor modifiés.
 ## Commandes
 
 ```bash
-dotnet test --no-build --filter "FullyQualifiedName~<NomDuComposant>"
-dotnet test --no-build
+dotnet test --filter "FullyQualifiedName~<NomDuComposant>"
+dotnet test 
 ```
 
 ## Périmètre

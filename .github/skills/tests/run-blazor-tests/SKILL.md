@@ -29,7 +29,7 @@ Exécute uniquement les tests pertinents pour la cible analysée.
 
 ```bash
 dotnet build --no-restore
-dotnet test --no-build
+dotnet test 
 dotnet test --collect:"XPlat Code Coverage"
 dotnet test --filter "FullyQualifiedName~<NomDuModule>"
 ```
