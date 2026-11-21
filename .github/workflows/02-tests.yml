@@ -58,3 +58,10 @@ jobs:
           name: test-coverage
           path: test-coverage.json
           retention-days: 7
+
+      - name: Upload refactor plan for execution
+        uses: actions/upload-artifact@v4
+        with:
+          name: refactor-plan
+          path: input/refactor-plan.json
+          retention-days: 7

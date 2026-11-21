@@ -34,6 +34,14 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           path: input/
 
+      - name: Download refactor plan
+        uses: actions/download-artifact@v4
+        with:
+          name: refactor-plan
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: input/
+
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
@@ -42,6 +50,7 @@ jobs:
       - name: Run blazor-refactoring-agent
         run: |
           ./run-agent.sh blazor-refactoring-agent \
+            --plan input/refactor-plan.json \
             --coverage input/test-coverage.json \
             > execution-report.json
 
