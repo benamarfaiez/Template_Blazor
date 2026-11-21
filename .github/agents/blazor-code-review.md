@@ -50,9 +50,25 @@ Pour la PR fournie :
 
 ## Décision finale
 
-Termine par l’une de ces conclusions :
+Produis un objet JSON avec les propriétés suivantes :
 
-- `APPROUVER`
-- `DEMANDER DES MODIFICATIONS`
-- `BLOQUER`
+- `summary` : résumé textuel de la revue.
+- `approved` : booléen vrai uniquement si `decision` vaut `APPROVE`.
+- `findings` : tableau de constats textuels, vide si aucun constat.
+- `decision` : l’une des valeurs `APPROVE`, `REQUEST_CHANGES`,
+  `COMMENTER` ou `BLOQUER`.
+
+Mappe les décisions ainsi :
+
+- `APPROVE` : `approved: true`, publié comme revue GitHub `APPROVE`.
+- `REQUEST_CHANGES` : `approved: false`, publié comme `REQUEST_CHANGES`.
+- `COMMENTER` : `approved: false`, publié comme `COMMENT`.
+- `BLOQUER` : `approved: false`, publié comme `REQUEST_CHANGES`.
+
+Ne publie pas de texte autour de l’objet JSON. Termine la revue avec l’une de
+ces valeurs comme `decision` :
+
+- `APPROVE`
+- `REQUEST_CHANGES`
 - `COMMENTER`
+- `BLOQUER`

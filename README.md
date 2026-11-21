@@ -81,3 +81,16 @@ dotnet run --project MonProjet.Server/MonProjet.Server.csproj
 ```
 
 Les feuilles `*.razor.css` sont placées à côté des composants auxquels elles s'appliquent ; Blazor les compile et les isole automatiquement.
+
+## Workflows GitHub Actions des agents
+
+Les workflows d'agents qui créent une pull request doivent utiliser le secret
+de dépôt `AGENT_PR_TOKEN` (jeton GitHub App ou PAT dédié avec les permissions
+de lecture/écriture nécessaires sur le contenu et les pull requests). Le
+`GITHUB_TOKEN` standard ne déclenche pas les workflows `pull_request` lorsqu'il
+est utilisé pour créer une pull request ou y ajouter des labels.
+
+Les workflows appellent également `./run-agent.sh` à la racine du dépôt. Ce
+script n'est pas présent dans cette version du dépôt; les workflows d'agents
+ne peuvent donc pas exécuter leurs agents tant que le runner correspondant
+n'est pas fourni.

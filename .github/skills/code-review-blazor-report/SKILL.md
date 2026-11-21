@@ -54,44 +54,40 @@ Classe chaque commentaire :
 
 ## Format du rapport
 
-```md
-# Revue de la PR
+Produis un objet JSON valide, sans texte avant ou après, avec ces propriétés :
 
-## Résumé
+- `summary` : résumé textuel incluant le périmètre, les tests et les questions
+  à clarifier.
+- `approved` : booléen vrai uniquement si `decision` vaut `APPROVE`.
+- `findings` : tableau de chaînes. Chaque constat indique sa sévérité, son
+  fichier et sa ligne, le problème et une correction actionnable. Utilise un
+  tableau vide s’il n’y a aucun constat.
+- `decision` : `APPROVE`, `REQUEST_CHANGES`, `COMMENTER` ou `BLOQUER`.
 
-<Résumé de l’objectif, du périmètre et de l’impact de la PR.>
+Mappe les décisions vers GitHub ainsi :
 
-## Décision
+- `APPROVE` : `approved: true`, événement `APPROVE`.
+- `REQUEST_CHANGES` : `approved: false`, événement `REQUEST_CHANGES`.
+- `COMMENTER` : `approved: false`, événement `COMMENT`.
+- `BLOQUER` : `approved: false`, événement `REQUEST_CHANGES`.
 
-`APPROUVER` | `DEMANDER DES MODIFICATIONS` | `BLOQUER` | `COMMENTER`
+Exemple :
 
-## Points bloquants
-
-- <Problème bloquant, fichier, ligne et correction recommandée>
-
-## Points importants
-
-- <Problème important, fichier, ligne et correction recommandée>
-
-## Suggestions
-
-- <Suggestion facultative>
-
-## Tests
-
-- Tests ajoutés ou modifiés
-- Tests manquants
-- Risque de régression résiduel
-
-## Questions
-
-- <Question à clarifier, si nécessaire>
+```json
+{
+  "summary": "Revue terminée. Tests : couverture insuffisante sur le parcours modifié. Questions : aucune.",
+  "approved": false,
+  "findings": [
+    "[IMPORTANT] `src/Example.cs:42` — La validation est absente. Ajouter une validation côté serveur et couvrir le cas par un test."
+  ],
+  "decision": "REQUEST_CHANGES"
+}
 ```
 
 ## Décision
 
-- `APPROUVER` : aucun point bloquant et couverture suffisante.
-- `DEMANDER DES MODIFICATIONS` : au moins un point bloquant ou important.
+- `APPROVE` : aucun point bloquant et couverture suffisante.
+- `REQUEST_CHANGES` : au moins un point bloquant ou important.
 - `BLOQUER` : faille de sécurité, perte de données potentielle, régression majeure
   ou changement dangereux non validé.
 - `COMMENTER` : observations utiles sans changement obligatoire.

@@ -70,7 +70,7 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.AGENT_PR_TOKEN }}
           branch: refactor/agent-auto-${{ github.event.workflow_run.id }}
           base: main
           title: "refactor: application du plan par blazor-refactoring-agent"

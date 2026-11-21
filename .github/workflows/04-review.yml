@@ -2,7 +2,7 @@ name: "Agent 04 — Revue"
 
 on:
   pull_request:
-    types: [opened, synchronize, reopened]
+    types: [opened, synchronize, reopened, labeled]
     branches: [main]
 
 permissions:
@@ -38,19 +38,41 @@ jobs:
       - name: Validate review output
         run: |
           test -s review.json
-          jq -e 'has("summary") and has("approved") and has("findings")' review.json
+          jq -e '
+            type == "object" and
+            (.summary | type == "string") and
+            (.approved | type == "boolean") and
+            (if (.findings | type) == "array"
+             then all(.findings[]; type == "string")
+             else false
+             end) and
+            (.decision == "APPROVE" or
+             .decision == "REQUEST_CHANGES" or
+             .decision == "COMMENTER" or
+             .decision == "BLOQUER") and
+            (.approved == (.decision == "APPROVE"))
+          ' review.json
 
       - name: Publish review
         uses: actions/github-script@v7
         with:
           script: |
             const review = require('./review.json');
+            const event = {
+              APPROVE: 'APPROVE',
+              REQUEST_CHANGES: 'REQUEST_CHANGES',
+              COMMENTER: 'COMMENT',
+              BLOQUER: 'REQUEST_CHANGES'
+            }[review.decision];
+            const findings = review.findings.length
+              ? review.findings.map(finding => `- ${finding}`).join('\n')
+              : 'Aucun constat.';
             await github.rest.pulls.createReview({
               owner: context.repo.owner,
               repo: context.repo.repo,
               pull_number: context.issue.number,
-              body: review.summary,
-              event: review.approved ? 'APPROVE' : 'REQUEST_CHANGES'
+              body: `${review.summary}\n\n## Constats\n${findings}`,
+              event
             });
 
   qa:
