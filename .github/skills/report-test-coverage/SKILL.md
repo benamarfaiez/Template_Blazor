@@ -88,7 +88,7 @@ Ne déclare jamais `PRÊT POUR REFACTORING` si :
 - Aucun test ne couvre la règle métier principale.
 - Les tests existants échouent.
 - Les tests dépendent de l’ordre, du réseau ou d’une base partagée.
-- Les états de chargement, d’erreur ou de validation ne sont pas couverts.
+- Les états de chargement, d’erreur ou de validation applicables au comportement sous test ne sont pas couverts; pour une cible service, les états UI inapplicables ne doivent pas bloquer la décision.
 - Un bug existant n’a pas été traité ou accepté explicitement.
 - Une intégration externe, une autorisation ou un JavaScript interop critique n’est pas couvert.
 
