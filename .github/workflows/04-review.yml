@@ -1,0 +1,117 @@
+name: "Agent 04 — Revue"
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, labeled]
+    branches: [main]
+
+permissions:
+  contents: read
+  pull-requests: write
+  actions: read
+
+concurrency:
+  group: agent-review-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  review:
+    if: contains(github.event.pull_request.labels.*.name, 'agent:refactor')
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Copilot CLI
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: npm install --global @github/copilot
+
+      - name: Generate diff
+        run: |
+          git diff origin/${{ github.base_ref }}...HEAD > diff.patch
+          test -s diff.patch || { echo "Diff vide"; exit 0; }
+
+      - name: Run blazor-code-reviewer
+        env:
+          GH_TOKEN: ${{ secrets.COPILOT_GITHUB_TOKEN }}
+        run: |
+          bash .github/scripts/run-agent.sh blazor-code-reviewer \
+            --diff diff.patch \
+            > review.json
+
+      - name: Validate review output
+        run: |
+          test -s review.json
+          jq -e '
+            type == "object" and
+            (.summary | type == "string") and
+            (.approved | type == "boolean") and
+            (if (.findings | type) == "array"
+             then all(.findings[]; type == "string")
+             else false
+             end) and
+            (.decision == "APPROVE" or
+             .decision == "REQUEST_CHANGES" or
+             .decision == "COMMENTER" or
+             .decision == "BLOQUER") and
+            (.approved == (.decision == "APPROVE"))
+          ' review.json
+
+      - name: Publish review
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const review = require('./review.json');
+            const event = {
+              APPROVE: 'APPROVE',
+              REQUEST_CHANGES: 'REQUEST_CHANGES',
+              COMMENTER: 'COMMENT',
+              BLOQUER: 'REQUEST_CHANGES'
+            }[review.decision];
+            const findings = review.findings.length
+              ? review.findings.map(finding => `- ${finding}`).join('\n')
+              : 'Aucun constat.';
+            await github.rest.pulls.createReview({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number,
+              body: `${review.summary}\n\n## Constats\n${findings}`,
+              event
+            });
+
+  qa:
+    if: contains(github.event.pull_request.labels.*.name, 'agent:refactor')
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Copilot CLI
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: npm install --global @github/copilot
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "10.0.x"
+
+      - name: Run blazor-qa-agent
+        env:
+          GH_TOKEN: ${{ secrets.COPILOT_GITHUB_TOKEN }}
+        run: bash .github/scripts/run-agent.sh blazor-qa-agent > qa-report.json
+
+      - name: Run tests (déterministe)
+        run: dotnet test --nologo -v q
+
+      - name: Upload QA report
+        uses: actions/upload-artifact@v4
+        with:
+          name: qa-report
+          path: qa-report.json
+          retention-days: 7

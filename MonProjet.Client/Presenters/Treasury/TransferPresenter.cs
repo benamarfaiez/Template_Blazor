@@ -20,15 +20,13 @@ public class TransferPresenter(IExceptionHandler exceptions, IToastService toast
         try
         {
             await Task.Delay(300);
-            ViewModel.Accounts =
-            [
+            ViewModel.SetAccounts([
                 new(1, "Compte Principal", "FR76 1234...", 15420.50m),
                 new(2, "Compte Épargne", "FR76 9876...", 5000.00m)
-            ];
-            ViewModel.Beneficiaries =
-            [
+            ]);
+            ViewModel.SetBeneficiaries([
                 new(1, "Fournisseur Alpha", "FR76 1111..."),
-            ];
+            ]);
         }
         catch (Exception ex)
         {

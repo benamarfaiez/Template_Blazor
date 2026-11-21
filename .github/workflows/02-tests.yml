@@ -1,0 +1,120 @@
+name: "Agent 02 — Tests"
+
+on:
+  workflow_run:
+    workflows: ["Agent 01 — Planification"]
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      upstream_run_id:
+        description: "Identifiant du run Agent 01 — Planification"
+        required: true
+        type: string
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: agent-tests-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  write-tests:
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Download refactor plan
+        uses: actions/download-artifact@v4
+        with:
+          name: refactor-plan
+          run-id: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.id || inputs.upstream_run_id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: input/
+
+      - name: Resolve source revision
+        id: source
+        shell: bash
+        run: |
+          jq -e '
+            (.source_sha | type == "string") and
+            (.source_sha | test("^[0-9a-f]{40}$"))
+          ' input/refactor-plan.json
+          sha="$(jq -r '.source_sha' input/refactor-plan.json)"
+          echo "sha=$sha" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.source.outputs.sha }}
+          fetch-depth: 0
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "10.0.x"
+
+      - name: Setup Copilot CLI
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: npm install --global @github/copilot
+
+      - name: Run blazor-test-engineer
+        env:
+          GH_TOKEN: ${{ secrets.COPILOT_GITHUB_TOKEN }}
+        run: |
+          checked_sha="$(git rev-parse HEAD)"
+          planned_sha="$(jq -r '.source_sha' input/refactor-plan.json)"
+          if [ "$checked_sha" != "$planned_sha" ]; then
+            echo "La révision cochée ne correspond pas au plan"
+            exit 1
+          fi
+          bash .github/scripts/run-agent.sh blazor-test-engineer \
+            --plan input/refactor-plan.json \
+            > agent-test-coverage.json
+          jq --arg sha "$planned_sha" \
+             '. + {source_sha: $sha}' \
+             agent-test-coverage.json > test-coverage.json
+
+      - name: Run generated tests
+        run: |
+          dotnet test --nologo -v q
+
+      - name: Validate coverage output
+        run: |
+          test -s test-coverage.json
+          jq -e '
+            has("coverage") and
+            (.coverage >= 0) and
+            (.source_sha == "${{ steps.source.outputs.sha }}")
+          ' test-coverage.json
+
+      - name: Preserve test changes for refactoring
+        env:
+          TEST_BRANCH: refactor/agent-auto-${{ github.run_id }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git switch -c "$TEST_BRANCH"
+          git add -A
+          if ! git diff --cached --quiet; then
+            git diff --cached --stat
+            git commit -m "test: add characterization tests for refactoring"
+          fi
+          git push origin "HEAD:$TEST_BRANCH"
+
+      - name: Upload test coverage
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-coverage
+          path: test-coverage.json
+          retention-days: 7
+
+      - name: Upload refactor plan for execution
+        uses: actions/upload-artifact@v4
+        with:
+          name: refactor-plan
+          path: input/refactor-plan.json
+          retention-days: 7

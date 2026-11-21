@@ -1,0 +1,82 @@
+name: "Orchestrateur manuel"
+
+on:
+  workflow_dispatch:
+    inputs:
+      target:
+        description: "Étape à lancer"
+        required: true
+        type: choice
+        options:
+          - audit
+          - plan
+          - tests
+          - refactor
+      ref:
+        description: "Branche cible"
+        required: false
+        default: "main"
+        type: string
+      audit_target:
+        description: "Cible à auditer (utilisée avec l’étape audit)"
+        required: false
+        type: string
+      upstream_run_id:
+        description: "Identifiant du run amont (requis pour plan, tests et refactor)"
+        required: false
+        type: string
+
+permissions:
+  actions: write
+  contents: read
+
+jobs:
+  dispatch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger target agent
+        env:
+          TARGET: ${{ inputs.target }}
+          REF: ${{ inputs.ref }}
+          AUDIT_TARGET: ${{ inputs.audit_target }}
+          UPSTREAM_RUN_ID: ${{ inputs.upstream_run_id }}
+          REPOSITORY: ${{ github.repository }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          case "$TARGET" in
+            audit)
+              workflow="00-audit.yml"
+              if [ -z "$AUDIT_TARGET" ]; then
+                echo "audit_target est requis pour l’étape audit"
+                exit 1
+              fi
+              gh workflow run "$workflow" \
+                --ref "$REF" \
+                --repo "$REPOSITORY" \
+                -f target="$AUDIT_TARGET"
+              ;;
+            plan)
+              workflow="01-plan.yml"
+              ;;
+            tests)
+              workflow="02-tests.yml"
+              ;;
+            refactor)
+              workflow="03-refactor.yml"
+              ;;
+            *)
+              echo "Étape inconnue: $TARGET"
+              exit 1
+              ;;
+          esac
+
+          if [ "$TARGET" != "audit" ]; then
+            if ! [[ "$UPSTREAM_RUN_ID" =~ ^[0-9]+$ ]]; then
+              echo "upstream_run_id est requis et doit être numérique pour l’étape $TARGET"
+              exit 1
+            fi
+            gh workflow run "$workflow" \
+              --ref "$REF" \
+              --repo "$REPOSITORY" \
+              -f upstream_run_id="$UPSTREAM_RUN_ID"
+          fi

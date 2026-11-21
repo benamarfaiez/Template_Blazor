@@ -16,7 +16,8 @@ public sealed class UserViewTests
     public void Render_RegistersViewInitializesPresenterAndDisplaysUsers()
     {
         using var context = new BunitContext();
-        var viewModel = new UserViewModel { Users = UserGridConfig.GetSampleUsers()[..3] };
+        var viewModel = new UserViewModel();
+        viewModel.SetUsers(UserGridConfig.GetSampleUsers().Take(3));
         var presenter = Substitute.For<IUserPresenter>();
         presenter.ViewModel.Returns(viewModel);
         presenter.InitializeAsync().Returns(Task.CompletedTask);

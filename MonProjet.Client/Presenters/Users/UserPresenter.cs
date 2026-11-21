@@ -29,12 +29,12 @@ public class UserPresenter(IExceptionHandler exceptions) : IUserPresenter
             // Simulation d'un appel API
             await Task.Delay(400);
 
-            ViewModel.Users =
+            ViewModel.SetUsers(
             [
                 new(1, "Alice Dupont", "alice@example.com", "Admin"),
                 new(2, "Bob Martin", "bob@example.com", "Éditeur"),
                 new(3, "Charlie Durand", "charlie@example.com", "Lecteur")
-            ];
+            ]);
         }
         catch (Exception ex)
         {

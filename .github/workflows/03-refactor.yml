@@ -1,0 +1,138 @@
+name: "Agent 03 — Refactoring"
+
+on:
+  workflow_run:
+    workflows: ["Agent 02 — Tests"]
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      upstream_run_id:
+        description: "Identifiant du run Agent 02 — Tests"
+        required: true
+        type: string
+
+permissions:
+  contents: write        # nécessaire pour pousser la branche
+  pull-requests: write   # nécessaire pour créer la PR
+  actions: read
+
+concurrency:
+  group: agent-refactor-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  refactor:
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Download test coverage
+        uses: actions/download-artifact@v4
+        with:
+          name: test-coverage
+          run-id: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.id || inputs.upstream_run_id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: input/
+
+      - name: Download refactor plan
+        uses: actions/download-artifact@v4
+        with:
+          name: refactor-plan
+          run-id: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.id || inputs.upstream_run_id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: input/
+
+      - name: Revalidate artifacts and source revision
+        id: source
+        shell: bash
+        run: |
+          plan_sha="$(jq -er '.source_sha' input/refactor-plan.json)"
+          coverage_sha="$(jq -er '.source_sha' input/test-coverage.json)"
+          if [ "$plan_sha" != "$coverage_sha" ]; then
+            echo "Le plan et la couverture ciblent des révisions différentes"
+            exit 1
+          fi
+          test "$plan_sha" =~ ^[0-9a-f]{40}$ || { echo "SHA source invalide"; exit 1; }
+          echo "sha=$plan_sha" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.source.outputs.sha }}
+          fetch-depth: 0
+
+      - name: Apply characterization test branch
+        env:
+          TEST_BRANCH: refactor/agent-auto-${{ github.event.workflow_run.id }}
+        run: |
+          git fetch origin "$TEST_BRANCH:$TEST_BRANCH"
+          git merge-base --is-ancestor "${{ steps.source.outputs.sha }}" "$TEST_BRANCH"
+          git switch "$TEST_BRANCH"
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "10.0.x"
+
+      - name: Setup Copilot CLI
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: npm install --global @github/copilot
+
+      - name: Run blazor-refactoring-agent
+        env:
+          GH_TOKEN: ${{ secrets.COPILOT_GITHUB_TOKEN }}
+        run: |
+          source_sha="${{ steps.source.outputs.sha }}"
+          checked_sha="$(git rev-parse HEAD)"
+          plan_sha="$(jq -r '.source_sha' input/refactor-plan.json)"
+          coverage_sha="$(jq -r '.source_sha' input/test-coverage.json)"
+          if [ "$plan_sha" != "$source_sha" ] || [ "$coverage_sha" != "$source_sha" ]; then
+            echo "Les rapports ne correspondent pas à la révision cochée"
+            exit 1
+          fi
+          git merge-base --is-ancestor "$source_sha" "$checked_sha"
+          bash .github/scripts/run-agent.sh blazor-refactoring-agent \
+            --plan input/refactor-plan.json \
+            --coverage input/test-coverage.json \
+            > agent-execution-report.json
+          jq --arg sha "$source_sha" \
+             '. + {source_sha: $sha}' \
+             agent-execution-report.json > execution-report.json
+
+      - name: Validate refactoring output
+        id: validate
+        run: |
+          echo "create_pr=false" >> "$GITHUB_OUTPUT"
+          test -s execution-report.json
+          if jq -e '.status == "APPLIQUÉ"' execution-report.json >/dev/null; then
+            echo "create_pr=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Upload execution report
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: execution-report
+          path: execution-report.json
+          retention-days: 7
+
+      - name: Create Pull Request
+        if: ${{ steps.validate.outputs.create_pr == 'true' }}
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.AGENT_PR_TOKEN }}
+          branch: refactor/agent-auto-${{ github.event.workflow_run.id }}
+          base: main
+          title: "refactor: application du plan par blazor-refactoring-agent"
+          body: |
+            PR générée automatiquement par le pipeline d'agents.
+
+            - Audit : exécution ${{ github.event.workflow_run.id }}
+            - Plan : voir artefact `refactor-plan`
+            - Tests : voir artefact `test-coverage`
+            - Rapport d'exécution : voir artefact `execution-report`
+          labels: |
+            agent:refactor
+            automated
