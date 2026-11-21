@@ -132,14 +132,8 @@ Demande une validation humaine avant de :
 - Règles de tests : `.github/instructions/testing.instructions.md`
 - Règles de revue : `.github/instructions/code-review.instructions.md`
 - Règles de sécurité : `.github/instructions/security.instructions.md`
-- Skills communs : `.github/skills/common/`
-- Glossaire commun : `.github/skills/common/glossary.md`
-- Architecture : `.github/skills/architecture/`
-- Audit : `.github/skills/auditor/`
-- Revue de code : `.github/skills/code review/`
-- Tests : `.github/skills/tests/`
-- QA : `.github/skills/qa/`
-- Refactoring : `.github/skills/refactor/`
+- Skills communs : `.github/skills/`
+- Glossaire commun : `.github/skills/glossary.md`
 
 ## Agents disponibles
 
