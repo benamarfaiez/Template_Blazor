@@ -59,6 +59,7 @@ Applique un seul incrément de refactoring validé.
 ## Commandes autorisées
 
 ```bash
+dotnet restore
 dotnet build --no-restore
 dotnet test 
 dotnet test  --filter "FullyQualifiedName~<NomDuModule>"
