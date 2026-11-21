@@ -21,12 +21,6 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 45
     steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
-          ref: refactor/agent-auto-${{ github.event.workflow_run.id }}
-
       - name: Download test coverage
         uses: actions/download-artifact@v4
         with:
@@ -43,6 +37,32 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           path: input/
 
+      - name: Revalidate artifacts and source revision
+        id: source
+        shell: bash
+        run: |
+          plan_sha="$(jq -er '.source_sha' input/refactor-plan.json)"
+          coverage_sha="$(jq -er '.source_sha' input/test-coverage.json)"
+          if [ "$plan_sha" != "$coverage_sha" ]; then
+            echo "Le plan et la couverture ciblent des révisions différentes"
+            exit 1
+          fi
+          test "$plan_sha" =~ ^[0-9a-f]{40}$ || { echo "SHA source invalide"; exit 1; }
+          echo "sha=$plan_sha" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.source.outputs.sha }}
+          fetch-depth: 0
+
+      - name: Apply characterization test branch
+        env:
+          TEST_BRANCH: refactor/agent-auto-${{ github.event.workflow_run.id }}
+        run: |
+          git fetch origin "$TEST_BRANCH:$TEST_BRANCH"
+          git merge-base --is-ancestor "${{ steps.source.outputs.sha }}" "$TEST_BRANCH"
+          git switch "$TEST_BRANCH"
+
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
@@ -50,10 +70,22 @@ jobs:
 
       - name: Run blazor-refactoring-agent
         run: |
+          source_sha="${{ steps.source.outputs.sha }}"
+          checked_sha="$(git rev-parse HEAD)"
+          plan_sha="$(jq -r '.source_sha' input/refactor-plan.json)"
+          coverage_sha="$(jq -r '.source_sha' input/test-coverage.json)"
+          if [ "$plan_sha" != "$source_sha" ] || [ "$coverage_sha" != "$source_sha" ]; then
+            echo "Les rapports ne correspondent pas à la révision cochée"
+            exit 1
+          fi
+          git merge-base --is-ancestor "$source_sha" "$checked_sha"
           ./run-agent.sh blazor-refactoring-agent \
             --plan input/refactor-plan.json \
             --coverage input/test-coverage.json \
-            > execution-report.json
+            > agent-execution-report.json
+          jq --arg sha "$source_sha" \
+             '. + {source_sha: $sha}' \
+             agent-execution-report.json > execution-report.json
 
       - name: Validate refactoring output
         id: validate

@@ -12,7 +12,7 @@ on:
         required: false
         default: "main"
         type: string
-        
+
 permissions:
   contents: read
   actions: read
@@ -28,17 +28,31 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
+          ref: ${{ inputs.ref }}
           fetch-depth: 0
+
+      - name: Capture audited source revision
+        id: source
+        shell: bash
+        run: |
+          sha="$(git rev-parse HEAD)"
+          test "$sha" =~ ^[0-9a-f]{40}$ || { echo "SHA source invalide"; exit 1; }
+          echo "sha=$sha" >> "$GITHUB_OUTPUT"
 
       - name: Run blazor-auditor
         run: |
           # Adaptez la commande à votre runner d'agent réel.
           # L'agent doit produire audit-report.json dans le workspace.
-          ./run-agent.sh blazor-auditor > audit-report.json
+          ./run-agent.sh blazor-auditor > agent-audit-report.json
 
       - name: Validate audit output
         run: |
-          test -s audit-report.json
+          test -s agent-audit-report.json
+          jq -e 'type == "object"' agent-audit-report.json
+          jq --arg sha "${{ steps.source.outputs.sha }}" \
+             --arg ref "${{ inputs.ref }}" \
+             '. + {source_sha: $sha, source_ref: $ref}' \
+             agent-audit-report.json > audit-report.json
           jq -e 'has("findings") or has("summary")' audit-report.json
 
       - name: Upload audit report
