@@ -20,7 +20,7 @@ Analyse le périmètre d'une pull request Blazor : objectif, fichiers modifiés,
 ## Inputs
 - Cible, PR, issue ou chemins fournis par l’appelant.
 - Contraintes humaines explicites et état Git vérifié.
-- Périmètre limité à 20 fichiers au premier passage.
+- Périmètre limité à 50 fichiers au premier passage; pour une PR dépassant 50 fichiers modifiés, poursuivre la revue par lots successifs jusqu'à couvrir tous les fichiers.
 
 ## Outputs
 - Résultat vérifié correspondant à la mission du skill.
@@ -69,6 +69,6 @@ Produis :
 - Exemple : produire une sortie vérifiée avec chemins exacts et commandes exécutées.
 
 ## Limites
-- Inspecter au plus 20 fichiers sans exploration exhaustive.
+- Inspecter au plus 20 fichiers par lot. Si tous les fichiers ne peuvent pas être couverts, signaler explicitement la couverture incomplète, les fichiers non examinés et ne pas approuver sur la base d'une revue incomplète.
 - Arrêter après 3 tentatives ciblées infructueuses.
 - Consulter `../../common/glossary.md` pour les termes communs.
