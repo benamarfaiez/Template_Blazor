@@ -1,34 +1,94 @@
 #!/usr/bin/env bash
-set -euo pipefail
+# Hook PreToolUse — garde-fous déterministes pour agents Blazor.
+# Retourne toujours un JSON {permissionDecision: allow|deny|ask}.
+# Fail-closed : toute erreur de parsing = deny.
+set -uo pipefail
 
+# ---------------------------------------------------------------
+# Utilitaires
+# ---------------------------------------------------------------
+emit() {
+  local decision="$1" reason="${2:-}"
+  if [ -z "$reason" ]; then
+    printf '{"permissionDecision":"%s"}\n' "$decision"
+  else
+    local esc
+    esc=$(printf '%s' "$reason" | jq -Rs .)
+    printf '{"permissionDecision":"%s","permissionDecisionReason":%s}\n' \
+      "$decision" "$esc"
+  fi
+  exit 0
+}
+
+log() { printf '[pre-tool-use] %s\n' "$*" >&2; }
+
+# ---------------------------------------------------------------
+# Lecture et validation de l'input
+# ---------------------------------------------------------------
 input=$(cat)
-tool_name=$(printf '%s' "$input" | jq -r '.toolName // empty')
-tool_args=$(printf '%s' "$input" | jq -r '.toolArgs // empty')
 
-# Autoriser explicitement les outils de lecture courants
+# B15 : borner la taille (1 Mo)
+if [ "${#input}" -gt 1048576 ]; then
+  emit "deny" "Hook PreToolUse : input trop volumineux (> 1 Mo)."
+fi
+
+# B4/B16 : valider le JSON
+if ! printf '%s' "$input" | jq -e . >/dev/null 2>&1; then
+  emit "deny" "Hook PreToolUse : input JSON invalide."
+fi
+
+tool_name=$(printf '%s' "$input" | jq -r '.toolName // empty')
+if [ -z "$tool_name" ]; then
+  emit "deny" "Hook PreToolUse : toolName absent."
+fi
+
+# B14 : extraire toutes les chaînes de toolArgs (chemins, commandes, etc.)
+# `.. | strings` parcourt récursivement et retourne toutes les valeurs string.
+tool_args_strings=$(printf '%s' "$input" \
+  | jq -r '.toolArgs // {} | .. | strings' 2>/dev/null || true)
+
+log "tool=$tool_name"
+log "args_strings=$tool_args_strings"
+
+# ---------------------------------------------------------------
+# 1. Outils de lecture : allow
+# ---------------------------------------------------------------
 case "$tool_name" in
-  view|read|search|glob|grep|list_files|get_file_contents)
-    printf '%s\n' '{"permissionDecision":"allow"}'
-    exit 0
+  view|read|search|glob|grep|list_files|get_file_contents|inspect)
+    emit "allow"
     ;;
 esac
 
-# 1. Commandes shell dangereuses
+# ---------------------------------------------------------------
+# 2. Outils shell
+# ---------------------------------------------------------------
 if [ "$tool_name" = "bash" ] || [ "$tool_name" = "shell" ]; then
+
+  # 2a. Patterns strictement destructifs → deny (B10, B11)
   blocked_patterns=(
     'dotnet ef database drop'
-    'dotnet ef database update'
     'dotnet ef migrations remove'
-    'dotnet ef migrations add'
     'git push --force'
     'git push -f'
+    'git push --force-with-lease'
     'git reset --hard'
     'git clean -fd'
     'git clean -fdx'
+    'git clean -x'
+    'git checkout -- .'
+    'git branch -D'
     'rm -rf'
+    'rm -fr'
+    'rm -r -f'
+    'rm --recursive --force'
     'rmdir /s /q'
     'del /s /q'
     'Remove-Item -Recurse -Force'
+    'shutdown'
+    'reboot'
+    'mkfs'
+    'dd if='
+    'chmod 777'
     'kubectl delete'
     'docker system prune'
     'docker volume rm'
@@ -38,68 +98,75 @@ if [ "$tool_name" = "bash" ] || [ "$tool_name" = "shell" ]; then
   )
 
   for pattern in "${blocked_patterns[@]}"; do
-    if printf '%s' "$tool_args" | grep -qiF "$pattern"; then
-      printf '%s\n' "{\"permissionDecision\":\"deny\",\"permissionDecisionReason\":\"Commande potentiellement destructive bloquée : $pattern. Demande une validation humaine explicite.\"}"
-      exit 0
+    if printf '%s' "$tool_args_strings" | grep -qiF -- "$pattern"; then
+      emit "deny" "Commande potentiellement destructive bloquée : $pattern."
     fi
   done
 
-  # Bloquer les commandes réseau ou d'installation non validées
-  if printf '%s' "$tool_args" | grep -qiE \
-    'curl .*\| *(ba)?sh|wget .*\| *(ba)?sh|npm install|pnpm add|yarn add|dotnet tool install|dotnet add package'; then
-    printf '%s\n' '{"permissionDecision":"ask","permissionDecisionReason":"Installation de dépendance ou exécution de script externe détectée. Validation humaine requise."}'
-    exit 0
+  # 2b. Installation / script externe → ask
+  if printf '%s' "$tool_args_strings" | grep -qiE \
+    'curl .*\|\s*(ba)?sh|wget .*\|\s*(ba)?sh|npm install|pnpm add|yarn add|dotnet tool install|dotnet add package'; then
+    emit "ask" "Installation de dépendance ou script externe. Validation humaine requise."
   fi
 
-  # Autoriser les commandes de build et de test
-  if printf '%s' "$tool_args" | grep -qiE \
-    'dotnet build|dotnet test|dotnet format|dotnet list package|dotnet ef dbcontext script'; then
-    printf '%s\n' '{"permissionDecision":"allow"}'
-    exit 0
+  # 2c. Commandes build/test/lecture Git → allow (B2, B9)
+  if printf '%s' "$tool_args_strings" | grep -qiE \
+    'dotnet (build|test|format|list package|restore|run|publish|watch|ef dbcontext script)|git (status|diff|log|show|branch|remote|config --get|rev-parse|ls-files|blame|describe|reflog|stash list|tag)(\s|$)'; then
+    # rejeter les variantes destructrices de git
+    if ! printf '%s' "$tool_args_strings" | grep -qiE \
+      'git (branch\s+(-d|-D|-m|-M|-f|-c)|tag\s+(-d|-f)|remote\s+(add|remove|rename|set-url|prune)|stash\s+(drop|clear|pop)|push|reset|checkout|clean|commit|merge|rebase)'; then
+      emit "allow"
+    fi
   fi
 
-  # Demander confirmation pour les autres commandes shell
-  printf '%s\n' '{"permissionDecision":"ask","permissionDecisionReason":"Commande shell non classée. Vérifie son impact avant exécution."}'
-  exit 0
+  # 2d. Fallback shell
+  emit "ask" "Commande shell non classée. Vérifie son impact avant exécution."
 fi
 
-# 2. Protection des fichiers sensibles
-if printf '%s' "$tool_args" | grep -qiE \
-  'appsettings\.Production\.json|\.env|\.pfx|\.key|secret|credential|password|connectionstring'; then
-  printf '%s\n' '{"permissionDecision":"ask","permissionDecisionReason":"Fichier potentiellement sensible détecté. Validation humaine requise avant lecture ou modification."}'
-  exit 0
+# ---------------------------------------------------------------
+# 3. Fichiers sensibles → ask (B5)
+# ---------------------------------------------------------------
+if printf '%s' "$tool_args_strings" | grep -qiE \
+  '(^|/)(\.env(\..*)?$|secrets?\.(json|ya?ml)$|appsettings\.(Production|Staging)\.json$|.*\.(pfx|p12|key|pem)$|credentials?\.(json|ya?ml)$)'; then
+  emit "ask" "Fichier potentiellement sensible. Validation humaine requise."
 fi
 
-# 3. Protection des migrations et de la base de données
-if printf '%s' "$tool_args" | grep -qiE 'Migrations/|migrations|\.edmx|database|connectionstring'; then
-  if printf '%s' "$tool_args" | grep -qiE 'delete|remove|drop|update|write|edit'; then
-    printf '%s\n' '{"permissionDecision":"ask","permissionDecisionReason":"Modification potentielle d’une migration, d’un schéma de base ou d’une configuration de connexion. Validation humaine requise."}'
-    exit 0
-  fi
-fi
+# ---------------------------------------------------------------
+# 4-7. Protections par type de chemin, uniquement sur opération modifiante (B12)
+# ---------------------------------------------------------------
+case "$tool_name" in
+  write|edit|create|delete|remove|move|rename)
 
-# 4. Protection des tests
-if printf '%s' "$tool_args" | grep -qiE 'tests?/|\.Tests\.|\.spec\.|\.test\.'; then
-  if printf '%s' "$tool_args" | grep -qiE 'delete|remove'; then
-    printf '%s\n' '{"permissionDecision":"deny","permissionDecisionReason":"Suppression de test bloquée. Les tests ne doivent pas être supprimés sans validation humaine explicite."}'
-    exit 0
-  fi
-fi
+    # 4. Migrations / DB (B6)
+    if printf '%s' "$tool_args_strings" | grep -qiE \
+      '(^|/)(Migrations?/|.*\.edmx$|appsettings\.json$)'; then
+      emit "ask" "Modification d'une migration, d'un schéma de base ou d'une configuration. Validation humaine requise."
+    fi
 
-# 5. Protection des fichiers CI/CD et infrastructure
-if printf '%s' "$tool_args" | grep -qiE \
-  '\.github/workflows/|\.github/actions/|Dockerfile|docker-compose|kubernetes|k8s|terraform|helm|\.azuredevops|Jenkinsfile'; then
-  printf '%s\n' '{"permissionDecision":"ask","permissionDecisionReason":"Modification de CI/CD ou d’infrastructure détectée. Validation humaine requise."}'
-  exit 0
-fi
+    # 5. Suppression de tests → deny (B7)
+    if [ "$tool_name" = "delete" ] || [ "$tool_name" = "remove" ]; then
+      if printf '%s' "$tool_args_strings" | grep -qiE \
+        '(^|/)(tests?/|.*\.Tests\.|.*\.spec\.|.*\.test\.)'; then
+        emit "deny" "Suppression de test bloquée. Validation humaine explicite requise."
+      fi
+    fi
 
-# 6. Protection des fichiers Razor critiques
-if printf '%s' "$tool_args" | grep -qiE '\.razor$'; then
-  if printf '%s' "$tool_args" | grep -qiE 'delete|remove'; then
-    printf '%s\n' '{"permissionDecision":"ask","permissionDecisionReason":"Suppression d’un composant Blazor détectée. Vérifie les références, routes et tests avant validation."}'
-    exit 0
-  fi
-fi
+    # 6. CI/CD et infrastructure
+    if printf '%s' "$tool_args_strings" | grep -qiE \
+      '(^|/)(\.github/(workflows|actions)/|Dockerfile$|docker-compose.*\.ya?ml$|.*\.(tf|tfvars)$|Chart\.yaml$|Jenkinsfile$|azure-pipelines\.ya?ml$)'; then
+      emit "ask" "Modification de CI/CD ou d'infrastructure. Validation humaine requise."
+    fi
 
-# Par défaut : autoriser
-printf '%s\n' '{"permissionDecision":"allow"}'
+    # 7. Composant Blazor (B3) — suppression → ask
+    if [ "$tool_name" = "delete" ] || [ "$tool_name" = "remove" ]; then
+      if printf '%s' "$tool_args_strings" | grep -qiE '\.razor$'; then
+        emit "ask" "Suppression d'un composant Blazor. Vérifie références, routes et tests."
+      fi
+    fi
+    ;;
+esac
+
+# ---------------------------------------------------------------
+# 8. Fallback : allow (l'agent peut toujours lire/parcourir)
+# ---------------------------------------------------------------
+emit "allow"

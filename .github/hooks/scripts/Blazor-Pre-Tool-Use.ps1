@@ -1,142 +1,167 @@
+# Hook PreToolUse — garde-fous déterministes pour agents Blazor.
+# Retourne toujours un JSON {permissionDecision: allow|deny|ask}.
+# Fail-closed : toute erreur de parsing = deny.
+
 $ErrorActionPreference = 'Stop'
 
-$input = [Console]::In.ReadToEnd()
-$payload = $input | ConvertFrom-Json
-
-$toolName = $payload.toolName
-$toolArgs = $payload.toolArgs | ConvertTo-Json -Depth 10 -Compress
-
-# Autoriser explicitement les outils de lecture courants
-$readOnlyTools = @('view', 'read', 'search', 'glob', 'grep', 'list_files', 'get_file_contents')
-
-if ($readOnlyTools -contains $toolName) {
-    Write-Output '{"permissionDecision":"allow"}'
+function EmitDecision {
+    param([string]$Decision, [string]$Reason = '')
+    $response = @{ permissionDecision = $Decision }
+    if ($Reason) { $response['permissionDecisionReason'] = $Reason }
+    Write-Output ($response | ConvertTo-Json -Depth 3 -Compress)
     exit 0
 }
 
-# 1. Commandes shell dangereuses
-if ($toolName -eq 'bash' -or $toolName -eq 'shell') {
+function Write-Log {
+    param([string]$Message)
+    [Console]::Error.WriteLine("[pre-tool-use] $Message")
+}
+
+# ---------------------------------------------------------------
+# Lecture et validation de l'input
+# ---------------------------------------------------------------
+$inputRaw = [Console]::In.ReadToEnd()
+
+if ($inputRaw.Length -gt 1048576) {
+    EmitDecision -Decision 'deny' -Reason 'Hook PreToolUse : input trop volumineux (> 1 Mo).'
+}
+
+try {
+    $payload = $inputRaw | ConvertFrom-Json -ErrorAction Stop
+} catch {
+    EmitDecision -Decision 'deny' -Reason 'Hook PreToolUse : input JSON invalide.'
+}
+
+$toolName = $payload.toolName
+if (-not $toolName) {
+    EmitDecision -Decision 'deny' -Reason 'Hook PreToolUse : toolName absent.'
+}
+
+# B14 : extraire récursivement toutes les chaînes de toolArgs
+function Get-AllStrings {
+    param($Node)
+    if ($null -eq $Node) { return }
+    if ($Node -is [string]) { Write-Output $Node; return }
+    if ($Node -is [System.Collections.IEnumerable]) {
+        foreach ($item in $Node) { Get-AllStrings -Node $item }
+        return
+    }
+    if ($Node -is [System.Management.Automation.PSCustomObject]) {
+        foreach ($prop in $Node.PSObject.Properties) {
+            Get-AllStrings -Node $prop.Value
+        }
+        return
+    }
+    Write-Output ([string]$Node)
+}
+
+$toolArgsStrings = (Get-AllStrings -Node $payload.toolArgs) -join "`n"
+
+Write-Log "tool=$toolName"
+Write-Log "args_strings=$toolArgsStrings"
+
+# ---------------------------------------------------------------
+# 1. Outils de lecture : allow
+# ---------------------------------------------------------------
+$readOnlyTools = @('view','read','search','glob','grep','list_files','get_file_contents','inspect')
+if ($readOnlyTools -contains $toolName) {
+    EmitDecision -Decision 'allow'
+}
+
+# ---------------------------------------------------------------
+# 2. Outils shell
+# ---------------------------------------------------------------
+if ($toolName -in @('bash','shell')) {
+
     $blockedPatterns = @(
-        'dotnet ef database drop',
-        'dotnet ef database update',
-        'dotnet ef migrations remove',
-        'dotnet ef migrations add',
-        'git push --force',
-        'git push -f',
-        'git reset --hard',
-        'git clean -fd',
-        'git clean -fdx',
-        'rm -rf',
-        'rmdir /s /q',
-        'del /s /q',
-        'Remove-Item -Recurse -Force',
-        'kubectl delete',
-        'docker system prune',
-        'docker volume rm',
-        'helm uninstall',
-        'terraform destroy',
+        'dotnet ef database drop'
+        'dotnet ef migrations remove'
+        'git push --force'
+        'git push -f'
+        'git push --force-with-lease'
+        'git reset --hard'
+        'git clean -fd'
+        'git clean -fdx'
+        'git clean -x'
+        'git checkout -- .'
+        'git branch -D'
+        'rm -rf'
+        'rm -fr'
+        'rm -r -f'
+        'rm --recursive --force'
+        'rmdir /s /q'
+        'del /s /q'
+        'Remove-Item -Recurse -Force'
+        'shutdown'
+        'reboot'
+        'mkfs'
+        'dd if='
+        'chmod 777'
+        'kubectl delete'
+        'docker system prune'
+        'docker volume rm'
+        'helm uninstall'
+        'terraform destroy'
         'az group delete'
     )
 
     foreach ($pattern in $blockedPatterns) {
-        if ($toolArgs -match [regex]::Escape($pattern)) {
-            $response = @{
-                permissionDecision = 'deny'
-                permissionDecisionReason = "Commande potentiellement destructive bloquée : $pattern. Demande une validation humaine explicite."
-            }
-
-            Write-Output ($response | ConvertTo-Json -Depth 3 -Compress)
-            exit 0
+        if ($toolArgsStrings.IndexOf($pattern, [StringComparison]::OrdinalIgnoreCase) -ge 0) {
+            EmitDecision -Decision 'deny' -Reason "Commande potentiellement destructive bloquée : $pattern."
         }
     }
 
-    # Bloquer les installations ou scripts externes non validés
-    if ($toolArgs -match '(?i)curl .*\|\s*(ba)?sh|wget .*\|\s*(ba)?sh|npm install|pnpm add|yarn add|dotnet tool install|dotnet add package') {
-        $response = @{
-            permissionDecision = 'ask'
-            permissionDecisionReason = 'Installation de dépendance ou exécution de script externe détectée. Validation humaine requise.'
+    if ($toolArgsStrings -match '(?i)curl .*\|\s*(ba)?sh|wget .*\|\s*(ba)?sh|npm install|pnpm add|yarn add|dotnet tool install|dotnet add package') {
+        EmitDecision -Decision 'ask' -Reason 'Installation de dépendance ou script externe. Validation humaine requise.'
+    }
+
+    if ($toolArgsStrings -match '(?i)dotnet (build|test|format|list package|restore|run|publish|watch|ef dbcontext script)|git (status|diff|log|show|branch|remote|config --get|rev-parse|ls-files|blame|describe|reflog|stash list|tag)(\s|$)') {
+        if (-not ($toolArgsStrings -match '(?i)git (branch\s+(-d|-D|-m|-M|-f|-c)|tag\s+(-d|-f)|remote\s+(add|remove|rename|set-url|prune)|stash\s+(drop|clear|pop)|push|reset|checkout|clean|commit|merge|rebase)')) {
+            EmitDecision -Decision 'allow'
         }
-
-        Write-Output ($response | ConvertTo-Json -Depth 3 -Compress)
-        exit 0
     }
 
-    # Autoriser les commandes de build et de test
-    if ($toolArgs -match '(?i)dotnet build|dotnet test|dotnet format|dotnet list package|dotnet ef dbcontext script') {
-        Write-Output '{"permissionDecision":"allow"}'
-        exit 0
-    }
-
-    # Demander confirmation pour les autres commandes shell
-    $response = @{
-        permissionDecision = 'ask'
-        permissionDecisionReason = 'Commande shell non classée. Vérifie son impact avant exécution.'
-    }
-
-    Write-Output ($response | ConvertTo-Json -Depth 3 -Compress)
-    exit 0
+    EmitDecision -Decision 'ask' -Reason 'Commande shell non classée. Vérifie son impact avant exécution.'
 }
 
-# 2. Protection des fichiers sensibles
-if ($toolArgs -match '(?i)appsettings\.Production\.json|\.env|\.pfx|\.key|secret|credential|password|connectionstring') {
-    $response = @{
-        permissionDecision = 'ask'
-        permissionDecisionReason = 'Fichier potentiellement sensible détecté. Validation humaine requise avant lecture ou modification.'
-    }
-
-    Write-Output ($response | ConvertTo-Json -Depth 3 -Compress)
-    exit 0
+# ---------------------------------------------------------------
+# 3. Fichiers sensibles → ask
+# ---------------------------------------------------------------
+if ($toolArgsStrings -match '(?i)(^|/)(\.env(\..*)?$|secrets?\.(json|ya?ml)$|appsettings\.(Production|Staging)\.json$|.*\.(pfx|p12|key|pem)$|credentials?\.(json|ya?ml)$)') {
+    EmitDecision -Decision 'ask' -Reason 'Fichier potentiellement sensible. Validation humaine requise.'
 }
 
-# 3. Protection des migrations et de la base de données
-if ($toolArgs -match '(?i)Migrations/|migrations|\.edmx|database|connectionstring') {
-    if ($toolArgs -match '(?i)delete|remove|drop|update|write|edit') {
-        $response = @{
-            permissionDecision = 'ask'
-            permissionDecisionReason = 'Modification potentielle d une migration, d un schéma de base ou d une configuration de connexion. Validation humaine requise.'
+# ---------------------------------------------------------------
+# 4-7. Protections par chemin, uniquement sur opération modifiante
+# ---------------------------------------------------------------
+if ($toolName -in @('write','edit','create','delete','remove','move','rename')) {
+
+    # 4. Migrations / DB
+    if ($toolArgsStrings -match '(?i)(^|/)(Migrations?/|.*\.edmx$|appsettings\.json$)') {
+        EmitDecision -Decision 'ask' -Reason "Modification d'une migration, d'un schéma de base ou d'une configuration. Validation humaine requise."
+    }
+
+    # 5. Suppression de tests → deny
+    if ($toolName -in @('delete','remove')) {
+        if ($toolArgsStrings -match '(?i)(^|/)(tests?/|.*\.Tests\.|.*\.spec\.|.*\.test\.)') {
+            EmitDecision -Decision 'deny' -Reason 'Suppression de test bloquée. Validation humaine explicite requise.'
         }
-
-        Write-Output ($response | ConvertTo-Json -Depth 3 -Compress)
-        exit 0
     }
-}
 
-# 4. Protection des tests
-if ($toolArgs -match '(?i)tests?/|\.Tests\.|\.spec\.|\.test\.') {
-    if ($toolArgs -match '(?i)delete|remove') {
-        $response = @{
-            permissionDecision = 'deny'
-            permissionDecisionReason = 'Suppression de test bloquée. Les tests ne doivent pas être supprimés sans validation humaine explicite.'
+    # 6. CI/CD et infrastructure
+    if ($toolArgsStrings -match '(?i)(^|/)(\.github/(workflows|actions)/|Dockerfile$|docker-compose.*\.ya?ml$|.*\.(tf|tfvars)$|Chart\.yaml$|Jenkinsfile$|azure-pipelines\.ya?ml$)') {
+        EmitDecision -Decision 'ask' -Reason "Modification de CI/CD ou d'infrastructure. Validation humaine requise."
+    }
+
+    # 7. Composant Blazor — suppression → ask
+    if ($toolName -in @('delete','remove')) {
+        if ($toolArgsStrings -match '(?i)\.razor$') {
+            EmitDecision -Decision 'ask' -Reason "Suppression d'un composant Blazor. Vérifie références, routes et tests."
         }
-
-        Write-Output ($response | ConvertTo-Json -Depth 3 -Compress)
-        exit 0
     }
 }
 
-# 5. Protection des fichiers CI/CD et infrastructure
-if ($toolArgs -match '(?i)\.github/workflows/|\.github/actions/|Dockerfile|docker-compose|kubernetes|k8s|terraform|helm|\.azuredevops|Jenkinsfile') {
-    $response = @{
-        permissionDecision = 'ask'
-        permissionDecisionReason = 'Modification de CI/CD ou d infrastructure détectée. Validation humaine requise.'
-    }
-
-    Write-Output ($response | ConvertTo-Json -Depth 3 -Compress)
-    exit 0
-}
-
-# 6. Protection des fichiers Razor critiques
-if ($toolArgs -match '(?i)\.razor$') {
-    if ($toolArgs -match '(?i)delete|remove') {
-        $response = @{
-            permissionDecision = 'ask'
-            permissionDecisionReason = 'Suppression d un composant Blazor détectée. Vérifie les références, routes et tests avant validation.'
-        }
-
-        Write-Output ($response | ConvertTo-Json -Depth 3 -Compress)
-        exit 0
-    }
-}
-
-# Par défaut : autoriser
-Write-Output '{"permissionDecision":"allow"}'
+# ---------------------------------------------------------------
+# 8. Fallback : allow
+# ---------------------------------------------------------------
+EmitDecision -Decision 'allow'
