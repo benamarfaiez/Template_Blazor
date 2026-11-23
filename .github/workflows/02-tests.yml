@@ -105,6 +105,17 @@ jobs:
           fi
           git push origin "HEAD:$TEST_BRANCH"
 
+      - name: Verify test branch persisted remotely
+        env:
+          TEST_BRANCH: refactor/agent-auto-${{ github.run_id }}
+        run: |
+          local_sha="$(git rev-parse HEAD)"
+          remote_sha="$(git ls-remote --exit-code origin "refs/heads/$TEST_BRANCH" | awk '{print $1}')"
+          if [ "$remote_sha" != "$local_sha" ]; then
+            echo "La branche de tests n’est pas persistée avec le commit attendu"
+            exit 1
+          fi
+
       - name: Upload test coverage
         uses: actions/upload-artifact@v4
         with:

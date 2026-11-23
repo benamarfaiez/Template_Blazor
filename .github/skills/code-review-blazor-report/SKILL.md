@@ -63,6 +63,8 @@ Produis un objet JSON valide, sans texte avant ou après, avec ces propriétés 
   fichier et sa ligne, le problème et une correction actionnable. Utilise un
   tableau vide s’il n’y a aucun constat.
 - `decision` : `APPROVE`, `REQUEST_CHANGES`, `COMMENTER` ou `BLOQUER`.
+- Le résumé indique la couverture des fichiers modifiés par les spécialistes
+  applicables, y compris les fichiers qui restent sans couverture.
 
 Mappe les décisions vers GitHub ainsi :
 
@@ -89,12 +91,16 @@ Exemple :
 - `BLOQUER` : la revue contient une faille de sécurité, une perte de données potentielle,
   une régression majeure ou un changement dangereux non validé.
 - `REQUEST_CHANGES` : appliquer uniquement si aucun critère `BLOQUER` n’est atteint,
-  mais qu’au moins un point `BLOQUANT` ou `IMPORTANT` est vérifié.
+  mais qu’au moins un point `BLOQUANT` ou `IMPORTANT` est vérifié ou qu’un fichier
+  modifié reste sans couverture.
 - `APPROVE` : appliquer uniquement si aucun point `BLOQUANT`, `IMPORTANT` ou
-  `BLOQUER` n’est vérifié et que la couverture est suffisante.
+  `BLOQUER` n’est vérifié et que la couverture est suffisante. La couverture est
+  suffisante uniquement lorsque tous les fichiers modifiés ont été examinés par
+  les spécialistes applicables.
 - `COMMENTER` : appliquer uniquement si aucun point `BLOQUANT`, `IMPORTANT` ou
-  `BLOQUER` n’est vérifié et que la couverture est insuffisante. Les observations
-  utiles seules ne changent pas cette décision.
+  `BLOQUER` n’est vérifié et qu’au moins un fichier modifié reste sans couverture.
+  Si un tel fichier reste sans couverture, la décision ne peut pas être `APPROVE` :
+  utiliser `COMMENTER` ou `REQUEST_CHANGES` selon les constats vérifiés.
 
 ## Exemples
 - Exemple : appliquer le skill à une cible nommée explicitement par l’appelant.

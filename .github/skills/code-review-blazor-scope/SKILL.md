@@ -28,7 +28,10 @@ Analyse le périmètre d'une pull request Blazor : objectif, fichiers modifiés,
 - Informations inconnues signalées par `À confirmer`.
 
 ## Steps
-Analyse la PR sans modifier le code.
+Analyse la PR sans modifier le code. Pour chaque lot, applique tous les skills
+spécialistes pertinents, sans en omettre un en raison d’un lot précédent.
+Consigne les fichiers examinés par chaque spécialiste et identifie explicitement
+les fichiers modifiés qui ne sont couverts par aucun spécialiste applicable.
 
 ## Informations à extraire
 
@@ -58,6 +61,7 @@ Produis :
 
 - Résumé de la PR
 - Périmètre technique
+- Pour chaque spécialiste applicable, la liste des fichiers examinés
 - Impact utilisateur
 - Risques principaux
 - Critères d’acceptation

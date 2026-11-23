@@ -46,19 +46,25 @@ fi
 # `.. | strings` parcourt récursivement et retourne toutes les valeurs string.
 tool_args_strings=$(printf '%s' "$input" \
   | jq -r '.toolArgs // {} | .. | strings' 2>/dev/null || true)
+mapfile -t tool_path_args < <(printf '%s' "$input" \
+  | jq -r '.toolArgs // {} | .. | strings' 2>/dev/null || true)
+for index in "${!tool_path_args[@]}"; do
+  tool_path_args[$index]="${tool_path_args[$index]//\\//}"
+done
 tool_command=$(printf '%s' "$input" \
   | jq -r '.toolArgs.command | select(type == "string") // empty' 2>/dev/null || true)
 
 log "tool=$tool_name"
-log "args_strings=$tool_args_strings"
 
 # ---------------------------------------------------------------
 # 1. Fichiers sensibles → ask (B5)
 # ---------------------------------------------------------------
-if printf '%s' "$tool_args_strings" | grep -qiE \
-  '(^|/)(\.env(\..*)?$|secrets?\.(json|ya?ml)$|appsettings\.(Production|Staging)\.json$|.*\.(pfx|p12|key|pem)$|credentials?\.(json|ya?ml)$)'; then
-  emit "ask" "Fichier potentiellement sensible. Validation humaine requise."
-fi
+for path_arg in "${tool_path_args[@]}"; do
+  if printf '%s\n' "$path_arg" | grep -qiE \
+    '(^|/)(\.env(\..*)?$|secrets?\.(json|ya?ml)$|appsettings\.(Production|Staging)\.json$|.*\.(pfx|p12|key|pem)$|credentials?\.(json|ya?ml)$)'; then
+    emit "ask" "Fichier potentiellement sensible. Validation humaine requise."
+  fi
+done
 
 # ---------------------------------------------------------------
 # 2. Outils de lecture : allow
@@ -120,7 +126,12 @@ if [ "$tool_name" = "bash" ] || [ "$tool_name" = "shell" ]; then
   fi
 
   # 2c. Commandes build/test/lecture Git → allow (B2, B9)
-  allowed_command_regex='^[[:blank:]]*(dotnet[[:blank:]]+(build|test|format|list[[:blank:]]+package|restore|run|publish|watch|ef[[:blank:]]+dbcontext[[:blank:]]+script)|git[[:blank:]]+(status|diff|log|show|branch|remote|config[[:blank:]]+--get|rev-parse|ls-files|blame|describe|reflog|stash[[:blank:]]+list|tag))([[:blank:]]+[[:alnum:]_./:=,+@%-]+)*[[:blank:]]*$'
+  read_only_reference_regex='^[[:blank:]]*git[[:blank:]]+(branch|tag)([[:blank:]]+--list)?[[:blank:]]*$'
+  if [[ "$tool_command" =~ $read_only_reference_regex ]]; then
+    emit "allow"
+  fi
+
+  allowed_command_regex='^[[:blank:]]*(dotnet[[:blank:]]+(build|test|format|list[[:blank:]]+package|restore|run|publish|watch|ef[[:blank:]]+dbcontext[[:blank:]]+script)|git[[:blank:]]+(status|diff|log|show|remote|config[[:blank:]]+--get|rev-parse|ls-files|blame|describe|reflog|stash[[:blank:]]+list))([[:blank:]]+[[:alnum:]_./:=,+@%-]+)*[[:blank:]]*$'
   normalized_tool_command=$(printf '%s' "$tool_command" | tr '[:upper:]' '[:lower:]')
   if [[ "$normalized_tool_command" =~ $allowed_command_regex ]]; then
     # rejeter les variantes destructrices de git
@@ -140,24 +151,30 @@ case "$tool_name" in
   write|edit|create|delete|remove|move|rename)
 
     # 4. Migrations / DB (B6)
-    if printf '%s' "$tool_args_strings" | grep -qiE \
-      '(^|/)(Migrations?/|.*\.edmx$|appsettings\.json$)'; then
-      emit "ask" "Modification d'une migration, d'un schéma de base ou d'une configuration. Validation humaine requise."
-    fi
+    for path_arg in "${tool_path_args[@]}"; do
+      if printf '%s\n' "$path_arg" | grep -qiE \
+        '(^|/)(Migrations?/|.*\.edmx$|appsettings\.json$)'; then
+        emit "ask" "Modification d'une migration, d'un schéma de base ou d'une configuration. Validation humaine requise."
+      fi
+    done
 
     # 5. Suppression de tests → deny (B7)
     if [ "$tool_name" = "delete" ] || [ "$tool_name" = "remove" ]; then
-      if printf '%s' "$tool_args_strings" | grep -qiE \
-        '(^|/)(tests?/|.*\.Tests\.|.*\.spec\.|.*\.test\.)'; then
-        emit "deny" "Suppression de test bloquée. Validation humaine explicite requise."
-      fi
+      for path_arg in "${tool_path_args[@]}"; do
+        if printf '%s\n' "$path_arg" | grep -qiE \
+          '(^|/)(tests?/|[^/]*\.Tests/|.*\.Tests\.|.*\.spec\.|.*\.test\.)'; then
+          emit "deny" "Suppression de test bloquée. Validation humaine explicite requise."
+        fi
+      done
     fi
 
     # 6. CI/CD et infrastructure
-    if printf '%s' "$tool_args_strings" | grep -qiE \
-      '(^|/)(\.github/(workflows|actions)/|Dockerfile$|docker-compose.*\.ya?ml$|.*\.(tf|tfvars)$|Chart\.yaml$|Jenkinsfile$|azure-pipelines\.ya?ml$)'; then
-      emit "ask" "Modification de CI/CD ou d'infrastructure. Validation humaine requise."
-    fi
+    for path_arg in "${tool_path_args[@]}"; do
+      if printf '%s\n' "$path_arg" | grep -qiE \
+        '(^|/)(\.github/(workflows|actions)/|Dockerfile$|docker-compose.*\.ya?ml$|.*\.(tf|tfvars)$|Chart\.yaml$|Jenkinsfile$|azure-pipelines\.ya?ml$)'; then
+        emit "ask" "Modification de CI/CD ou d'infrastructure. Validation humaine requise."
+      fi
+    done
 
     # 7. Composant Blazor (B3) — suppression → ask
     if [ "$tool_name" = "delete" ] || [ "$tool_name" = "remove" ]; then

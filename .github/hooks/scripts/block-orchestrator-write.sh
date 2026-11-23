@@ -37,7 +37,12 @@ if [ -z "$agent_name" ]; then
   agent_name="${COPILOT_AGENT_NAME:-${COPILOT_AGENT:-${GH_COPILOT_AGENT:-}}}"
 fi
 
-if ! printf '%s' "$agent_name" | grep -qiE 'orchestrator|blazor-refactoring-agent'; then
+trusted_agent_name="${COPILOT_AGENT_NAME:-${COPILOT_AGENT:-${GH_COPILOT_AGENT:-}}}"
+if [ -n "$trusted_agent_name" ]; then
+  agent_name="$trusted_agent_name"
+fi
+
+if [ -n "$agent_name" ] && ! printf '%s' "$agent_name" | grep -qiE 'orchestrator|blazor-refactoring-agent'; then
   emit allow
 fi
 
@@ -56,6 +61,14 @@ if [ "$tool_name" = "bash" ] || [ "$tool_name" = "shell" ] || [ "$tool_name" = "
     '(^|[;&|[:space:]])(git[[:space:]]+(apply|add|commit|merge|rebase|reset|checkout|clean)|apply_patch|cp|copy|move|mv|rm|remove-item|del|mkdir|touch|tee)([[:space:]]|$)|>[[:space:]]*[^[:space:]]|>>[[:space:]]*[^[:space:]]'; then
     emit deny "La garde orchestrateur interdit les modifications de fichiers directes. Déléguer à blazor-refactor-executor."
   fi
+
+  read_only_command_regex='^[[:blank:]]*(git[[:blank:]]+(status|diff|log|show|rev-parse|ls-files)([[:blank:]]+[^;&|<>`$(){}[:cntrl:]]+)*|git[[:blank:]]+(branch|tag)([[:blank:]]+--list)?|dotnet[[:blank:]]+(build|test|list[[:blank:]]+package)([[:blank:]]+[^;&|<>`$(){}[:cntrl:]]+)*|(Get-ChildItem|Get-Content|Get-Item|Get-Location|Select-String|Test-Path|cat|ls|pwd|head|tail|grep|rg|wc|stat|file)([[:blank:]]+[^;&|<>`$(){}[:cntrl:]]+)*)[[:blank:]]*$'
+  if [[ ! "$tool_command" =~ [\;\&\|\<\>\`\$\(\)\{\}]] \
+    && "$tool_command" =~ $read_only_command_regex ]]; then
+    emit allow
+  fi
+
+  emit deny "Commande shell non vérifiée. Déléguer l’opération à blazor-refactor-executor."
 fi
 
 emit allow

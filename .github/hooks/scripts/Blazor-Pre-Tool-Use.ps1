@@ -55,20 +55,25 @@ function Get-AllStrings {
     Write-Output ([string]$Node)
 }
 
-$toolArgsStrings = (Get-AllStrings -Node $payload.toolArgs) -join "`n"
+$toolArgStrings = @(
+    Get-AllStrings -Node $payload.toolArgs |
+        ForEach-Object { $_ -replace '\\', '/' }
+)
+$toolArgsStrings = $toolArgStrings -join "`n"
 $toolCommand = $null
 if ($payload.toolArgs -and $payload.toolArgs.PSObject.Properties['command'] -and $payload.toolArgs.command -is [string]) {
     $toolCommand = $payload.toolArgs.command
 }
 
 Write-Log "tool=$toolName"
-Write-Log "args_strings=$toolArgsStrings"
 
 # ---------------------------------------------------------------
 # 1. Fichiers sensibles → ask
 # ---------------------------------------------------------------
-if ($toolArgsStrings -match '(?i)(^|/)(\.env(\..*)?$|secrets?\.(json|ya?ml)$|appsettings\.(Production|Staging)\.json$|.*\.(pfx|p12|key|pem)$|credentials?\.(json|ya?ml)$)') {
-    EmitDecision -Decision 'ask' -Reason 'Fichier potentiellement sensible. Validation humaine requise.'
+foreach ($toolArg in $toolArgStrings) {
+    if ($toolArg -match '(?i)(^|/)(\.env(\..*)?$|secrets?\.(json|ya?ml)$|appsettings\.(Production|Staging)\.json$|.*\.(pfx|p12|key|pem)$|credentials?\.(json|ya?ml)$)') {
+        EmitDecision -Decision 'ask' -Reason 'Fichier potentiellement sensible. Validation humaine requise.'
+    }
 }
 
 # ---------------------------------------------------------------
@@ -126,7 +131,12 @@ if ($toolName -in @('bash','shell','powershell')) {
         EmitDecision -Decision 'ask' -Reason 'Installation de dépendance ou script externe. Validation humaine requise.'
     }
 
-    $allowedCommandPattern = '\A[ \t]*(dotnet[ \t]+(build|test|format|list[ \t]+package|restore|run|publish|watch|ef[ \t]+dbcontext[ \t]+script)|git[ \t]+(status|diff|log|show|branch|remote|config[ \t]+--get|rev-parse|ls-files|blame|describe|reflog|stash[ \t]+list|tag))([ \t]+[A-Za-z0-9_./:=,+@%-]+)*[ \t]*\z'
+    $readOnlyReferencePattern = '\A[ \t]*git[ \t]+(branch|tag)([ \t]+--list)?[ \t]*\z'
+    if ($toolCommand -match $readOnlyReferencePattern) {
+        EmitDecision -Decision 'allow'
+    }
+
+    $allowedCommandPattern = '\A[ \t]*(dotnet[ \t]+(build|test|format|list[ \t]+package|restore|run|publish|watch|ef[ \t]+dbcontext[ \t]+script)|git[ \t]+(status|diff|log|show|remote|config[ \t]+--get|rev-parse|ls-files|blame|describe|reflog|stash[ \t]+list))([ \t]+[A-Za-z0-9_./:=,+@%-]+)*[ \t]*\z'
     if ($toolCommand -match $allowedCommandPattern) {
         if (-not ($toolCommand -match '(?i)git (branch\s+(-d|-m|-f|-c)|tag\s+(-d|-f)|remote\s+(add|remove|rename|set-url|prune)|stash\s+(drop|clear|pop)|push|reset|checkout|clean|commit|merge|rebase)')) {
             EmitDecision -Decision 'allow'
@@ -142,20 +152,26 @@ if ($toolName -in @('bash','shell','powershell')) {
 if ($toolName -in @('write','edit','create','delete','remove','move','rename')) {
 
     # 4. Migrations / DB
-    if ($toolArgsStrings -match '(?i)(^|/)(Migrations?/|.*\.edmx$|appsettings\.json$)') {
-        EmitDecision -Decision 'ask' -Reason "Modification d'une migration, d'un schéma de base ou d'une configuration. Validation humaine requise."
+    foreach ($toolArg in $toolArgStrings) {
+        if ($toolArg -match '(?i)(^|/)(Migrations?/|.*\.edmx$|appsettings\.json$)') {
+            EmitDecision -Decision 'ask' -Reason "Modification d'une migration, d'un schéma de base ou d'une configuration. Validation humaine requise."
+        }
     }
 
     # 5. Suppression de tests → deny
     if ($toolName -in @('delete','remove')) {
-        if ($toolArgsStrings -match '(?i)(^|/)(tests?/|.*\.Tests\.|.*\.spec\.|.*\.test\.)') {
-            EmitDecision -Decision 'deny' -Reason 'Suppression de test bloquée. Validation humaine explicite requise.'
+        foreach ($toolArg in $toolArgStrings) {
+            if ($toolArg -match '(?i)(^|/)(tests?/|[^/]*\.Tests/|.*\.Tests\.|.*\.spec\.|.*\.test\.)') {
+                EmitDecision -Decision 'deny' -Reason 'Suppression de test bloquée. Validation humaine explicite requise.'
+            }
         }
     }
 
     # 6. CI/CD et infrastructure
-    if ($toolArgsStrings -match '(?i)(^|/)(\.github/(workflows|actions)/|Dockerfile$|docker-compose.*\.ya?ml$|.*\.(tf|tfvars)$|Chart\.yaml$|Jenkinsfile$|azure-pipelines\.ya?ml$)') {
-        EmitDecision -Decision 'ask' -Reason "Modification de CI/CD ou d'infrastructure. Validation humaine requise."
+    foreach ($toolArg in $toolArgStrings) {
+        if ($toolArg -match '(?i)(^|/)(\.github/(workflows|actions)/|Dockerfile$|docker-compose.*\.ya?ml$|.*\.(tf|tfvars)$|Chart\.yaml$|Jenkinsfile$|azure-pipelines\.ya?ml$)') {
+            EmitDecision -Decision 'ask' -Reason "Modification de CI/CD ou d'infrastructure. Validation humaine requise."
+        }
     }
 
     # 7. Composant Blazor — suppression → ask

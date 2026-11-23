@@ -36,7 +36,7 @@ jobs:
         shell: bash
         run: |
           sha="$(git rev-parse HEAD)"
-          test "$sha" =~ ^[0-9a-f]{40}$ || { echo "SHA source invalide"; exit 1; }
+          [[ "$sha" =~ ^[0-9a-f]{40}$ ]] || { echo "SHA source invalide"; exit 1; }
           echo "sha=$sha" >> "$GITHUB_OUTPUT"
 
       - name: Setup Copilot CLI

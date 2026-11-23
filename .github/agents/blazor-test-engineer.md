@@ -37,11 +37,12 @@ Pour la cible fournie :
 
 - Tous les fichiers de tests créés ou modifiés par `create-xunit-tests`,
   `create-bunit-tests` et `create-playwright-tests` doivent rester présents
-  dans le changement à remettre au job de refactoring.
-- Le workflow les conserve sur la branche
-  `refactor/agent-auto-<id-du-run-tests>` avant de déclencher le job suivant.
-- Ne conclut pas `PRÊT POUR REFACTORING` si les changements de tests ne sont
-  pas disponibles dans cette branche ou si le push échoue.
+  dans le workspace pour le job de refactoring.
+- Ne conclus pas `PRÊT POUR REFACTORING` si les changements de tests ne sont
+  pas présents dans le workspace.
+- Après le push de la branche de tests, le workflow vérifie leur persistance
+  distante. Un échec du push ou de cette vérification arrête la chaîne avant
+  le job de refactoring.
 
 ## Règles essentielles
 

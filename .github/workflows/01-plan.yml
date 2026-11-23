@@ -32,7 +32,7 @@ jobs:
           name: audit-report
           run-id: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.id || inputs.upstream_run_id }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          path: input/
+          path: ${{ runner.temp }}/agent-input
 
       - name: Resolve and revalidate audited source revision
         id: source
@@ -41,8 +41,8 @@ jobs:
           jq -e '
             (.source_sha | type == "string") and
             (.source_sha | test("^[0-9a-f]{40}$"))
-          ' input/audit-report.json
-          sha="$(jq -r '.source_sha' input/audit-report.json)"
+          ' "$RUNNER_TEMP/agent-input/audit-report.json"
+          sha="$(jq -r '.source_sha' "$RUNNER_TEMP/agent-input/audit-report.json")"
           echo "sha=$sha" >> "$GITHUB_OUTPUT"
 
       - uses: actions/checkout@v4
@@ -61,13 +61,13 @@ jobs:
           GH_TOKEN: ${{ secrets.COPILOT_GITHUB_TOKEN }}
         run: |
           checked_sha="$(git rev-parse HEAD)"
-          audited_sha="$(jq -r '.source_sha' input/audit-report.json)"
+          audited_sha="$(jq -r '.source_sha' "$RUNNER_TEMP/agent-input/audit-report.json")"
           if [ "$checked_sha" != "$audited_sha" ]; then
             echo "La révision cochée ne correspond pas au rapport d'audit"
             exit 1
           fi
           bash .github/scripts/run-agent.sh blazor-refactor-planner \
-            --input input/audit-report.json \
+            --input "$RUNNER_TEMP/agent-input/audit-report.json" \
             > agent-refactor-plan.json
           jq --arg sha "$audited_sha" \
              '. + {source_sha: $sha}' \

@@ -62,7 +62,15 @@ if (-not $agentName) {
     }
 }
 
-if ($agentName -notmatch '(?i)orchestrator|blazor-refactoring-agent') {
+if ($env:COPILOT_AGENT_NAME) {
+    $agentName = $env:COPILOT_AGENT_NAME
+} elseif ($env:COPILOT_AGENT) {
+    $agentName = $env:COPILOT_AGENT
+} elseif ($env:GH_COPILOT_AGENT) {
+    $agentName = $env:GH_COPILOT_AGENT
+}
+
+if ($agentName -and $agentName -notmatch '(?i)orchestrator|blazor-refactoring-agent') {
     EmitDecision -Decision 'allow'
 }
 
@@ -86,6 +94,13 @@ if ($toolName -in @('bash', 'shell', 'powershell')) {
     if ($toolCommand -match $mutationPattern) {
         EmitDecision -Decision 'deny' -Reason 'La garde orchestrateur interdit les modifications de fichiers directes. Déléguer à blazor-refactor-executor.'
     }
+
+    $readOnlyCommandPattern = '\A[ \t]*(git[ \t]+(status|diff|log|show|rev-parse|ls-files)([ \t]+[^;&|<>`$(){}\r\n]+)*|git[ \t]+(branch|tag)([ \t]+--list)?|dotnet[ \t]+(build|test|list[ \t]+package)([ \t]+[^;&|<>`$(){}\r\n]+)*|(Get-ChildItem|Get-Content|Get-Item|Get-Location|Select-String|Test-Path|cat|ls|pwd|head|tail|grep|rg|wc|stat|file)([ \t]+[^;&|<>`$(){}\r\n]+)*)[ \t]*\z'
+    if ($toolCommand -and $toolCommand -notmatch '[;&|<>`$(){}\r\n]' -and $toolCommand -match $readOnlyCommandPattern) {
+        EmitDecision -Decision 'allow'
+    }
+
+    EmitDecision -Decision 'deny' -Reason 'Commande shell non vérifiée. Déléguer l’opération à blazor-refactor-executor.'
 }
 
 EmitDecision -Decision 'allow'
