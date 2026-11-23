@@ -10,15 +10,6 @@
         "timeoutSec": 30
     }
     ],
-    "userPromptSubmitted": [
-      {
-        "type": "command",
-        "bash": "./.github/hooks/scripts/blazor-user-prompt.sh",
-        "powershell": "./.github/hooks/scripts/Blazor-User-Prompt.ps1",
-        "cwd": ".",
-        "timeoutSec": 10
-      }
-    ],
     "preToolUse": [
       {
         "type": "command",
