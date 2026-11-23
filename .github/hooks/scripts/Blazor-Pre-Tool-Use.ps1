@@ -56,12 +56,23 @@ function Get-AllStrings {
 }
 
 $toolArgsStrings = (Get-AllStrings -Node $payload.toolArgs) -join "`n"
+$toolCommand = $null
+if ($payload.toolArgs -and $payload.toolArgs.PSObject.Properties['command'] -and $payload.toolArgs.command -is [string]) {
+    $toolCommand = $payload.toolArgs.command
+}
 
 Write-Log "tool=$toolName"
 Write-Log "args_strings=$toolArgsStrings"
 
 # ---------------------------------------------------------------
-# 1. Outils de lecture : allow
+# 1. Fichiers sensibles → ask
+# ---------------------------------------------------------------
+if ($toolArgsStrings -match '(?i)(^|/)(\.env(\..*)?$|secrets?\.(json|ya?ml)$|appsettings\.(Production|Staging)\.json$|.*\.(pfx|p12|key|pem)$|credentials?\.(json|ya?ml)$)') {
+    EmitDecision -Decision 'ask' -Reason 'Fichier potentiellement sensible. Validation humaine requise.'
+}
+
+# ---------------------------------------------------------------
+# 2. Outils de lecture : allow
 # ---------------------------------------------------------------
 $readOnlyTools = @('view','read','search','glob','grep','list_files','get_file_contents','inspect')
 if ($readOnlyTools -contains $toolName) {
@@ -69,9 +80,9 @@ if ($readOnlyTools -contains $toolName) {
 }
 
 # ---------------------------------------------------------------
-# 2. Outils shell
+# 3. Outils shell
 # ---------------------------------------------------------------
-if ($toolName -in @('bash','shell')) {
+if ($toolName -in @('bash','shell','powershell')) {
 
     $blockedPatterns = @(
         'dotnet ef database drop'
@@ -115,20 +126,14 @@ if ($toolName -in @('bash','shell')) {
         EmitDecision -Decision 'ask' -Reason 'Installation de dépendance ou script externe. Validation humaine requise.'
     }
 
-    if ($toolArgsStrings -match '(?i)dotnet (build|test|format|list package|restore|run|publish|watch|ef dbcontext script)|git (status|diff|log|show|branch|remote|config --get|rev-parse|ls-files|blame|describe|reflog|stash list|tag)(\s|$)') {
-        if (-not ($toolArgsStrings -match '(?i)git (branch\s+(-d|-D|-m|-M|-f|-c)|tag\s+(-d|-f)|remote\s+(add|remove|rename|set-url|prune)|stash\s+(drop|clear|pop)|push|reset|checkout|clean|commit|merge|rebase)')) {
+    $allowedCommandPattern = '\A[ \t]*(dotnet[ \t]+(build|test|format|list[ \t]+package|restore|run|publish|watch|ef[ \t]+dbcontext[ \t]+script)|git[ \t]+(status|diff|log|show|branch|remote|config[ \t]+--get|rev-parse|ls-files|blame|describe|reflog|stash[ \t]+list|tag))([ \t]+[A-Za-z0-9_./:=,+@%-]+)*[ \t]*\z'
+    if ($toolCommand -match $allowedCommandPattern) {
+        if (-not ($toolCommand -match '(?i)git (branch\s+(-d|-m|-f|-c)|tag\s+(-d|-f)|remote\s+(add|remove|rename|set-url|prune)|stash\s+(drop|clear|pop)|push|reset|checkout|clean|commit|merge|rebase)')) {
             EmitDecision -Decision 'allow'
         }
     }
 
     EmitDecision -Decision 'ask' -Reason 'Commande shell non classée. Vérifie son impact avant exécution.'
-}
-
-# ---------------------------------------------------------------
-# 3. Fichiers sensibles → ask
-# ---------------------------------------------------------------
-if ($toolArgsStrings -match '(?i)(^|/)(\.env(\..*)?$|secrets?\.(json|ya?ml)$|appsettings\.(Production|Staging)\.json$|.*\.(pfx|p12|key|pem)$|credentials?\.(json|ya?ml)$)') {
-    EmitDecision -Decision 'ask' -Reason 'Fichier potentiellement sensible. Validation humaine requise.'
 }
 
 # ---------------------------------------------------------------

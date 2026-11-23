@@ -46,12 +46,22 @@ fi
 # `.. | strings` parcourt récursivement et retourne toutes les valeurs string.
 tool_args_strings=$(printf '%s' "$input" \
   | jq -r '.toolArgs // {} | .. | strings' 2>/dev/null || true)
+tool_command=$(printf '%s' "$input" \
+  | jq -r '.toolArgs.command | select(type == "string") // empty' 2>/dev/null || true)
 
 log "tool=$tool_name"
 log "args_strings=$tool_args_strings"
 
 # ---------------------------------------------------------------
-# 1. Outils de lecture : allow
+# 1. Fichiers sensibles → ask (B5)
+# ---------------------------------------------------------------
+if printf '%s' "$tool_args_strings" | grep -qiE \
+  '(^|/)(\.env(\..*)?$|secrets?\.(json|ya?ml)$|appsettings\.(Production|Staging)\.json$|.*\.(pfx|p12|key|pem)$|credentials?\.(json|ya?ml)$)'; then
+  emit "ask" "Fichier potentiellement sensible. Validation humaine requise."
+fi
+
+# ---------------------------------------------------------------
+# 2. Outils de lecture : allow
 # ---------------------------------------------------------------
 case "$tool_name" in
   view|read|search|glob|grep|list_files|get_file_contents|inspect)
@@ -60,7 +70,7 @@ case "$tool_name" in
 esac
 
 # ---------------------------------------------------------------
-# 2. Outils shell
+# 3. Outils shell
 # ---------------------------------------------------------------
 if [ "$tool_name" = "bash" ] || [ "$tool_name" = "shell" ]; then
 
@@ -110,25 +120,17 @@ if [ "$tool_name" = "bash" ] || [ "$tool_name" = "shell" ]; then
   fi
 
   # 2c. Commandes build/test/lecture Git → allow (B2, B9)
-  if printf '%s' "$tool_args_strings" | grep -qiE \
-    'dotnet (build|test|format|list package|restore|run|publish|watch|ef dbcontext script)|git (status|diff|log|show|branch|remote|config --get|rev-parse|ls-files|blame|describe|reflog|stash list|tag)(\s|$)'; then
+  allowed_command_regex='^[[:blank:]]*(dotnet[[:blank:]]+(build|test|format|list[[:blank:]]+package|restore|run|publish|watch|ef[[:blank:]]+dbcontext[[:blank:]]+script)|git[[:blank:]]+(status|diff|log|show|branch|remote|config[[:blank:]]+--get|rev-parse|ls-files|blame|describe|reflog|stash[[:blank:]]+list|tag))([[:blank:]]+[[:alnum:]_./:=,+@%-]+)*[[:blank:]]*$'
+  normalized_tool_command=$(printf '%s' "$tool_command" | tr '[:upper:]' '[:lower:]')
+  if [[ "$normalized_tool_command" =~ $allowed_command_regex ]]; then
     # rejeter les variantes destructrices de git
-    if ! printf '%s' "$tool_args_strings" | grep -qiE \
-      'git (branch\s+(-d|-D|-m|-M|-f|-c)|tag\s+(-d|-f)|remote\s+(add|remove|rename|set-url|prune)|stash\s+(drop|clear|pop)|push|reset|checkout|clean|commit|merge|rebase)'; then
+    if ! [[ "$normalized_tool_command" =~ git[[:blank:]](branch[[:blank:]]+(-d|-m|-f|-c)|tag[[:blank:]]+(-d|-f)|remote[[:blank:]]+(add|remove|rename|set-url|prune)|stash[[:blank:]]+(drop|clear|pop)|push|reset|checkout|clean|commit|merge|rebase) ]]; then
       emit "allow"
     fi
   fi
 
   # 2d. Fallback shell
   emit "ask" "Commande shell non classée. Vérifie son impact avant exécution."
-fi
-
-# ---------------------------------------------------------------
-# 3. Fichiers sensibles → ask (B5)
-# ---------------------------------------------------------------
-if printf '%s' "$tool_args_strings" | grep -qiE \
-  '(^|/)(\.env(\..*)?$|secrets?\.(json|ya?ml)$|appsettings\.(Production|Staging)\.json$|.*\.(pfx|p12|key|pem)$|credentials?\.(json|ya?ml)$)'; then
-  emit "ask" "Fichier potentiellement sensible. Validation humaine requise."
 fi
 
 # ---------------------------------------------------------------
