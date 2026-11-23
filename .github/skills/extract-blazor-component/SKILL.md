@@ -60,7 +60,11 @@ Extrais un composant si :
 - Utilise des paramètres immuables.
 - Utilise `EventCallback<T>` pour les événements personnalisés.
 - Utilise `@key` pour les listes dynamiques.
-- Utilise `Virtualize` pour les listes longues.
+- Utilise `Virtualize` pour les listes longues uniquement lorsque l’omission des
+  éléments hors écran du DOM est acceptable et préserve le comportement existant.
+  Sinon, conserve tous les éléments ou ajoute une voie de recherche équivalente
+  permettant d’accéder à chaque élément, puis valide cette conservation du
+  comportement par des tests.
 - Évite les paramètres booléens multiples ; utilise un objet d’options ou une
   énumération si nécessaire.
 - Ne modifie pas les contrats publics sans validation humaine.

@@ -41,6 +41,10 @@ Teste uniquement les parcours critiques :
 ## Règles
 
 - Place les tests dans le projet E2E existant.
+- Si aucun projet E2E existant n’est disponible, ne crée pas de projet ni de
+  configuration Playwright sans accord explicite. Arrête la création, indique
+  dans les sorties les chemins attendus du projet et de la configuration ainsi
+  que la décision humaine requise, et signale le blocage sous `À confirmer`.
 - Utilise des données de test isolées et reproductibles.
 - Vérifie le résultat visible par l’utilisateur.
 - Attends les éléments ou états réels, sans délais fixes inutiles.

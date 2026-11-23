@@ -34,7 +34,7 @@ Teste :
 - Paramètres de composant
 - Événements et interactions utilisateur
 - Formulaires et validation
-- États de chargement, vide, erreur et succès
+- États de chargement, vide, erreur ou succès, selon ceux implémentés par le composant
 - Navigation
 - Appels aux services injectés
 - Messages d’erreur et accessibilité de base
@@ -44,7 +44,8 @@ Teste :
 - Place les tests dans le projet de tests de composants existant.
 - Utilise des services factices ou mockés, pas une base de données réelle.
 - Teste le rendu et les interactions visibles par l’utilisateur.
-- Vérifie les états : chargement, vide, erreur et succès.
+- Vérifie les états chargement, vide, erreur et succès uniquement lorsqu’ils sont
+  implémentés par le composant.
 - Vérifie les messages d’erreur et la validation.
 - Vérifie les labels, rôles et textes accessibles lorsque pertinent.
 - Utilise `EventCallback<T>` et les paramètres du composant tels qu’ils existent.
@@ -57,9 +58,9 @@ Pour chaque composant, couvre au minimum :
 
 - Rendu des données principales
 - Interaction principale
-- État de chargement
-- État vide
-- État d’erreur
+- État de chargement, si implémenté par le composant
+- État vide, si implémenté par le composant
+- État d’erreur, si implémenté par le composant
 - Validation ou message d’erreur, si applicable
 
 ## Exemples

@@ -1,6 +1,6 @@
 ---
 description: Vérifie l'exactitude fonctionnelle, la gestion d'état, le cycle de vie Blazor, les erreurs, l'annulation et les régressions dans une pull request.
-tools:
+allowed-tools:
   - read
   - search
   - github-mcp/get_pull_request_diff
