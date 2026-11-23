@@ -86,11 +86,15 @@ Exemple :
 
 ## Décision
 
-- `APPROVE` : aucun point bloquant et couverture suffisante.
-- `REQUEST_CHANGES` : au moins un point bloquant ou important.
-- `BLOQUER` : faille de sécurité, perte de données potentielle, régression majeure
-  ou changement dangereux non validé.
-- `COMMENTER` : observations utiles sans changement obligatoire.
+- `BLOQUER` : la revue contient une faille de sécurité, une perte de données potentielle,
+  une régression majeure ou un changement dangereux non validé.
+- `REQUEST_CHANGES` : appliquer uniquement si aucun critère `BLOQUER` n’est atteint,
+  mais qu’au moins un point `BLOQUANT` ou `IMPORTANT` est vérifié.
+- `APPROVE` : appliquer uniquement si aucun point `BLOQUANT`, `IMPORTANT` ou
+  `BLOQUER` n’est vérifié et que la couverture est suffisante.
+- `COMMENTER` : appliquer uniquement si aucun point `BLOQUANT`, `IMPORTANT` ou
+  `BLOQUER` n’est vérifié et que la couverture est insuffisante. Les observations
+  utiles seules ne changent pas cette décision.
 
 ## Exemples
 - Exemple : appliquer le skill à une cible nommée explicitement par l’appelant.
