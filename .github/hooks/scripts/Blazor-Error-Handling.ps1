@@ -18,10 +18,23 @@ if (-not (Test-Path $logDirectory)) {
 
 $logFile = Join-Path $logDirectory ("errors-" + (Get-Date -Format "yyyy-MM-dd") + ".log")
 
-$sanitized = $payload | ConvertTo-Json -Depth 10 -Compress
-$sanitized = $sanitized -replace '(?i)(password|token|secret|apikey|api_key|connectionstring)=[^"&\s]+', '$1=[REDACTED]'
+$logErrorContext = 'unknown'
+if ($errorContext -in @('tool_execution', 'model_call', 'system', 'user_input')) {
+    $logErrorContext = $errorContext
+}
 
-Add-Content -Path $logFile -Value $sanitized
+$logRecoverable = $null
+if ($recoverable -is [bool]) {
+    $logRecoverable = $recoverable
+}
+
+$logMetadata = [ordered]@{
+    timestamp    = Get-Date -Format 'o'
+    errorContext = $logErrorContext
+    recoverable  = $logRecoverable
+} | ConvertTo-Json -Compress
+
+Add-Content -Path $logFile -Value $logMetadata
 
 # 2. Conseils selon le type d’erreur
 $context = @()
