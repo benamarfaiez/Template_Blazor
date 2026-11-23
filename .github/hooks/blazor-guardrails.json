@@ -4,7 +4,7 @@
     "sessionStart": [
       {
         "type": "command",
-        "bash": "./.github/hooks/scripts/blazor-session-start.sh",
+        "bash": "bash ./.github/hooks/scripts/blazor-session-start.sh",
         "powershell": "./.github/hooks/scripts/Blazor-Session-Start.ps1",
         "cwd": ".",
         "timeoutSec": 30
@@ -13,14 +13,14 @@
     "preToolUse": [
       {
         "type": "command",
-        "bash": "./.github/hooks/scripts/blazor-pre-tool-use.sh",
+        "bash": "bash ./.github/hooks/scripts/blazor-pre-tool-use.sh",
         "powershell": "./.github/hooks/scripts/Blazor-Pre-Tool-Use.ps1",
         "cwd": ".",
         "timeoutSec": 10
       },
       {
         "type": "command",
-        "bash": "./.github/hooks/scripts/block-orchestrator-write.sh",
+        "bash": "bash ./.github/hooks/scripts/block-orchestrator-write.sh",
         "powershell": "./.github/hooks/scripts/block-orchestrator-write.ps1",
         "cwd": ".",
         "timeoutSec": 10
@@ -29,7 +29,7 @@
     "postToolUse": [
       {
         "type": "command",
-        "bash": "./.github/hooks/scripts/blazor-post-tool-use.sh",
+        "bash": "bash ./.github/hooks/scripts/blazor-post-tool-use.sh",
         "powershell": "./.github/hooks/scripts/Blazor-Post-Tool-Use.ps1",
         "cwd": ".",
         "timeoutSec": 30
@@ -38,7 +38,7 @@
     "errorOccurred": [
       {
         "type": "command",
-        "bash": "./.github/hooks/scripts/blazor-error-handling.sh",
+        "bash": "bash ./.github/hooks/scripts/blazor-error-handling.sh",
         "powershell": "./.github/hooks/scripts/Blazor-Error-Handling.ps1",
         "cwd": ".",
         "timeoutSec": 10
@@ -47,7 +47,7 @@
     "sessionEnd": [
       {
         "type": "command",
-        "bash": "./.github/hooks/scripts/blazor-session-end.sh",
+        "bash": "bash ./.github/hooks/scripts/blazor-session-end.sh",
         "powershell": "./.github/hooks/scripts/Blazor-Session-End.ps1",
         "cwd": ".",
         "timeoutSec": 30
