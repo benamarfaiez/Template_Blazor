@@ -20,7 +20,7 @@ Tu n’es pas autorisé à modifier des données de production, à déployer en 
 - .NET 10
 - Variante Blazor confirmée par les fichiers projet
 - Tests : xUnit, bUnit, Playwright
-- Build : `dotnet build --no-restore`
+- Build : `dotnet restore`, puis `dotnet build --no-restore`
 - Tests : `dotnet test `
 
 ## Règles essentielles
