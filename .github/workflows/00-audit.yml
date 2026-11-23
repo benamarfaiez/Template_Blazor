@@ -1,0 +1,80 @@
+name: "Agent 00 — Audit"
+
+on:
+  workflow_dispatch:
+    inputs:
+      target:
+        description: "Cible à auditer"
+        required: true
+        type: string
+      ref:
+        description: "Branche cible"
+        required: false
+        default: "main"
+        type: string
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: agent-audit-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref }}
+          fetch-depth: 0
+
+      - name: Capture audited source revision
+        id: source
+        shell: bash
+        run: |
+          sha="$(git rev-parse HEAD)"
+          [[ "$sha" =~ ^[0-9a-f]{40}$ ]] || { echo "SHA source invalide"; exit 1; }
+          echo "sha=$sha" >> "$GITHUB_OUTPUT"
+
+      - name: Setup Copilot CLI
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: npm install --global @github/copilot
+
+      - name: Run blazor-auditor
+        env:
+          GH_TOKEN: ${{ secrets.COPILOT_GITHUB_TOKEN }}
+          AUDIT_TARGET: ${{ inputs.target }}
+        run: |
+          bash .github/scripts/run-agent.sh blazor-auditor \
+            --target "$AUDIT_TARGET" \
+            > agent-audit-report.json
+
+      - name: Validate audit output
+        run: |
+          test -s agent-audit-report.json
+          jq -e 'type == "object"' agent-audit-report.json
+          jq --arg sha "${{ steps.source.outputs.sha }}" \
+             --arg ref "${{ inputs.ref }}" \
+             '. + {source_sha: $sha, source_ref: $ref}' \
+             agent-audit-report.json > audit-report.json
+          jq -e '
+            type == "object" and
+            (.architecture | type == "object") and
+            (.risks | type == "array") and
+            (.decision | type == "string") and
+            (.decision == "AUDIT_COMPLET" or
+             .decision == "AUDIT_PARTIEL" or
+             .decision == "CLARIFICATION_REQUISE")
+          ' audit-report.json
+
+      - name: Upload audit report
+        uses: actions/upload-artifact@v4
+        with:
+          name: audit-report
+          path: audit-report.json
+          retention-days: 7

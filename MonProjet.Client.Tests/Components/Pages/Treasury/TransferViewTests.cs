@@ -21,9 +21,10 @@ public sealed class TransferViewTests
         var viewModel = new TransferViewModel
         {
             Title = "Virement de test",
-            Accounts = [new AccountDto(1, "Compte courant", "FR001", 500m)],
-            Beneficiaries = [new BeneficiaryDto(2, "Alice", "FR002")]
         };
+        viewModel.SetAccounts([new AccountDto(1, "Compte courant", "FR001", 500m)]);
+        viewModel.SetBeneficiaries([new BeneficiaryDto(2, "Alice", "FR002")]);
+        
         var presenter = Substitute.For<ITransferPresenter>();
         presenter.ViewModel.Returns(viewModel);
         presenter.InitializeAsync().Returns(Task.CompletedTask);

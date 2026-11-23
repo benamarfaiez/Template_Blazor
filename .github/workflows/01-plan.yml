@@ -1,0 +1,90 @@
+name: "Agent 01 — Planification"
+
+on:
+  workflow_run:
+    workflows: ["Agent 00 — Audit"]
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      upstream_run_id:
+        description: "Identifiant du run Agent 00 — Audit"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: agent-plan-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  plan:
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Download audit report
+        uses: actions/download-artifact@v4
+        with:
+          name: audit-report
+          run-id: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.id || inputs.upstream_run_id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: ${{ runner.temp }}/agent-input
+
+      - name: Resolve and revalidate audited source revision
+        id: source
+        shell: bash
+        run: |
+          jq -e '
+            (.source_sha | type == "string") and
+            (.source_sha | test("^[0-9a-f]{40}$"))
+          ' "$RUNNER_TEMP/agent-input/audit-report.json"
+          sha="$(jq -r '.source_sha' "$RUNNER_TEMP/agent-input/audit-report.json")"
+          echo "sha=$sha" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.source.outputs.sha }}
+          fetch-depth: 0
+
+      - name: Setup Copilot CLI
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: npm install --global @github/copilot
+
+      - name: Run blazor-refactor-planner
+        env:
+          GH_TOKEN: ${{ secrets.COPILOT_GITHUB_TOKEN }}
+        run: |
+          checked_sha="$(git rev-parse HEAD)"
+          audited_sha="$(jq -r '.source_sha' "$RUNNER_TEMP/agent-input/audit-report.json")"
+          if [ "$checked_sha" != "$audited_sha" ]; then
+            echo "La révision cochée ne correspond pas au rapport d'audit"
+            exit 1
+          fi
+          bash .github/scripts/run-agent.sh blazor-refactor-planner \
+            --input "$RUNNER_TEMP/agent-input/audit-report.json" \
+            > agent-refactor-plan.json
+          jq --arg sha "$audited_sha" \
+             '. + {source_sha: $sha}' \
+             agent-refactor-plan.json > refactor-plan.json
+
+      - name: Validate plan output
+        run: |
+          test -s refactor-plan.json
+          jq -e '
+            has("increments") and
+            (.increments | length > 0) and
+            (.source_sha == "${{ steps.source.outputs.sha }}")
+          ' refactor-plan.json
+
+      - name: Upload refactor plan
+        uses: actions/upload-artifact@v4
+        with:
+          name: refactor-plan
+          path: refactor-plan.json
+          retention-days: 7

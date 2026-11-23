@@ -7,6 +7,12 @@
     <RootNamespace>MonProjet.Client</RootNamespace>
   </PropertyGroup>
 	
+	<PropertyGroup>
+		<EnableNETAnalyzers>true</EnableNETAnalyzers>
+	</PropertyGroup>
+	<ItemGroup>
+		<InternalsVisibleTo Include="MonProjet.Client.Tests" />
+	</ItemGroup>
   <ItemGroup>
     <PackageReference Include="Blazor.WebAssembly.DynamicCulture.Loader" Version="4.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="10.0.14" />
