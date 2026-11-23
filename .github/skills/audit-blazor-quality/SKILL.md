@@ -10,7 +10,7 @@ allowed-tools: [read, search]
 Cible fournie (PR, issue, chemins). Sinon → arrêter et signaler `cible absente`.
 
 ## Inputs / Outputs
-Voir `../../common/report-format.md` (format de finding, sévérités, preuves).
+Voir `../../common/report-format/SKILL.md` (format de finding, sévérités, preuves).
 Spécifique : catégorie ∈ {composants, services, DTO, erreurs, tests, accessibilité, doc}.
 
 ## Steps

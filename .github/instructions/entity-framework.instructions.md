@@ -4,7 +4,8 @@ applyTo: "**/*.cs"
 
 # Règles Entity Framework Core
 
-- Utilise `DbContext` avec une durée de vie `Scoped`.
+- Dans les circuits Blazor côté serveur, utilise une `IDbContextFactory<TContext>` et crée un `DbContext` pour chaque opération afin d'éviter une durée de vie trop longue.
+- Conserve une durée de vie `Scoped` pour les instances de `DbContext` lorsque le contexte s'inscrit dans la portée d'une requête HTTP.
 - Utilise `AsNoTracking()` pour les requêtes en lecture seule.
 - Utilise des projections `Select` pour ne charger que les colonnes nécessaires.
 - Évite les requêtes N+1 ; utilise `Include`, `ThenInclude`, jointure ou requête explicite lorsque nécessaire.
