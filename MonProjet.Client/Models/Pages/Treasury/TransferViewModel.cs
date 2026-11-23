@@ -1,5 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using MonProjet.Shared.Models.Treasury;
+﻿using MonProjet.Shared.Models.Treasury;
 
 namespace MonProjet.Client.Models.Pages.Treasury;
 
@@ -16,14 +15,16 @@ public class TransferViewModel
 
     public void SetAccounts(IEnumerable<AccountDto> accounts)
     {
+        List<AccountDto> materializedAccounts = [.. accounts];
         _accounts.Clear();
-        _accounts.AddRange(accounts);
+        _accounts.AddRange(materializedAccounts);
     }
 
     public void SetBeneficiaries(IEnumerable<BeneficiaryDto> beneficiaries)
     {
+        List<BeneficiaryDto> materializedBeneficiaries = [.. beneficiaries];
         _beneficiaries.Clear();
-        _beneficiaries.AddRange(beneficiaries);
+        _beneficiaries.AddRange(materializedBeneficiaries);
     }
 
     public AccountDto? SelectedAccount { get; set; }
